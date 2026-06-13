@@ -228,13 +228,23 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   text-align: center;
 }
 #progress-total {
+  font-size: 1.1rem;
   text-align: center;
 }
 #progress-threads {
-  display: flex; flex-direction: column; gap: 2px; margin-top: 6px;
-  font-size: 0.78em; opacity: 0.7;
+  display: flex; flex-direction: column; gap: 2px; margin-top: 10px;
+  opacity: 0.7; align-items: center;
 }
-.progress-thread-row { text-align: center; }
+.progress-thread-row {
+  display: flex; align-items: baseline; white-space: nowrap; gap: 0 6px;
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+.pt-branch { opacity: 0.45; }
+.pt-id     { width: 2.5ch; flex-shrink: 0; }
+.pt-att    { width: 3ch; flex-shrink: 0; text-align: right; overflow: hidden; }
+.pt-iters  { width: 11ch; flex-shrink: 0; text-align: right; overflow: hidden; }
 #computing-overlay .btn-cancel {
   background: transparent;
   border-color: var(--border);
@@ -1228,8 +1238,22 @@ function openImportDialog(text) {
   document.getElementById('import-dialog').showModal();
 }
 
+// Ctrl+C on config screen — copy current configuration
+document.addEventListener('copy', (e) => {
+  if (state.stage !== 'config') return;
+  if (e.target.matches('input, textarea, select')) return;
+  if (window.getSelection().toString()) return; // let browser handle normal text copy
+  e.preventDefault();
+  const data = JSON.stringify(
+    state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps }))
+  );
+  e.clipboardData.setData('text/plain', data);
+  showToast('Скопировано в буфер');
+});
+
 // Permanent paste listener — catches Ctrl+V outside of form inputs
 document.addEventListener('paste', (e) => {
+  if (state.stage !== 'config') return;
   if (e.target.matches('input, textarea, select')) return;
   e.preventDefault();
   const text = e.clipboardData.getData('text');
@@ -1747,14 +1771,22 @@ function onWorkerMessage({ data }) {
       return;
     }
     state.solution = data.solution;
+    state.cachedSolution = data.solution;
     state.solverStep = 0;
     state.history = [];
     switchToSolve();
   }
 }
 
+function workerError() {
+  hideOverlay();
+  resetButtons();
+  showToast('Ошибка вычисления', 'error');
+}
+
 let worker = createWorker();
 worker.onmessage = onWorkerMessage;
+worker.onerror = workerError;
 
 let randomPool   = [];
 let randomPoolId = 0;
@@ -1784,16 +1816,29 @@ function terminateRandomPool() {
 
 function renderPoolProgress() {
   document.getElementById('progress-total').textContent =
-    'Попытки: ' + _totalAttempts + ' / ' + _maxAttempts +
-    ' · ' + fmtK(_totalIters);
+    'Попытки: ' + _totalAttempts + ' / ' + _maxAttempts + ' · ' + fmtK(_totalIters);
 
   const threadsEl = document.getElementById('progress-threads');
   const entries = Object.entries(_perWorker).sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
   if (threadsEl.children.length !== entries.length) threadsEl.innerHTML = '';
   entries.forEach(([id, s], i) => {
+    const isLast = i === entries.length - 1;
     let row = threadsEl.children[i];
-    if (!row) { row = document.createElement('div'); row.className = 'progress-thread-row'; threadsEl.appendChild(row); }
-    row.textContent = '#' + (parseInt(id) + 1) + ' — ' + _fmtNum.format(s.attempts) + ' попыток · ' + fmtK(s.iters);
+    if (!row) {
+      row = document.createElement('div');
+      row.className = 'progress-thread-row';
+      row.innerHTML =
+        '<span class="pt-branch"></span>' +
+        '<span class="pt-id">#' + (parseInt(id) + 1) + '</span>' +
+        '<span class="pt-att"></span>' +
+        '<span>попыток</span>' +
+        '<span>·</span>' +
+        '<span class="pt-iters"></span>';
+      threadsEl.appendChild(row);
+    }
+    row.querySelector('.pt-branch').textContent = isLast ? '└─' : '├─';
+    row.querySelector('.pt-att').textContent = _fmtNum.format(s.attempts);
+    row.querySelector('.pt-iters').textContent = fmtK(s.iters);
   });
 }
 
@@ -1843,6 +1888,7 @@ document.querySelector('#computing-overlay .btn-cancel').addEventListener('click
   worker.terminate();
   worker = createWorker();
   worker.onmessage = onWorkerMessage;
+  worker.onerror = workerError;
   randomPoolId++;
   terminateRandomPool();
   hideOverlay();
