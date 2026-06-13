@@ -710,11 +710,6 @@ function applyMove(plates, plateId, dir) {
   return true;
 }
 
-/** True when all plates are at their center position */
-function isGoal(plates) {
-  return plates.every(p => p.currentPos === center(p.positions));
-}
-
 /**
  * Convert a move to notation string.
  * steps > 1 only when compressing consecutive same-plate same-dir moves.
@@ -733,81 +728,6 @@ function parseNotation(s) {
     dir:     m[2] === 'A' ? 'left' : 'right',
     steps:   m[3] ? parseInt(m[3]) : 1
   };
-}
-</script>
-  <!-- Script #3 — BFS solver -->
-  <script>
-// ── Script #3 — BFS Solver ────────────────────────────────────────────────
-
-/**
- * Find shortest solution via BFS.
- * @param {object[]} plates  Plate objects with currentPos set to start state.
- * @returns {string[]|null}  Compressed notation array, or null if unsolvable.
- */
-function bfsSolve(plates) {
-  const startPos = plates.map(p => p.currentPos);
-  const goalPos  = plates.map(p => center(p.positions));
-
-  if (startPos.every((p, i) => p === goalPos[i])) return [];
-
-  const startKey = startPos.join(',');
-  const visited  = new Set([startKey]);
-  const queue    = [{ positions: startPos, path: [] }];
-
-  while (queue.length > 0) {
-    const { positions, path } = queue.shift();
-
-    // Build temp plates snapshot for computeMove
-    const snap = plates.map((p, i) => ({ ...p, currentPos: positions[i] }));
-
-    for (const plate of snap) {
-      for (const dir of ['left', 'right']) {
-        const effects = computeMove(snap, plate.id, dir);
-        if (!effects) continue;
-
-        const newPos = [...positions];
-        for (const { plateId, newPos: np } of effects) {
-          newPos[plateId - 1] = np;
-        }
-
-        const key = newPos.join(',');
-        if (visited.has(key)) continue;
-        visited.add(key);
-
-        const newPath = [...path, toNotation(plate.id, dir, 1)];
-
-        if (newPos.every((p, i) => p === goalPos[i])) {
-          return compressPath(newPath);
-        }
-
-        queue.push({ positions: newPos, path: newPath });
-      }
-    }
-  }
-
-  return null; // no solution exists
-}
-
-/**
- * Compress consecutive same-plate same-direction moves into one notation entry.
- * ['1A','1A','2D','2D','2D'] → ['1A2','2D3']
- */
-function compressPath(path) {
-  if (!path.length) return path;
-  const result = [];
-  let cur = parseNotation(path[0]);
-  let count = 1;
-  for (let i = 1; i < path.length; i++) {
-    const next = parseNotation(path[i]);
-    if (next.plateId === cur.plateId && next.dir === cur.dir) {
-      count++;
-    } else {
-      result.push(toNotation(cur.plateId, cur.dir, count));
-      cur = next; count = 1;
-    }
-  }
-  result.push(toNotation(cur.plateId, cur.dir, count));
-  return result;
 }
 </script>
   <!-- Script #4 — Render -->
