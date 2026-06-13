@@ -547,7 +547,101 @@ function compressPath(path) {
 }
 </script>
   <!-- Script #4 — Render -->
-  <script>/* Task 6 */</script>
+  <script>
+// ── Script #4 — Render ────────────────────────────────────────────────────
+
+/** Pixel offset per position step on a plate */
+function holeStep(positions) {
+  const usable = PLATE_W * (1 - 2 * HOLE_PADDING);
+  return usable / (positions - 1);
+}
+
+/** X offset in px for a given currentPos (centered = 0 offset) */
+function posToOffsetX(currentPos, positions) {
+  return (currentPos - center(positions)) * holeStep(positions);
+}
+
+/**
+ * Pin left value within .face.top to keep it visually fixed in scene space.
+ * The pin is a child of .face.top which moves with the plate (translateX).
+ * To counteract: pinLeft = PLATE_W/2 - offsetX.
+ * CSS has transform:translateX(-50%) on .pin so the center sits exactly at pinLeft.
+ * When currentPos=center: offsetX=0, pinLeft=PLATE_W/2 = center of plate ✓
+ * When plate slides: offsetX≠0, compensation keeps pin at scene X=PLATE_W/2 ✓
+ */
+function pinLeft(currentPos, positions) {
+  return PLATE_W / 2 - posToOffsetX(currentPos, positions);
+}
+
+/**
+ * Build DOM for all plates inside a scene element. Clears existing content.
+ * @param {string} sceneId   id of the .scene div
+ * @param {object[]} plates
+ */
+function buildScene(sceneId, plates) {
+  const scene = document.getElementById(sceneId);
+  scene.innerHTML = '';
+
+  // Plate 1 = front = lowest Z; plate N = back = highest Z
+  for (const plate of plates) {
+    const z = (plate.id - 1) * PLATE_GAP;
+    const offsetX = posToOffsetX(plate.currentPos, plate.positions);
+    const isRaised = plate.currentPos === center(plate.positions);
+
+    // Build hole HTML
+    const padding = PLATE_W * HOLE_PADDING;
+    const step = holeStep(plate.positions);
+    const holesHTML = Array.from({ length: plate.positions }, (_, i) => {
+      const isCenter = (i + 1) === center(plate.positions);
+      return `<div class="hole${isCenter ? ' center-hole' : ''}"
+                   style="position:absolute;
+                          left:${padding + i * step - HOLE_SIZE / 2}px;
+                          top:50%;
+                          transform:translateY(-50%)"></div>`;
+    }).join('');
+
+    const el = document.createElement('div');
+    el.className = 'plate';
+    el.dataset.id = plate.id;
+    el.style.transform = `translateZ(${z}px) translateX(${offsetX}px)`;
+    el.innerHTML = `
+      <div class="face top" style="position:relative">
+        ${holesHTML}
+        <div class="pin ${isRaised ? 'raised' : 'lowered'}"
+             style="left:${pinLeft(plate.currentPos, plate.positions)}px"></div>
+      </div>
+      <div class="face front"></div>
+      <div class="face right"><span class="plate-num">${plate.id}</span></div>
+    `;
+    scene.appendChild(el);
+  }
+}
+
+/**
+ * Update existing plate DOM to reflect current state (no full rebuild).
+ * @param {string} sceneId
+ * @param {object[]} plates
+ * @param {number} activePlateId
+ */
+function updateScene(sceneId, plates, activePlateId) {
+  for (const plate of plates) {
+    const el = document.querySelector(`#${sceneId} .plate[data-id="${plate.id}"]`);
+    if (!el) continue;
+
+    const z = (plate.id - 1) * PLATE_GAP;
+    const offsetX = posToOffsetX(plate.currentPos, plate.positions);
+    el.style.transform = `translateZ(${z}px) translateX(${offsetX}px)`;
+
+    const isRaised = plate.currentPos === center(plate.positions);
+    const pin = el.querySelector('.pin');
+    pin.className = `pin ${isRaised ? 'raised' : 'lowered'}`;
+    // Keep pin visually fixed in scene space as plate moves
+    pin.style.left = `${pinLeft(plate.currentPos, plate.positions)}px`;
+
+    el.classList.toggle('active', plate.id === activePlateId);
+  }
+}
+  </script>
   <!-- Script #5 — Config UI -->
   <script>/* Task 7 */</script>
   <!-- Script #6 — Solve UI -->
