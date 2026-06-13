@@ -1115,14 +1115,34 @@ function applyImportedConfig(text) {
   if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) {
     showToast('Невалидный конфиг', 'error'); return;
   }
+
+  const positions0 = plates[0]?.positions;
+  const sortedIds = plates.map(p => p.id).slice().sort((a, b) => a - b);
+  if (!sortedIds.every((id, i) => id === i + 1)) {
+    showToast('Невалидный конфиг', 'error'); return;
+  }
+
   for (const p of plates) {
     if (typeof p.id !== 'number' ||
         typeof p.positions !== 'number' || p.positions % 2 === 0 || p.positions < 3 ||
+        p.positions !== positions0 ||
         typeof p.currentPos !== 'number' || p.currentPos < 1 || p.currentPos > p.positions ||
         !Array.isArray(p.deps)) {
       showToast('Невалидный конфиг', 'error'); return;
     }
+    for (const d of p.deps) {
+      if (typeof d.targetId !== 'number' ||
+          !Number.isInteger(d.targetId) ||
+          d.targetId < 1 || d.targetId > plates.length ||
+          d.targetId === p.id ||
+          (d.direction !== 'same' && d.direction !== 'opposite') ||
+          typeof d.steps !== 'number' ||
+          !Number.isInteger(d.steps) || d.steps < 1) {
+        showToast('Невалидный конфиг', 'error'); return;
+      }
+    }
   }
+
   state.plates = plates;
   state.activePlate = 1;
   state.cachedSolution = null;
