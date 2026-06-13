@@ -60,9 +60,15 @@ body {
 h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
      color: var(--text-dim); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
 
-.setting-row { display: flex; align-items: center; gap: 8px; }
+.setting-row { display: flex; align-items: center; gap: 8px; width: 100%; }
 .setting-row.minor { opacity: 0.55; font-size: 0.82em; }
-.setting-row label { width: 80px; }
+.setting-row label { white-space: nowrap; }
+.btn-icon {
+  width: 28px; height: 28px; padding: 0;
+  font-size: 1em; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
 
 button {
   background: var(--bg-control);
@@ -462,13 +468,14 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         <button id="btn-plates-dec">−</button>
         <span id="val-plates">4</span>
         <button id="btn-plates-inc">+</button>
-        <label style="margin-left:16px">Позиции:</label>
+        <label style="margin-left:8px">Позиции:</label>
         <button id="btn-pos-dec">−</button>
         <span id="val-positions">7</span>
         <button id="btn-pos-inc">+</button>
-        <button id="btn-random" style="margin-left:16px">Рандом</button>
-        <button id="btn-export" style="margin-left:16px">Экспорт</button>
-        <button id="btn-import">Импорт</button>
+        <span style="flex:1"></span>
+        <button id="btn-random">Рандом</button>
+        <button id="btn-export" class="btn-icon" title="Экспорт">📤</button>
+        <button id="btn-import" class="btn-icon" title="Импорт">📥</button>
       </div>
       <div id="plates-config"></div>
       <button id="btn-start" class="btn-primary">РЕШЕНИЕ</button>
