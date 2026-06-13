@@ -983,9 +983,93 @@ function wireSolveHandlers() {
 }
   </script>
   <!-- Script #7 — WASD -->
-  <script>/* Task 9 */</script>
+  <script>
+// ── Script #7 — WASD ──────────────────────────────────────────────────────
+
+document.addEventListener('keydown', (e) => {
+  // Ignore when typing in inputs
+  if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
+
+  const key = e.key.toUpperCase();
+
+  if (state.stage === 'config') {
+    if (key === 'W') {
+      // Select previous plate (id - 1, wrap)
+      const ids = state.plates.map(p => p.id);
+      const idx = ids.indexOf(state.activePlate);
+      state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
+      updateScene('scene-config-inner', state.plates, state.activePlate);
+    }
+    if (key === 'S') {
+      const ids = state.plates.map(p => p.id);
+      const idx = ids.indexOf(state.activePlate);
+      state.activePlate = ids[(idx + 1) % ids.length];
+      updateScene('scene-config-inner', state.plates, state.activePlate);
+    }
+    if (key === 'A') {
+      const moved = applyMove(state.plates, state.activePlate, 'left');
+      if (moved) {
+        state.history.push(toNotation(state.activePlate, 'left', 1));
+        updateScene('scene-config-inner', state.plates, state.activePlate);
+        // Sync position display in accordion
+        const plate = state.plates.find(p => p.id === state.activePlate);
+        const posVal = document.querySelector(`.pos-val[data-id="${state.activePlate}"]`);
+        if (posVal) posVal.textContent = plate.currentPos;
+      }
+    }
+    if (key === 'D') {
+      const moved = applyMove(state.plates, state.activePlate, 'right');
+      if (moved) {
+        state.history.push(toNotation(state.activePlate, 'right', 1));
+        updateScene('scene-config-inner', state.plates, state.activePlate);
+        const plate = state.plates.find(p => p.id === state.activePlate);
+        const posVal = document.querySelector(`.pos-val[data-id="${state.activePlate}"]`);
+        if (posVal) posVal.textContent = plate.currentPos;
+      }
+    }
+  }
+
+  if (state.stage === 'solve') {
+    if (key === 'W') {
+      const ids = state.plates.map(p => p.id);
+      const idx = ids.indexOf(state.activePlate);
+      state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
+      updateScene('scene-solve-inner', state.plates, state.activePlate);
+    }
+    if (key === 'S') {
+      const ids = state.plates.map(p => p.id);
+      const idx = ids.indexOf(state.activePlate);
+      state.activePlate = ids[(idx + 1) % ids.length];
+      updateScene('scene-solve-inner', state.plates, state.activePlate);
+    }
+    if (key === 'A') solveStepBack();
+    if (key === 'D') solveStepForward();
+  }
+});
+  </script>
   <!-- Script #8 — Init -->
-  <script>/* Task 9 */</script>
+  <script>
+// ── Script #8 — Init ──────────────────────────────────────────────────────
+
+function init() {
+  // Bootstrap default plates
+  state.plates = Array.from({ length: DEFAULT_PLATE_COUNT }, (_, i) =>
+    makePlate(i + 1, DEFAULT_POSITIONS)
+  );
+  state.activePlate = 1;
+
+  // Wire UI
+  wireConfigHandlers();
+  wireSolveHandlers();
+
+  // Initial render
+  renderAccordion();
+  buildScene('scene-config-inner', state.plates);
+  updateScene('scene-config-inner', state.plates, state.activePlate);
+}
+
+init();
+  </script>
 
 </body>
 </html>
