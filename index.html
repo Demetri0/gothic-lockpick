@@ -802,7 +802,7 @@ function holeStep(positions) {
 
 /** X offset in px for a given currentPos (centered = 0 offset) */
 function posToOffsetX(currentPos, positions) {
-  return (currentPos - center(positions)) * holeStep(positions);
+  return (center(positions) - currentPos) * holeStep(positions);
 }
 
 /**
