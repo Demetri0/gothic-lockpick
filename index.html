@@ -1730,9 +1730,9 @@ function resetProgress() {
 
 function onWorkerMessage({ data }) {
   if (data.type === 'progress') {
-    if (data.attempt != null) _progressAttempt = { n: data.attempt, total: data.total };
-    if (data.states != null)  _progressStates  = data.states;
-    renderProgress();
+    _progressStates = (_progressStates || 0) + (data.itersDelta || 0);
+    document.getElementById('progress-total').textContent =
+      'Состояний проверено: ' + fmtK(_progressStates);
     return;
   }
 
@@ -1750,23 +1750,6 @@ function onWorkerMessage({ data }) {
     state.solverStep = 0;
     state.history = [];
     switchToSolve();
-  }
-
-  if (data.type === 'random') {
-    document.querySelectorAll('.btn-difficulty').forEach(b => b.disabled = false);
-    if (!data.plates) {
-      showToast('Не удалось сгенерировать конфигурацию', 'error');
-      return;
-    }
-    state.plates = data.plates;
-    state.cachedSolution = data.solution;
-    state.activePlate = 1;
-    document.getElementById('val-plates').textContent = data.plates.length;
-    renderMatrix();
-    buildScene('scene-config-inner', state.plates);
-    updateScene('scene-config-inner', state.plates, state.activePlate);
-    document.getElementById('btn-plates-dec').disabled = data.plates.length <= 2;
-    document.getElementById('btn-pos-dec').disabled = getPositions() <= 3;
   }
 }
 
