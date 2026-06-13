@@ -15,20 +15,21 @@ body {
   overflow: hidden;
 }
 
-.stage { display: flex; flex-wrap: wrap; height: 100vh; overflow-y: auto; }
+.stage { display: flex; flex-wrap: wrap; height: 100vh; overflow: hidden; }
 .stage.hidden { display: none; }
 
 .panel { padding: 24px; }
 .panel-left {
   width: var(--panel-w);
   min-width: 280px;
+  height: 100vh;
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   background: var(--bg-panel);
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 14px;
+  overflow: hidden;
 }
 .panel-right {
   flex: 1;
@@ -49,6 +50,10 @@ body {
 }
 
 @media (max-width: 600px) {
+  body         { height: auto; overflow: visible; }
+  .stage       { height: auto; overflow: visible; }
+  .panel-left  { width: 100%; height: auto; border-right: none; overflow: visible; }
+  #plates-config { flex: none; overflow-y: visible; }
   .panel-right { padding-top: var(--scene-overhead, 120px); }
 }
 
@@ -147,6 +152,16 @@ input[type=number] {
 }
 .solution-str .cur-step { color: var(--accent); font-weight: bold; }
 
+#plates-config {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px;
+}
+#plates-config > * + * { margin-top: 10px; }
+
 .solution-list {
   list-style: none;
   font-size: 0.85em;
@@ -154,7 +169,8 @@ input[type=number] {
   flex-direction: column;
   gap: 3px;
   overflow-y: auto;
-  max-height: 50vh;
+  flex: 1;
+  min-height: 0;
   padding: 0;
 }
 .solution-list li {
@@ -168,8 +184,18 @@ input[type=number] {
   color: var(--text-bright);
 }
 .solution-list li:hover { background: var(--bg-hover); }
+.solution-list li.endpoint {
+  color: var(--text-muted);
+  font-size: 0.9em;
+  cursor: pointer;
+}
+.solution-list li.endpoint.active { background: var(--bg-inset); color: var(--text-soft); }
 
-.solve-buttons { display: flex; gap: 10px; }
+button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+
+.solve-buttons { display: flex; gap: 10px; margin-top: auto; }
+.solve-buttons .btn-primary { flex: 1; margin-top: 0; }
+.solve-buttons .btn-return { margin-right: 14px; }
 
 /* Game-style key legend, pinned to the bottom of the right panel */
 .legend {
@@ -248,7 +274,7 @@ input[type=number] {
   --hole-edge:           #55514a;
   --hole-center:         #181408;
   --hole-center-edge:    #9a8a60;
-  --pin-lowered:         #6b5230;
+  --pin-lowered:         #c8a050;
   --pin-raised:          #d4a843;
   --pin-glow:            #d4a84388;
 }
@@ -263,8 +289,9 @@ input[type=number] {
   position: relative;
   transform-style: preserve-3d;
   transform: rotateX(var(--tilt)) rotateY(var(--yaw));
-  width: 280px;
-  height: 180px;
+  width: var(--plate-w);
+  height: var(--plate-t);
+  margin-left: calc(-1 * var(--scene-cx, 0px));
 }
 
 .plate {
@@ -365,6 +392,7 @@ input[type=number] {
 .pin.lowered {
   height: var(--pin-h-dn);
   background: var(--pin-lowered);
+  box-shadow: none;
 }
 
 .pin.raised {
@@ -385,13 +413,13 @@ input[type=number] {
         <button id="btn-plates-dec">−</button>
         <span id="val-plates">4</span>
         <button id="btn-plates-inc">+</button>
-      </div>
-      <div class="setting-row minor">
-        <label>Позиции:</label>
-        <input type="number" id="val-positions" value="7" min="3" step="2" max="15">
+        <label style="margin-left:16px">Позиции:</label>
+        <button id="btn-pos-dec">−</button>
+        <span id="val-positions">7</span>
+        <button id="btn-pos-inc">+</button>
       </div>
       <div id="plates-config"></div>
-      <button id="btn-start" class="btn-primary">СТАРТ</button>
+      <button id="btn-start" class="btn-primary">РЕШЕНИЕ</button>
     </div>
     <div class="panel panel-right">
       <div id="scene-config" class="scene-wrap">
@@ -411,8 +439,10 @@ input[type=number] {
       <div id="solution-string" class="solution-str"></div>
       <ol id="solution-steps" class="solution-list"></ol>
       <div class="solve-buttons">
-        <button id="btn-back">← Назад</button>
-        <button id="btn-auto">▶ Авто</button>
+        <button id="btn-back" class="btn-primary btn-return">Вернуться</button>
+        <button id="btn-prev" class="btn-primary">← Шаг</button>
+        <button id="btn-auto" class="btn-primary">▶ Авто</button>
+        <button id="btn-step" class="btn-primary">Шаг →</button>
       </div>
     </div>
     <div class="panel panel-right">
@@ -695,7 +725,12 @@ function buildScene(sceneId, plates) {
     scene.appendChild(el);
   }
 
-  // Depth of the stack in CSS-px; sin(30°)≈0.5 maps Z-depth to vertical screen overflow
+  // rotateY(-35deg) maps negative Z (depth) to positive X (rightward drift).
+  // Shift .scene left by the centroid's rightward drift to re-centre the stack.
+  const centroidZ  = (plates.length - 1) * PLATE_GAP / 2;
+  const cx = Math.round(0.497 * centroidZ);
+  document.documentElement.style.setProperty('--scene-cx', cx + 'px');
+
   const stackDepth = (plates.length - 1) * PLATE_GAP;
   const overhead = Math.round(stackDepth * 0.55 + 60);
   document.documentElement.style.setProperty('--scene-overhead', overhead + 'px');
@@ -731,7 +766,7 @@ function updateScene(sceneId, plates, activePlateId) {
 // ── Script #5 — Config UI ─────────────────────────────────────────────────
 
 function getPositions() {
-  const v = parseInt(document.getElementById('val-positions').value);
+  const v = parseInt(document.getElementById('val-positions').textContent);
   return (v >= 3 && v % 2 === 1) ? v : DEFAULT_POSITIONS;
 }
 
@@ -793,9 +828,9 @@ function buildPlateSection(plate) {
   posRow.className = 'pos-control';
   posRow.innerHTML = `
     <span>Позиция:</span>
-    <button class="btn-pos-dec" data-id="${plate.id}">◄</button>
+    <button class="btn-pos-dec" data-id="${plate.id}" ${plate.currentPos <= 1 ? 'disabled' : ''}>◄</button>
     <span class="pos-val" data-id="${plate.id}">${plate.currentPos}</span>
-    <button class="btn-pos-inc" data-id="${plate.id}">►</button>
+    <button class="btn-pos-inc" data-id="${plate.id}" ${plate.currentPos >= plate.positions ? 'disabled' : ''}>►</button>
   `;
   body.appendChild(posRow);
 
@@ -879,26 +914,46 @@ function buildDepRow(plateId, dep) {
 }
 
 function wireConfigHandlers() {
+  const updatePlateCountButtons = () => {
+    document.getElementById('btn-plates-dec').disabled = getPlateCount() <= 2;
+  };
+
   document.getElementById('btn-plates-dec').addEventListener('click', () => {
     const cur = getPlateCount();
     if (cur <= 2) return;
     document.getElementById('val-plates').textContent = cur - 1;
     rebuildConfig();
+    updatePlateCountButtons();
   });
 
   document.getElementById('btn-plates-inc').addEventListener('click', () => {
-    const cur = getPlateCount();
-    document.getElementById('val-plates').textContent = cur + 1;
+    document.getElementById('val-plates').textContent = getPlateCount() + 1;
     rebuildConfig();
+    updatePlateCountButtons();
   });
 
-  document.getElementById('val-positions').addEventListener('change', (e) => {
-    let v = parseInt(e.target.value);
-    if (v < 3) v = 3;
-    if (v % 2 === 0) v += 1;
-    e.target.value = v;
+  updatePlateCountButtons();
+
+  const updatePosButtons = () => {
+    const v = getPositions();
+    document.getElementById('btn-pos-dec').disabled = v <= 3;
+  };
+
+  document.getElementById('btn-pos-dec').addEventListener('click', () => {
+    let v = getPositions();
+    if (v > 3) { document.getElementById('val-positions').textContent = v - 2; }
     rebuildConfig();
+    updatePosButtons();
   });
+
+  document.getElementById('btn-pos-inc').addEventListener('click', () => {
+    let v = getPositions();
+    document.getElementById('val-positions').textContent = v + 2;
+    rebuildConfig();
+    updatePosButtons();
+  });
+
+  updatePosButtons();
 
   // Delegated: position +/- buttons and add-dep
   document.getElementById('plates-config').addEventListener('click', (e) => {
@@ -906,19 +961,15 @@ function wireConfigHandlers() {
     if (!id) return;
     const plate = state.plates.find(p => p.id === id);
 
-    if (e.target.classList.contains('btn-pos-dec')) {
-      if (plate.currentPos > 1) plate.currentPos--;
+    if (e.target.classList.contains('btn-pos-dec') || e.target.classList.contains('btn-pos-inc')) {
+      const dec = e.target.classList.contains('btn-pos-dec');
+      if (dec && plate.currentPos > 1) plate.currentPos--;
+      if (!dec && plate.currentPos < plate.positions) plate.currentPos++;
       document.querySelector(`.pos-val[data-id="${id}"]`).textContent = plate.currentPos;
       document.querySelector(`.plate-section[data-id="${id}"] .plate-header span:last-child`)
         .textContent = `pos: ${plate.currentPos}`;
-      updateScene('scene-config-inner', state.plates, state.activePlate);
-    }
-
-    if (e.target.classList.contains('btn-pos-inc')) {
-      if (plate.currentPos < plate.positions) plate.currentPos++;
-      document.querySelector(`.pos-val[data-id="${id}"]`).textContent = plate.currentPos;
-      document.querySelector(`.plate-section[data-id="${id}"] .plate-header span:last-child`)
-        .textContent = `pos: ${plate.currentPos}`;
+      document.querySelector(`.btn-pos-dec[data-id="${id}"]`).disabled = plate.currentPos <= 1;
+      document.querySelector(`.btn-pos-inc[data-id="${id}"]`).disabled = plate.currentPos >= plate.positions;
       updateScene('scene-config-inner', state.plates, state.activePlate);
     }
 
@@ -992,20 +1043,39 @@ function renderSolvePanel() {
   );
   document.getElementById('solution-string').innerHTML = parts.join(' → ');
 
-  // Step list
+  // Step list with Начало / Конец anchors
   const list = document.getElementById('solution-steps');
   list.innerHTML = '';
+
+  const makeEndpoint = (label, step, highlight) => {
+    const li = document.createElement('li');
+    li.textContent = label;
+    li.classList.add('endpoint');
+    if (highlight && state.solverStep === step) li.classList.add('active');
+    li.addEventListener('click', () => jumpToStep(step));
+    return li;
+  };
+
+  list.appendChild(makeEndpoint('Начало', 0, true));
   state.solution.forEach((s, i) => {
     const li = document.createElement('li');
     li.textContent = `${i + 1}. ${s}`;
-    if (i === state.solverStep) li.classList.add('active');
-    li.addEventListener('click', () => jumpToStep(i));
+    if (i + 1 === state.solverStep) li.classList.add('active');
+    li.addEventListener('click', () => jumpToStep(i + 1));
     list.appendChild(li);
   });
+  list.appendChild(makeEndpoint('Конец', state.solution.length, false));
 
   // Scroll active into view
   const active = list.querySelector('.active');
   if (active) active.scrollIntoView({ block: 'nearest' });
+
+  // Update disabled state of nav buttons
+  const atStart = state.solverStep === 0;
+  const atEnd   = state.solverStep === state.solution.length;
+  document.getElementById('btn-prev').disabled = atStart;
+  document.getElementById('btn-step').disabled = atEnd;
+  document.getElementById('btn-auto').disabled = atEnd;
 }
 
 /** Apply steps from current solverStep up to (but not including) targetStep */
@@ -1044,6 +1114,8 @@ function solveStepBack() {
 
 function wireSolveHandlers() {
   document.getElementById('btn-back').addEventListener('click', switchToConfig);
+  document.getElementById('btn-prev').addEventListener('click', solveStepBack);
+  document.getElementById('btn-step').addEventListener('click', solveStepForward);
 
   document.getElementById('btn-auto').addEventListener('click', () => {
     const btn = document.getElementById('btn-auto');
