@@ -346,7 +346,51 @@ input[type=number] {
   </div>
 
   <!-- Script #1 — State & constants -->
-  <script>/* Task 3 */</script>
+  <script>
+// ── Script #1 — State & constants ─────────────────────────────────────────
+
+const PLATE_W       = 220;   // px — must match --plate-w
+const PLATE_T       = 22;    // px — must match --plate-t
+const PLATE_D       = 48;    // px — must match --plate-d
+const PLATE_GAP     = 72;    // px — must match --plate-gap
+const HOLE_PADDING  = 0.17;  // fraction of PLATE_W on each side
+const HOLE_SIZE     = 15;    // px — must match --hole-size
+const PIN_W         = 10;    // px — must match --pin-w
+const AUTO_DELAY    = 500;   // ms between auto-play steps
+
+const DEFAULT_PLATE_COUNT = 4;
+const DEFAULT_POSITIONS   = 7;
+
+/** Center position index (1-based) for a given positions count */
+function center(positions) {
+  return Math.floor(positions / 2) + 1;
+}
+
+/**
+ * Create a fresh plate object.
+ * @param {number} id      1-based plate id (1 = front, N = back)
+ * @param {number} positions  must be odd
+ */
+function makePlate(id, positions) {
+  return {
+    id,
+    positions,
+    currentPos: center(positions),
+    deps: []  // [{targetId, direction: 'same'|'opposite', steps}]
+  };
+}
+
+/** Global mutable state */
+const state = {
+  stage: 'config',          // 'config' | 'solve'
+  plates: [],               // Plate[]
+  activePlate: 1,           // id of currently selected plate
+  history: [],              // move notation array (config stage)
+  solution: [],             // compressed notation array (solve stage)
+  solverStep: 0,            // current step index in solution
+  autoInterval: null        // setInterval handle for auto-play
+};
+</script>
   <!-- Script #2 — Game logic -->
   <script>/* Task 4 */</script>
   <!-- Script #3 — BFS solver -->
