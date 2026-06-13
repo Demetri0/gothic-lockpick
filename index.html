@@ -1150,6 +1150,10 @@ document.getElementById('import-dialog-cancel').addEventListener('click', () => 
   _importPending = null;
 });
 
+document.getElementById('import-dialog').addEventListener('close', () => {
+  _importPending = null;
+});
+
 function openImportDialog(text) {
   _importPending = text;
   document.getElementById('import-dialog').showModal();
