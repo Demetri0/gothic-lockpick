@@ -1608,17 +1608,13 @@ self.onmessage = ({ data }) => {
   if (data.type === 'random') {
     const ALL_COUNTS = [2, 3, 4, 5, 6, 7, 8];
     const PLATE_COUNTS = ALL_COUNTS.filter(c => c >= (data.minPlates || 2));
-    const MAX_ATTEMPTS = 400;
-    const positions = data.positions;
-    const minSteps = data.minSteps || 0;
-    const maxSteps = data.maxSteps || Infinity;
-    let found = null;
-    let foundSolution = null;
-    let totalIter = 0;
+    const positions   = data.positions;
+    const minSteps    = data.minSteps    || 0;
+    const maxSteps    = data.maxSteps    || Infinity;
+    const workerId    = data.workerId;
+    const maxAttempts = data.maxAttempts;
 
-    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-      self.postMessage({ type: 'progress', attempt: attempt + 1, total: MAX_ATTEMPTS });
-
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
       const count = PLATE_COUNTS[Math.floor(Math.random() * PLATE_COUNTS.length)];
       const plates = Array.from({ length: count }, (_, i) => {
         const id     = i + 1;
@@ -1636,15 +1632,21 @@ self.onmessage = ({ data }) => {
         return { id, positions, deps, currentPos: 1 + Math.floor(Math.random() * positions) };
       });
 
-      if (plates.every(p => p.currentPos === center(p.positions))) continue;
+      if (plates.every(p => p.currentPos === center(p.positions))) {
+        self.postMessage({ type: 'progress', workerId, attemptsDelta: 1, itersDelta: 0 });
+        continue;
+      }
 
       const { solution, iters } = bfsSolve(plates);
-      totalIter += iters;
-      self.postMessage({ type: 'progress', attempt: attempt + 1, total: MAX_ATTEMPTS, states: totalIter });
-      if (solution !== null && solution.length >= minSteps && solution.length <= maxSteps) { found = plates; foundSolution = solution; break; }
+      self.postMessage({ type: 'progress', workerId, attemptsDelta: 1, itersDelta: iters });
+
+      if (solution !== null && solution.length >= minSteps && solution.length <= maxSteps) {
+        self.postMessage({ type: 'random-found', workerId, plates, solution });
+        return;
+      }
     }
 
-    self.postMessage({ type: 'random', plates: found, solution: foundSolution });
+    self.postMessage({ type: 'random-exhausted', workerId });
   }
 };
   </script>
