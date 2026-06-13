@@ -1327,12 +1327,14 @@ function switchToConfig() {
 
 function renderSolvePanel() {
   // Notation string with current step highlighted
-  const parts = state.solution.map((s, i) =>
-    i === state.solverStep
+  const parts = state.solution.map((s, i) => {
+    const arrow = i < state.solution.length - 1 ? ' →' : '';
+    const inner = i === state.solverStep
       ? `<span class="cur-step">${s}</span>`
-      : `<span style="opacity:0.45">${s}</span>`
-  );
-  document.getElementById('solution-string').innerHTML = parts.join(' → ');
+      : `<span style="opacity:0.45">${s}</span>`;
+    return `<span style="white-space:nowrap">${inner}${arrow}</span>`;
+  });
+  document.getElementById('solution-string').innerHTML = parts.join(' ');
 
   // Step list with Начало / Конец anchors
   const list = document.getElementById('solution-steps');
