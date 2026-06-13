@@ -242,6 +242,60 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* Import confirmation dialog */
+#import-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  height: fit-content;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  color: var(--text);
+  font-family: 'Courier New', monospace;
+  padding: 20px 24px;
+  min-width: 260px;
+  outline: none;
+}
+#import-dialog::backdrop { background: rgba(14, 12, 9, 0.65); }
+#import-dialog h3 {
+  font-size: 0.78em;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+#import-dialog p { font-size: 0.88em; color: var(--text-soft); margin-bottom: 20px; }
+.dialog-buttons { display: flex; gap: 8px; justify-content: flex-end; }
+.dialog-buttons .btn-primary { margin-top: 0; padding: 6px 16px; }
+
+/* Toast notifications */
+#toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  padding: 9px 14px;
+  border-radius: 3px;
+  font-size: 0.82em;
+  letter-spacing: 0.5px;
+  border: 1px solid;
+  opacity: 0;
+  transform: translateX(12px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.toast.visible { opacity: 1; transform: translateX(0); }
+.toast-success { background: var(--bg-accent); border-color: var(--accent); color: var(--accent); }
+.toast-error   { background: #1a0f0f;           border-color: #7a3030;      color: #c07070; }
+
 .solve-buttons { display: flex; gap: 10px; margin-top: auto; }
 .solve-buttons .btn-primary { flex: 1; margin-top: 0; }
 .solve-buttons .btn-return { margin-right: 14px; }
@@ -452,6 +506,17 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   </style>
 </head>
 <body>
+
+  <div id="toast-container"></div>
+
+  <dialog id="import-dialog">
+    <h3>Импорт</h3>
+    <p>Применить конфигурацию из буфера обмена?</p>
+    <div class="dialog-buttons">
+      <button id="import-dialog-cancel">Отмена</button>
+      <button id="import-dialog-ok" class="btn-primary">Применить</button>
+    </div>
+  </dialog>
 
   <div id="computing-overlay">
     <div class="spinner"></div>
@@ -1076,27 +1141,41 @@ function wireConfigHandlers() {
   });
 }
 
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
+  document.getElementById('toast-container').appendChild(toast);
+  requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('visible')));
+  setTimeout(() => {
+    toast.classList.remove('visible');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  }, 2500);
+}
+
 document.getElementById('btn-export').addEventListener('click', () => {
   const data = JSON.stringify(
     state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps }))
   );
-  navigator.clipboard.writeText(data).catch(() => alert('Не удалось записать в буфер обмена.'));
+  navigator.clipboard.writeText(data)
+    .then(() => showToast('Скопировано в буфер'))
+    .catch(() => showToast('Не удалось скопировать', 'error'));
 });
 
 function applyImportedConfig(text) {
   let plates;
   try { plates = JSON.parse(text); } catch {
-    alert('Невалидный конфиг.'); return;
+    showToast('Невалидный конфиг', 'error'); return;
   }
   if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) {
-    alert('Невалидный конфиг.'); return;
+    showToast('Невалидный конфиг', 'error'); return;
   }
   for (const p of plates) {
     if (typeof p.id !== 'number' ||
         typeof p.positions !== 'number' || p.positions % 2 === 0 || p.positions < 3 ||
         typeof p.currentPos !== 'number' || p.currentPos < 1 || p.currentPos > p.positions ||
         !Array.isArray(p.deps)) {
-      alert('Невалидный конфиг.'); return;
+      showToast('Невалидный конфиг', 'error'); return;
     }
   }
   state.plates = plates;
@@ -1109,12 +1188,62 @@ function applyImportedConfig(text) {
   updateScene('scene-config-inner', state.plates, state.activePlate);
   document.getElementById('btn-plates-dec').disabled = plates.length <= 2;
   document.getElementById('btn-pos-dec').disabled = plates[0].positions <= 3;
+  showToast('Конфиг применён');
 }
 
-document.getElementById('btn-import').addEventListener('click', () => {
-  navigator.clipboard.readText()
-    .then(applyImportedConfig)
-    .catch(() => alert('Не удалось прочитать буфер обмена.'));
+let _importPending = null;
+
+document.getElementById('import-dialog-ok').addEventListener('click', () => {
+  document.getElementById('import-dialog').close();
+  if (_importPending !== null) applyImportedConfig(_importPending);
+  _importPending = null;
+});
+
+document.getElementById('import-dialog-cancel').addEventListener('click', () => {
+  document.getElementById('import-dialog').close();
+  _importPending = null;
+});
+
+function openImportDialog(text) {
+  _importPending = text;
+  document.getElementById('import-dialog').showModal();
+}
+
+// Permanent paste listener — catches Ctrl+V outside of form inputs
+document.addEventListener('paste', (e) => {
+  if (e.target.matches('input, textarea, select')) return;
+  e.preventDefault();
+  const text = e.clipboardData.getData('text');
+  if (text) openImportDialog(text);
+});
+
+document.getElementById('btn-import').addEventListener('click', async () => {
+  const ASKED_KEY = 'clipboard_permission_asked';
+  let text = null;
+  try {
+    let shouldRequest = false;
+    try {
+      const perm = await navigator.permissions.query({ name: 'clipboard-read' });
+      if (perm.state === 'granted') {
+        text = await navigator.clipboard.readText();
+      } else if (perm.state === 'prompt') {
+        shouldRequest = !localStorage.getItem(ASKED_KEY);
+      }
+      // 'denied' → shouldRequest stays false
+    } catch {
+      // permissions API not supported (Firefox) — treat as prompt
+      shouldRequest = !localStorage.getItem(ASKED_KEY);
+    }
+    if (shouldRequest) {
+      localStorage.setItem(ASKED_KEY, '1');
+      text = await navigator.clipboard.readText();
+    }
+  } catch {}
+  if (text) {
+    openImportDialog(text);
+  } else {
+    showToast('Нажмите Ctrl+V', 'success');
+  }
 });
   </script>
   <!-- Script #6 — Solve UI -->
@@ -1557,7 +1686,7 @@ function onWorkerMessage({ data }) {
     btn.disabled = false;
     btn.textContent = 'РЕШЕНИЕ';
     if (data.solution === null) {
-      alert('Решение не найдено.');
+      showToast('Решение не найдено', 'error');
       return;
     }
     state.solution = data.solution;
@@ -1571,7 +1700,7 @@ function onWorkerMessage({ data }) {
     btn.disabled = false;
     btn.textContent = 'Рандом';
     if (!data.plates) {
-      alert('Не удалось сгенерировать решаемую конфигурацию — попробуйте ещё раз.');
+      showToast('Не удалось сгенерировать конфигурацию', 'error');
       return;
     }
     state.plates = data.plates;
