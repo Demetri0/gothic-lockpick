@@ -168,7 +168,8 @@ input[type=number] {
 .no-solution { color: #e55; font-size: 0.85em; text-align: center; padding: 20px; }
 
 :root {
-  --tilt: 52deg;          /* POV angle — tune this once visually */
+  --tilt: -30deg;         /* наклон камеры вниз; отрицательный = смотрим сверху */
+  --yaw: -35deg;          /* поворот вокруг вертикали; отрицательный = видна правая грань */
   --plate-w: 220px;       /* plate width (X, where holes go) */
   --plate-t: 22px;        /* plate thickness (Y) */
   --plate-d: 48px;        /* plate local depth (top face depth) */
@@ -189,7 +190,7 @@ input[type=number] {
 .scene {
   position: relative;
   transform-style: preserve-3d;
-  transform: rotateX(var(--tilt)) rotateZ(45deg);
+  transform: rotateX(var(--tilt)) rotateY(var(--yaw));
   width: 280px;
   height: 180px;
 }
@@ -226,7 +227,8 @@ input[type=number] {
   border: 1px solid #3a5a90;
 }
 
-/* Right face — rotateY(-90deg) maps +X → +Z so face extends into scene depth */
+/* Right face — rotateY(90deg) maps +X → −Z: face extends back into box depth,
+   front side faces +X (наружу), so the plate number is not mirrored */
 .face.right {
   width: var(--plate-d);
   height: var(--plate-t);
@@ -235,7 +237,7 @@ input[type=number] {
   left: var(--plate-w);
   top: 0;
   transform-origin: left top;
-  transform: rotateY(-90deg);
+  transform: rotateY(90deg);
 }
 
 .plate.active .face.top   { border-color: #7aafff; background: #3a5d90; }
@@ -274,15 +276,17 @@ input[type=number] {
   background: #0f1f3a;
 }
 
+/* Pin stands upright on the top face: anchored at the plate's top edge (bottom:100%),
+   pushed to mid-depth of the plate by translateZ. Child of .plate, not .face.top —
+   left is always set by JS via pinLeft(); translateX(-50%) centers on that point */
 .pin {
   position: absolute;
   width: var(--pin-w);
   height: var(--pin-h-dn);
   border-radius: 3px 3px 0 0;
   transition: height 0.2s ease, background 0.2s ease;
-  /* left is always set by JS via pinLeft(); translateX(-50%) centers on that point */
-  transform: translateX(-50%);
-  bottom: 0;
+  transform: translateX(-50%) translateZ(calc(var(--plate-d) / -2));
+  bottom: 100%;
 }
 
 .pin.lowered {
@@ -582,9 +586,9 @@ function buildScene(sceneId, plates) {
   const scene = document.getElementById(sceneId);
   scene.innerHTML = '';
 
-  // Plate 1 = front = lowest Z; plate N = back = highest Z
+  // Plate 1 = front (z=0); plate N = back (negative Z, в глубину сцены)
   for (const plate of plates) {
-    const z = (plate.id - 1) * PLATE_GAP;
+    const z = -(plate.id - 1) * PLATE_GAP;
     const offsetX = posToOffsetX(plate.currentPos, plate.positions);
     const isRaised = plate.currentPos === center(plate.positions);
 
@@ -605,13 +609,11 @@ function buildScene(sceneId, plates) {
     el.dataset.id = plate.id;
     el.style.transform = `translateZ(${z}px) translateX(${offsetX}px)`;
     el.innerHTML = `
-      <div class="face top" style="position:relative">
-        ${holesHTML}
-        <div class="pin ${isRaised ? 'raised' : 'lowered'}"
-             style="left:${pinLeft(plate.currentPos, plate.positions)}px"></div>
-      </div>
+      <div class="face top">${holesHTML}</div>
       <div class="face front"></div>
       <div class="face right"><span class="plate-num">${plate.id}</span></div>
+      <div class="pin ${isRaised ? 'raised' : 'lowered'}"
+           style="left:${pinLeft(plate.currentPos, plate.positions)}px"></div>
     `;
     scene.appendChild(el);
   }
@@ -628,7 +630,7 @@ function updateScene(sceneId, plates, activePlateId) {
     const el = document.querySelector(`#${sceneId} .plate[data-id="${plate.id}"]`);
     if (!el) continue;
 
-    const z = (plate.id - 1) * PLATE_GAP;
+    const z = -(plate.id - 1) * PLATE_GAP;
     const offsetX = posToOffsetX(plate.currentPos, plate.positions);
     el.style.transform = `translateZ(${z}px) translateX(${offsetX}px)`;
 
