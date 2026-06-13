@@ -1526,8 +1526,16 @@ function computeMove(plates, plateId, dir) {
 }
 
 
-function bfsSolve(plates, iterOffset) {
-  iterOffset = iterOffset || 0;
+function reconstructPath(queue, idx) {
+  const path = [];
+  while (queue[idx].move !== null) {
+    path.push(queue[idx].move);
+    idx = queue[idx].parentIdx;
+  }
+  return path.reverse();
+}
+
+function bfsSolve(plates) {
   const startPos = plates.map(p => p.currentPos);
   const goalPos  = plates.map(p => center(p.positions));
 
@@ -1535,11 +1543,15 @@ function bfsSolve(plates, iterOffset) {
 
   const startKey = startPos.join(',');
   const visited  = new Set([startKey]);
-  const queue    = [{ positions: startPos, path: [] }];
+  const queue    = [{ positions: startPos, parentIdx: -1, move: null }];
+  let head = 0;
   let iter = 0;
 
-  while (queue.length > 0) {
-    const { positions, path } = queue.shift();
+  while (head < queue.length) {
+    const { positions } = queue[head];
+    const currentIdx = head;
+    head++;
+
     const snap = plates.map((p, i) => ({ ...p, currentPos: positions[i] }));
 
     for (const plate of snap) {
@@ -1548,26 +1560,19 @@ function bfsSolve(plates, iterOffset) {
         if (!effects) continue;
 
         const newPos = [...positions];
-        for (const { plateId, newPos: np } of effects) {
-          newPos[plateId - 1] = np;
-        }
+        for (const { plateId, newPos: np } of effects) newPos[plateId - 1] = np;
 
         const key = newPos.join(',');
         if (visited.has(key)) continue;
         visited.add(key);
         iter++;
 
-        if ((iterOffset + iter) % 1000 === 0) {
-          self.postMessage({ type: 'progress', states: iterOffset + iter });
-        }
-
-        const newPath = [...path, toNotation(plate.id, dir, 1)];
+        const newIdx = queue.length;
+        queue.push({ positions: newPos, parentIdx: currentIdx, move: toNotation(plate.id, dir, 1) });
 
         if (newPos.every((p, i) => p === goalPos[i])) {
-          return { solution: compressPath(newPath), iters: iter };
+          return { solution: compressPath(reconstructPath(queue, newIdx)), iters: iter };
         }
-
-        queue.push({ positions: newPos, path: newPath });
       }
     }
   }
@@ -1595,8 +1600,8 @@ function compressPath(path) {
 
 self.onmessage = ({ data }) => {
   if (data.type === 'solve') {
-    self.postMessage({ type: 'progress', states: 0 });
-    const { solution } = bfsSolve(data.plates);
+    const { solution, iters } = bfsSolve(data.plates);
+    self.postMessage({ type: 'progress', itersDelta: iters });
     self.postMessage({ type: 'solve', solution });
   }
 
@@ -1633,7 +1638,7 @@ self.onmessage = ({ data }) => {
 
       if (plates.every(p => p.currentPos === center(p.positions))) continue;
 
-      const { solution, iters } = bfsSolve(plates, totalIter);
+      const { solution, iters } = bfsSolve(plates);
       totalIter += iters;
       self.postMessage({ type: 'progress', attempt: attempt + 1, total: MAX_ATTEMPTS, states: totalIter });
       if (solution !== null && solution.length >= minSteps && solution.length <= maxSteps) { found = plates; foundSolution = solution; break; }
