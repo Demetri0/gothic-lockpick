@@ -223,6 +223,17 @@ input[type=number] {
 
 button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
+@keyframes plate-shake {
+  0%, 100% { translate: 0px 0; }
+  15%  { translate: -6px 0; }
+  35%  { translate:  6px 0; }
+  55%  { translate: -4px 0; }
+  75%  { translate:  4px 0; }
+  90%  { translate: -2px 0; }
+}
+.plate-blocked { animation: plate-shake 0.25s ease; }
+.plate-blocked .face { filter: saturate(4) hue-rotate(300deg) brightness(1.25); }
+
 /* Computing overlay */
 #computing-overlay {
   display: none;
@@ -728,6 +739,35 @@ function applyMove(plates, plateId, dir) {
     plates.find(p => p.id === pid).currentPos = newPos;
   }
   return true;
+}
+
+/** Returns the id of the first plate that would go out of bounds, or null if move is valid. */
+function getBlockingPlateId(plates, plateId, dir) {
+  const primaryDelta = dir === 'left' ? -1 : 1;
+  const primary = plates.find(p => p.id === plateId);
+  if (!primary) return null;
+  const sign = primaryDelta > 0 ? 1 : -1;
+  const effects = [{ plate: primary, delta: primaryDelta }];
+  for (const dep of primary.deps) {
+    const target = plates.find(p => p.id === dep.targetId);
+    if (!target) continue;
+    const depSign = dep.direction === 'same' ? sign : -sign;
+    effects.push({ plate: target, delta: depSign * dep.steps });
+  }
+  for (const { plate, delta } of effects) {
+    if (plate.currentPos + delta < 1 || plate.currentPos + delta > plate.positions) return plate.id;
+  }
+  return null;
+}
+
+/** Flash the blocking plate with a shake + red tint for 250 ms. */
+function flashBlockedPlate(plateId, sceneId) {
+  const el = document.querySelector(`#${sceneId} .plate[data-id="${plateId}"]`);
+  if (!el) return;
+  el.classList.remove('plate-blocked');
+  void el.offsetWidth; // force reflow so animation restarts if already running
+  el.classList.add('plate-blocked');
+  setTimeout(() => el.classList.remove('plate-blocked'), 250);
 }
 
 /**
@@ -1529,6 +1569,9 @@ document.addEventListener('keydown', (e) => {
         state.history.push(toNotation(state.activePlate, 'left', 1));
         updateScene('scene-config-inner', state.plates, state.activePlate);
         syncMatrixPositions();
+      } else {
+        const b = getBlockingPlateId(state.plates, state.activePlate, 'left');
+        if (b !== null) flashBlockedPlate(b, 'scene-config-inner');
       }
     }
     if (key === 'D') {
@@ -1538,6 +1581,9 @@ document.addEventListener('keydown', (e) => {
         state.history.push(toNotation(state.activePlate, 'right', 1));
         updateScene('scene-config-inner', state.plates, state.activePlate);
         syncMatrixPositions();
+      } else {
+        const b = getBlockingPlateId(state.plates, state.activePlate, 'right');
+        if (b !== null) flashBlockedPlate(b, 'scene-config-inner');
       }
     }
   }
@@ -1573,6 +1619,9 @@ document.addEventListener('keydown', (e) => {
         addExploreMove(state.activePlate, dir);
         updateScene('scene-solve-inner', state.plates, state.activePlate);
         renderSolvePanel();
+      } else {
+        const b = getBlockingPlateId(state.plates, state.activePlate, dir);
+        if (b !== null) flashBlockedPlate(b, 'scene-solve-inner');
       }
     }
   }
