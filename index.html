@@ -172,15 +172,16 @@ input[type=number] {
   --plate-w: 220px;       /* plate width (X, where holes go) */
   --plate-t: 22px;        /* plate thickness (Y) */
   --plate-d: 48px;        /* plate local depth (top face depth) */
-  --plate-gap: 72px;      /* Z spacing between plates (stacking) */
+  --plate-gap: 72px;      /* Z spacing between plates — consumed by JS only */
   --hole-size: 15px;
-  --hole-padding: 0.17;   /* fraction of plate-w as side padding */
+  --hole-padding: 0.17;   /* unitless fraction — JS-only, not valid in calc() */
   --pin-w: 10px;
   --pin-h-up: 18px;
   --pin-h-dn: 6px;
 }
 
 .scene-wrap {
+  position: relative;
   perspective: 900px;
   perspective-origin: 50% 35%;
 }
@@ -248,6 +249,7 @@ input[type=number] {
   font-size: 11px;
   color: #5a8ac0;
   pointer-events: none;
+  transform: translateZ(0.5px);
 }
 
 .holes {
@@ -275,6 +277,7 @@ input[type=number] {
 .pin {
   position: absolute;
   width: var(--pin-w);
+  height: var(--pin-h-dn);
   border-radius: 3px 3px 0 0;
   transition: height 0.2s ease, background 0.2s ease;
   /* left is always set by JS via pinLeft(); translateX(-50%) centers on that point */
