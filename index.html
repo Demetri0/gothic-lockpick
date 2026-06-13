@@ -15,14 +15,15 @@ body {
   overflow: hidden;
 }
 
-.stage { display: flex; height: 100vh; }
+.stage { display: flex; flex-wrap: wrap; height: 100vh; overflow-y: auto; }
 .stage.hidden { display: none; }
 
 .panel { padding: 24px; }
 .panel-left {
-  width: 320px;
+  width: var(--panel-w);
   min-width: 280px;
   border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   background: var(--bg-panel);
   overflow-y: auto;
   display: flex;
@@ -31,6 +32,7 @@ body {
 }
 .panel-right {
   flex: 1;
+  min-width: 280px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,9 +42,14 @@ body {
 .scene-wrap {
   flex: 1;
   width: 100%;
+  min-height: 260px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .panel-right { padding-top: var(--scene-overhead, 120px); }
 }
 
 h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
@@ -201,6 +208,7 @@ input[type=number] {
   --pin-w: 10px;
   --pin-h-up: 18px;
   --pin-h-dn: 6px;
+  --panel-w: 45vw;
 
   /* === COLOR PALETTE === */
   --bg:                  #0e0c09;
@@ -686,6 +694,11 @@ function buildScene(sceneId, plates) {
     `;
     scene.appendChild(el);
   }
+
+  // Depth of the stack in CSS-px; sin(30°)≈0.5 maps Z-depth to vertical screen overflow
+  const stackDepth = (plates.length - 1) * PLATE_GAP;
+  const overhead = Math.round(stackDepth * 0.55 + 60);
+  document.documentElement.style.setProperty('--scene-overhead', overhead + 'px');
 }
 
 /**
