@@ -66,11 +66,12 @@ currentPos === center(positions)   // center(7) === 4
 A move is `(plateId, direction)`, where direction is `'left'` or `'right'`.
 
 1. Start with the moved plate and a delta of `-1` (left) or `+1` (right).
-2. Recursively collect dependencies via `computeMove`.
+2. Collect **direct** dependencies of the moved plate only (non-recursive, non-transitive).
 3. A `same` dependency receives the same sign × `dep.steps`; `opposite` receives the negative.
-4. A `visited` set on plate ids prevents infinite recursion in circular graphs.
-5. If any affected plate would leave `1..positions`, the whole move is blocked (returns `null`/`false`).
-6. Otherwise all affected positions are updated simultaneously.
+4. If any affected plate would leave `1..positions`, the whole move is blocked (returns `null`/`false`).
+5. Otherwise all affected positions are updated simultaneously.
+
+**Non-transitivity:** only the deps listed on the moved plate are affected. If plate A → B and B → C, moving A affects B but not C. C is only affected when B itself is moved directly by the player.
 
 Raised pins are visual only; they do not affect movement.
 
@@ -332,7 +333,7 @@ index.html
 - `currentPos` is clamped when position count decreases.
 - Dependencies targeting removed plates are discarded on `rebuildConfig`.
 - Self-dependencies blocked by import validation and matrix UI.
-- Circular dependencies: `visited` set in `computeMove` breaks the cycle; first caller wins.
+- Circular dependencies: harmless — `computeMove` is non-recursive and only reads `plate.deps` of the moved plate, so A→B→A cycles have no effect.
 - BFS returns `null` if the state space is fully explored with no goal → error toast, stay in config.
 - Empty solution `[]` (all plates already at center) → solve stage shows only `Начало` and `Конец`.
 - `cachedSolution` from random generation is reused until any config change.

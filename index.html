@@ -673,23 +673,18 @@ const state = {
  */
 function computeMove(plates, plateId, dir) {
   const primaryDelta = dir === 'left' ? -1 : 1;
-  const visited = new Set();
-  const effects = [];   // {plate, delta}
+  const primary = plates.find(p => p.id === plateId);
+  if (!primary) return null;
 
-  function collect(id, delta) {
-    if (visited.has(id)) return;
-    visited.add(id);
-    const plate = plates.find(p => p.id === id);
-    if (!plate) return;
-    effects.push({ plate, delta });
-    const sign = delta > 0 ? 1 : -1;
-    for (const dep of plate.deps) {
-      const depSign = dep.direction === 'same' ? sign : -sign;
-      collect(dep.targetId, depSign * dep.steps);
-    }
+  const sign = primaryDelta > 0 ? 1 : -1;
+  const effects = [{ plate: primary, delta: primaryDelta }];
+
+  for (const dep of primary.deps) {
+    const target = plates.find(p => p.id === dep.targetId);
+    if (!target) continue;
+    const depSign = dep.direction === 'same' ? sign : -sign;
+    effects.push({ plate: target, delta: depSign * dep.steps });
   }
-
-  collect(plateId, primaryDelta);
 
   // Blocking check — all or nothing
   for (const { plate, delta } of effects) {
@@ -1551,23 +1546,18 @@ function parseNotation(s) {
 
 function computeMove(plates, plateId, dir) {
   const primaryDelta = dir === 'left' ? -1 : 1;
-  const visited = new Set();
-  const effects = [];
+  const primary = plates.find(p => p.id === plateId);
+  if (!primary) return null;
 
-  function collect(id, delta) {
-    if (visited.has(id)) return;
-    visited.add(id);
-    const plate = plates.find(p => p.id === id);
-    if (!plate) return;
-    effects.push({ plate, delta });
-    const sign = delta > 0 ? 1 : -1;
-    for (const dep of plate.deps) {
-      const depSign = dep.direction === 'same' ? sign : -sign;
-      collect(dep.targetId, depSign * dep.steps);
-    }
+  const sign = primaryDelta > 0 ? 1 : -1;
+  const effects = [{ plate: primary, delta: primaryDelta }];
+
+  for (const dep of primary.deps) {
+    const target = plates.find(p => p.id === dep.targetId);
+    if (!target) continue;
+    const depSign = dep.direction === 'same' ? sign : -sign;
+    effects.push({ plate: target, delta: depSign * dep.steps });
   }
-
-  collect(plateId, primaryDelta);
 
   for (const { plate, delta } of effects) {
     const newPos = plate.currentPos + delta;
