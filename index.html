@@ -392,7 +392,85 @@ const state = {
 };
 </script>
   <!-- Script #2 — Game logic -->
-  <script>/* Task 4 */</script>
+  <script>
+// ── Script #2 — Game logic ────────────────────────────────────────────────
+
+/**
+ * Compute all plate deltas for a move. Returns null if blocked.
+ * @param {object[]} plates
+ * @param {number}   plateId   id of the plate the player moves
+ * @param {'left'|'right'} dir
+ * @returns {Array<{plateId, newPos}>|null}
+ */
+function computeMove(plates, plateId, dir) {
+  const primaryDelta = dir === 'left' ? -1 : 1;
+  const visited = new Set();
+  const effects = [];   // {plate, delta}
+
+  function collect(id, delta) {
+    if (visited.has(id)) return;
+    visited.add(id);
+    const plate = plates.find(p => p.id === id);
+    if (!plate) return;
+    effects.push({ plate, delta });
+    const sign = delta > 0 ? 1 : -1;
+    for (const dep of plate.deps) {
+      const depSign = dep.direction === 'same' ? sign : -sign;
+      collect(dep.targetId, depSign * dep.steps);
+    }
+  }
+
+  collect(plateId, primaryDelta);
+
+  // Blocking check — all or nothing
+  for (const { plate, delta } of effects) {
+    const newPos = plate.currentPos + delta;
+    if (newPos < 1 || newPos > plate.positions) return null;
+  }
+
+  return effects.map(({ plate, delta }) => ({
+    plateId: plate.id,
+    newPos: plate.currentPos + delta
+  }));
+}
+
+/**
+ * Apply a move in-place. Returns true if move was applied, false if blocked.
+ */
+function applyMove(plates, plateId, dir) {
+  const effects = computeMove(plates, plateId, dir);
+  if (!effects) return false;
+  for (const { plateId: pid, newPos } of effects) {
+    plates.find(p => p.id === pid).currentPos = newPos;
+  }
+  return true;
+}
+
+/** True when all plates are at their center position */
+function isGoal(plates) {
+  return plates.every(p => p.currentPos === center(p.positions));
+}
+
+/**
+ * Convert a move to notation string.
+ * steps > 1 only when compressing consecutive same-plate same-dir moves.
+ */
+function toNotation(plateId, dir, steps) {
+  const d = dir === 'left' ? 'A' : 'D';
+  return steps === 1 ? `${plateId}${d}` : `${plateId}${d}${steps}`;
+}
+
+/** Parse a notation string back to {plateId, dir, steps} */
+function parseNotation(s) {
+  const m = s.match(/^(\d+)([AD])(\d*)$/);
+  if (!m) throw new Error(`Invalid notation: ${s}`);
+  return {
+    plateId: parseInt(m[1]),
+    dir:     m[2] === 'A' ? 'left' : 'right',
+    steps:   m[3] ? parseInt(m[3]) : 1
+  };
+}
+</script>
   <!-- Script #3 — BFS solver -->
   <script>/* Task 5 */</script>
   <!-- Script #4 — Render -->
