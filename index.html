@@ -227,6 +227,17 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   min-height: 1.2em;
   text-align: center;
 }
+#progress-total {
+  text-align: center;
+}
+#progress-threads {
+  display: flex; flex-direction: column; gap: 2px; margin-top: 6px;
+  font-size: 0.78em; opacity: 0.7;
+}
+.progress-thread-row {
+  display: flex; gap: 8px; justify-content: center;
+}
+.progress-thread-id { min-width: 24px; opacity: 0.5; }
 #computing-overlay .btn-cancel {
   background: transparent;
   border-color: var(--border);
@@ -528,7 +539,10 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
   <div id="computing-overlay">
     <div class="spinner"></div>
-    <div id="overlay-progress"></div>
+    <div id="overlay-progress">
+      <div id="progress-total"></div>
+      <div id="progress-threads"></div>
+    </div>
     <button class="btn-cancel">Отмена</button>
   </div>
 
@@ -1668,7 +1682,8 @@ function createWorker() {
 
 function hideOverlay() {
   document.getElementById('computing-overlay').classList.remove('active');
-  document.getElementById('overlay-progress').textContent = '';
+  document.getElementById('progress-total').textContent = '';
+  document.getElementById('progress-threads').innerHTML = '';
 }
 
 function resetButtons() {
