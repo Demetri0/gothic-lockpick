@@ -1,14 +1,11 @@
 import { test, expect } from '@playwright/test';
 
-// Инжектируем computeMove из страницы и гоняем логику в её контексте.
-// page.evaluate() выполняется в браузере, где функция уже определена.
-
-test('computeMove не транзитивный: движение A затрагивает только прямые зависимости, не цепочку', async ({ page }) => {
+test.beforeEach(async ({ page }) => {
   await page.goto('/');
+});
 
+test('не транзитивный: A→B→C, движение A затрагивает только A и B', async ({ page }) => {
   const result = await page.evaluate(() => {
-    // A -> B (same), B -> C (same)
-    // Движение A должно затронуть только A и B, но не C
     const plates = [
       { id: 1, positions: 7, currentPos: 3, deps: [{ targetId: 2, direction: 'same', steps: 1 }] },
       { id: 2, positions: 7, currentPos: 3, deps: [{ targetId: 3, direction: 'same', steps: 1 }] },
@@ -18,6 +15,67 @@ test('computeMove не транзитивный: движение A затраг
   });
 
   const movedIds = result.map(e => e.plateId).sort();
-  expect(movedIds).toEqual([1, 2]);       // только A и B
-  expect(movedIds).not.toContain(3);      // C не трогаем
+  expect(movedIds).toEqual([1, 2]);
+  expect(movedIds).not.toContain(3);
+});
+
+test('без зависимостей: двигается только сама плашка', async ({ page }) => {
+  const result = await page.evaluate(() => {
+    const plates = [
+      { id: 1, positions: 7, currentPos: 3, deps: [] },
+      { id: 2, positions: 7, currentPos: 4, deps: [] },
+    ];
+    return computeMove(plates, 1, 'right');
+  });
+
+  expect(result).toEqual([{ plateId: 1, newPos: 4 }]);
+});
+
+test('обратная зависимость: dep двигается в противоположную сторону', async ({ page }) => {
+  const result = await page.evaluate(() => {
+    const plates = [
+      { id: 1, positions: 7, currentPos: 4, deps: [{ targetId: 2, direction: 'opposite', steps: 1 }] },
+      { id: 2, positions: 7, currentPos: 4, deps: [] },
+    ];
+    return computeMove(plates, 1, 'right'); // plate1 +1, plate2 -1
+  });
+
+  expect(result).toContainEqual({ plateId: 1, newPos: 5 });
+  expect(result).toContainEqual({ plateId: 2, newPos: 3 });
+});
+
+test('блокировка: ход за границу возвращает null', async ({ page }) => {
+  const result = await page.evaluate(() => {
+    const plates = [
+      { id: 1, positions: 7, currentPos: 1, deps: [] },
+    ];
+    return computeMove(plates, 1, 'left'); // 1 - 1 = 0, выход за границу
+  });
+
+  expect(result).toBeNull();
+});
+
+test('all-or-nothing: если dep выходит за границу — весь ход заблокирован', async ({ page }) => {
+  const result = await page.evaluate(() => {
+    const plates = [
+      { id: 1, positions: 7, currentPos: 3, deps: [{ targetId: 2, direction: 'same', steps: 1 }] },
+      { id: 2, positions: 7, currentPos: 7, deps: [] }, // dep на границе, движение вправо заблокирует
+    ];
+    return computeMove(plates, 1, 'right');
+  });
+
+  expect(result).toBeNull();
+});
+
+test('зависимость с steps > 1', async ({ page }) => {
+  const result = await page.evaluate(() => {
+    const plates = [
+      { id: 1, positions: 7, currentPos: 4, deps: [{ targetId: 2, direction: 'same', steps: 2 }] },
+      { id: 2, positions: 7, currentPos: 2, deps: [] },
+    ];
+    return computeMove(plates, 1, 'right'); // plate1 +1, plate2 +2
+  });
+
+  expect(result).toContainEqual({ plateId: 1, newPos: 5 });
+  expect(result).toContainEqual({ plateId: 2, newPos: 4 });
 });
