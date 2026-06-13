@@ -57,17 +57,46 @@ test('WASD не работает во время оверлея', async ({ page 
 
 // ── Solve stage ──────────────────────────────────────────────────────────────
 
-test('D/A в режиме решения шагают вперёд/назад по решению', async ({ page }) => {
+test('D в режиме решения входит в explore и двигает плашку', async ({ page }) => {
   await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
   await page.getByTestId('import-dialog-ok').click();
   await page.getByTestId('btn-start').click();
   await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
 
+  // До нажатия — following mode, шаг на начале
   await expect(page.getByTestId('step-start')).toHaveClass(/active/);
 
+  // D → entering explore mode; появляется разделитель
   await page.keyboard.press('d');
-  await expect(page.getByTestId('step-1')).toHaveClass(/active/);
+  await expect(page.getByTestId('explore-separator')).toBeVisible();
+});
 
+test('A в explore-режиме схлопывает противоположный ход', async ({ page }) => {
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+
+  // D, затем A — два хода отменяют друг друга
+  await page.keyboard.press('d');
+  await expect(page.getByTestId('explore-step-1')).toBeVisible();
   await page.keyboard.press('a');
-  await expect(page.getByTestId('step-start')).toHaveClass(/active/);
+  // После схлопывания история пуста
+  await expect(page.getByTestId('explore-step-1')).not.toBeAttached();
+});
+
+test('повторный D той же плашки схлопывается в одну запись с шагами', async ({ page }) => {
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+
+  // Три раза D — должен быть ровно один элемент истории
+  await page.keyboard.press('d');
+  await page.keyboard.press('d');
+  await page.keyboard.press('d');
+  await expect(page.getByTestId('explore-step-1')).toBeVisible();
+  await expect(page.getByTestId('explore-step-2')).not.toBeAttached();
+  // И нотация должна содержать цифру 3
+  await expect(page.getByTestId('explore-step-1')).toContainText('3');
 });

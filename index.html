@@ -204,6 +204,16 @@ input[type=number] {
   cursor: pointer;
 }
 .solution-list li.endpoint.active { background: var(--bg-inset); color: var(--text-soft); }
+.explore-separator {
+  list-style: none;
+  padding: 3px 8px;
+  font-size: 0.78em;
+  opacity: 0.5;
+  text-align: center;
+  border-top: 1px dashed var(--border);
+  margin: 2px 0;
+  pointer-events: none;
+}
 
 button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
@@ -657,7 +667,11 @@ const state = {
   solution: [],             // compressed notation array (solve stage)
   solverStep: 0,            // current step index in solution
   autoInterval: null,       // setInterval handle for auto-play
-  cachedSolution: null      // solution found during randomization; cleared on any config change
+  cachedSolution: null,     // solution found during randomization; cleared on any config change
+  solveMode: 'following',   // 'following' | 'exploring'
+  exploreHistory: [],       // manual moves recorded in explore mode
+  detachPositions: null,    // plate currentPos snapshot at moment of detach
+  detachStep: null,         // solverStep at moment of detach
 };
 </script>
   <!-- Script #2 — Game logic -->
@@ -1243,10 +1257,13 @@ let solveStartPositions = [];
 
 function switchToSolve() {
   if (state.autoInterval) { clearInterval(state.autoInterval); state.autoInterval = null; }
-  // Save start positions for Back navigation
   solveStartPositions = state.plates.map(p => ({ ...p, deps: p.deps.slice() }));
 
   state.stage = 'solve';
+  state.solveMode = 'following';
+  state.exploreHistory = [];
+  state.detachPositions = null;
+  state.detachStep = null;
   document.getElementById('stage-config').classList.add('hidden');
   document.getElementById('stage-solve').classList.remove('hidden');
 
@@ -1272,51 +1289,109 @@ function switchToConfig() {
 }
 
 function renderSolvePanel() {
-  // Notation string with current step highlighted
-  const parts = state.solution.map((s, i) => {
-    const arrow = i < state.solution.length - 1 ? ' →' : '';
-    const inner = i === state.solverStep
-      ? `<span class="cur-step">${s}</span>`
-      : `<span style="opacity:0.45">${s}</span>`;
-    return `<span style="white-space:nowrap">${inner}${arrow}</span>`;
-  });
-  document.getElementById('solution-string').innerHTML = parts.join(' ');
-
-  // Step list with Начало / Конец anchors
   const list = document.getElementById('solution-steps');
   list.innerHTML = '';
 
-  const makeEndpoint = (label, step, highlight, testId) => {
-    const li = document.createElement('li');
-    li.textContent = label;
-    li.classList.add('endpoint');
-    li.dataset.testId = testId;
-    if (highlight && state.solverStep === step) li.classList.add('active');
-    li.addEventListener('click', () => jumpToStep(step));
-    return li;
-  };
+  if (state.solveMode === 'exploring') {
+    // ── Exploring mode ────────────────────────────────────────────────────
 
-  list.appendChild(makeEndpoint('Начало', 0, true, 'step-start'));
-  state.solution.forEach((s, i) => {
-    const li = document.createElement('li');
-    li.textContent = `${i + 1}. ${s}`;
-    li.dataset.testId = `step-${i + 1}`;
-    if (i + 1 === state.solverStep) li.classList.add('active');
-    li.addEventListener('click', () => jumpToStep(i + 1));
-    list.appendChild(li);
-  });
-  list.appendChild(makeEndpoint('Конец', state.solution.length, true, 'step-end'));
+    // Notation string: explore history
+    if (state.exploreHistory.length === 0) {
+      document.getElementById('solution-string').innerHTML =
+        '<span style="opacity:0.45">нет ходов</span>';
+    } else {
+      const parts = state.exploreHistory.map((m, i) => {
+        const n = toNotation(m.plateId, m.dir, m.steps);
+        const arrow = i < state.exploreHistory.length - 1 ? ' →' : '';
+        const inner = i === state.exploreHistory.length - 1
+          ? `<span class="cur-step">${n}</span>`
+          : `<span style="opacity:0.45">${n}</span>`;
+        return `<span style="white-space:nowrap">${inner}${arrow}</span>`;
+      });
+      document.getElementById('solution-string').innerHTML = parts.join(' ');
+    }
 
-  // Scroll active into view
-  const active = list.querySelector('.active');
-  if (active) active.scrollIntoView({ block: 'nearest' });
+    // Completed BFS steps (non-interactive)
+    const startLi = document.createElement('li');
+    startLi.textContent = 'Начало';
+    startLi.classList.add('endpoint');
+    startLi.dataset.testId = 'step-start';
+    list.appendChild(startLi);
 
-  // Update disabled state of nav buttons
-  const atStart = state.solverStep === 0;
-  const atEnd   = state.solverStep === state.solution.length;
-  document.getElementById('btn-prev').disabled = atStart;
-  document.getElementById('btn-step').disabled = atEnd;
-  document.getElementById('btn-auto').disabled = atEnd;
+    for (let i = 0; i < state.detachStep; i++) {
+      const li = document.createElement('li');
+      li.textContent = `${i + 1}. ${state.solution[i]}`;
+      li.style.opacity = '0.35';
+      li.dataset.testId = `step-done-${i + 1}`;
+      list.appendChild(li);
+    }
+
+    // Separator
+    const sep = document.createElement('li');
+    sep.className = 'explore-separator';
+    sep.textContent = `── свободное (от шага ${state.detachStep}) ──`;
+    sep.dataset.testId = 'explore-separator';
+    list.appendChild(sep);
+
+    // Explore history
+    state.exploreHistory.forEach((m, i) => {
+      const li = document.createElement('li');
+      li.textContent = `${i + 1}. ${toNotation(m.plateId, m.dir, m.steps)}`;
+      li.dataset.testId = `explore-step-${i + 1}`;
+      if (i === state.exploreHistory.length - 1) li.classList.add('active');
+      list.appendChild(li);
+    });
+
+    const active = list.querySelector('.active');
+    if (active) active.scrollIntoView({ block: 'nearest' });
+
+    document.getElementById('btn-prev').disabled = true;
+    document.getElementById('btn-step').disabled = true;
+    document.getElementById('btn-auto').disabled = true;
+
+  } else {
+    // ── Following mode ────────────────────────────────────────────────────
+
+    // Notation string with current step highlighted
+    const parts = state.solution.map((s, i) => {
+      const arrow = i < state.solution.length - 1 ? ' →' : '';
+      const inner = i === state.solverStep
+        ? `<span class="cur-step">${s}</span>`
+        : `<span style="opacity:0.45">${s}</span>`;
+      return `<span style="white-space:nowrap">${inner}${arrow}</span>`;
+    });
+    document.getElementById('solution-string').innerHTML = parts.join(' ');
+
+    const makeEndpoint = (label, step, testId) => {
+      const li = document.createElement('li');
+      li.textContent = label;
+      li.classList.add('endpoint');
+      li.dataset.testId = testId;
+      if (state.solverStep === step) li.classList.add('active');
+      li.addEventListener('click', () => jumpToStep(step));
+      return li;
+    };
+
+    list.appendChild(makeEndpoint('Начало', 0, 'step-start'));
+    state.solution.forEach((s, i) => {
+      const li = document.createElement('li');
+      li.textContent = `${i + 1}. ${s}`;
+      li.dataset.testId = `step-${i + 1}`;
+      if (i + 1 === state.solverStep) li.classList.add('active');
+      li.addEventListener('click', () => jumpToStep(i + 1));
+      list.appendChild(li);
+    });
+    list.appendChild(makeEndpoint('Конец', state.solution.length, 'step-end'));
+
+    const active = list.querySelector('.active');
+    if (active) active.scrollIntoView({ block: 'nearest' });
+
+    const atStart = state.solverStep === 0;
+    const atEnd   = state.solverStep === state.solution.length;
+    document.getElementById('btn-prev').disabled = atStart;
+    document.getElementById('btn-step').disabled = atEnd;
+    document.getElementById('btn-auto').disabled = atEnd;
+  }
 }
 
 /** Apply steps from current solverStep up to (but not including) targetStep */
@@ -1351,6 +1426,21 @@ function solveStepForward() {
 function solveStepBack() {
   if (state.solverStep === 0) return;
   jumpToStep(state.solverStep - 1);
+}
+
+/** Record a free explore move; accumulate same-direction runs, collapse reverses. */
+function addExploreMove(plateId, dir) {
+  const last = state.exploreHistory[state.exploreHistory.length - 1];
+  if (last && last.plateId === plateId) {
+    if (last.dir === dir) {
+      last.steps++;
+    } else {
+      if (last.steps > 1) last.steps--;
+      else state.exploreHistory.pop();
+    }
+  } else {
+    state.exploreHistory.push({ plateId, dir, steps: 1 });
+  }
 }
 
 function wireSolveHandlers() {
@@ -1447,8 +1537,26 @@ document.addEventListener('keydown', (e) => {
       state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
       updateScene('scene-solve-inner', state.plates, state.activePlate);
     }
-    if (key === 'A') solveStepBack();
-    if (key === 'D') solveStepForward();
+    if (key === 'A' || key === 'D') {
+      const dir = key === 'A' ? 'left' : 'right';
+      if (state.solveMode === 'following') {
+        // Enter exploring: stop auto-play, snapshot detach point
+        if (state.autoInterval) {
+          clearInterval(state.autoInterval);
+          state.autoInterval = null;
+          document.getElementById('btn-auto').textContent = '▶ Авто';
+        }
+        state.solveMode = 'exploring';
+        state.detachStep = state.solverStep;
+        state.detachPositions = state.plates.map(p => p.currentPos);
+      }
+      const moved = applyMove(state.plates, state.activePlate, dir);
+      if (moved) {
+        addExploreMove(state.activePlate, dir);
+        updateScene('scene-solve-inner', state.plates, state.activePlate);
+        renderSolvePanel();
+      }
+    }
   }
 });
   </script>
