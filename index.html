@@ -8,9 +8,9 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: #12111a;
-  color: #ddd;
-  font-family: 'Courier New', monospace;
+  background: #0e0c09;
+  color: #d9c9a6;
+  font-family: Georgia, 'Times New Roman', serif;
   height: 100vh;
   overflow: hidden;
 }
@@ -22,8 +22,8 @@ body {
 .panel-left {
   width: 320px;
   min-width: 280px;
-  border-right: 1px solid #2a2a3a;
-  background: #1a1927;
+  border-right: 1px solid #2e2820;
+  background: #14110d;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -34,45 +34,52 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 16px;
+}
+/* scene takes all free space, centering the plates; legend sinks to the bottom */
+.scene-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
-     color: #888; border-bottom: 1px solid #2a2a3a; padding-bottom: 10px; }
+     color: #a08e6a; border-bottom: 1px solid #2e2820; padding-bottom: 10px; }
 
 .setting-row { display: flex; align-items: center; gap: 8px; }
 .setting-row.minor { opacity: 0.55; font-size: 0.82em; }
 .setting-row label { width: 80px; }
 
 button {
-  background: #1e1d2e;
-  color: #ccc;
-  border: 1px solid #3a3a5a;
+  background: #1a1612;
+  color: #d9c9a6;
+  border: 1px solid #5a4f3a;
   padding: 4px 12px;
   cursor: pointer;
   border-radius: 3px;
   font-family: inherit;
   font-size: 0.9em;
 }
-button:hover { background: #2a2a4a; border-color: #5a5a8a; }
+button:hover { background: #2a2418; border-color: #8a7a55; }
 
 .btn-primary {
   margin-top: auto;
   padding: 10px;
-  background: #2a3a6a;
-  border-color: #4a6aaa;
-  color: #eee;
+  background: #3a2f1d;
+  border-color: #8a7a55;
+  color: #f0e4c8;
   font-size: 1em;
   letter-spacing: 2px;
 }
-.btn-primary:hover { background: #3a4a8a; }
+.btn-primary:hover { background: #4a3c24; }
 
 input[type=number] {
   width: 48px;
-  background: #1e1d2e;
-  color: #ccc;
-  border: 1px solid #3a3a5a;
+  background: #1a1612;
+  color: #d9c9a6;
+  border: 1px solid #5a4f3a;
   padding: 3px 6px;
   text-align: center;
   font-family: inherit;
@@ -81,7 +88,7 @@ input[type=number] {
 
 /* Config accordion */
 .plate-section {
-  border: 1px solid #2a2a3a;
+  border: 1px solid #2e2820;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -90,19 +97,19 @@ input[type=number] {
   align-items: center;
   gap: 8px;
   padding: 6px 10px;
-  background: #1e1d2e;
+  background: #1a1612;
   cursor: pointer;
   user-select: none;
   font-size: 0.88em;
 }
-.plate-header:hover { background: #252436; }
+.plate-header:hover { background: #242017; }
 .plate-header .toggle { opacity: 0.5; width: 12px; }
 .plate-body {
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: #161525;
+  background: #110f0b;
 }
 .plate-body.collapsed { display: none; }
 
@@ -111,8 +118,8 @@ input[type=number] {
 
 .dep-row { display: flex; align-items: center; gap: 5px; font-size: 0.82em; }
 .dep-row select {
-  background: #1e1d2e; color: #ccc;
-  border: 1px solid #3a3a5a; border-radius: 3px;
+  background: #1a1612; color: #d9c9a6;
+  border: 1px solid #5a4f3a; border-radius: 3px;
   padding: 2px 4px; font-family: inherit; font-size: 1em;
 }
 .dep-row .btn-remove { padding: 2px 6px; opacity: 0.5; }
@@ -123,15 +130,15 @@ input[type=number] {
 /* Solve panel */
 .solution-str {
   font-size: 0.82em;
-  color: #aaa;
+  color: #bfae8a;
   line-height: 1.8;
   word-break: break-all;
-  border: 1px solid #2a2a3a;
+  border: 1px solid #2e2820;
   padding: 8px;
   border-radius: 3px;
-  background: #161525;
+  background: #110f0b;
 }
-.solution-str .cur-step { color: #7af; font-weight: bold; }
+.solution-str .cur-step { color: #e8c87a; font-weight: bold; }
 
 .solution-list {
   list-style: none;
@@ -147,22 +154,38 @@ input[type=number] {
   padding: 4px 8px;
   border-radius: 3px;
   cursor: pointer;
-  color: #888;
+  color: #8a7a5f;
 }
 .solution-list li.active {
-  background: #2a3a6a;
-  color: #eee;
+  background: #3a2f1d;
+  color: #f0e4c8;
 }
-.solution-list li:hover { background: #1e2a4a; }
+.solution-list li:hover { background: #241f15; }
 
 .solve-buttons { display: flex; gap: 10px; }
 
-.wasd-hint {
-  font-size: 1.1em;
-  letter-spacing: 3px;
-  opacity: 0.3;
+/* Game-style key legend, pinned to the bottom of the right panel */
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.2em;
+  color: #e7d7b8;
+  margin-bottom: 10px;
 }
-.wasd-label { font-size: 0.72em; opacity: 0.3; }
+.legend-row { display: flex; align-items: center; gap: 14px; }
+.keys { display: inline-flex; border: 2px solid #cdbb96; }
+.keys kbd {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 0.85em;
+  color: #e7d7b8;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 2px 10px;
+  line-height: 1.4;
+}
+.keys kbd + kbd { border-left: 2px solid #cdbb96; }
 
 /* No-solution message */
 .no-solution { color: #e55; font-size: 0.85em; text-align: center; padding: 20px; }
@@ -213,8 +236,8 @@ input[type=number] {
 .face.top {
   width: var(--plate-w);
   height: var(--plate-d);
-  background: #2d4d80;
-  border: 1px solid #4a70b0;
+  background: #b3b0a8;
+  border: 1px solid #d6d3c9;
   transform-origin: 0 0;
   transform: rotateX(-90deg);
 }
@@ -223,8 +246,8 @@ input[type=number] {
 .face.front {
   width: var(--plate-w);
   height: var(--plate-t);
-  background: #1e3660;
-  border: 1px solid #3a5a90;
+  background: #232019;
+  border: 1px solid #565045;
 }
 
 /* Right face — rotateY(90deg) maps +X → −Z: face extends back into box depth,
@@ -232,24 +255,25 @@ input[type=number] {
 .face.right {
   width: var(--plate-d);
   height: var(--plate-t);
-  background: #162850;
-  border: 1px solid #2a4a7a;
+  background: #6e6a60;
+  border: 1px solid #8d897e;
   left: var(--plate-w);
   top: 0;
   transform-origin: left top;
   transform: rotateY(90deg);
 }
 
-.plate.active .face.top   { border-color: #7aafff; background: #3a5d90; }
-.plate.active .face.front { border-color: #5a8fd0; background: #2a4a78; }
-.plate.active .face.right { border-color: #4a7fc0; background: #1e3868; }
+.plate.active .face.top   { border-color: #f5e9c8; background: #c9c5ba; }
+.plate.active .face.front { border-color: #b9a874; background: #2e2a20; }
+.plate.active .face.right { border-color: #c8b88a; background: #7e7a6e; }
 
 .plate-num {
   position: absolute;
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
   font-size: 16px;
-  color: #5a8ac0;
+  font-weight: bold;
+  color: #26231d;
   pointer-events: none;
   transform: translateZ(0.5px);
 }
@@ -266,14 +290,14 @@ input[type=number] {
   width: var(--hole-size);
   height: var(--hole-size);
   border-radius: 50%;
-  background: #0f1a30;
-  border: 1px solid #2a3a60;
+  background: #14110b;
+  border: 1px solid #55514a;
   flex-shrink: 0;
 }
 
 .hole.center-hole {
-  border-color: #4a6a99;
-  background: #0f1f3a;
+  border-color: #9a8a60;
+  background: #181408;
 }
 
 /* Pin stands upright on the top face: anchored at the plate's top edge (bottom:100%),
@@ -291,13 +315,13 @@ input[type=number] {
 
 .pin.lowered {
   height: var(--pin-h-dn);
-  background: #3a4a6a;
+  background: #6b5230;
 }
 
 .pin.raised {
   height: var(--pin-h-up);
-  background: #7af080;
-  box-shadow: 0 0 6px #7af08088;
+  background: #d4a843;
+  box-shadow: 0 0 7px #d4a84388;
 }
   </style>
 </head>
@@ -308,7 +332,7 @@ input[type=number] {
     <div class="panel panel-left">
       <h2>Настройки</h2>
       <div class="setting-row">
-        <label>Плашки:</label>
+        <label>Элементы:</label>
         <button id="btn-plates-dec">−</button>
         <span id="val-plates">4</span>
         <button id="btn-plates-inc">+</button>
@@ -324,8 +348,10 @@ input[type=number] {
       <div id="scene-config" class="scene-wrap">
         <div class="scene" id="scene-config-inner"></div>
       </div>
-      <div class="wasd-hint">W ▲ &nbsp;&nbsp; A ◄ &nbsp; S ▼ &nbsp; D ►</div>
-      <div class="wasd-label">W/S — выбор плашки &nbsp;·&nbsp; A/D — движение</div>
+      <div class="legend">
+        <div class="legend-row"><span class="keys"><kbd>A</kbd><kbd>D</kbd></span> Смещение элемента</div>
+        <div class="legend-row"><span class="keys"><kbd>W</kbd><kbd>S</kbd></span> Выбор элемента</div>
+      </div>
     </div>
   </div>
 
@@ -344,8 +370,10 @@ input[type=number] {
       <div id="scene-solve" class="scene-wrap">
         <div class="scene" id="scene-solve-inner"></div>
       </div>
-      <div class="wasd-hint">W ▲ &nbsp;&nbsp; A ◄ &nbsp; S ▼ &nbsp; D ►</div>
-      <div class="wasd-label">A — назад &nbsp;·&nbsp; D — вперёд по решению</div>
+      <div class="legend">
+        <div class="legend-row"><span class="keys"><kbd>A</kbd><kbd>D</kbd></span> Шаги решения</div>
+        <div class="legend-row"><span class="keys"><kbd>W</kbd><kbd>S</kbd></span> Выбор элемента</div>
+      </div>
     </div>
   </div>
 
@@ -699,7 +727,7 @@ function buildPlateSection(plate) {
   header.className = 'plate-header';
   header.innerHTML = `
     <span class="toggle">▼</span>
-    <span>Плашка ${plate.id}</span>
+    <span>Элемент ${plate.id}</span>
     <span style="margin-left:auto;opacity:0.4;font-size:0.85em">pos: ${plate.currentPos}</span>
   `;
 
@@ -754,7 +782,7 @@ function buildDepRow(plateId, dep) {
     if (p.id === plateId) continue;
     const opt = document.createElement('option');
     opt.value = p.id;
-    opt.textContent = `П${p.id}`;
+    opt.textContent = `Э${p.id}`;
     opt.selected = p.id === dep.targetId;
     targetSel.appendChild(opt);
   }
