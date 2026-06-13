@@ -533,50 +533,50 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 </head>
 <body>
 
-  <div id="toast-container"></div>
+  <div id="toast-container" data-test-id="toast-container"></div>
 
-  <dialog id="import-dialog">
+  <dialog id="import-dialog" data-test-id="import-dialog">
     <h3>Импорт</h3>
     <p>Применить конфигурацию из буфера обмена?</p>
     <div class="dialog-buttons">
-      <button id="import-dialog-cancel">Отмена</button>
-      <button id="import-dialog-ok" class="btn-primary">Применить</button>
+      <button id="import-dialog-cancel" data-test-id="import-dialog-cancel">Отмена</button>
+      <button id="import-dialog-ok" class="btn-primary" data-test-id="import-dialog-ok">Применить</button>
     </div>
   </dialog>
 
-  <div id="computing-overlay">
+  <div id="computing-overlay" data-test-id="overlay">
     <div class="spinner"></div>
     <div id="overlay-progress">
       <div id="progress-total"></div>
       <div id="progress-threads"></div>
     </div>
-    <button class="btn-cancel">Отмена</button>
+    <button class="btn-cancel" data-test-id="btn-cancel">Отмена</button>
   </div>
 
   <!-- STAGE: CONFIG -->
-  <div id="stage-config" class="stage">
+  <div id="stage-config" class="stage" data-test-id="stage-config">
     <div class="panel panel-left">
       <h2>Настройки</h2>
       <div class="setting-row">
         <label>Элементы:</label>
-        <button id="btn-plates-dec">−</button>
-        <span id="val-plates">4</span>
-        <button id="btn-plates-inc">+</button>
+        <button id="btn-plates-dec" data-test-id="btn-plates-dec">−</button>
+        <span id="val-plates" data-test-id="val-plates">4</span>
+        <button id="btn-plates-inc" data-test-id="btn-plates-inc">+</button>
         <label style="margin-left:8px">Позиции:</label>
-        <button id="btn-pos-dec">−</button>
-        <span id="val-positions">7</span>
-        <button id="btn-pos-inc">+</button>
+        <button id="btn-pos-dec" data-test-id="btn-pos-dec">−</button>
+        <span id="val-positions" data-test-id="val-positions">7</span>
+        <button id="btn-pos-inc" data-test-id="btn-pos-inc">+</button>
         <span style="flex:1"></span>
         <label>Рандом:</label>
-        <button class="btn-difficulty" data-min="7"  data-max="13"             title="Лёгкий"></button>
-        <button class="btn-difficulty" data-min="14" data-max="20" data-plates="5" title="Средний"></button>
-        <button class="btn-difficulty" data-min="21"               data-plates="7" title="Сложный"></button>
-        <button id="btn-export" class="btn-icon" title="Экспорт">📤</button>
-        <button id="btn-import" class="btn-icon" title="Импорт">📥</button>
+        <button class="btn-difficulty" data-min="7"  data-max="13"             data-test-id="btn-easy"   title="Лёгкий"></button>
+        <button class="btn-difficulty" data-min="14" data-max="20" data-plates="5" data-test-id="btn-medium" title="Средний"></button>
+        <button class="btn-difficulty" data-min="21"               data-plates="7" data-test-id="btn-hard"   title="Сложный"></button>
+        <button id="btn-export" class="btn-icon" data-test-id="btn-export" title="Экспорт">📤</button>
+        <button id="btn-import" class="btn-icon" data-test-id="btn-import" title="Импорт">📥</button>
       </div>
-      <div id="plates-positions"></div>
-      <div id="plates-matrix"></div>
-      <button id="btn-start" class="btn-primary">РЕШЕНИЕ</button>
+      <div id="plates-positions" data-test-id="plates-positions"></div>
+      <div id="plates-matrix" data-test-id="plates-matrix"></div>
+      <button id="btn-start" class="btn-primary" data-test-id="btn-start">РЕШЕНИЕ</button>
     </div>
     <div class="panel panel-right">
       <div id="scene-config" class="scene-wrap">
@@ -590,16 +590,16 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   </div>
 
   <!-- STAGE: SOLVE -->
-  <div id="stage-solve" class="stage hidden">
+  <div id="stage-solve" class="stage hidden" data-test-id="stage-solve">
     <div class="panel panel-left">
       <h2>Решение</h2>
-      <div id="solution-string" class="solution-str"></div>
-      <ol id="solution-steps" class="solution-list"></ol>
+      <div id="solution-string" class="solution-str" data-test-id="solution-string"></div>
+      <ol id="solution-steps" class="solution-list" data-test-id="solution-steps"></ol>
       <div class="solve-buttons">
-        <button id="btn-back" class="btn-primary btn-return">Вернуться</button>
-        <button id="btn-prev" class="btn-primary">← Шаг</button>
-        <button id="btn-auto" class="btn-primary">▶ Авто</button>
-        <button id="btn-step" class="btn-primary">Шаг →</button>
+        <button id="btn-back" class="btn-primary btn-return" data-test-id="btn-back">Вернуться</button>
+        <button id="btn-prev" class="btn-primary" data-test-id="btn-prev">← Шаг</button>
+        <button id="btn-auto" class="btn-primary" data-test-id="btn-auto">▶ Авто</button>
+        <button id="btn-step" class="btn-primary" data-test-id="btn-step">Шаг →</button>
       </div>
     </div>
     <div class="panel panel-right">
@@ -878,10 +878,11 @@ function renderMatrix() {
     const item = document.createElement('div');
     item.className = 'pos-item' + (plate.id === state.activePlate ? ' active' : '');
     item.dataset.id = plate.id;
+    item.dataset.testId = `pos-item-${plate.id}`;
     item.innerHTML = `<span class="matrix-plate-label">${plate.id}</span>`
-      + `<button class="btn-pos-dec" data-id="${plate.id}"${plate.currentPos <= 1 ? ' disabled' : ''}>◄</button>`
-      + `<span class="pos-val" data-id="${plate.id}">${plate.currentPos}</span>`
-      + `<button class="btn-pos-inc" data-id="${plate.id}"${plate.currentPos >= plate.positions ? ' disabled' : ''}>►</button>`;
+      + `<button class="btn-pos-dec" data-id="${plate.id}" data-test-id="pos-dec-${plate.id}"${plate.currentPos <= 1 ? ' disabled' : ''}>◄</button>`
+      + `<span class="pos-val" data-id="${plate.id}" data-test-id="pos-val-${plate.id}">${plate.currentPos}</span>`
+      + `<button class="btn-pos-inc" data-id="${plate.id}" data-test-id="pos-inc-${plate.id}"${plate.currentPos >= plate.positions ? ' disabled' : ''}>►</button>`;
     posContainer.appendChild(item);
   }
 
@@ -923,6 +924,7 @@ function renderMatrix() {
         btn.dataset.state = s;
         btn.dataset.from = src.id;
         btn.dataset.to = tgt.id;
+        btn.dataset.testId = `dep-${src.id}-${tgt.id}`;
         btn.textContent = s === 'same' ? 'прямо' : s === 'opposite' ? 'обратно' : 'нет';
         td.appendChild(btn);
       }
@@ -1089,6 +1091,8 @@ function wireConfigHandlers() {
 function showToast(message, type = 'success') {
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
+  toast.dataset.testId = 'toast';
+  toast.dataset.testType = type;
   toast.textContent = message;
   document.getElementById('toast-container').appendChild(toast);
   requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('visible')));
@@ -1282,24 +1286,26 @@ function renderSolvePanel() {
   const list = document.getElementById('solution-steps');
   list.innerHTML = '';
 
-  const makeEndpoint = (label, step, highlight) => {
+  const makeEndpoint = (label, step, highlight, testId) => {
     const li = document.createElement('li');
     li.textContent = label;
     li.classList.add('endpoint');
+    li.dataset.testId = testId;
     if (highlight && state.solverStep === step) li.classList.add('active');
     li.addEventListener('click', () => jumpToStep(step));
     return li;
   };
 
-  list.appendChild(makeEndpoint('Начало', 0, true));
+  list.appendChild(makeEndpoint('Начало', 0, true, 'step-start'));
   state.solution.forEach((s, i) => {
     const li = document.createElement('li');
     li.textContent = `${i + 1}. ${s}`;
+    li.dataset.testId = `step-${i + 1}`;
     if (i + 1 === state.solverStep) li.classList.add('active');
     li.addEventListener('click', () => jumpToStep(i + 1));
     list.appendChild(li);
   });
-  list.appendChild(makeEndpoint('Конец', state.solution.length, true));
+  list.appendChild(makeEndpoint('Конец', state.solution.length, true, 'step-end'));
 
   // Scroll active into view
   const active = list.querySelector('.active');
