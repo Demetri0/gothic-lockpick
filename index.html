@@ -643,7 +643,226 @@ function updateScene(sceneId, plates, activePlateId) {
 }
   </script>
   <!-- Script #5 — Config UI -->
-  <script>/* Task 7 */</script>
+  <script>
+// ── Script #5 — Config UI ─────────────────────────────────────────────────
+
+function getPositions() {
+  const v = parseInt(document.getElementById('val-positions').value);
+  return (v >= 3 && v % 2 === 1) ? v : DEFAULT_POSITIONS;
+}
+
+function getPlateCount() {
+  return parseInt(document.getElementById('val-plates').textContent);
+}
+
+/** Re-render the plates accordion and rebuild the scene */
+function rebuildConfig() {
+  const count = getPlateCount();
+  const positions = getPositions();
+
+  // Preserve existing plate positions and deps where possible
+  const existing = state.plates;
+  state.plates = Array.from({ length: count }, (_, i) => {
+    const id = i + 1;
+    const old = existing.find(p => p.id === id);
+    const plate = makePlate(id, positions);
+    if (old) {
+      plate.currentPos = Math.min(Math.max(old.currentPos, 1), positions);
+      // Keep deps that still reference valid plate ids
+      plate.deps = old.deps.filter(d => d.targetId !== id && d.targetId <= count);
+    }
+    return plate;
+  });
+  state.activePlate = 1;
+
+  renderAccordion();
+  buildScene('scene-config-inner', state.plates);
+  updateScene('scene-config-inner', state.plates, state.activePlate);
+}
+
+function renderAccordion() {
+  const container = document.getElementById('plates-config');
+  container.innerHTML = '';
+  for (const plate of state.plates) {
+    container.appendChild(buildPlateSection(plate));
+  }
+}
+
+function buildPlateSection(plate) {
+  const section = document.createElement('div');
+  section.className = 'plate-section';
+  section.dataset.id = plate.id;
+
+  const header = document.createElement('div');
+  header.className = 'plate-header';
+  header.innerHTML = `
+    <span class="toggle">▼</span>
+    <span>Плашка ${plate.id}</span>
+    <span style="margin-left:auto;opacity:0.4;font-size:0.85em">pos: ${plate.currentPos}</span>
+  `;
+
+  const body = document.createElement('div');
+  body.className = 'plate-body';
+
+  // Position control
+  const posRow = document.createElement('div');
+  posRow.className = 'pos-control';
+  posRow.innerHTML = `
+    <span>Позиция:</span>
+    <button class="btn-pos-dec" data-id="${plate.id}">◄</button>
+    <span class="pos-val" data-id="${plate.id}">${plate.currentPos}</span>
+    <button class="btn-pos-inc" data-id="${plate.id}">►</button>
+  `;
+  body.appendChild(posRow);
+
+  // Deps list
+  const depsList = document.createElement('div');
+  depsList.className = 'deps-list';
+  depsList.dataset.id = plate.id;
+  for (const dep of plate.deps) {
+    depsList.appendChild(buildDepRow(plate.id, dep));
+  }
+  body.appendChild(depsList);
+
+  // Add dep button
+  const addBtn = document.createElement('button');
+  addBtn.className = 'btn-add-dep';
+  addBtn.textContent = '+ связь';
+  addBtn.dataset.id = plate.id;
+  body.appendChild(addBtn);
+
+  header.addEventListener('click', () => {
+    const collapsed = body.classList.toggle('collapsed');
+    header.querySelector('.toggle').textContent = collapsed ? '►' : '▼';
+  });
+
+  section.appendChild(header);
+  section.appendChild(body);
+  return section;
+}
+
+function buildDepRow(plateId, dep) {
+  const row = document.createElement('div');
+  row.className = 'dep-row';
+
+  // Target plate selector (exclude self)
+  const targetSel = document.createElement('select');
+  targetSel.className = 'dep-target';
+  for (const p of state.plates) {
+    if (p.id === plateId) continue;
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = `П${p.id}`;
+    opt.selected = p.id === dep.targetId;
+    targetSel.appendChild(opt);
+  }
+
+  const dirSel = document.createElement('select');
+  dirSel.className = 'dep-dir';
+  [['same','↔ то же'],['opposite','↕ обрат.']].forEach(([val, label]) => {
+    const opt = document.createElement('option');
+    opt.value = val; opt.textContent = label;
+    opt.selected = dep.direction === val;
+    dirSel.appendChild(opt);
+  });
+
+  const stepsInput = document.createElement('input');
+  stepsInput.type = 'number'; stepsInput.min = 1; stepsInput.max = 6;
+  stepsInput.value = dep.steps; stepsInput.style.cssText = 'width:36px;font-size:0.85em';
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'btn-remove'; removeBtn.textContent = '×';
+
+  row.append(targetSel, dirSel, stepsInput, removeBtn);
+
+  // Sync changes back to state
+  function syncDep() {
+    dep.targetId  = parseInt(targetSel.value);
+    dep.direction = dirSel.value;
+    dep.steps     = parseInt(stepsInput.value) || 1;
+  }
+  targetSel.addEventListener('change', syncDep);
+  dirSel.addEventListener('change', syncDep);
+  stepsInput.addEventListener('change', syncDep);
+
+  removeBtn.addEventListener('click', () => {
+    const plate = state.plates.find(p => p.id === plateId);
+    plate.deps = plate.deps.filter(d => d !== dep);
+    row.remove();
+  });
+
+  return row;
+}
+
+function wireConfigHandlers() {
+  document.getElementById('btn-plates-dec').addEventListener('click', () => {
+    const cur = getPlateCount();
+    if (cur <= 2) return;
+    document.getElementById('val-plates').textContent = cur - 1;
+    rebuildConfig();
+  });
+
+  document.getElementById('btn-plates-inc').addEventListener('click', () => {
+    const cur = getPlateCount();
+    document.getElementById('val-plates').textContent = cur + 1;
+    rebuildConfig();
+  });
+
+  document.getElementById('val-positions').addEventListener('change', (e) => {
+    let v = parseInt(e.target.value);
+    if (v < 3) v = 3;
+    if (v % 2 === 0) v += 1;
+    e.target.value = v;
+    rebuildConfig();
+  });
+
+  // Delegated: position +/- buttons and add-dep
+  document.getElementById('plates-config').addEventListener('click', (e) => {
+    const id = parseInt(e.target.dataset.id);
+    if (!id) return;
+    const plate = state.plates.find(p => p.id === id);
+
+    if (e.target.classList.contains('btn-pos-dec')) {
+      if (plate.currentPos > 1) plate.currentPos--;
+      document.querySelector(`.pos-val[data-id="${id}"]`).textContent = plate.currentPos;
+      document.querySelector(`.plate-section[data-id="${id}"] .plate-header span:last-child`)
+        .textContent = `pos: ${plate.currentPos}`;
+      updateScene('scene-config-inner', state.plates, state.activePlate);
+    }
+
+    if (e.target.classList.contains('btn-pos-inc')) {
+      if (plate.currentPos < plate.positions) plate.currentPos++;
+      document.querySelector(`.pos-val[data-id="${id}"]`).textContent = plate.currentPos;
+      document.querySelector(`.plate-section[data-id="${id}"] .plate-header span:last-child`)
+        .textContent = `pos: ${plate.currentPos}`;
+      updateScene('scene-config-inner', state.plates, state.activePlate);
+    }
+
+    if (e.target.classList.contains('btn-add-dep')) {
+      if (!plate) return;
+      // Default: first other plate, same direction
+      const others = state.plates.filter(p => p.id !== id);
+      if (!others.length) return;
+      const dep = { targetId: others[0].id, direction: 'same', steps: 1 };
+      plate.deps.push(dep);
+      const depsList = document.querySelector(`.deps-list[data-id="${id}"]`);
+      depsList.appendChild(buildDepRow(id, dep));
+    }
+  });
+
+  document.getElementById('btn-start').addEventListener('click', () => {
+    const sol = bfsSolve(state.plates);
+    if (sol === null) {
+      alert('Решение не найдено.');
+      return;
+    }
+    state.solution = sol;
+    state.solverStep = 0;
+    state.history = [];
+    switchToSolve();
+  });
+}
+  </script>
   <!-- Script #6 — Solve UI -->
   <script>/* Task 8 */</script>
   <!-- Script #7 — WASD -->
