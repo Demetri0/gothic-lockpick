@@ -53,7 +53,7 @@ body {
   body         { height: auto; overflow: visible; }
   .stage       { height: auto; overflow: visible; }
   .panel-left  { width: 100%; height: auto; border-right: none; overflow: visible; }
-  #plates-config { flex: none; overflow-y: visible; }
+  #plates-matrix { flex: none; overflow-y: visible; }
   .panel-right { padding-top: var(--scene-overhead, 120px); }
 }
 
@@ -104,46 +104,54 @@ input[type=number] {
   border-radius: 3px;
 }
 
-/* Config accordion */
-.plate-section {
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
+/* Config matrix */
+#plates-positions {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  padding: 5px 6px;
+  border: 1px solid var(--border); border-radius: 4px;
+  background: var(--bg-panel);
 }
-.plate-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  background: var(--bg-control);
-  cursor: pointer;
-  user-select: none;
-  font-size: 0.88em;
+.pos-item {
+  display: flex; align-items: center; gap: 2px;
+  padding: 2px 6px; border-radius: 3px;
+  border: 1px solid transparent;
 }
-.plate-header:hover { background: var(--bg-hover); }
-.plate-header .toggle { opacity: 0.5; width: 12px; }
-.plate-body {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background: var(--bg-inset);
+.pos-item.active { background: var(--bg-accent); border-color: var(--border-strong); }
+.pos-item button { padding: 1px 5px; font-size: 0.75em; }
+.matrix-plate-label {
+  display: inline-block; min-width: 18px;
+  color: var(--text-dim); font-size: 0.8em; letter-spacing: 1px;
 }
-.plate-body.collapsed { display: none; }
-
-.pos-control { display: flex; align-items: center; gap: 6px; font-size: 0.85em; }
-.pos-val { width: 24px; text-align: center; font-weight: bold; }
-
-.dep-row { display: flex; align-items: center; gap: 5px; font-size: 0.82em; }
-.dep-row select {
-  background: var(--bg-control); color: var(--text);
-  border: 1px solid var(--border-control); border-radius: 3px;
-  padding: 2px 4px; font-family: inherit; font-size: 1em;
+.pos-val { display: inline-block; width: 18px; text-align: center; font-size: 0.82em; }
+#plates-matrix {
+  flex: 1; min-height: 0; overflow: auto;
+  border: 1px solid var(--border); border-radius: 4px;
 }
-.dep-row .btn-remove { padding: 2px 6px; opacity: 0.5; }
-.dep-row .btn-remove:hover { opacity: 1; }
-.btn-add-dep { font-size: 0.78em; opacity: 0.6; padding: 3px 8px; }
-.btn-add-dep:hover { opacity: 1; }
+#plates-matrix table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+#plates-matrix th, #plates-matrix td { border: 1px solid var(--border); }
+.matrix-corner { background: var(--bg-inset); width: 28px; }
+.matrix-col-header {
+  background: var(--bg-control); color: var(--text-dim);
+  font-weight: normal; font-size: 0.8em; letter-spacing: 1px;
+  padding: 5px 6px; white-space: nowrap; text-align: center;
+}
+.matrix-row-header {
+  background: var(--bg-control); color: var(--text-dim);
+  font-weight: normal; font-size: 0.8em;
+  padding: 2px 8px; text-align: center; white-space: nowrap; width: 1px;
+}
+.matrix-diag { background: var(--bg-inset); }
+.dep-cell {
+  display: block; width: 100%; min-width: 52px; height: 32px;
+  border: 1px solid transparent; border-radius: 0;
+  cursor: pointer; font-size: 0.78em; font-family: inherit;
+}
+.dep-cell[data-state="none"]     { background: var(--bg-inset); color: #555; }
+.dep-cell[data-state="none"]:hover { background: var(--bg-hover); }
+.dep-cell[data-state="same"]     { background: #1c2e1e; border-color: #456845; color: #78b078; }
+.dep-cell[data-state="same"]:hover { background: #233823; }
+.dep-cell[data-state="opposite"] { background: #2e1c1c; border-color: #684545; color: #b07878; }
+.dep-cell[data-state="opposite"]:hover { background: #382323; }
 
 /* Solve panel */
 .solution-str {
@@ -158,15 +166,6 @@ input[type=number] {
 }
 .solution-str .cur-step { color: var(--accent); font-weight: bold; }
 
-#plates-config {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 8px;
-}
-#plates-config > * + * { margin-top: 10px; }
 
 .solution-list {
   list-style: none;
@@ -542,7 +541,8 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         <button id="btn-export" class="btn-icon" title="Экспорт">📤</button>
         <button id="btn-import" class="btn-icon" title="Импорт">📥</button>
       </div>
-      <div id="plates-config"></div>
+      <div id="plates-positions"></div>
+      <div id="plates-matrix"></div>
       <button id="btn-start" class="btn-primary">РЕШЕНИЕ</button>
     </div>
     <div class="panel panel-right">
@@ -899,12 +899,9 @@ function getPlateCount() {
   return parseInt(document.getElementById('val-plates').textContent);
 }
 
-/** Re-render the plates accordion and rebuild the scene */
 function rebuildConfig() {
   const count = getPlateCount();
   const positions = getPositions();
-
-  // Preserve existing plate positions and deps where possible
   const existing = state.plates;
   state.plates = Array.from({ length: count }, (_, i) => {
     const id = i + 1;
@@ -912,133 +909,98 @@ function rebuildConfig() {
     const plate = makePlate(id, positions);
     if (old) {
       plate.currentPos = Math.min(Math.max(old.currentPos, 1), positions);
-      // Keep deps that still reference valid plate ids
       plate.deps = old.deps.filter(d => d.targetId !== id && d.targetId <= count);
     }
     return plate;
   });
   state.activePlate = 1;
   state.cachedSolution = null;
-
-  renderAccordion();
+  renderMatrix();
   buildScene('scene-config-inner', state.plates);
   updateScene('scene-config-inner', state.plates, state.activePlate);
 }
 
-function renderAccordion() {
-  const container = document.getElementById('plates-config');
+function renderMatrix() {
+  const plates = state.plates;
+
+  // Position strip
+  const posContainer = document.getElementById('plates-positions');
+  posContainer.innerHTML = '';
+  for (const plate of plates) {
+    const item = document.createElement('div');
+    item.className = 'pos-item' + (plate.id === state.activePlate ? ' active' : '');
+    item.dataset.id = plate.id;
+    item.innerHTML = `<span class="matrix-plate-label">${plate.id}</span>`
+      + `<button class="btn-pos-dec" data-id="${plate.id}"${plate.currentPos <= 1 ? ' disabled' : ''}>◄</button>`
+      + `<span class="pos-val" data-id="${plate.id}">${plate.currentPos}</span>`
+      + `<button class="btn-pos-inc" data-id="${plate.id}"${plate.currentPos >= plate.positions ? ' disabled' : ''}>►</button>`;
+    posContainer.appendChild(item);
+  }
+
+  // Dependency matrix
+  const container = document.getElementById('plates-matrix');
   container.innerHTML = '';
+  const table = document.createElement('table');
+
+  const thead = document.createElement('thead');
+  const hrow = document.createElement('tr');
+  const corner = document.createElement('th');
+  corner.className = 'matrix-corner';
+  hrow.appendChild(corner);
+  for (const p of plates) {
+    const th = document.createElement('th');
+    th.className = 'matrix-col-header';
+    th.textContent = p.id;
+    hrow.appendChild(th);
+  }
+  thead.appendChild(hrow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  for (const src of plates) {
+    const tr = document.createElement('tr');
+    const rh = document.createElement('th');
+    rh.className = 'matrix-row-header';
+    rh.textContent = src.id;
+    tr.appendChild(rh);
+    for (const tgt of plates) {
+      const td = document.createElement('td');
+      if (src.id === tgt.id) {
+        td.className = 'matrix-diag';
+      } else {
+        const dep = src.deps.find(d => d.targetId === tgt.id);
+        const s = dep ? dep.direction : 'none';
+        const btn = document.createElement('button');
+        btn.className = 'dep-cell';
+        btn.dataset.state = s;
+        btn.dataset.from = src.id;
+        btn.dataset.to = tgt.id;
+        btn.textContent = s === 'same' ? 'прямо' : s === 'opposite' ? 'обратно' : 'нет';
+        td.appendChild(btn);
+      }
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
+
+function updateMatrixActive() {
+  document.querySelectorAll('#plates-positions .pos-item').forEach(el => {
+    el.classList.toggle('active', parseInt(el.dataset.id) === state.activePlate);
+  });
+}
+
+function syncMatrixPositions() {
   for (const plate of state.plates) {
-    container.appendChild(buildPlateSection(plate));
+    const posVal = document.querySelector(`#plates-positions .pos-val[data-id="${plate.id}"]`);
+    if (posVal) posVal.textContent = plate.currentPos;
+    const dec = document.querySelector(`#plates-positions .btn-pos-dec[data-id="${plate.id}"]`);
+    if (dec) dec.disabled = plate.currentPos <= 1;
+    const inc = document.querySelector(`#plates-positions .btn-pos-inc[data-id="${plate.id}"]`);
+    if (inc) inc.disabled = plate.currentPos >= plate.positions;
   }
-}
-
-function buildPlateSection(plate) {
-  const section = document.createElement('div');
-  section.className = 'plate-section';
-  section.dataset.id = plate.id;
-
-  const header = document.createElement('div');
-  header.className = 'plate-header';
-  header.innerHTML = `
-    <span class="toggle">▼</span>
-    <span>Элемент ${plate.id}</span>
-    <span style="margin-left:auto;opacity:0.4;font-size:0.85em">pos: ${plate.currentPos}</span>
-  `;
-
-  const body = document.createElement('div');
-  body.className = 'plate-body';
-
-  // Position control
-  const posRow = document.createElement('div');
-  posRow.className = 'pos-control';
-  posRow.innerHTML = `
-    <span>Позиция:</span>
-    <button class="btn-pos-dec" data-id="${plate.id}" ${plate.currentPos <= 1 ? 'disabled' : ''}>◄</button>
-    <span class="pos-val" data-id="${plate.id}">${plate.currentPos}</span>
-    <button class="btn-pos-inc" data-id="${plate.id}" ${plate.currentPos >= plate.positions ? 'disabled' : ''}>►</button>
-  `;
-  body.appendChild(posRow);
-
-  // Deps list
-  const depsList = document.createElement('div');
-  depsList.className = 'deps-list';
-  depsList.dataset.id = plate.id;
-  for (const dep of plate.deps) {
-    depsList.appendChild(buildDepRow(plate.id, dep));
-  }
-  body.appendChild(depsList);
-
-  // Add dep button
-  const addBtn = document.createElement('button');
-  addBtn.className = 'btn-add-dep';
-  addBtn.textContent = '+ связь';
-  addBtn.dataset.id = plate.id;
-  body.appendChild(addBtn);
-
-  header.addEventListener('click', () => {
-    const collapsed = body.classList.toggle('collapsed');
-    header.querySelector('.toggle').textContent = collapsed ? '►' : '▼';
-  });
-
-  section.appendChild(header);
-  section.appendChild(body);
-  return section;
-}
-
-function buildDepRow(plateId, dep) {
-  const row = document.createElement('div');
-  row.className = 'dep-row';
-
-  // Target plate selector (exclude self)
-  const targetSel = document.createElement('select');
-  targetSel.className = 'dep-target';
-  for (const p of state.plates) {
-    if (p.id === plateId) continue;
-    const opt = document.createElement('option');
-    opt.value = p.id;
-    opt.textContent = `Э${p.id}`;
-    opt.selected = p.id === dep.targetId;
-    targetSel.appendChild(opt);
-  }
-
-  const dirSel = document.createElement('select');
-  dirSel.className = 'dep-dir';
-  [['same','↔ то же'],['opposite','↕ обрат.']].forEach(([val, label]) => {
-    const opt = document.createElement('option');
-    opt.value = val; opt.textContent = label;
-    opt.selected = dep.direction === val;
-    dirSel.appendChild(opt);
-  });
-
-  const stepsInput = document.createElement('input');
-  stepsInput.type = 'number'; stepsInput.min = 1; stepsInput.max = 6;
-  stepsInput.value = dep.steps; stepsInput.style.cssText = 'width:36px;font-size:0.85em';
-
-  const removeBtn = document.createElement('button');
-  removeBtn.className = 'btn-remove'; removeBtn.textContent = '×';
-
-  row.append(targetSel, dirSel, stepsInput, removeBtn);
-
-  // Sync changes back to state
-  function syncDep() {
-    dep.targetId  = parseInt(targetSel.value);
-    dep.direction = dirSel.value;
-    dep.steps     = parseInt(stepsInput.value) || 1;
-    state.cachedSolution = null;
-  }
-  targetSel.addEventListener('change', syncDep);
-  dirSel.addEventListener('change', syncDep);
-  stepsInput.addEventListener('change', syncDep);
-
-  removeBtn.addEventListener('click', () => {
-    const plate = state.plates.find(p => p.id === plateId);
-    plate.deps = plate.deps.filter(d => d !== dep);
-    state.cachedSolution = null;
-    row.remove();
-  });
-
-  return row;
 }
 
 function wireConfigHandlers() {
@@ -1092,36 +1054,52 @@ function wireConfigHandlers() {
     worker.postMessage({ type: 'random', positions: getPositions() });
   });
 
-  // Delegated: position +/- buttons and add-dep
-  document.getElementById('plates-config').addEventListener('click', (e) => {
+  // Delegated: position buttons
+  document.getElementById('plates-positions').addEventListener('click', (e) => {
+    if (!e.target.classList.contains('btn-pos-dec') && !e.target.classList.contains('btn-pos-inc')) return;
     const id = parseInt(e.target.dataset.id);
-    if (!id) return;
     const plate = state.plates.find(p => p.id === id);
+    if (!plate) return;
+    const dec = e.target.classList.contains('btn-pos-dec');
+    if (dec && plate.currentPos > 1) plate.currentPos--;
+    if (!dec && plate.currentPos < plate.positions) plate.currentPos++;
+    state.cachedSolution = null;
+    document.querySelector(`#plates-positions .pos-val[data-id="${id}"]`).textContent = plate.currentPos;
+    document.querySelector(`#plates-positions .btn-pos-dec[data-id="${id}"]`).disabled = plate.currentPos <= 1;
+    document.querySelector(`#plates-positions .btn-pos-inc[data-id="${id}"]`).disabled = plate.currentPos >= plate.positions;
+    updateScene('scene-config-inner', state.plates, state.activePlate);
+  });
 
-    if (e.target.classList.contains('btn-pos-dec') || e.target.classList.contains('btn-pos-inc')) {
-      const dec = e.target.classList.contains('btn-pos-dec');
-      if (dec && plate.currentPos > 1) plate.currentPos--;
-      if (!dec && plate.currentPos < plate.positions) plate.currentPos++;
-      state.cachedSolution = null;
-      document.querySelector(`.pos-val[data-id="${id}"]`).textContent = plate.currentPos;
-      document.querySelector(`.plate-section[data-id="${id}"] .plate-header span:last-child`)
-        .textContent = `pos: ${plate.currentPos}`;
-      document.querySelector(`.btn-pos-dec[data-id="${id}"]`).disabled = plate.currentPos <= 1;
-      document.querySelector(`.btn-pos-inc[data-id="${id}"]`).disabled = plate.currentPos >= plate.positions;
-      updateScene('scene-config-inner', state.plates, state.activePlate);
+  function cycleDepCell(btn, plate, toId, reverse) {
+    const depIdx = plate.deps.findIndex(d => d.targetId === toId);
+    const cur = depIdx === -1 ? 'none' : plate.deps[depIdx].direction;
+    const order = reverse ? ['none', 'opposite', 'same'] : ['none', 'same', 'opposite'];
+    const next = order[(order.indexOf(cur) + 1) % 3];
+    if (next === 'none') {
+      if (depIdx !== -1) plate.deps.splice(depIdx, 1);
+      btn.dataset.state = 'none'; btn.textContent = 'нет';
+    } else {
+      if (depIdx === -1) plate.deps.push({ targetId: toId, direction: next, steps: 1 });
+      else plate.deps[depIdx].direction = next;
+      btn.dataset.state = next; btn.textContent = next === 'same' ? 'прямо' : 'обратно';
     }
+    state.cachedSolution = null;
+  }
 
-    if (e.target.classList.contains('btn-add-dep')) {
-      if (!plate) return;
-      // Default: first other plate, same direction
-      const others = state.plates.filter(p => p.id !== id);
-      if (!others.length) return;
-      const dep = { targetId: others[0].id, direction: 'same', steps: 1 };
-      plate.deps.push(dep);
-      state.cachedSolution = null;
-      const depsList = document.querySelector(`.deps-list[data-id="${id}"]`);
-      depsList.appendChild(buildDepRow(id, dep));
-    }
+  // Delegated: dep cells (LMB — forward, RMB — reverse)
+  document.getElementById('plates-matrix').addEventListener('click', (e) => {
+    if (!e.target.classList.contains('dep-cell')) return;
+    const plate = state.plates.find(p => p.id === parseInt(e.target.dataset.from));
+    if (!plate) return;
+    cycleDepCell(e.target, plate, parseInt(e.target.dataset.to), false);
+  });
+
+  document.getElementById('plates-matrix').addEventListener('contextmenu', (e) => {
+    if (!e.target.classList.contains('dep-cell')) return;
+    e.preventDefault();
+    const plate = state.plates.find(p => p.id === parseInt(e.target.dataset.from));
+    if (!plate) return;
+    cycleDepCell(e.target, plate, parseInt(e.target.dataset.to), true);
   });
 
   document.getElementById('btn-start').addEventListener('click', () => {
@@ -1183,7 +1161,7 @@ function applyImportedConfig(text) {
   state.cachedSolution = null;
   document.getElementById('val-plates').textContent = plates.length;
   document.getElementById('val-positions').textContent = plates[0].positions;
-  renderAccordion();
+  renderMatrix();
   buildScene('scene-config-inner', state.plates);
   updateScene('scene-config-inner', state.plates, state.activePlate);
   document.getElementById('btn-plates-dec').disabled = plates.length <= 2;
@@ -1412,22 +1390,21 @@ document.addEventListener('keydown', (e) => {
       const idx = ids.indexOf(state.activePlate);
       state.activePlate = ids[(idx + 1) % ids.length];
       updateScene('scene-config-inner', state.plates, state.activePlate);
+      updateMatrixActive();
     }
     if (key === 'S') {
       const ids = state.plates.map(p => p.id);
       const idx = ids.indexOf(state.activePlate);
       state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
       updateScene('scene-config-inner', state.plates, state.activePlate);
+      updateMatrixActive();
     }
     if (key === 'A') {
       const moved = applyMove(state.plates, state.activePlate, 'left');
       if (moved) {
         state.history.push(toNotation(state.activePlate, 'left', 1));
         updateScene('scene-config-inner', state.plates, state.activePlate);
-        // Sync position display in accordion
-        const plate = state.plates.find(p => p.id === state.activePlate);
-        const posVal = document.querySelector(`.pos-val[data-id="${state.activePlate}"]`);
-        if (posVal) posVal.textContent = plate.currentPos;
+        syncMatrixPositions();
       }
     }
     if (key === 'D') {
@@ -1435,9 +1412,7 @@ document.addEventListener('keydown', (e) => {
       if (moved) {
         state.history.push(toNotation(state.activePlate, 'right', 1));
         updateScene('scene-config-inner', state.plates, state.activePlate);
-        const plate = state.plates.find(p => p.id === state.activePlate);
-        const posVal = document.querySelector(`.pos-val[data-id="${state.activePlate}"]`);
-        if (posVal) posVal.textContent = plate.currentPos;
+        syncMatrixPositions();
       }
     }
   }
@@ -1476,7 +1451,7 @@ function init() {
   wireSolveHandlers();
 
   // Initial render
-  renderAccordion();
+  renderMatrix();
   buildScene('scene-config-inner', state.plates);
   updateScene('scene-config-inner', state.plates, state.activePlate);
 }
@@ -1707,7 +1682,7 @@ function onWorkerMessage({ data }) {
     state.cachedSolution = data.solution;
     state.activePlate = 1;
     document.getElementById('val-plates').textContent = data.plates.length;
-    renderAccordion();
+    renderMatrix();
     buildScene('scene-config-inner', state.plates);
     updateScene('scene-config-inner', state.plates, state.activePlate);
     document.getElementById('btn-plates-dec').disabled = data.plates.length <= 2;
