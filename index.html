@@ -69,6 +69,15 @@ h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
+.btn-difficulty {
+  width: 18px; height: 18px; border-radius: 50%;
+  padding: 0; flex-shrink: 0;
+  border: 2px solid transparent; background-clip: padding-box;
+}
+.btn-difficulty[data-min="7"]  { background: #3d8a3d; border-color: #5cb85c; }
+.btn-difficulty[data-min="14"] { background: #8a7010; border-color: #c8a020; }
+.btn-difficulty[data-min="21"] { background: #8a2a2a; border-color: #c04040; }
+.btn-difficulty:hover { filter: brightness(1.35); }
 
 button {
   background: var(--bg-control);
@@ -537,7 +546,10 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         <span id="val-positions">7</span>
         <button id="btn-pos-inc">+</button>
         <span style="flex:1"></span>
-        <button id="btn-random">Рандом</button>
+        <label>Рандом:</label>
+        <button class="btn-difficulty" data-min="7"  data-max="13" title="Лёгкий"></button>
+        <button class="btn-difficulty" data-min="14" data-max="20" title="Средний"></button>
+        <button class="btn-difficulty" data-min="21"              title="Сложный"></button>
         <button id="btn-export" class="btn-icon" title="Экспорт">📤</button>
         <button id="btn-import" class="btn-icon" title="Импорт">📥</button>
       </div>
@@ -1045,13 +1057,13 @@ function wireConfigHandlers() {
 
   updatePosButtons();
 
-  document.getElementById('btn-random').addEventListener('click', () => {
-    const btn = document.getElementById('btn-random');
-    btn.disabled = true;
-    btn.textContent = '...';
-    document.getElementById('overlay-progress').textContent = '';
-    document.getElementById('computing-overlay').classList.add('active');
-    worker.postMessage({ type: 'random', positions: getPositions() });
+  document.querySelectorAll('.btn-difficulty').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn-difficulty').forEach(b => b.disabled = true);
+      document.getElementById('overlay-progress').textContent = '';
+      document.getElementById('computing-overlay').classList.add('active');
+      worker.postMessage({ type: 'random', positions: getPositions(), minSteps: parseInt(btn.dataset.min), maxSteps: btn.dataset.max ? parseInt(btn.dataset.max) : Infinity });
+    });
   });
 
   // Delegated: position buttons
@@ -1587,6 +1599,8 @@ self.onmessage = ({ data }) => {
     const PLATE_COUNTS = [2, 3, 4, 5, 6, 7, 8];
     const MAX_ATTEMPTS = 400;
     const positions = data.positions;
+    const minSteps = data.minSteps || 0;
+    const maxSteps = data.maxSteps || Infinity;
     let found = null;
     let foundSolution = null;
 
@@ -1613,7 +1627,7 @@ self.onmessage = ({ data }) => {
       if (plates.every(p => p.currentPos === center(p.positions))) continue;
 
       const solution = bfsSolve(plates);
-      if (solution !== null) { found = plates; foundSolution = solution; break; }
+      if (solution !== null && solution.length >= minSteps && solution.length <= maxSteps) { found = plates; foundSolution = solution; break; }
     }
 
     self.postMessage({ type: 'random', plates: found, solution: foundSolution });
@@ -1644,8 +1658,7 @@ function hideOverlay() {
 function resetButtons() {
   const bs = document.getElementById('btn-start');
   bs.disabled = false; bs.textContent = 'РЕШЕНИЕ';
-  const br = document.getElementById('btn-random');
-  br.disabled = false; br.textContent = 'Рандом';
+  document.querySelectorAll('.btn-difficulty').forEach(b => b.disabled = false);
 }
 
 function onWorkerMessage({ data }) {
@@ -1671,9 +1684,7 @@ function onWorkerMessage({ data }) {
   }
 
   if (data.type === 'random') {
-    const btn = document.getElementById('btn-random');
-    btn.disabled = false;
-    btn.textContent = 'Рандом';
+    document.querySelectorAll('.btn-difficulty').forEach(b => b.disabled = false);
     if (!data.plates) {
       showToast('Не удалось сгенерировать конфигурацию', 'error');
       return;
