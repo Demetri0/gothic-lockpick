@@ -547,9 +547,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         <button id="btn-pos-inc">+</button>
         <span style="flex:1"></span>
         <label>Рандом:</label>
-        <button class="btn-difficulty" data-min="7"  data-max="13" title="Лёгкий"></button>
-        <button class="btn-difficulty" data-min="14" data-max="20" title="Средний"></button>
-        <button class="btn-difficulty" data-min="21"              title="Сложный"></button>
+        <button class="btn-difficulty" data-min="7"  data-max="13"             title="Лёгкий"></button>
+        <button class="btn-difficulty" data-min="14" data-max="20" data-plates="5" title="Средний"></button>
+        <button class="btn-difficulty" data-min="21"               data-plates="7" title="Сложный"></button>
         <button id="btn-export" class="btn-icon" title="Экспорт">📤</button>
         <button id="btn-import" class="btn-icon" title="Импорт">📥</button>
       </div>
@@ -1060,9 +1060,9 @@ function wireConfigHandlers() {
   document.querySelectorAll('.btn-difficulty').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.btn-difficulty').forEach(b => b.disabled = true);
-      document.getElementById('overlay-progress').textContent = '';
+      resetProgress();
       document.getElementById('computing-overlay').classList.add('active');
-      worker.postMessage({ type: 'random', positions: getPositions(), minSteps: parseInt(btn.dataset.min), maxSteps: btn.dataset.max ? parseInt(btn.dataset.max) : Infinity });
+      worker.postMessage({ type: 'random', positions: getPositions(), minSteps: parseInt(btn.dataset.min), maxSteps: btn.dataset.max ? parseInt(btn.dataset.max) : Infinity, minPlates: parseInt(btn.dataset.plates) || 2 });
     });
   });
 
@@ -1125,7 +1125,7 @@ function wireConfigHandlers() {
     const btn = document.getElementById('btn-start');
     btn.disabled = true;
     btn.textContent = '...';
-    document.getElementById('overlay-progress').textContent = '';
+    resetProgress();
     document.getElementById('computing-overlay').classList.add('active');
     worker.postMessage({ type: 'solve', plates: state.plates });
   });
@@ -1414,6 +1414,7 @@ document.addEventListener('keydown', (e) => {
     if (key === 'A') {
       const moved = applyMove(state.plates, state.activePlate, 'left');
       if (moved) {
+        state.cachedSolution = null;
         state.history.push(toNotation(state.activePlate, 'left', 1));
         updateScene('scene-config-inner', state.plates, state.activePlate);
         syncMatrixPositions();
@@ -1422,6 +1423,7 @@ document.addEventListener('keydown', (e) => {
     if (key === 'D') {
       const moved = applyMove(state.plates, state.activePlate, 'right');
       if (moved) {
+        state.cachedSolution = null;
         state.history.push(toNotation(state.activePlate, 'right', 1));
         updateScene('scene-config-inner', state.plates, state.activePlate);
         syncMatrixPositions();
@@ -1523,11 +1525,13 @@ function computeMove(plates, plateId, dir) {
   }));
 }
 
-function bfsSolve(plates) {
+
+function bfsSolve(plates, iterOffset) {
+  iterOffset = iterOffset || 0;
   const startPos = plates.map(p => p.currentPos);
   const goalPos  = plates.map(p => center(p.positions));
 
-  if (startPos.every((p, i) => p === goalPos[i])) return [];
+  if (startPos.every((p, i) => p === goalPos[i])) return { solution: [], iters: 0 };
 
   const startKey = startPos.join(',');
   const visited  = new Set([startKey]);
@@ -1553,14 +1557,14 @@ function bfsSolve(plates) {
         visited.add(key);
         iter++;
 
-        if (iter % 3000 === 0) {
-          self.postMessage({ type: 'progress', message: 'Состояний проверено: ' + iter });
+        if ((iterOffset + iter) % 1000 === 0) {
+          self.postMessage({ type: 'progress', states: iterOffset + iter });
         }
 
         const newPath = [...path, toNotation(plate.id, dir, 1)];
 
         if (newPos.every((p, i) => p === goalPos[i])) {
-          return compressPath(newPath);
+          return { solution: compressPath(newPath), iters: iter };
         }
 
         queue.push({ positions: newPos, path: newPath });
@@ -1568,7 +1572,7 @@ function bfsSolve(plates) {
     }
   }
 
-  return null;
+  return { solution: null, iters: iter };
 }
 
 function compressPath(path) {
@@ -1591,21 +1595,24 @@ function compressPath(path) {
 
 self.onmessage = ({ data }) => {
   if (data.type === 'solve') {
-    self.postMessage({ type: 'progress', message: 'BFS поиск...' });
-    self.postMessage({ type: 'solve', solution: bfsSolve(data.plates) });
+    self.postMessage({ type: 'progress', states: 0 });
+    const { solution } = bfsSolve(data.plates);
+    self.postMessage({ type: 'solve', solution });
   }
 
   if (data.type === 'random') {
-    const PLATE_COUNTS = [2, 3, 4, 5, 6, 7, 8];
+    const ALL_COUNTS = [2, 3, 4, 5, 6, 7, 8];
+    const PLATE_COUNTS = ALL_COUNTS.filter(c => c >= (data.minPlates || 2));
     const MAX_ATTEMPTS = 400;
     const positions = data.positions;
     const minSteps = data.minSteps || 0;
     const maxSteps = data.maxSteps || Infinity;
     let found = null;
     let foundSolution = null;
+    let totalIter = 0;
 
     for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-      self.postMessage({ type: 'progress', message: 'Попытка ' + (attempt + 1) + ' / ' + MAX_ATTEMPTS });
+      self.postMessage({ type: 'progress', attempt: attempt + 1, total: MAX_ATTEMPTS });
 
       const count = PLATE_COUNTS[Math.floor(Math.random() * PLATE_COUNTS.length)];
       const plates = Array.from({ length: count }, (_, i) => {
@@ -1626,7 +1633,9 @@ self.onmessage = ({ data }) => {
 
       if (plates.every(p => p.currentPos === center(p.positions))) continue;
 
-      const solution = bfsSolve(plates);
+      const { solution, iters } = bfsSolve(plates, totalIter);
+      totalIter += iters;
+      self.postMessage({ type: 'progress', attempt: attempt + 1, total: MAX_ATTEMPTS, states: totalIter });
       if (solution !== null && solution.length >= minSteps && solution.length <= maxSteps) { found = plates; foundSolution = solution; break; }
     }
 
@@ -1640,12 +1649,12 @@ self.onmessage = ({ data }) => {
 // ── Script #9 — Web Worker bootstrap ─────────────────────────────────────────
 
 function createWorker() {
-  const w = new Worker(
-    URL.createObjectURL(new Blob(
-      [document.getElementById('worker-src').textContent],
-      { type: 'application/javascript' }
-    ))
-  );
+  const url = URL.createObjectURL(new Blob(
+    [document.getElementById('worker-src').textContent],
+    { type: 'application/javascript' }
+  ));
+  const w = new Worker(url);
+  URL.revokeObjectURL(url);
   w.onmessage = onWorkerMessage;
   return w;
 }
@@ -1661,9 +1670,36 @@ function resetButtons() {
   document.querySelectorAll('.btn-difficulty').forEach(b => b.disabled = false);
 }
 
+const _fmtNum = new Intl.NumberFormat('ru-RU');
+const _fmtC   = new Intl.NumberFormat('ru-RU', { notation: 'compact', compactDisplay: 'short' });
+const _kSuffix = (() => {
+  const parts = _fmtC.formatToParts(1000);
+  const ci = parts.findIndex(p => p.type === 'compact');
+  return parts.slice(ci > 0 && parts[ci - 1].type === 'literal' ? ci - 1 : ci).map(p => p.value).join('');
+})();
+function fmtK(n) { return _fmtNum.format(Math.round(n / 1000)) + _kSuffix; }
+
+let _progressAttempt = null;
+let _progressStates  = null;
+
+function renderProgress() {
+  let msg = '';
+  if (_progressAttempt) {
+    msg = 'Попытка ' + _progressAttempt.n + ' / ' + _progressAttempt.total;
+    if (_progressStates != null) msg += ' · ' + fmtK(_progressStates);
+  } else if (_progressStates != null) {
+    msg = 'Состояний проверено: ' + fmtK(_progressStates);
+  }
+  document.getElementById('overlay-progress').textContent = msg;
+}
+
+function resetProgress() { _progressAttempt = null; _progressStates = null; }
+
 function onWorkerMessage({ data }) {
   if (data.type === 'progress') {
-    document.getElementById('overlay-progress').textContent = data.message;
+    if (data.attempt != null) _progressAttempt = { n: data.attempt, total: data.total };
+    if (data.states != null)  _progressStates  = data.states;
+    renderProgress();
     return;
   }
 
