@@ -1076,7 +1076,25 @@ function wireConfigHandlers() {
       document.querySelectorAll('.btn-difficulty').forEach(b => b.disabled = true);
       resetProgress();
       document.getElementById('computing-overlay').classList.add('active');
-      worker.postMessage({ type: 'random', positions: getPositions(), minSteps: parseInt(btn.dataset.min), maxSteps: btn.dataset.max ? parseInt(btn.dataset.max) : Infinity, minPlates: parseInt(btn.dataset.plates) || 2 });
+
+      randomPoolId++;
+      terminateRandomPool();
+
+      _poolSize = createRandomPool();
+      const perWorker = Math.ceil(400 / _poolSize);
+      _maxAttempts = perWorker * _poolSize;
+
+      randomPool.forEach((w, i) => {
+        w.postMessage({
+          type:        'random',
+          workerId:    i,
+          positions:   getPositions(),
+          minSteps:    parseInt(btn.dataset.min),
+          maxSteps:    btn.dataset.max ? parseInt(btn.dataset.max) : Infinity,
+          minPlates:   parseInt(btn.dataset.plates) || 2,
+          maxAttempts: perWorker,
+        });
+      });
     });
   });
 
@@ -1846,6 +1864,9 @@ function onRandomPoolMessage({ data }, poolId, workerId) {
 document.querySelector('#computing-overlay .btn-cancel').addEventListener('click', () => {
   worker.terminate();
   worker = createWorker();
+  worker.onmessage = onWorkerMessage;
+  randomPoolId++;
+  terminateRandomPool();
   hideOverlay();
   resetButtons();
 });
