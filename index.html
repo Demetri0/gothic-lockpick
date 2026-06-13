@@ -214,6 +214,12 @@ input[type=number] {
   margin: 2px 0;
   pointer-events: none;
 }
+.explore-separator--btn {
+  pointer-events: auto;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.explore-separator--btn:hover { opacity: 1; background: var(--bg-hover); }
 
 button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
@@ -1311,11 +1317,12 @@ function renderSolvePanel() {
       document.getElementById('solution-string').innerHTML = parts.join(' ');
     }
 
-    // Completed BFS steps (non-interactive)
+    // Completed BFS steps (clickable — return to that step)
     const startLi = document.createElement('li');
     startLi.textContent = 'Начало';
     startLi.classList.add('endpoint');
     startLi.dataset.testId = 'step-start';
+    startLi.addEventListener('click', () => returnToSolution(0));
     list.appendChild(startLi);
 
     for (let i = 0; i < state.detachStep; i++) {
@@ -1323,14 +1330,16 @@ function renderSolvePanel() {
       li.textContent = `${i + 1}. ${state.solution[i]}`;
       li.style.opacity = '0.35';
       li.dataset.testId = `step-done-${i + 1}`;
+      li.addEventListener('click', () => returnToSolution(i + 1));
       list.appendChild(li);
     }
 
-    // Separator
+    // Separator — click to return to detach point
     const sep = document.createElement('li');
-    sep.className = 'explore-separator';
-    sep.textContent = `── свободное (от шага ${state.detachStep}) ──`;
+    sep.className = 'explore-separator explore-separator--btn';
+    sep.textContent = `↩ вернуться к шагу ${state.detachStep}`;
     sep.dataset.testId = 'explore-separator';
+    sep.addEventListener('click', () => returnToSolution(state.detachStep));
     list.appendChild(sep);
 
     // Explore history
@@ -1426,6 +1435,15 @@ function solveStepForward() {
 function solveStepBack() {
   if (state.solverStep === 0) return;
   jumpToStep(state.solverStep - 1);
+}
+
+/** Exit explore mode and jump to a BFS step. */
+function returnToSolution(targetStep) {
+  state.solveMode = 'following';
+  state.exploreHistory = [];
+  state.detachPositions = null;
+  state.detachStep = null;
+  jumpToStep(targetStep);
 }
 
 /** Record a free explore move; accumulate same-direction runs, collapse reverses. */
