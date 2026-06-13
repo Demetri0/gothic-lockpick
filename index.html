@@ -1676,7 +1676,6 @@ function createWorker() {
   ));
   const w = new Worker(url);
   URL.revokeObjectURL(url);
-  w.onmessage = onWorkerMessage;
   return w;
 }
 
@@ -1701,21 +1700,15 @@ const _kSuffix = (() => {
 })();
 function fmtK(n) { return _fmtNum.format(Math.round(n / 1000)) + _kSuffix; }
 
-let _progressAttempt = null;
-let _progressStates  = null;
+let _progressStates = null;
 
-function renderProgress() {
-  let msg = '';
-  if (_progressAttempt) {
-    msg = 'Попытка ' + _progressAttempt.n + ' / ' + _progressAttempt.total;
-    if (_progressStates != null) msg += ' · ' + fmtK(_progressStates);
-  } else if (_progressStates != null) {
-    msg = 'Состояний проверено: ' + fmtK(_progressStates);
-  }
-  document.getElementById('overlay-progress').textContent = msg;
+function resetProgress() {
+  _progressStates = null;
+  Object.keys(_perWorker).forEach(k => delete _perWorker[k]);
+  _totalAttempts = 0; _totalIters = 0; _exhaustedCount = 0;
+  document.getElementById('progress-total').textContent = '';
+  document.getElementById('progress-threads').innerHTML = '';
 }
-
-function resetProgress() { _progressAttempt = null; _progressStates = null; }
 
 function onWorkerMessage({ data }) {
   if (data.type === 'progress') {
@@ -1760,6 +1753,95 @@ function onWorkerMessage({ data }) {
 }
 
 let worker = createWorker();
+worker.onmessage = onWorkerMessage;
+
+let randomPool   = [];
+let randomPoolId = 0;
+
+const _perWorker  = {};
+let _totalAttempts  = 0;
+let _totalIters     = 0;
+let _poolSize       = 0;
+let _maxAttempts    = 0;
+let _exhaustedCount = 0;
+
+function createRandomPool() {
+  const n = Math.min(navigator.hardwareConcurrency || 2, 8);
+  const capturedId = randomPoolId;
+  randomPool = Array.from({ length: n }, (_, i) => {
+    const w = createWorker();
+    w.onmessage = (e) => onRandomPoolMessage(e, capturedId, i);
+    return w;
+  });
+  return randomPool.length;
+}
+
+function terminateRandomPool() {
+  randomPool.forEach(w => w.terminate());
+  randomPool = [];
+}
+
+function renderPoolProgress() {
+  document.getElementById('progress-total').textContent =
+    'Попытки: ' + _totalAttempts + ' / ' + _maxAttempts +
+    ' · ' + fmtK(_totalIters);
+
+  const threadsEl = document.getElementById('progress-threads');
+  for (const [id, s] of Object.entries(_perWorker)) {
+    let row = threadsEl.querySelector('.progress-thread-row[data-id="' + id + '"]');
+    if (!row) {
+      row = document.createElement('div');
+      row.className = 'progress-thread-row';
+      row.dataset.id = id;
+      row.innerHTML = '<span class="progress-thread-id">#' + (parseInt(id) + 1) + '</span><span></span>';
+      threadsEl.appendChild(row);
+    }
+    row.querySelector('span:last-child').textContent =
+      s.attempts + ' попыток · ' + fmtK(s.iters);
+  }
+}
+
+function onRandomPoolMessage({ data }, poolId, workerId) {
+  if (poolId !== randomPoolId) return;
+
+  if (data.type === 'progress') {
+    if (!_perWorker[workerId]) _perWorker[workerId] = { attempts: 0, iters: 0 };
+    _perWorker[workerId].attempts += data.attemptsDelta || 0;
+    _perWorker[workerId].iters    += data.itersDelta    || 0;
+    _totalAttempts += data.attemptsDelta || 0;
+    _totalIters    += data.itersDelta    || 0;
+    renderPoolProgress();
+    return;
+  }
+
+  if (data.type === 'random-found') {
+    randomPoolId++;
+    terminateRandomPool();
+    hideOverlay();
+    resetButtons();
+    state.plates = data.plates;
+    state.cachedSolution = data.solution;
+    state.activePlate = 1;
+    document.getElementById('val-plates').textContent = data.plates.length;
+    renderMatrix();
+    buildScene('scene-config-inner', state.plates);
+    updateScene('scene-config-inner', state.plates, state.activePlate);
+    document.getElementById('btn-plates-dec').disabled = data.plates.length <= 2;
+    document.getElementById('btn-pos-dec').disabled = getPositions() <= 3;
+    return;
+  }
+
+  if (data.type === 'random-exhausted') {
+    _exhaustedCount++;
+    if (_exhaustedCount >= _poolSize) {
+      randomPoolId++;
+      terminateRandomPool();
+      hideOverlay();
+      resetButtons();
+      showToast('Не удалось сгенерировать конфигурацию', 'error');
+    }
+  }
+}
 
 document.querySelector('#computing-overlay .btn-cancel').addEventListener('click', () => {
   worker.terminate();
