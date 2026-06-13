@@ -234,10 +234,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   display: flex; flex-direction: column; gap: 2px; margin-top: 6px;
   font-size: 0.78em; opacity: 0.7;
 }
-.progress-thread-row {
-  display: flex; gap: 8px; justify-content: center;
-}
-.progress-thread-id { min-width: 24px; opacity: 0.5; }
+.progress-thread-row { text-align: center; }
 #computing-overlay .btn-cancel {
   background: transparent;
   border-color: var(--border);
@@ -1567,7 +1564,7 @@ function reconstructPath(queue, idx) {
   return path.reverse();
 }
 
-function bfsSolve(plates) {
+function bfsSolve(plates, onProgress) {
   const startPos = plates.map(p => p.currentPos);
   const goalPos  = plates.map(p => center(p.positions));
 
@@ -1598,6 +1595,8 @@ function bfsSolve(plates) {
         if (visited.has(key)) continue;
         visited.add(key);
         iter++;
+
+        if (onProgress && iter % 2000 === 0) onProgress(2000);
 
         const newIdx = queue.length;
         queue.push({ positions: newPos, parentIdx: currentIdx, move: toNotation(plate.id, dir, 1) });
@@ -1632,8 +1631,9 @@ function compressPath(path) {
 
 self.onmessage = ({ data }) => {
   if (data.type === 'solve') {
-    const { solution, iters } = bfsSolve(data.plates);
-    self.postMessage({ type: 'progress', itersDelta: iters });
+    const { solution } = bfsSolve(data.plates, (n) => {
+      self.postMessage({ type: 'progress', itersDelta: n });
+    });
     self.postMessage({ type: 'solve', solution });
   }
 
@@ -1788,18 +1788,13 @@ function renderPoolProgress() {
     ' · ' + fmtK(_totalIters);
 
   const threadsEl = document.getElementById('progress-threads');
-  for (const [id, s] of Object.entries(_perWorker)) {
-    let row = threadsEl.querySelector('.progress-thread-row[data-id="' + id + '"]');
-    if (!row) {
-      row = document.createElement('div');
-      row.className = 'progress-thread-row';
-      row.dataset.id = id;
-      row.innerHTML = '<span class="progress-thread-id">#' + (parseInt(id) + 1) + '</span><span></span>';
-      threadsEl.appendChild(row);
-    }
-    row.querySelector('span:last-child').textContent =
-      s.attempts + ' попыток · ' + fmtK(s.iters);
-  }
+  const entries = Object.entries(_perWorker).sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+  if (threadsEl.children.length !== entries.length) threadsEl.innerHTML = '';
+  entries.forEach(([id, s], i) => {
+    let row = threadsEl.children[i];
+    if (!row) { row = document.createElement('div'); row.className = 'progress-thread-row'; threadsEl.appendChild(row); }
+    row.textContent = '#' + (parseInt(id) + 1) + ' — ' + _fmtNum.format(s.attempts) + ' попыток · ' + fmtK(s.iters);
+  });
 }
 
 function onRandomPoolMessage({ data }, poolId, workerId) {
