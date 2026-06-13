@@ -864,7 +864,124 @@ function wireConfigHandlers() {
 }
   </script>
   <!-- Script #6 — Solve UI -->
-  <script>/* Task 8 */</script>
+  <script>
+// ── Script #6 — Solve UI ──────────────────────────────────────────────────
+
+/** Snapshot of plate positions at the start of the solve stage */
+let solveStartPositions = [];
+
+function switchToSolve() {
+  // Save start positions for Back navigation
+  solveStartPositions = state.plates.map(p => ({ ...p, deps: p.deps.slice() }));
+
+  state.stage = 'solve';
+  document.getElementById('stage-config').classList.add('hidden');
+  document.getElementById('stage-solve').classList.remove('hidden');
+
+  // Clone plates for solve stage (don't mutate config)
+  state.plates = state.plates.map(p => ({ ...p, deps: p.deps.map(d => ({ ...d })) }));
+  // Reset to initial positions stored in solveStartPositions
+  state.plates.forEach((p, i) => { p.currentPos = solveStartPositions[i].currentPos; });
+
+  buildScene('scene-solve-inner', state.plates);
+  renderSolvePanel();
+  updateScene('scene-solve-inner', state.plates, state.activePlate);
+}
+
+function switchToConfig() {
+  if (state.autoInterval) { clearInterval(state.autoInterval); state.autoInterval = null; }
+  state.stage = 'config';
+  // Restore plates from config snapshot
+  state.plates = solveStartPositions.map(p => ({ ...p, deps: p.deps.map(d => ({...d})) }));
+  state.activePlate = 1;
+  document.getElementById('stage-solve').classList.add('hidden');
+  document.getElementById('stage-config').classList.remove('hidden');
+  updateScene('scene-config-inner', state.plates, state.activePlate);
+}
+
+function renderSolvePanel() {
+  // Notation string with current step highlighted
+  const parts = state.solution.map((s, i) =>
+    i === state.solverStep
+      ? `<span class="cur-step">${s}</span>`
+      : `<span style="opacity:0.45">${s}</span>`
+  );
+  document.getElementById('solution-string').innerHTML = parts.join(' → ');
+
+  // Step list
+  const list = document.getElementById('solution-steps');
+  list.innerHTML = '';
+  state.solution.forEach((s, i) => {
+    const li = document.createElement('li');
+    li.textContent = `${i + 1}. ${s}`;
+    if (i === state.solverStep) li.classList.add('active');
+    li.addEventListener('click', () => jumpToStep(i));
+    list.appendChild(li);
+  });
+
+  // Scroll active into view
+  const active = list.querySelector('.active');
+  if (active) active.scrollIntoView({ block: 'nearest' });
+}
+
+/** Apply steps from current solverStep up to (but not including) targetStep */
+function jumpToStep(targetStep) {
+  // Reset to start
+  state.plates.forEach((p, i) => { p.currentPos = solveStartPositions[i].currentPos; });
+  state.solverStep = 0;
+
+  // Replay up to target
+  for (let i = 0; i < targetStep; i++) {
+    const { plateId, dir, steps } = parseNotation(state.solution[i]);
+    for (let s = 0; s < steps; s++) applyMove(state.plates, plateId, dir);
+    state.solverStep = i + 1;
+  }
+
+  buildScene('scene-solve-inner', state.plates);
+  renderSolvePanel();
+  updateScene('scene-solve-inner', state.plates, state.activePlate);
+}
+
+/** Advance one step in the solution */
+function solveStepForward() {
+  if (state.solverStep >= state.solution.length) return;
+  const { plateId, dir, steps } = parseNotation(state.solution[state.solverStep]);
+  for (let s = 0; s < steps; s++) applyMove(state.plates, plateId, dir);
+  state.solverStep++;
+  updateScene('scene-solve-inner', state.plates, state.activePlate);
+  renderSolvePanel();
+}
+
+/** Step back in the solution */
+function solveStepBack() {
+  if (state.solverStep === 0) return;
+  jumpToStep(state.solverStep - 1);
+}
+
+function wireSolveHandlers() {
+  document.getElementById('btn-back').addEventListener('click', switchToConfig);
+
+  document.getElementById('btn-auto').addEventListener('click', () => {
+    const btn = document.getElementById('btn-auto');
+    if (state.autoInterval) {
+      clearInterval(state.autoInterval);
+      state.autoInterval = null;
+      btn.textContent = '▶ Авто';
+      return;
+    }
+    btn.textContent = '■ Стоп';
+    state.autoInterval = setInterval(() => {
+      if (state.solverStep >= state.solution.length) {
+        clearInterval(state.autoInterval);
+        state.autoInterval = null;
+        btn.textContent = '▶ Авто';
+        return;
+      }
+      solveStepForward();
+    }, AUTO_DELAY);
+  });
+}
+  </script>
   <!-- Script #7 — WASD -->
   <script>/* Task 9 */</script>
   <!-- Script #8 — Init -->
