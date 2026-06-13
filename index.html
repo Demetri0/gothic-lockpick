@@ -193,6 +193,49 @@ input[type=number] {
 
 button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
+/* Computing overlay */
+#computing-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(14, 12, 9, 0.72);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 18px;
+}
+#computing-overlay.active { display: flex; }
+#overlay-progress {
+  color: var(--text-muted);
+  font-size: 0.78em;
+  letter-spacing: 1px;
+  min-height: 1.2em;
+  text-align: center;
+}
+#computing-overlay .btn-cancel {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-muted);
+  font-size: 0.78em;
+  letter-spacing: 1px;
+  padding: 4px 18px;
+}
+#computing-overlay .btn-cancel:hover {
+  background: var(--bg-control);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid var(--border-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 .solve-buttons { display: flex; gap: 10px; margin-top: auto; }
 .solve-buttons .btn-primary { flex: 1; margin-top: 0; }
 .solve-buttons .btn-return { margin-right: 14px; }
@@ -404,6 +447,12 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 </head>
 <body>
 
+  <div id="computing-overlay">
+    <div class="spinner"></div>
+    <div id="overlay-progress"></div>
+    <button class="btn-cancel">Отмена</button>
+  </div>
+
   <!-- STAGE: CONFIG -->
   <div id="stage-config" class="stage">
     <div class="panel panel-left">
@@ -417,6 +466,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         <button id="btn-pos-dec">−</button>
         <span id="val-positions">7</span>
         <button id="btn-pos-inc">+</button>
+        <button id="btn-random" style="margin-left:16px">Рандом</button>
+        <button id="btn-export" style="margin-left:16px">Экспорт</button>
+        <button id="btn-import">Импорт</button>
       </div>
       <div id="plates-config"></div>
       <button id="btn-start" class="btn-primary">РЕШЕНИЕ</button>
@@ -499,7 +551,8 @@ const state = {
   history: [],              // move notation array (config stage)
   solution: [],             // compressed notation array (solve stage)
   solverStep: 0,            // current step index in solution
-  autoInterval: null        // setInterval handle for auto-play
+  autoInterval: null,       // setInterval handle for auto-play
+  cachedSolution: null      // solution found during randomization; cleared on any config change
 };
 </script>
   <!-- Script #2 — Game logic -->
@@ -793,6 +846,7 @@ function rebuildConfig() {
     return plate;
   });
   state.activePlate = 1;
+  state.cachedSolution = null;
 
   renderAccordion();
   buildScene('scene-config-inner', state.plates);
@@ -899,6 +953,7 @@ function buildDepRow(plateId, dep) {
     dep.targetId  = parseInt(targetSel.value);
     dep.direction = dirSel.value;
     dep.steps     = parseInt(stepsInput.value) || 1;
+    state.cachedSolution = null;
   }
   targetSel.addEventListener('change', syncDep);
   dirSel.addEventListener('change', syncDep);
@@ -907,6 +962,7 @@ function buildDepRow(plateId, dep) {
   removeBtn.addEventListener('click', () => {
     const plate = state.plates.find(p => p.id === plateId);
     plate.deps = plate.deps.filter(d => d !== dep);
+    state.cachedSolution = null;
     row.remove();
   });
 
@@ -955,6 +1011,15 @@ function wireConfigHandlers() {
 
   updatePosButtons();
 
+  document.getElementById('btn-random').addEventListener('click', () => {
+    const btn = document.getElementById('btn-random');
+    btn.disabled = true;
+    btn.textContent = '...';
+    document.getElementById('overlay-progress').textContent = '';
+    document.getElementById('computing-overlay').classList.add('active');
+    worker.postMessage({ type: 'random', positions: getPositions() });
+  });
+
   // Delegated: position +/- buttons and add-dep
   document.getElementById('plates-config').addEventListener('click', (e) => {
     const id = parseInt(e.target.dataset.id);
@@ -965,6 +1030,7 @@ function wireConfigHandlers() {
       const dec = e.target.classList.contains('btn-pos-dec');
       if (dec && plate.currentPos > 1) plate.currentPos--;
       if (!dec && plate.currentPos < plate.positions) plate.currentPos++;
+      state.cachedSolution = null;
       document.querySelector(`.pos-val[data-id="${id}"]`).textContent = plate.currentPos;
       document.querySelector(`.plate-section[data-id="${id}"] .plate-header span:last-child`)
         .textContent = `pos: ${plate.currentPos}`;
@@ -980,23 +1046,69 @@ function wireConfigHandlers() {
       if (!others.length) return;
       const dep = { targetId: others[0].id, direction: 'same', steps: 1 };
       plate.deps.push(dep);
+      state.cachedSolution = null;
       const depsList = document.querySelector(`.deps-list[data-id="${id}"]`);
       depsList.appendChild(buildDepRow(id, dep));
     }
   });
 
   document.getElementById('btn-start').addEventListener('click', () => {
-    const sol = bfsSolve(state.plates);
-    if (sol === null) {
-      alert('Решение не найдено.');
+    if (state.cachedSolution !== null) {
+      state.solution = state.cachedSolution;
+      state.solverStep = 0;
+      state.history = [];
+      switchToSolve();
       return;
     }
-    state.solution = sol;
-    state.solverStep = 0;
-    state.history = [];
-    switchToSolve();
+    const btn = document.getElementById('btn-start');
+    btn.disabled = true;
+    btn.textContent = '...';
+    document.getElementById('overlay-progress').textContent = '';
+    document.getElementById('computing-overlay').classList.add('active');
+    worker.postMessage({ type: 'solve', plates: state.plates });
   });
 }
+
+document.getElementById('btn-export').addEventListener('click', () => {
+  const data = JSON.stringify(
+    state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps }))
+  );
+  navigator.clipboard.writeText(data).catch(() => alert('Не удалось записать в буфер обмена.'));
+});
+
+function applyImportedConfig(text) {
+  let plates;
+  try { plates = JSON.parse(text); } catch {
+    alert('Невалидный конфиг.'); return;
+  }
+  if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) {
+    alert('Невалидный конфиг.'); return;
+  }
+  for (const p of plates) {
+    if (typeof p.id !== 'number' ||
+        typeof p.positions !== 'number' || p.positions % 2 === 0 || p.positions < 3 ||
+        typeof p.currentPos !== 'number' || p.currentPos < 1 || p.currentPos > p.positions ||
+        !Array.isArray(p.deps)) {
+      alert('Невалидный конфиг.'); return;
+    }
+  }
+  state.plates = plates;
+  state.activePlate = 1;
+  state.cachedSolution = null;
+  document.getElementById('val-plates').textContent = plates.length;
+  document.getElementById('val-positions').textContent = plates[0].positions;
+  renderAccordion();
+  buildScene('scene-config-inner', state.plates);
+  updateScene('scene-config-inner', state.plates, state.activePlate);
+  document.getElementById('btn-plates-dec').disabled = plates.length <= 2;
+  document.getElementById('btn-pos-dec').disabled = plates[0].positions <= 3;
+}
+
+document.getElementById('btn-import').addEventListener('click', () => {
+  navigator.clipboard.readText()
+    .then(applyImportedConfig)
+    .catch(() => alert('Не удалось прочитать буфер обмена.'));
+});
   </script>
   <!-- Script #6 — Solve UI -->
   <script>
@@ -1234,6 +1346,247 @@ function init() {
 }
 
 init();
+  </script>
+
+  <!-- Worker source — not executed by the browser, read as text by Script #9 -->
+  <script type="text/x-worker" id="worker-src">
+function center(positions) {
+  return Math.floor(positions / 2) + 1;
+}
+
+function toNotation(plateId, dir, steps) {
+  const d = dir === 'left' ? 'A' : 'D';
+  return steps === 1 ? `${plateId}${d}` : `${plateId}${d}${steps}`;
+}
+
+function parseNotation(s) {
+  const m = s.match(/^(\d+)([AD])(\d*)$/);
+  if (!m) throw new Error('Invalid notation: ' + s);
+  return {
+    plateId: parseInt(m[1]),
+    dir:     m[2] === 'A' ? 'left' : 'right',
+    steps:   m[3] ? parseInt(m[3]) : 1
+  };
+}
+
+function computeMove(plates, plateId, dir) {
+  const primaryDelta = dir === 'left' ? -1 : 1;
+  const visited = new Set();
+  const effects = [];
+
+  function collect(id, delta) {
+    if (visited.has(id)) return;
+    visited.add(id);
+    const plate = plates.find(p => p.id === id);
+    if (!plate) return;
+    effects.push({ plate, delta });
+    const sign = delta > 0 ? 1 : -1;
+    for (const dep of plate.deps) {
+      const depSign = dep.direction === 'same' ? sign : -sign;
+      collect(dep.targetId, depSign * dep.steps);
+    }
+  }
+
+  collect(plateId, primaryDelta);
+
+  for (const { plate, delta } of effects) {
+    const newPos = plate.currentPos + delta;
+    if (newPos < 1 || newPos > plate.positions) return null;
+  }
+
+  return effects.map(({ plate, delta }) => ({
+    plateId: plate.id,
+    newPos: plate.currentPos + delta
+  }));
+}
+
+function bfsSolve(plates) {
+  const startPos = plates.map(p => p.currentPos);
+  const goalPos  = plates.map(p => center(p.positions));
+
+  if (startPos.every((p, i) => p === goalPos[i])) return [];
+
+  const startKey = startPos.join(',');
+  const visited  = new Set([startKey]);
+  const queue    = [{ positions: startPos, path: [] }];
+  let iter = 0;
+
+  while (queue.length > 0) {
+    const { positions, path } = queue.shift();
+    const snap = plates.map((p, i) => ({ ...p, currentPos: positions[i] }));
+
+    for (const plate of snap) {
+      for (const dir of ['left', 'right']) {
+        const effects = computeMove(snap, plate.id, dir);
+        if (!effects) continue;
+
+        const newPos = [...positions];
+        for (const { plateId, newPos: np } of effects) {
+          newPos[plateId - 1] = np;
+        }
+
+        const key = newPos.join(',');
+        if (visited.has(key)) continue;
+        visited.add(key);
+        iter++;
+
+        if (iter % 3000 === 0) {
+          self.postMessage({ type: 'progress', message: 'Состояний проверено: ' + iter });
+        }
+
+        const newPath = [...path, toNotation(plate.id, dir, 1)];
+
+        if (newPos.every((p, i) => p === goalPos[i])) {
+          return compressPath(newPath);
+        }
+
+        queue.push({ positions: newPos, path: newPath });
+      }
+    }
+  }
+
+  return null;
+}
+
+function compressPath(path) {
+  if (!path.length) return path;
+  const result = [];
+  let cur = parseNotation(path[0]);
+  let count = 1;
+  for (let i = 1; i < path.length; i++) {
+    const next = parseNotation(path[i]);
+    if (next.plateId === cur.plateId && next.dir === cur.dir) {
+      count++;
+    } else {
+      result.push(toNotation(cur.plateId, cur.dir, count));
+      cur = next; count = 1;
+    }
+  }
+  result.push(toNotation(cur.plateId, cur.dir, count));
+  return result;
+}
+
+self.onmessage = ({ data }) => {
+  if (data.type === 'solve') {
+    self.postMessage({ type: 'progress', message: 'BFS поиск...' });
+    self.postMessage({ type: 'solve', solution: bfsSolve(data.plates) });
+  }
+
+  if (data.type === 'random') {
+    const PLATE_COUNTS = [2, 3, 4, 5, 6, 7, 8];
+    const MAX_ATTEMPTS = 400;
+    const positions = data.positions;
+    let found = null;
+    let foundSolution = null;
+
+    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+      self.postMessage({ type: 'progress', message: 'Попытка ' + (attempt + 1) + ' / ' + MAX_ATTEMPTS });
+
+      const count = PLATE_COUNTS[Math.floor(Math.random() * PLATE_COUNTS.length)];
+      const plates = Array.from({ length: count }, (_, i) => {
+        const id     = i + 1;
+        const others = Array.from({ length: count }, (_, j) => j + 1).filter(j => j !== id);
+        const depCount = Math.floor(Math.random() * 3);
+        const used = new Set();
+        const deps = [];
+        for (let d = 0; d < depCount; d++) {
+          const avail = others.filter(x => !used.has(x));
+          if (!avail.length) break;
+          const targetId = avail[Math.floor(Math.random() * avail.length)];
+          used.add(targetId);
+          deps.push({ targetId, direction: Math.random() < 0.5 ? 'same' : 'opposite', steps: 1 });
+        }
+        return { id, positions, deps, currentPos: 1 + Math.floor(Math.random() * positions) };
+      });
+
+      if (plates.every(p => p.currentPos === center(p.positions))) continue;
+
+      const solution = bfsSolve(plates);
+      if (solution !== null) { found = plates; foundSolution = solution; break; }
+    }
+
+    self.postMessage({ type: 'random', plates: found, solution: foundSolution });
+  }
+};
+  </script>
+
+  <!-- Script #9 — Web Worker bootstrap -->
+  <script>
+// ── Script #9 — Web Worker bootstrap ─────────────────────────────────────────
+
+function createWorker() {
+  const w = new Worker(
+    URL.createObjectURL(new Blob(
+      [document.getElementById('worker-src').textContent],
+      { type: 'application/javascript' }
+    ))
+  );
+  w.onmessage = onWorkerMessage;
+  return w;
+}
+
+function hideOverlay() {
+  document.getElementById('computing-overlay').classList.remove('active');
+  document.getElementById('overlay-progress').textContent = '';
+}
+
+function resetButtons() {
+  const bs = document.getElementById('btn-start');
+  bs.disabled = false; bs.textContent = 'РЕШЕНИЕ';
+  const br = document.getElementById('btn-random');
+  br.disabled = false; br.textContent = 'Рандом';
+}
+
+function onWorkerMessage({ data }) {
+  if (data.type === 'progress') {
+    document.getElementById('overlay-progress').textContent = data.message;
+    return;
+  }
+
+  hideOverlay();
+
+  if (data.type === 'solve') {
+    const btn = document.getElementById('btn-start');
+    btn.disabled = false;
+    btn.textContent = 'РЕШЕНИЕ';
+    if (data.solution === null) {
+      alert('Решение не найдено.');
+      return;
+    }
+    state.solution = data.solution;
+    state.solverStep = 0;
+    state.history = [];
+    switchToSolve();
+  }
+
+  if (data.type === 'random') {
+    const btn = document.getElementById('btn-random');
+    btn.disabled = false;
+    btn.textContent = 'Рандом';
+    if (!data.plates) {
+      alert('Не удалось сгенерировать решаемую конфигурацию — попробуйте ещё раз.');
+      return;
+    }
+    state.plates = data.plates;
+    state.cachedSolution = data.solution;
+    state.activePlate = 1;
+    document.getElementById('val-plates').textContent = data.plates.length;
+    renderAccordion();
+    buildScene('scene-config-inner', state.plates);
+    updateScene('scene-config-inner', state.plates, state.activePlate);
+    document.getElementById('btn-plates-dec').disabled = data.plates.length <= 2;
+    document.getElementById('btn-pos-dec').disabled = getPositions() <= 3;
+  }
+}
+
+let worker = createWorker();
+
+document.querySelector('#computing-overlay .btn-cancel').addEventListener('click', () => {
+  worker.terminate();
+  worker = createWorker();
+  hideOverlay();
+  resetButtons();
+});
   </script>
 
 </body>
