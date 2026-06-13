@@ -171,7 +171,7 @@ input[type=number] {
   --tilt: -30deg;         /* наклон камеры вниз; отрицательный = смотрим сверху */
   --yaw: -35deg;          /* поворот вокруг вертикали; отрицательный = видна правая грань */
   --plate-w: 220px;       /* plate width (X, where holes go) */
-  --plate-t: 22px;        /* plate thickness (Y) */
+  --plate-t: 90px;        /* plate height (Y) — «тост, стоящий вертикально» */
   --plate-d: 48px;        /* plate local depth (top face depth) */
   --plate-gap: 72px;      /* Z spacing between plates — consumed by JS only */
   --hole-size: 15px;
@@ -248,7 +248,7 @@ input[type=number] {
   position: absolute;
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px;
+  font-size: 16px;
   color: #5a8ac0;
   pointer-events: none;
   transform: translateZ(0.5px);
@@ -354,7 +354,7 @@ input[type=number] {
 // ── Script #1 — State & constants ─────────────────────────────────────────
 
 const PLATE_W       = 220;   // px — must match --plate-w
-const PLATE_T       = 22;    // px — must match --plate-t
+const PLATE_T       = 90;    // px — must match --plate-t
 const PLATE_D       = 48;    // px — must match --plate-d
 const PLATE_GAP     = 72;    // px — must match --plate-gap
 const HOLE_PADDING  = 0.17;  // fraction of PLATE_W on each side
@@ -988,11 +988,20 @@ function wireSolveHandlers() {
   <script>
 // ── Script #7 — WASD ──────────────────────────────────────────────────────
 
+// Arrow keys duplicate WASD — browser extensions (vim-плагины) often
+// intercept letter keys, arrows are a reliable fallback
+const KEY_MAP = {
+  W: 'W', S: 'S', A: 'A', D: 'D',
+  ARROWUP: 'W', ARROWDOWN: 'S', ARROWLEFT: 'A', ARROWRIGHT: 'D'
+};
+
 document.addEventListener('keydown', (e) => {
   // Ignore when typing in inputs
   if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
 
-  const key = e.key.toUpperCase();
+  const key = KEY_MAP[e.key.toUpperCase()];
+  if (!key) return;
+  e.preventDefault();
 
   if (state.stage === 'config') {
     if (key === 'W') {
