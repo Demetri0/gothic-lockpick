@@ -1082,7 +1082,7 @@ function wireConfigHandlers() {
     btn.textContent = '...';
     resetProgress();
     document.getElementById('computing-overlay').classList.add('active');
-    worker.postMessage({ type: 'solve', plates: state.plates });
+    worker.postMessage({ type: 'solve', plates: state.plates, solveId: ++solveId });
   });
 }
 
@@ -1577,7 +1577,7 @@ self.onmessage = ({ data }) => {
     const { solution } = bfsSolve(data.plates, (n) => {
       self.postMessage({ type: 'progress', itersDelta: n });
     });
-    self.postMessage({ type: 'solve', solution });
+    self.postMessage({ type: 'solve', solution, solveId: data.solveId });
   }
 
   if (data.type === 'random') {
@@ -1679,6 +1679,8 @@ function onWorkerMessage({ data }) {
     return;
   }
 
+  if (data.type === 'solve' && data.solveId !== solveId) return;
+
   hideOverlay();
 
   if (data.type === 'solve') {
@@ -1689,6 +1691,7 @@ function onWorkerMessage({ data }) {
       showToast('Решение не найдено', 'error');
       return;
     }
+    if (state.stage !== 'config') return;
     state.solution = data.solution;
     state.cachedSolution = data.solution;
     state.solverStep = 0;
@@ -1703,6 +1706,7 @@ function workerError() {
   showToast('Ошибка вычисления', 'error');
 }
 
+let solveId = 0;
 let worker = createWorker();
 worker.onmessage = onWorkerMessage;
 worker.onerror = workerError;
