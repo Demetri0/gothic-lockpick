@@ -954,6 +954,7 @@ function syncMatrixPositions() {
 function wireConfigHandlers() {
   const updatePlateCountButtons = () => {
     document.getElementById('btn-plates-dec').disabled = getPlateCount() <= 2;
+    document.getElementById('btn-plates-inc').disabled = getPlateCount() >= 8;
   };
 
   document.getElementById('btn-plates-dec').addEventListener('click', () => {
@@ -1131,6 +1132,7 @@ function applyImportedConfig(text) {
   buildScene('scene-config-inner', state.plates);
   updateScene('scene-config-inner', state.plates, state.activePlate);
   document.getElementById('btn-plates-dec').disabled = plates.length <= 2;
+  document.getElementById('btn-plates-inc').disabled = plates.length >= 8;
   document.getElementById('btn-pos-dec').disabled = plates[0].positions <= 3;
   showToast('Конфиг применён');
 }
@@ -1212,6 +1214,7 @@ document.getElementById('btn-import').addEventListener('click', async () => {
 let solveStartPositions = [];
 
 function switchToSolve() {
+  if (state.autoInterval) { clearInterval(state.autoInterval); state.autoInterval = null; }
   // Save start positions for Back navigation
   solveStartPositions = state.plates.map(p => ({ ...p, deps: p.deps.slice() }));
 
@@ -1272,7 +1275,7 @@ function renderSolvePanel() {
     li.addEventListener('click', () => jumpToStep(i + 1));
     list.appendChild(li);
   });
-  list.appendChild(makeEndpoint('Конец', state.solution.length, false));
+  list.appendChild(makeEndpoint('Конец', state.solution.length, true));
 
   // Scroll active into view
   const active = list.querySelector('.active');
@@ -1358,8 +1361,8 @@ const KEY_MAP = {
 };
 
 document.addEventListener('keydown', (e) => {
-  // Ignore when typing in inputs
   if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
+  if (document.getElementById('computing-overlay').classList.contains('active')) return;
 
   const key = KEY_MAP[e.key.toUpperCase()];
   if (!key) return;
@@ -1780,6 +1783,7 @@ function onRandomPoolMessage({ data }, poolId, workerId) {
     buildScene('scene-config-inner', state.plates);
     updateScene('scene-config-inner', state.plates, state.activePlate);
     document.getElementById('btn-plates-dec').disabled = data.plates.length <= 2;
+    document.getElementById('btn-plates-inc').disabled = data.plates.length >= 8;
     document.getElementById('btn-pos-dec').disabled = getPositions() <= 3;
     return;
   }
@@ -1803,6 +1807,7 @@ document.querySelector('#computing-overlay .btn-cancel').addEventListener('click
   worker.onerror = workerError;
   randomPoolId++;
   terminateRandomPool();
+  resetProgress();
   hideOverlay();
   resetButtons();
 });
