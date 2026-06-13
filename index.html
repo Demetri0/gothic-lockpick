@@ -171,9 +171,9 @@ input[type=number] {
   --tilt: -30deg;         /* наклон камеры вниз; отрицательный = смотрим сверху */
   --yaw: -35deg;          /* поворот вокруг вертикали; отрицательный = видна правая грань */
   --plate-w: 220px;       /* plate width (X, where holes go) */
-  --plate-t: 90px;        /* plate height (Y) — «тост, стоящий вертикально» */
-  --plate-d: 48px;        /* plate local depth (top face depth) */
-  --plate-gap: 72px;      /* Z spacing between plates — consumed by JS only */
+  --plate-t: 180px;       /* plate height (Y) — «тост, стоящий вертикально» */
+  --plate-d: 28px;        /* plate thickness (top face depth) */
+  --plate-gap: 48px;      /* Z spacing between plates — consumed by JS only */
   --hole-size: 15px;
   --hole-padding: 0.17;   /* unitless fraction — JS-only, not valid in calc() */
   --pin-w: 10px;
@@ -354,9 +354,9 @@ input[type=number] {
 // ── Script #1 — State & constants ─────────────────────────────────────────
 
 const PLATE_W       = 220;   // px — must match --plate-w
-const PLATE_T       = 90;    // px — must match --plate-t
-const PLATE_D       = 48;    // px — must match --plate-d
-const PLATE_GAP     = 72;    // px — must match --plate-gap
+const PLATE_T       = 180;   // px — must match --plate-t
+const PLATE_D       = 28;    // px — must match --plate-d
+const PLATE_GAP     = 48;    // px — must match --plate-gap
 const HOLE_PADDING  = 0.17;  // fraction of PLATE_W on each side
 const HOLE_SIZE     = 15;    // px — must match --hole-size
 const PIN_W         = 10;    // px — must match --pin-w
