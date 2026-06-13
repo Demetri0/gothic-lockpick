@@ -170,9 +170,9 @@ input[type=number] {
 :root {
   --tilt: -30deg;         /* наклон камеры вниз; отрицательный = смотрим сверху */
   --yaw: -35deg;          /* поворот вокруг вертикали; отрицательный = видна правая грань */
-  --plate-w: 220px;       /* plate width (X, where holes go) */
+  --plate-w: 286px;       /* plate width (X, where holes go) */
   --plate-t: 180px;       /* plate height (Y) — «тост, стоящий вертикально» */
-  --plate-d: 28px;        /* plate thickness (top face depth) */
+  --plate-d: 31px;        /* plate thickness (top face depth) */
   --plate-gap: 48px;      /* Z spacing between plates — consumed by JS only */
   --hole-size: 15px;
   --hole-padding: 0.17;   /* unitless fraction — JS-only, not valid in calc() */
@@ -353,9 +353,9 @@ input[type=number] {
   <script>
 // ── Script #1 — State & constants ─────────────────────────────────────────
 
-const PLATE_W       = 220;   // px — must match --plate-w
+const PLATE_W       = 286;   // px — must match --plate-w
 const PLATE_T       = 180;   // px — must match --plate-t
-const PLATE_D       = 28;    // px — must match --plate-d
+const PLATE_D       = 31;    // px — must match --plate-d
 const PLATE_GAP     = 48;    // px — must match --plate-gap
 const HOLE_PADDING  = 0.17;  // fraction of PLATE_W on each side
 const HOLE_SIZE     = 15;    // px — must match --hole-size
@@ -1005,16 +1005,16 @@ document.addEventListener('keydown', (e) => {
 
   if (state.stage === 'config') {
     if (key === 'W') {
-      // Select previous plate (id - 1, wrap)
+      // W = дальше вглубь стека (плашка выше на экране), S = ближе
       const ids = state.plates.map(p => p.id);
       const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
+      state.activePlate = ids[(idx + 1) % ids.length];
       updateScene('scene-config-inner', state.plates, state.activePlate);
     }
     if (key === 'S') {
       const ids = state.plates.map(p => p.id);
       const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx + 1) % ids.length];
+      state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
       updateScene('scene-config-inner', state.plates, state.activePlate);
     }
     if (key === 'A') {
@@ -1044,13 +1044,13 @@ document.addEventListener('keydown', (e) => {
     if (key === 'W') {
       const ids = state.plates.map(p => p.id);
       const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
+      state.activePlate = ids[(idx + 1) % ids.length];
       updateScene('scene-solve-inner', state.plates, state.activePlate);
     }
     if (key === 'S') {
       const ids = state.plates.map(p => p.id);
       const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx + 1) % ids.length];
+      state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
       updateScene('scene-solve-inner', state.plates, state.activePlate);
     }
     if (key === 'A') solveStepBack();
