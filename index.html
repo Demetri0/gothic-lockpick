@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Gothic Lockpick Solver</title>
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #12111a;
+  color: #ddd;
+  font-family: 'Courier New', monospace;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.stage { display: flex; height: 100vh; }
+.stage.hidden { display: none; }
+
+.panel { padding: 24px; }
+.panel-left {
+  width: 320px;
+  min-width: 280px;
+  border-right: 1px solid #2a2a3a;
+  background: #1a1927;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.panel-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
+     color: #888; border-bottom: 1px solid #2a2a3a; padding-bottom: 10px; }
+
+.setting-row { display: flex; align-items: center; gap: 8px; }
+.setting-row.minor { opacity: 0.55; font-size: 0.82em; }
+.setting-row label { width: 80px; }
+
+button {
+  background: #1e1d2e;
+  color: #ccc;
+  border: 1px solid #3a3a5a;
+  padding: 4px 12px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 0.9em;
+}
+button:hover { background: #2a2a4a; border-color: #5a5a8a; }
+
+.btn-primary {
+  margin-top: auto;
+  padding: 10px;
+  background: #2a3a6a;
+  border-color: #4a6aaa;
+  color: #eee;
+  font-size: 1em;
+  letter-spacing: 2px;
+}
+.btn-primary:hover { background: #3a4a8a; }
+
+input[type=number] {
+  width: 48px;
+  background: #1e1d2e;
+  color: #ccc;
+  border: 1px solid #3a3a5a;
+  padding: 3px 6px;
+  text-align: center;
+  font-family: inherit;
+  border-radius: 3px;
+}
+
+/* Config accordion */
+.plate-section {
+  border: 1px solid #2a2a3a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.plate-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #1e1d2e;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.88em;
+}
+.plate-header:hover { background: #252436; }
+.plate-header .toggle { opacity: 0.5; width: 12px; }
+.plate-body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #161525;
+}
+.plate-body.collapsed { display: none; }
+
+.pos-control { display: flex; align-items: center; gap: 6px; font-size: 0.85em; }
+.pos-val { width: 24px; text-align: center; font-weight: bold; }
+
+.dep-row { display: flex; align-items: center; gap: 5px; font-size: 0.82em; }
+.dep-row select {
+  background: #1e1d2e; color: #ccc;
+  border: 1px solid #3a3a5a; border-radius: 3px;
+  padding: 2px 4px; font-family: inherit; font-size: 1em;
+}
+.dep-row .btn-remove { padding: 2px 6px; opacity: 0.5; }
+.dep-row .btn-remove:hover { opacity: 1; }
+.btn-add-dep { font-size: 0.78em; opacity: 0.6; padding: 3px 8px; }
+.btn-add-dep:hover { opacity: 1; }
+
+/* Solve panel */
+.solution-str {
+  font-size: 0.82em;
+  color: #aaa;
+  line-height: 1.8;
+  word-break: break-all;
+  border: 1px solid #2a2a3a;
+  padding: 8px;
+  border-radius: 3px;
+  background: #161525;
+}
+.solution-str .cur-step { color: #7af; font-weight: bold; }
+
+.solution-list {
+  list-style: none;
+  font-size: 0.85em;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow-y: auto;
+  max-height: 50vh;
+  padding: 0;
+}
+.solution-list li {
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: #888;
+}
+.solution-list li.active {
+  background: #2a3a6a;
+  color: #eee;
+}
+.solution-list li:hover { background: #1e2a4a; }
+
+.solve-buttons { display: flex; gap: 10px; }
+
+.wasd-hint {
+  font-size: 1.1em;
+  letter-spacing: 3px;
+  opacity: 0.3;
+}
+.wasd-label { font-size: 0.72em; opacity: 0.3; }
+
+/* No-solution message */
+.no-solution { color: #e55; font-size: 0.85em; text-align: center; padding: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- STAGE: CONFIG -->
+  <div id="stage-config" class="stage">
+    <div class="panel panel-left">
+      <h2>Настройки</h2>
+      <div class="setting-row">
+        <label>Плашки:</label>
+        <button id="btn-plates-dec">−</button>
+        <span id="val-plates">4</span>
+        <button id="btn-plates-inc">+</button>
+      </div>
+      <div class="setting-row minor">
+        <label>Позиции:</label>
+        <input type="number" id="val-positions" value="7" min="3" step="2" max="15">
+      </div>
+      <div id="plates-config"></div>
+      <button id="btn-start" class="btn-primary">СТАРТ</button>
+    </div>
+    <div class="panel panel-right">
+      <div id="scene-config" class="scene-wrap">
+        <div class="scene" id="scene-config-inner"></div>
+      </div>
+      <div class="wasd-hint">W ▲ &nbsp;&nbsp; A ◄ &nbsp; S ▼ &nbsp; D ►</div>
+      <div class="wasd-label">W/S — выбор плашки &nbsp;·&nbsp; A/D — движение</div>
+    </div>
+  </div>
+
+  <!-- STAGE: SOLVE -->
+  <div id="stage-solve" class="stage hidden">
+    <div class="panel panel-left">
+      <h2>Решение</h2>
+      <div id="solution-string" class="solution-str"></div>
+      <ol id="solution-steps" class="solution-list"></ol>
+      <div class="solve-buttons">
+        <button id="btn-back">← Назад</button>
+        <button id="btn-auto">▶ Авто</button>
+      </div>
+    </div>
+    <div class="panel panel-right">
+      <div id="scene-solve" class="scene-wrap">
+        <div class="scene" id="scene-solve-inner"></div>
+      </div>
+      <div class="wasd-hint">W ▲ &nbsp;&nbsp; A ◄ &nbsp; S ▼ &nbsp; D ►</div>
+      <div class="wasd-label">A — назад &nbsp;·&nbsp; D — вперёд по решению</div>
+    </div>
+  </div>
+
+  <!-- Script #1 — State & constants -->
+  <script>/* Task 3 */</script>
+  <!-- Script #2 — Game logic -->
+  <script>/* Task 4 */</script>
+  <!-- Script #3 — BFS solver -->
+  <script>/* Task 5 */</script>
+  <!-- Script #4 — Render -->
+  <script>/* Task 6 */</script>
+  <!-- Script #5 — Config UI -->
+  <script>/* Task 7 */</script>
+  <!-- Script #6 — Solve UI -->
+  <script>/* Task 8 */</script>
+  <!-- Script #7 — WASD -->
+  <script>/* Task 9 */</script>
+  <!-- Script #8 — Init -->
+  <script>/* Task 9 */</script>
+
+</body>
+</html>
