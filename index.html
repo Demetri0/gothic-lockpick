@@ -49,12 +49,15 @@ body {
   justify-content: center;
 }
 
+.dep-short { display: none; }
 @media (max-width: 600px) {
   body         { height: auto; overflow: visible; }
   .stage       { height: auto; overflow: visible; }
   .panel-left  { width: 100%; height: auto; border-right: none; overflow: visible; }
   #plates-matrix { flex: none; overflow-y: visible; }
   .panel-right { padding-top: var(--scene-overhead, 120px); }
+  .dep-full { display: none; }
+  .dep-short { display: inline; }
 }
 
 h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
@@ -115,23 +118,24 @@ input[type=number] {
 
 /* Config matrix */
 #plates-positions {
-  display: flex; flex-wrap: wrap; gap: 4px;
-  padding: 5px 6px;
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 7px 8px;
   border: 1px solid var(--border); border-radius: 4px;
   background: var(--bg-panel);
 }
 .pos-item {
-  display: flex; align-items: center; gap: 2px;
-  padding: 2px 6px; border-radius: 3px;
-  border: 1px solid transparent;
+  display: flex; align-items: center; gap: 4px;
+  padding: 5px; border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg-control);
 }
 .pos-item.active { background: var(--bg-accent); border-color: var(--border-strong); }
-.pos-item button { padding: 1px 5px; font-size: 0.75em; }
+.pos-item button { padding: 4px 10px; font-size: 0.9em; }
 .matrix-plate-label {
-  display: inline-block; min-width: 18px;
-  color: var(--text-dim); font-size: 0.8em; letter-spacing: 1px;
+  display: inline-block; min-width: 20px; text-align: center;
+  color: var(--text-dim); font-size: 0.9em; letter-spacing: 1px;
 }
-.pos-val { display: inline-block; width: 18px; text-align: center; font-size: 0.82em; }
+.pos-val { display: inline-block; width: 22px; text-align: center; font-size: 0.95em; }
 #plates-matrix {
   flex: 1; min-height: 0; overflow: auto;
   border: 1px solid var(--border); border-radius: 4px;
@@ -741,6 +745,13 @@ function applyMove(plates, plateId, dir) {
   return true;
 }
 
+/** Dep cell innerHTML: full label + short label toggled by CSS media query. */
+function depCellHTML(state) {
+  const full  = state === 'same' ? 'прямо' : state === 'opposite' ? 'обратно' : 'нет';
+  const short = state === 'same' ? 'П'     : state === 'opposite' ? 'О'       : 'нет';
+  return `<span class="dep-full">${full}</span><span class="dep-short">${short}</span>`;
+}
+
 /** Returns the id of the first plate that would go out of bounds, or null if move is valid. */
 function getBlockingPlateId(plates, plateId, dir) {
   const primaryDelta = dir === 'left' ? -1 : 1;
@@ -985,7 +996,7 @@ function renderMatrix() {
         btn.dataset.from = src.id;
         btn.dataset.to = tgt.id;
         btn.dataset.testId = `dep-${src.id}-${tgt.id}`;
-        btn.textContent = s === 'same' ? 'прямо' : s === 'opposite' ? 'обратно' : 'нет';
+        btn.innerHTML = depCellHTML(s);
         td.appendChild(btn);
       }
       tr.appendChild(td);
@@ -1106,29 +1117,31 @@ function wireConfigHandlers() {
     const next = order[(order.indexOf(cur) + 1) % 3];
     if (next === 'none') {
       if (depIdx !== -1) plate.deps.splice(depIdx, 1);
-      btn.dataset.state = 'none'; btn.textContent = 'нет';
+      btn.dataset.state = 'none'; btn.innerHTML = depCellHTML('none');
     } else {
       if (depIdx === -1) plate.deps.push({ targetId: toId, direction: next, steps: 1 });
       else plate.deps[depIdx].direction = next;
-      btn.dataset.state = next; btn.textContent = next === 'same' ? 'прямо' : 'обратно';
+      btn.dataset.state = next; btn.innerHTML = depCellHTML(next);
     }
     state.cachedSolution = null;
   }
 
   // Delegated: dep cells (LMB — forward, RMB — reverse)
   document.getElementById('plates-matrix').addEventListener('click', (e) => {
-    if (!e.target.classList.contains('dep-cell')) return;
-    const plate = state.plates.find(p => p.id === parseInt(e.target.dataset.from));
+    const btn = e.target.closest('.dep-cell');
+    if (!btn) return;
+    const plate = state.plates.find(p => p.id === parseInt(btn.dataset.from));
     if (!plate) return;
-    cycleDepCell(e.target, plate, parseInt(e.target.dataset.to), false);
+    cycleDepCell(btn, plate, parseInt(btn.dataset.to), false);
   });
 
   document.getElementById('plates-matrix').addEventListener('contextmenu', (e) => {
-    if (!e.target.classList.contains('dep-cell')) return;
+    const btn = e.target.closest('.dep-cell');
+    if (!btn) return;
     e.preventDefault();
-    const plate = state.plates.find(p => p.id === parseInt(e.target.dataset.from));
+    const plate = state.plates.find(p => p.id === parseInt(btn.dataset.from));
     if (!plate) return;
-    cycleDepCell(e.target, plate, parseInt(e.target.dataset.to), true);
+    cycleDepCell(btn, plate, parseInt(btn.dataset.to), true);
   });
 
   document.getElementById('btn-start').addEventListener('click', () => {
@@ -1531,18 +1544,17 @@ function wireSolveHandlers() {
   <script>
 // ── Script #7 — WASD ──────────────────────────────────────────────────────
 
-// Arrow keys duplicate WASD — browser extensions (vim-плагины) often
-// intercept letter keys, arrows are a reliable fallback
+// e.code = physical key position, locale-independent (KeyW is always where W sits on QWERTY)
 const KEY_MAP = {
-  W: 'W', S: 'S', A: 'A', D: 'D',
-  ARROWUP: 'W', ARROWDOWN: 'S', ARROWLEFT: 'A', ARROWRIGHT: 'D'
+  KeyW: 'W', KeyS: 'S', KeyA: 'A', KeyD: 'D',
+  ArrowUp: 'W', ArrowDown: 'S', ArrowLeft: 'A', ArrowRight: 'D'
 };
 
 document.addEventListener('keydown', (e) => {
   if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
   if (document.getElementById('computing-overlay').classList.contains('active')) return;
 
-  const key = KEY_MAP[e.key.toUpperCase()];
+  const key = KEY_MAP[e.code];
   if (!key) return;
   e.preventDefault();
 

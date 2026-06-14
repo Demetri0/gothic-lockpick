@@ -4,6 +4,27 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
+// ── Dep cell responsive text ──────────────────────────────────────────────────
+
+test('ячейка матрицы: на широком экране показывает полный текст', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.getByTestId('dep-1-2').click(); // none → same
+
+  const cell = page.getByTestId('dep-1-2');
+  await expect(cell.locator('.dep-full')).toBeVisible();
+  await expect(cell.locator('.dep-short')).toBeHidden();
+});
+
+test('ячейка матрицы: на узком экране показывает сокращённый текст', async ({ page }) => {
+  await page.setViewportSize({ width: 400, height: 800 });
+  await page.getByTestId('dep-1-2').click(); // none → same
+
+  const cell = page.getByTestId('dep-1-2');
+  await expect(cell.locator('.dep-full')).toBeHidden();
+  await expect(cell.locator('.dep-short')).toBeVisible();
+  await expect(cell.locator('.dep-short')).toHaveText('П');
+});
+
 // ── Plate count ──────────────────────────────────────────────────────────────
 
 test('кнопка + увеличивает количество плашек', async ({ page }) => {
