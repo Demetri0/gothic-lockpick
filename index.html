@@ -749,10 +749,10 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
     </div>
   </dialog>
 
-  <dialog id="notation-dialog">
-    <div id="notation-dialog-body"></div>
+  <dialog id="notation-dialog" data-test-id="notation-dialog">
+    <div id="notation-dialog-body" data-test-id="notation-dialog-body"></div>
     <div class="dialog-buttons">
-      <button id="btn-notation-close" class="btn-primary" data-i18n="dialog-cancel">Закрыть</button>
+      <button id="btn-notation-close" class="btn-primary" data-test-id="btn-notation-close" data-i18n="dialog-cancel">Закрыть</button>
     </div>
   </dialog>
 
@@ -807,7 +807,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   <!-- STAGE: SOLVE -->
   <div id="stage-solve" class="stage hidden" data-test-id="stage-solve">
     <div class="panel panel-left">
-      <h2><span style="display:inline-flex;align-items:center;gap:0"><span data-i18n="solve-title">Решение</span><button id="btn-notation-help" class="notation-btn">?</button></span><span class="h2-actions"><button id="btn-expand-3d-solve" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-solve" class="btn-icon active" title="3D вид">⬡</button></span></h2>
+      <h2><span style="display:inline-flex;align-items:center;gap:0"><span data-i18n="solve-title">Решение</span><button id="btn-notation-help" class="notation-btn" data-test-id="btn-notation-help">?</button></span><span class="h2-actions"><button id="btn-expand-3d-solve" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-solve" class="btn-icon active" title="3D вид">⬡</button></span></h2>
       <div class="solution-wrap">
         <div id="solution-string" class="solution-str" data-test-id="solution-string"></div>
         <button id="btn-copy-solution" class="btn-copy-solution" data-test-id="btn-copy-solution" data-i18n-title="copy-solution" title="Копировать цепочку">📋</button>

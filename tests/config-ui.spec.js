@@ -120,6 +120,32 @@ test('RMB on matrix cell cycles state in reverse', async ({ page }) => {
   await expect(cell).toHaveAttribute('data-state', 'none');
 });
 
+// ── Dep cell tooltip ─────────────────────────────────────────────────────────
+
+test('dep cell: title is set in none state', async ({ page }) => {
+  const title = await page.getByTestId('dep-1-2').getAttribute('title');
+  expect(title).toBeTruthy();
+});
+
+test('dep cell: title changes when cycled to same', async ({ page }) => {
+  const before = await page.getByTestId('dep-1-2').getAttribute('title');
+  await page.getByTestId('dep-1-2').click();
+  const after = await page.getByTestId('dep-1-2').getAttribute('title');
+  expect(after).not.toBe(before);
+});
+
+test('dep cell: title changes again when cycled to opposite', async ({ page }) => {
+  await page.getByTestId('dep-1-2').click(); // none → same
+  const titleSame = await page.getByTestId('dep-1-2').getAttribute('title');
+  await page.getByTestId('dep-1-2').click(); // same → opposite
+  const titleOpposite = await page.getByTestId('dep-1-2').getAttribute('title');
+  expect(titleOpposite).not.toBe(titleSame);
+});
+
+test('dep cell: none state displays · dot', async ({ page }) => {
+  await expect(page.getByTestId('dep-1-2')).toContainText('·');
+});
+
 // ── Random generation ────────────────────────────────────────────────────────
 
 test('Easy button finds a random config', async ({ page }) => {

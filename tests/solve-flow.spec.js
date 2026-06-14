@@ -99,3 +99,81 @@ test('Solve reuses the cached solution when config is unchanged', async ({ page 
   await expect(page.getByTestId('overlay')).not.toHaveClass(/active/);
   await expect(page.getByTestId('stage-solve')).toBeVisible();
 });
+
+// ── Notation help dialog ──────────────────────────────────────────────────────
+
+test('? button opens the notation help dialog', async ({ page }) => {
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+
+  await page.getByTestId('btn-notation-help').click();
+  await expect(page.getByTestId('notation-dialog')).toBeVisible();
+});
+
+test('notation dialog close button dismisses it', async ({ page }) => {
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+
+  await page.getByTestId('btn-notation-help').click();
+  await expect(page.getByTestId('notation-dialog')).toBeVisible();
+
+  await page.getByTestId('btn-notation-close').click();
+  await expect(page.getByTestId('notation-dialog')).toBeHidden();
+});
+
+test('notation dialog body contains content after opening', async ({ page }) => {
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+
+  await page.getByTestId('btn-notation-help').click();
+  const body = page.getByTestId('notation-dialog-body');
+  await expect(body).not.toBeEmpty();
+});
+
+// ── Copy solution button ──────────────────────────────────────────────────────
+
+test('copy button shows a success toast', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: () => Promise.resolve() },
+      configurable: true,
+    });
+  });
+  await page.goto('/');
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+
+  await page.getByTestId('btn-copy-solution').click();
+  await expect(page.getByTestId('toast').filter({ hasText: 'Скопировано' })).toBeVisible();
+});
+
+test('copy button writes solution steps joined with ➝ separator', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.__copiedText = null;
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: (text) => { window.__copiedText = text; return Promise.resolve(); } },
+      configurable: true,
+    });
+  });
+  await page.goto('/');
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+
+  await page.getByTestId('btn-copy-solution').click();
+  const copied = await page.evaluate(() => window.__copiedText);
+  expect(copied).toBeTruthy();
+  // Multi-step solutions use ➝ as separator; single-step has no separator but is still a string
+  const steps = copied.split(' ➝ ');
+  expect(steps.length).toBeGreaterThanOrEqual(1);
+  expect(steps.every(s => /^\d+[AD]\d*$/.test(s))).toBe(true);
+});
