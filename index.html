@@ -1507,10 +1507,114 @@ document.getElementById('btn-export').addEventListener('click', () => {
     .catch(() => showToast(t('toast-copy-fail'), 'error'));
 });
 
-function applyImportedConfig(text) {
+/**
+ * Parse Gothic INI entry or informal share format into a plates array.
+ *
+ * Handles all of:
+ *   Full INI entry  — rules="A:B-;..." / start_pos="1,2,3,4,5,6"
+ *   Compact share   — "02556 , A:D-; C:A-,D-; D:C-; E:C+"
+ *                     "605410 A:B-,C-,F+;D:A-,F+;E:D+,F-;F:B+"
+ *                     "A:B+;B:C-,D-;D:A-,B-,C-,E-;E:A+,B-,C- 52401"
+ *                     "A:B-;...\nstart_pos=134644"
+ *
+ * Positions are 0-indexed in both formats (0–6 → our 1–7).
+ * Letters A–G map to plate IDs 1–7.
+ */
+function parseGothicFormat(raw) {
+  const text = raw.trim();
+
+  // ── 1. Extract rules string ──────────────────────────────────────────────
+  const rulesKeyM = text.match(/rules\s*=\s*"{0,2}([^"\n]+)"{0,2}/i);
+  let rulesStr = rulesKeyM ? rulesKeyM[1] : text;
+
+  // ── 2. Extract start_pos ─────────────────────────────────────────────────
+  let rawPos = null;
+  const spKeyM = text.match(/start_pos\s*=\s*"{0,2}([\d,]+)"{0,2}/i);
+  if (spKeyM) {
+    const v = spKeyM[1];
+    rawPos = v.includes(',')
+      ? v.split(',').map(s => parseInt(s.trim(), 10))
+      : [...v].map(Number);
+    rulesStr = rulesStr.replace(spKeyM[0], '');
+  } else {
+    // Standalone block of 2–8 consecutive digits (compact format)
+    const dM = text.match(/(?<![,\d])(\d{2,8})(?![,\d])/);
+    if (dM) {
+      rawPos = [...dM[1]].map(Number);
+      rulesStr = rulesStr.replace(dM[0], '');
+    }
+  }
+
+  // ── 3. Pull cells= count if present (INI) ────────────────────────────────
+  const cellsIniM = text.match(/(?:^|[\n;])\s*cells\s*=\s*(\d+)/i);
+  const cellsIni = cellsIniM ? parseInt(cellsIniM[1], 10) : 0;
+
+  // ── 4. Strip INI-only keys from rulesStr ─────────────────────────────────
+  rulesStr = rulesStr
+    .replace(/\[.*?\]/g, '')
+    .replace(/name\s*=\s*"{0,2}[^"\n]*"{0,2}/gi, '')
+    .replace(/cells\s*=\s*\d+/gi, '')
+    .replace(/tags\s*=\s*"{0,2}[^"\n]*"{0,2}/gi, '')
+    .replace(/"/g, '');
+
+  // ── 5. Parse dependency rules ────────────────────────────────────────────
+  const depMap = {};
+  for (const token of rulesStr.split(';')) {
+    const m = token.trim().match(/([A-G])\s*:\s*(.+)$/i);
+    if (!m) continue;
+    const src = m[1].toUpperCase();
+    if (!depMap[src]) depMap[src] = [];
+    for (const part of m[2].split(',')) {
+      const pm = part.trim().match(/^([A-G])\s*([+\-])$/i);
+      if (!pm) continue;
+      depMap[src].push({
+        targetId: pm[1].toUpperCase().charCodeAt(0) - 64,
+        direction: pm[2] === '+' ? 'same' : 'opposite',
+        steps: 1,
+      });
+    }
+  }
+
+  // ── 6. Determine cell count ───────────────────────────────────────────────
+  const allLetters = new Set(Object.keys(depMap));
+  for (const ds of Object.values(depMap))
+    for (const d of ds) allLetters.add(String.fromCharCode(64 + d.targetId));
+  const maxFromRules = allLetters.size
+    ? Math.max(...[...allLetters].map(l => l.charCodeAt(0) - 64))
+    : 0;
+  const cellsFromPos = rawPos?.length ?? 0;
+  const cells = cellsFromPos || cellsIni || maxFromRules;
+
+  if (cells < 2 || cells > 8) throw new Error('invalid cell count: ' + cells);
+  if (cellsFromPos && maxFromRules && cellsFromPos < maxFromRules)
+    throw new Error('position count less than letters in rules');
+
+  // ── 7. Build plates ───────────────────────────────────────────────────────
+  const POSITIONS = 7;
+  const center = Math.floor(POSITIONS / 2) + 1;
+  return Array.from({ length: cells }, (_, i) => {
+    const letter = String.fromCharCode(65 + i);
+    const p0 = rawPos ? rawPos[i] : (center - 1);
+    return {
+      id: i + 1,
+      positions: POSITIONS,
+      currentPos: Math.max(1, Math.min(POSITIONS, p0 + 1)),
+      deps: depMap[letter] || [],
+    };
+  });
+}
+
+function applyImportedConfig(rawText) {
+  const text = rawText.trim();
   let plates;
-  try { plates = JSON.parse(text); } catch {
-    showToast(t('toast-invalid'), 'error'); return;
+  try {
+    plates = JSON.parse(text);
+  } catch {
+    try {
+      plates = parseGothicFormat(text);
+    } catch {
+      showToast(t('toast-invalid'), 'error'); return;
+    }
   }
   if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) {
     showToast(t('toast-invalid'), 'error'); return;
@@ -1934,6 +2038,7 @@ document.addEventListener('keydown', (e) => {
 
   const key = KEY_MAP[e.code];
   if (!key) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
   e.preventDefault();
 
   if (state.stage === 'config') {
