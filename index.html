@@ -2086,14 +2086,17 @@ function resetButtons() {
   document.querySelectorAll('.btn-difficulty').forEach(b => b.disabled = false);
 }
 
-const _fmtNum = new Intl.NumberFormat('ru-RU');
-const _fmtC   = new Intl.NumberFormat('ru-RU', { notation: 'compact', compactDisplay: 'short' });
-const _kSuffix = (() => {
-  const parts = _fmtC.formatToParts(1000);
+const _localeMap = { ru: 'ru-RU', uk: 'uk-UA', en: 'en-US' };
+function _getLang() { return _localeMap[state?.lang] || 'ru-RU'; }
+function fmtK(n) {
+  const locale = _getLang();
+  const fmtC = new Intl.NumberFormat(locale, { notation: 'compact', compactDisplay: 'short' });
+  const parts = fmtC.formatToParts(1000);
   const ci = parts.findIndex(p => p.type === 'compact');
-  return parts.slice(ci > 0 && parts[ci - 1].type === 'literal' ? ci - 1 : ci).map(p => p.value).join('');
-})();
-function fmtK(n) { return _fmtNum.format(Math.round(n / 1000)) + _kSuffix; }
+  const suffix = parts.slice(ci > 0 && parts[ci - 1].type === 'literal' ? ci - 1 : ci).map(p => p.value).join('');
+  return new Intl.NumberFormat(locale).format(Math.round(n / 1000)) + suffix;
+}
+const _fmtNum = { format: n => new Intl.NumberFormat(_getLang()).format(n) };
 
 let _progressStates = null;
 
