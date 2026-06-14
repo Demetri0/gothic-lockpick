@@ -685,12 +685,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
           <span id="val-plates" data-test-id="val-plates">4</span>
           <button id="btn-plates-inc" data-test-id="btn-plates-inc">+</button>
         </span>
-        <span class="ctrl-positions">
-          <label data-i18n="label-positions">Позиции:</label>
-          <button id="btn-pos-dec" data-test-id="btn-pos-dec">−</button>
-          <span id="val-positions" data-test-id="val-positions">7</span>
-          <button id="btn-pos-inc" data-test-id="btn-pos-inc">+</button>
-        </span>
+
         <span style="flex:1"></span>
         <span class="ctrl-difficulty">
           <label data-i18n="label-random">Рандом:</label>
@@ -1118,10 +1113,6 @@ function updateScene(sceneId, plates, activePlateId) {
   <script>
 // ── Script #5 — Config UI ─────────────────────────────────────────────────
 
-function getPositions() {
-  const v = parseInt(document.getElementById('val-positions').textContent);
-  return (v >= 3 && v % 2 === 1) ? v : DEFAULT_POSITIONS;
-}
 
 function getPlateCount() {
   return parseInt(document.getElementById('val-plates').textContent);
@@ -1129,7 +1120,7 @@ function getPlateCount() {
 
 function rebuildConfig() {
   const count = getPlateCount();
-  const positions = getPositions();
+  const positions = DEFAULT_POSITIONS;
   const existing = state.plates;
   state.plates = Array.from({ length: count }, (_, i) => {
     const id = i + 1;
@@ -1286,26 +1277,6 @@ function wireConfigHandlers() {
 
   updatePlateCountButtons();
 
-  const updatePosButtons = () => {
-    const v = getPositions();
-    document.getElementById('btn-pos-dec').disabled = v <= 3;
-  };
-
-  document.getElementById('btn-pos-dec').addEventListener('click', () => {
-    let v = getPositions();
-    if (v > 3) { document.getElementById('val-positions').textContent = v - 2; }
-    rebuildConfig();
-    updatePosButtons();
-  });
-
-  document.getElementById('btn-pos-inc').addEventListener('click', () => {
-    let v = getPositions();
-    document.getElementById('val-positions').textContent = v + 2;
-    rebuildConfig();
-    updatePosButtons();
-  });
-
-  updatePosButtons();
 
   document.querySelectorAll('.btn-difficulty').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1324,7 +1295,7 @@ function wireConfigHandlers() {
         w.postMessage({
           type:        'random',
           workerId:    i,
-          positions:   getPositions(),
+          positions:   DEFAULT_POSITIONS,
           minSteps:    parseInt(btn.dataset.min),
           maxSteps:    btn.dataset.max ? parseInt(btn.dataset.max) : Infinity,
           minPlates:   parseInt(btn.dataset.plates) || 2,
@@ -1464,13 +1435,11 @@ function applyImportedConfig(text) {
   state.activePlate = 1;
   state.cachedSolution = null;
   document.getElementById('val-plates').textContent = plates.length;
-  document.getElementById('val-positions').textContent = plates[0].positions;
   renderMatrix();
   buildScene('scene-config-inner', state.plates);
   updateScene('scene-config-inner', state.plates, state.activePlate);
   document.getElementById('btn-plates-dec').disabled = plates.length <= 2;
   document.getElementById('btn-plates-inc').disabled = plates.length >= 8;
-  document.getElementById('btn-pos-dec').disabled = plates[0].positions <= 3;
   showToast(t('toast-applied'));
 }
 
@@ -2258,7 +2227,6 @@ function onRandomPoolMessage({ data }, poolId, workerId) {
     updateScene('scene-config-inner', state.plates, state.activePlate);
     document.getElementById('btn-plates-dec').disabled = data.plates.length <= 2;
     document.getElementById('btn-plates-inc').disabled = data.plates.length >= 8;
-    document.getElementById('btn-pos-dec').disabled = getPositions() <= 3;
     return;
   }
 

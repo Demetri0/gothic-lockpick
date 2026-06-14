@@ -55,28 +55,6 @@ test('− button is disabled at 2 plates', async ({ page }) => {
   await expect(page.getByTestId('btn-plates-dec')).toBeDisabled();
 });
 
-// ── Position count ───────────────────────────────────────────────────────────
-
-test('+ button increases positions by 2 (odd only)', async ({ page }) => {
-  const before = parseInt(await page.getByTestId('val-positions').textContent());
-  await page.getByTestId('btn-pos-inc').click();
-  await expect(page.getByTestId('val-positions')).toHaveText(String(before + 2));
-});
-
-test('− button decreases positions by 2', async ({ page }) => {
-  const before = parseInt(await page.getByTestId('val-positions').textContent());
-  await page.getByTestId('btn-pos-dec').click();
-  await expect(page.getByTestId('val-positions')).toHaveText(String(before - 2));
-});
-
-test('positions − button is disabled at 3', async ({ page }) => {
-  // Default 7 — 2 clicks to reach 3 (7→5→3)
-  await page.getByTestId('btn-pos-dec').click();
-  await page.getByTestId('btn-pos-dec').click();
-  await expect(page.getByTestId('val-positions')).toHaveText('3');
-  await expect(page.getByTestId('btn-pos-dec')).toBeDisabled();
-});
-
 // ── Position strip ───────────────────────────────────────────────────────────
 
 test('position strip: ► increases plate position', async ({ page }) => {
