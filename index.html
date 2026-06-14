@@ -250,16 +250,24 @@ input[type=number] {
 }
 .nd-dl dt { color: var(--accent); }
 .nd-dl dd { color: var(--text-soft); margin: 0; }
-.solution-wrap { display: flex; align-items: flex-start; gap: 6px; }
-.solution-wrap .solution-str { flex: 1; }
+.solution-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  border: 1px solid var(--border);
+  padding: 8px;
+  border-radius: 3px;
+  background: var(--bg-inset);
+}
+.solution-wrap .solution-str { flex: 1; border: none; padding: 0; border-radius: 0; background: none; }
 .btn-copy-solution {
   flex-shrink: 0;
   background: none;
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
   border-radius: 3px;
   color: var(--text-muted);
-  font-size: 0.9em;
-  padding: 4px 6px;
+  font-size: 1.2em;
+  padding: 8px 6px;
   cursor: pointer;
   line-height: 1;
   transition: border-color 0.15s, color 0.15s;
@@ -876,6 +884,9 @@ const TRANSLATIONS = {
     'explore-no-moves': 'нет ходов',
     'explore-return': '↩ вернуться к шагу {step}',
     'dep-same': 'прямо',    'dep-opposite': 'обратно',
+    'dep-title-none':     'Движение элемента {from} не влияет на движение элемента {to}',
+    'dep-title-same':     'Движение элемента {from} тянет элемент {to} в том же направлении',
+    'dep-title-opposite': 'Движение элемента {from} тянет элемент {to} в обратном направлении',
     'dep-same-s': 'П',      'dep-opposite-s': 'О',
     'copy-solution': 'Копировать цепочку',
     'toast-copied': 'Скопировано в буфер',
@@ -906,6 +917,9 @@ const TRANSLATIONS = {
     'explore-no-moves': 'no moves',
     'explore-return': '↩ return to step {step}',
     'dep-same': 'direct',   'dep-opposite': 'reverse',
+    'dep-title-none':     'Moving plate {from} does not affect plate {to}',
+    'dep-title-same':     'Moving plate {from} pulls plate {to} in the same direction',
+    'dep-title-opposite': 'Moving plate {from} pulls plate {to} in the opposite direction',
     'dep-same-s': 'D',      'dep-opposite-s': 'R',
     'copy-solution': 'Copy chain',
     'toast-copied': 'Copied to clipboard',
@@ -936,6 +950,9 @@ const TRANSLATIONS = {
     'explore-no-moves': 'немає ходів',
     'explore-return': '↩ повернутись до кроку {step}',
     'dep-same': 'пряма',    'dep-opposite': 'зворот.',
+    'dep-title-none':     'Рух елемента {from} не впливає на рух елемента {to}',
+    'dep-title-same':     'Рух елемента {from} тягне елемент {to} в тому ж напрямку',
+    'dep-title-opposite': 'Рух елемента {from} тягне елемент {to} у зворотному напрямку',
     'dep-same-s': 'П',      'dep-opposite-s': 'З',
     'copy-solution': 'Скопіювати ланцюжок',
     'toast-copied': 'Скопійовано',
@@ -1038,6 +1055,11 @@ function applyMove(plates, plateId, dir) {
 }
 
 /** Dep cell innerHTML: full label + short label toggled by CSS media query. */
+function depCellTitle(s, from, to) {
+  const key = s === 'same' ? 'dep-title-same' : s === 'opposite' ? 'dep-title-opposite' : 'dep-title-none';
+  return t(key, { from, to });
+}
+
 function depCellHTML(s) {
   const full  = s === 'same' ? t('dep-same')   : s === 'opposite' ? t('dep-opposite')   : '·';
   const short = s === 'same' ? t('dep-same-s') : s === 'opposite' ? t('dep-opposite-s') : '·';
@@ -1285,6 +1307,7 @@ function renderMatrix() {
         btn.dataset.from = src.id;
         btn.dataset.to = tgt.id;
         btn.dataset.testId = `dep-${src.id}-${tgt.id}`;
+        btn.title = depCellTitle(s, src.id, tgt.id);
         btn.innerHTML = depCellHTML(s);
         td.appendChild(btn);
       }
@@ -1417,11 +1440,11 @@ function wireConfigHandlers() {
     const next = order[(order.indexOf(cur) + 1) % 3];
     if (next === 'none') {
       if (depIdx !== -1) plate.deps.splice(depIdx, 1);
-      btn.dataset.state = 'none'; btn.innerHTML = depCellHTML('none');
+      btn.dataset.state = 'none'; btn.title = depCellTitle('none', btn.dataset.from, btn.dataset.to); btn.innerHTML = depCellHTML('none');
     } else {
       if (depIdx === -1) plate.deps.push({ targetId: toId, direction: next, steps: 1 });
       else plate.deps[depIdx].direction = next;
-      btn.dataset.state = next; btn.innerHTML = depCellHTML(next);
+      btn.dataset.state = next; btn.title = depCellTitle(next, btn.dataset.from, btn.dataset.to); btn.innerHTML = depCellHTML(next);
     }
     state.cachedSolution = null;
   }
@@ -1859,7 +1882,7 @@ function wireSolveHandlers() {
   };
 
   document.getElementById('btn-copy-solution').addEventListener('click', () => {
-    const text = state.solution.join(' ');
+    const text = state.solution.join(' ➝ ');
     navigator.clipboard.writeText(text)
       .then(() => showToast(t('toast-copied')))
       .catch(() => showToast(t('toast-copy-fail'), 'error'));
