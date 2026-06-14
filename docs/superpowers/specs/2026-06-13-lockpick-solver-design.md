@@ -37,6 +37,7 @@ All plates in a configuration share the same `positions` value. `steps` is alway
 ```js
 {
   stage: 'config' | 'solve',
+  lang: 'ru' | 'uk' | 'en',         // UI language; persisted to localStorage
   plates: Plate[],
   activePlate: Number,          // id of selected plate
   history: String[],            // notation moves made in config stage
@@ -224,7 +225,7 @@ Left panel:
 - `Ctrl+C` — copy current config (when no text selected).
 - `Ctrl+V` — import config from clipboard (config stage only).
 - Position strip — each plate with `◄ currentPos ►` controls. **These buttons mutate `plate.currentPos` directly, bypassing `computeMove` entirely.** No dependency checks, no chain reactions, no blocking. This is intentional and must be preserved: the strip is a configuration tool that lets the designer place every plate at any valid position independently, regardless of what the dependency graph would allow during normal play.
-- Dependency matrix — N×N table; diagonal cells are disabled and rendered with a stripe pattern to signal unavailability; LMB cycles `none→same→opposite`, RMB cycles reverse. Cells show `нет / прямо / обратно` at full width, abbreviated `Х / П / О` when the matrix container is narrow (container query on `#plates-matrix`).
+- Dependency matrix — N×N table; diagonal cells are disabled and rendered with a stripe pattern to signal unavailability; LMB cycles `none→same→opposite`, RMB cycles reverse. Cells show full-word dep labels at full width, abbreviated single-letter labels when the matrix container is narrow (container query on `#plates-matrix`); both forms are localized via `t()`.
 - `РЕШЕНИЕ` — start BFS or use `cachedSolution`.
 
 Right panel: isometric 3D scene + keyboard legend.
@@ -258,8 +259,8 @@ Pressing A/D in solve stage automatically enters explore mode (`solveMode = 'exp
 
 Shown during BFS and random generation. Contains:
 - Spinner.
-- Progress line (BFS: "Состояний проверено: N тыс." / random: "Попытки: N / M · K тыс.").
-- Per-thread breakdown (random only) in tree-style monospace layout.
+- Progress line (BFS: states-checked string / random: attempts string) — both localized via `t()`.
+- Per-thread breakdown (random only) in tree-style monospace layout; attempt label and numeric suffix are also localized.
 - Cancel button — terminates all active workers, resets state.
 
 While overlay is active, keyboard events (WASD) are suppressed.
@@ -362,6 +363,37 @@ Note: container queries measure the content-box. With `padding: 24px` on `.panel
 
 ---
 
+## Localization
+
+Three languages: `ru` (Russian, default), `uk` (Ukrainian), `en` (English). Selected by flag buttons (`🇷🇺 🇺🇦 🇬🇧`) in `#lang-selector` (fixed, top-right). Choice persisted via `localStorage('lang')`.
+
+### TRANSLATIONS
+
+`TRANSLATIONS` is a plain object keyed by language code, each value a flat map of `key → string`. Keys cover all user-visible strings: UI labels, button text, dep cell values, toast messages, progress strings, etc.
+
+### t(key, vars)
+
+```js
+t('explore-return', { step: 3 })  // → "↩ вернуться к шагу 3"
+```
+
+Looks up `TRANSLATIONS[state.lang][key]`, falls back to `TRANSLATIONS.ru`, then to `key` itself. Substitutes `{name}` placeholders from `vars`.
+
+### setLanguage(lang)
+
+1. Sets `state.lang`, writes `localStorage`.
+2. Updates all `[data-i18n]` elements via `el.textContent = t(el.dataset.i18n)`.
+3. Updates all `[data-i18n-title]` elements via `el.title = t(...)`.
+4. Re-renders `#btn-auto` and `#btn-start` (their text varies with app state).
+5. Toggles `.active` on lang selector buttons.
+6. Calls `renderMatrix()` and (if in solve stage) `renderSolvePanel()` to re-render dynamic content.
+
+### Number formatting
+
+`fmtK(n)` and `_fmtNum` are locale-aware: they create `Intl.NumberFormat` instances using `_getLang()` (maps `state.lang` → BCP 47 locale tag) on each call. This ensures the thousands separator and compact suffix (`тыс.` / `тис.` / `k`) match the selected language.
+
+---
+
 ## File Structure
 
 ```txt
@@ -371,7 +403,8 @@ index.html
   <body>                        Stage config, stage solve, overlay, dialog, toast container
   <script type="text/x-worker"> Worker: center, computeMove, compressPath, reconstructPath,
                                          bfsSolve (head-index + parent pointers), randomizer loop
-  Script #1 — State             PLATE_W/D/GAP, DEFAULT_*, state object, makePlate(), center()
+  Script #1 — State             PLATE_W/D/GAP, DEFAULT_*, TRANSLATIONS, t(), setLanguage(),
+                                 state object (incl. lang), makePlate(), center()
   Script #2 — Game logic        computeMove(), applyMove(), notation helpers (toNotation, parseNotation)
   Script #3 — Game helpers      posToOffsetX(), holeStep(), depCellHTML(), getBlockingPlateId(),
                                  flashBlockedPlate(), addExploreMove(), returnToSolution()
@@ -381,7 +414,7 @@ index.html
   Script #6 — Solve UI          switchToSolve(), switchToConfig(), renderSolvePanel(),
                                  solveStepForward/Back(), jumpToStep(), auto-play
   Script #7 — WASD              keydown handler (config + solve stages, explore mode)
-  Script #8 — Init              init() wires all handlers, builds initial scene
+  Script #8 — Init              init() wires lang selector, all handlers, builds initial scene
   Script #9 — Worker bootstrap  createWorker(), onWorkerMessage(), workerError(),
                                  random pool management (createRandomPool, terminateRandomPool,
                                  onRandomPoolMessage, renderPoolProgress),
