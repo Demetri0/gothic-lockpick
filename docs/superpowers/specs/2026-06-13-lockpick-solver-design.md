@@ -213,7 +213,7 @@ Left panel:
 - 📤 / 📥 — export/import via clipboard.
 - `Ctrl+C` — copy current config (when no text selected).
 - `Ctrl+V` — import config from clipboard (config stage only).
-- Position strip — each plate with `◄ currentPos ►` controls.
+- Position strip — each plate with `◄ currentPos ►` controls. **These buttons mutate `plate.currentPos` directly, bypassing `computeMove` entirely.** No dependency checks, no chain reactions, no blocking. This is intentional and must be preserved: the strip is a configuration tool that lets the designer place every plate at any valid position independently, regardless of what the dependency graph would allow during normal play.
 - Dependency matrix — N×N table; diagonal disabled; LMB cycles `none→same→opposite`, RMB cycles reverse.
 - `РЕШЕНИЕ` — start BFS or use `cachedSolution`.
 
