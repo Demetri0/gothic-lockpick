@@ -26,6 +26,7 @@ body {
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   background: var(--bg-panel);
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -65,9 +66,15 @@ body {
 h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
      color: var(--text-dim); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
 
-.setting-row { display: flex; align-items: center; gap: 8px; width: 100%; }
+.setting-row { display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap; }
 .setting-row.minor { opacity: 0.55; font-size: 0.82em; }
 .setting-row label { white-space: nowrap; }
+.ctrl-plates, .ctrl-positions, .ctrl-difficulty, .ctrl-io {
+  display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; white-space: nowrap;
+}
+@container (max-width: 600px) { .ctrl-positions  { display: none; } }
+@container (max-width: 420px) { .ctrl-difficulty { display: none; } }
+@container (max-width: 270px) { .ctrl-io { display: none; } }
 .btn-icon {
   width: 28px; height: 28px; padding: 0;
   font-size: 1em; line-height: 1;
@@ -592,21 +599,29 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
     <div class="panel panel-left">
       <h2>Настройки</h2>
       <div class="setting-row">
-        <label>Элементы:</label>
-        <button id="btn-plates-dec" data-test-id="btn-plates-dec">−</button>
-        <span id="val-plates" data-test-id="val-plates">4</span>
-        <button id="btn-plates-inc" data-test-id="btn-plates-inc">+</button>
-        <label style="margin-left:8px">Позиции:</label>
-        <button id="btn-pos-dec" data-test-id="btn-pos-dec">−</button>
-        <span id="val-positions" data-test-id="val-positions">7</span>
-        <button id="btn-pos-inc" data-test-id="btn-pos-inc">+</button>
+        <span class="ctrl-plates">
+          <label>Элементы:</label>
+          <button id="btn-plates-dec" data-test-id="btn-plates-dec">−</button>
+          <span id="val-plates" data-test-id="val-plates">4</span>
+          <button id="btn-plates-inc" data-test-id="btn-plates-inc">+</button>
+        </span>
+        <span class="ctrl-positions">
+          <label>Позиции:</label>
+          <button id="btn-pos-dec" data-test-id="btn-pos-dec">−</button>
+          <span id="val-positions" data-test-id="val-positions">7</span>
+          <button id="btn-pos-inc" data-test-id="btn-pos-inc">+</button>
+        </span>
         <span style="flex:1"></span>
-        <label>Рандом:</label>
-        <button class="btn-difficulty" data-min="7"  data-max="13"             data-test-id="btn-easy"   title="Лёгкий"></button>
-        <button class="btn-difficulty" data-min="14" data-max="20" data-plates="5" data-test-id="btn-medium" title="Средний"></button>
-        <button class="btn-difficulty" data-min="21"               data-plates="7" data-test-id="btn-hard"   title="Сложный"></button>
-        <button id="btn-export" class="btn-icon" data-test-id="btn-export" title="Экспорт">📤</button>
-        <button id="btn-import" class="btn-icon" data-test-id="btn-import" title="Импорт">📥</button>
+        <span class="ctrl-difficulty">
+          <label>Рандом:</label>
+          <button class="btn-difficulty" data-min="7"  data-max="13"             data-test-id="btn-easy"   title="Лёгкий"></button>
+          <button class="btn-difficulty" data-min="14" data-max="20" data-plates="5" data-test-id="btn-medium" title="Средний"></button>
+          <button class="btn-difficulty" data-min="21"               data-plates="7" data-test-id="btn-hard"   title="Сложный"></button>
+        </span>
+        <span class="ctrl-io">
+          <button id="btn-export" class="btn-icon" data-test-id="btn-export" title="Экспорт">📤</button>
+          <button id="btn-import" class="btn-icon" data-test-id="btn-import" title="Импорт">📥</button>
+        </span>
       </div>
       <div id="plates-positions" data-test-id="plates-positions"></div>
       <div id="plates-matrix" data-test-id="plates-matrix"></div>
