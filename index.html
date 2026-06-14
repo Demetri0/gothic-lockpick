@@ -189,6 +189,67 @@ input[type=number] {
 .dep-cell[data-state="opposite"]:hover { background: #382323; }
 
 /* Solve panel */
+.notation-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #666;
+  background: none;
+  color: #888;
+  font-size: 0.55em;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+  margin-left: 7px;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.notation-btn:hover { border-color: var(--accent); color: var(--accent); }
+#notation-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  height: fit-content;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  color: var(--text);
+  font-family: 'Courier New', monospace;
+  padding: 20px 24px;
+  min-width: 300px;
+  max-width: 420px;
+  outline: none;
+}
+#notation-dialog::backdrop { background: rgba(14, 12, 9, 0.65); }
+#notation-dialog h3 {
+  font-size: 0.78em;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+.nd-format { margin-bottom: 14px; font-size: 0.88em; }
+.nd-format code { color: var(--accent); font-size: 1.1em; }
+.nd-table { font-size: 0.85em; margin-bottom: 14px; border-collapse: collapse; }
+.nd-table td { padding: 2px 8px 2px 0; }
+.nd-table td:first-child code { color: var(--accent); min-width: 3em; display: inline-block; }
+.nd-table td:last-child { color: var(--text-soft); }
+.nd-dl {
+  font-size: 0.82em;
+  margin: 0 0 20px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+}
+.nd-dl dt { color: var(--accent); }
+.nd-dl dd { color: var(--text-soft); margin: 0; }
 .solution-str {
   font-size: 0.82em;
   color: var(--text-soft);
@@ -665,6 +726,13 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
     </div>
   </dialog>
 
+  <dialog id="notation-dialog">
+    <div id="notation-dialog-body"></div>
+    <div class="dialog-buttons">
+      <button id="btn-notation-close" class="btn-primary" data-i18n="dialog-cancel">Закрыть</button>
+    </div>
+  </dialog>
+
   <div id="computing-overlay" data-test-id="overlay">
     <div class="spinner"></div>
     <div id="overlay-progress">
@@ -716,7 +784,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   <!-- STAGE: SOLVE -->
   <div id="stage-solve" class="stage hidden" data-test-id="stage-solve">
     <div class="panel panel-left">
-      <h2><span data-i18n="solve-title">Решение</span><span class="h2-actions"><button id="btn-expand-3d-solve" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-solve" class="btn-icon active" title="3D вид">⬡</button></span></h2>
+      <h2><span style="display:inline-flex;align-items:center;gap:0"><span data-i18n="solve-title">Решение</span><button id="btn-notation-help" class="notation-btn">?</button></span><span class="h2-actions"><button id="btn-expand-3d-solve" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-solve" class="btn-icon active" title="3D вид">⬡</button></span></h2>
       <div id="solution-string" class="solution-str" data-test-id="solution-string"></div>
       <ol id="solution-steps" class="solution-list" data-test-id="solution-steps"></ol>
       <div class="solve-buttons">
@@ -1729,6 +1797,54 @@ function wireSolveHandlers() {
   document.getElementById('btn-back').addEventListener('click', switchToConfig);
   document.getElementById('btn-prev').addEventListener('click', solveStepBack);
   document.getElementById('btn-step').addEventListener('click', solveStepForward);
+
+  const _notationContent = {
+    ru: () => `
+<h3>Нотация ходов</h3>
+<p class="nd-format"><code>[элемент][клавиша][?шагов]</code></p>
+<table class="nd-table">
+  <tr><td><code>1A</code></td><td>— плашка 1, клавиша A, 1 ход</td></tr>
+  <tr><td><code>2D3</code></td><td>— плашка 2, клавиша D, 3 хода</td></tr>
+</table>
+<dl class="nd-dl">
+  <dt><code>[элемент]</code></dt><dd>— номер плашки (1–8)</dd>
+  <dt><code>[клавиша]</code></dt><dd>— A или D</dd>
+  <dt><code>[?шагов]</code></dt><dd>— кол-во ходов; 1 если не указано</dd>
+</dl>`,
+    en: () => `
+<h3>Move Notation</h3>
+<p class="nd-format"><code>[plate][key][?steps]</code></p>
+<table class="nd-table">
+  <tr><td><code>1A</code></td><td>— plate 1, key A, 1 step</td></tr>
+  <tr><td><code>2D3</code></td><td>— plate 2, key D, 3 steps</td></tr>
+</table>
+<dl class="nd-dl">
+  <dt><code>[plate]</code></dt><dd>— plate number (1–8)</dd>
+  <dt><code>[key]</code></dt><dd>— A or D</dd>
+  <dt><code>[?steps]</code></dt><dd>— move count; 1 if omitted</dd>
+</dl>`,
+    uk: () => `
+<h3>Нотація ходів</h3>
+<p class="nd-format"><code>[елемент][клавіша][?кроків]</code></p>
+<table class="nd-table">
+  <tr><td><code>1A</code></td><td>— плашка 1, клавіша A, 1 хід</td></tr>
+  <tr><td><code>2D3</code></td><td>— плашка 2, клавіша D, 3 ходи</td></tr>
+</table>
+<dl class="nd-dl">
+  <dt><code>[елемент]</code></dt><dd>— номер плашки (1–8)</dd>
+  <dt><code>[клавіша]</code></dt><dd>— A або D</dd>
+  <dt><code>[?кроків]</code></dt><dd>— кількість ходів; 1 якщо не вказано</dd>
+</dl>`,
+  };
+
+  document.getElementById('btn-notation-help').addEventListener('click', () => {
+    const render = _notationContent[state.lang] || _notationContent.ru;
+    document.getElementById('notation-dialog-body').innerHTML = render();
+    document.getElementById('notation-dialog').showModal();
+  });
+
+  document.getElementById('btn-notation-close').addEventListener('click', () =>
+    document.getElementById('notation-dialog').close());
 
   document.getElementById('btn-auto').addEventListener('click', () => {
     const btn = document.getElementById('btn-auto');
