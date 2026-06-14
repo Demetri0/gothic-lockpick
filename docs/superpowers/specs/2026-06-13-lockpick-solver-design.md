@@ -227,6 +227,7 @@ Left panel:
 - `Ctrl+C` — copy current config (when no text selected).
 - `Ctrl+V` — import config from clipboard (config stage only).
 - Position strip — each plate with `◄ currentPos ►` controls. **These buttons mutate `plate.currentPos` directly, bypassing `computeMove` entirely.** No dependency checks, no chain reactions, no blocking. This is intentional and must be preserved: the strip is a configuration tool that lets the designer place every plate at any valid position independently, regardless of what the dependency graph would allow during normal play.
+- **Clickable holes in 3D view** — holes on `.face.top` carry `data-pos` attributes. A delegated `click` handler on `#scene-config-inner` (class `holes-clickable`) reads `.closest('.hole[data-pos]')` and `.closest('.plate')` to identify the target, then sets `plate.currentPos` directly — same semantics as the strip buttons. Hover shows an accent glow via `.scene.holes-clickable .hole:hover`. Only wired on the config scene; solve scene is unaffected.
 - Dependency matrix — N×N table; diagonal cells are disabled and rendered with a stripe pattern to signal unavailability; LMB cycles `none→same→opposite`, RMB cycles reverse. Cells show full-word dep labels at full width, abbreviated single-letter labels when the matrix container is narrow (container query on `#plates-matrix`); both forms are localized via `t()`.
 - `РЕШЕНИЕ` — start BFS or use `cachedSolution`.
 
