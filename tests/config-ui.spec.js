@@ -6,8 +6,9 @@ test.beforeEach(async ({ page }) => {
 
 // ── Dep cell responsive text ──────────────────────────────────────────────────
 
-test('ячейка матрицы: на широком экране показывает полный текст', async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 800 });
+test('ячейка матрицы: при широком контейнере показывает полный текст', async ({ page }) => {
+  // Матрица широкая по умолчанию — принудительно задаём ширину выше порога
+  await page.evaluate(() => { document.getElementById('plates-matrix').style.width = '500px'; });
   await page.getByTestId('dep-1-2').click(); // none → same
 
   const cell = page.getByTestId('dep-1-2');
@@ -15,8 +16,9 @@ test('ячейка матрицы: на широком экране показы
   await expect(cell.locator('.dep-short')).toBeHidden();
 });
 
-test('ячейка матрицы: на узком экране показывает сокращённый текст', async ({ page }) => {
-  await page.setViewportSize({ width: 400, height: 800 });
+test('ячейка матрицы: при узком контейнере показывает сокращённый текст', async ({ page }) => {
+  // Сужаем контейнер ниже порога (@container max-width: 360px)
+  await page.evaluate(() => { document.getElementById('plates-matrix').style.width = '280px'; });
   await page.getByTestId('dep-1-2').click(); // none → same
 
   const cell = page.getByTestId('dep-1-2');

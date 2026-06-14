@@ -50,14 +50,16 @@ body {
 }
 
 .dep-short { display: none; }
+@container (max-width: 360px) {
+  .dep-full { display: none; }
+  .dep-short { display: inline; }
+}
 @media (max-width: 600px) {
   body         { height: auto; overflow: visible; }
   .stage       { height: auto; overflow: visible; }
   .panel-left  { width: 100%; height: auto; border-right: none; overflow: visible; }
   #plates-matrix { flex: none; overflow-y: visible; }
   .panel-right { padding-top: var(--scene-overhead, 120px); }
-  .dep-full { display: none; }
-  .dep-short { display: inline; }
 }
 
 h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
@@ -139,6 +141,7 @@ input[type=number] {
 #plates-matrix {
   flex: 1; min-height: 0; overflow: auto;
   border: 1px solid var(--border); border-radius: 4px;
+  container-type: inline-size;
 }
 #plates-matrix table { border-collapse: collapse; width: 100%; table-layout: fixed; }
 #plates-matrix th, #plates-matrix td { border: 1px solid var(--border); }
