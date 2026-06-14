@@ -23,7 +23,7 @@ Heavy BFS and random generation run in Blob URL Web Workers so the UI stays resp
 {
   id: Number,          // 1-based; 1 is nearest/front-most in the visual stack
   positions: Number,   // odd number ≥ 3; default 7; center = Math.floor(positions / 2) + 1
-  currentPos: Number,  // 1..positions; 1 = leftmost hole, N = rightmost hole
+  currentPos: Number,  // 1..positions; 1 = leftmost hole (plate visually rightmost), N = rightmost hole (plate visually leftmost)
   deps: [
     { targetId: Number, direction: 'same' | 'opposite', steps: Number }
   ]
@@ -72,11 +72,13 @@ currentPos === center(positions)   // center(7) === 4
 
 A move is `(plateId, direction)`, where direction is `'left'` or `'right'`.
 
-1. Start with the moved plate and a delta of `-1` (left) or `+1` (right).
+1. Start with the moved plate and a delta of `+1` (left) or `-1` (right).
 2. Collect **direct** dependencies of the moved plate only (non-recursive, non-transitive).
 3. A `same` dependency receives the same sign × `dep.steps`; `opposite` receives the negative.
 4. If any affected plate would leave `1..positions`, the whole move is blocked (returns `null`/`false`).
 5. Otherwise all affected positions are updated simultaneously.
+
+**Direction / currentPos relationship:** `posToOffsetX = (center - currentPos) × step`, so a higher `currentPos` produces a more negative offset → the plate is further left visually. `'left'` (A key) increments `currentPos`; `'right'` (D key) decrements it. Position 1 is the leftmost *hole on the plate* (plate is at its rightmost visual position when `currentPos = 1`); position N is the rightmost hole (plate is at its leftmost visual position).
 
 **Non-transitivity:** only the deps listed on the moved plate are affected. If plate A → B and B → C, moving A affects B but not C. C is only affected when B itself is moved directly by the player.
 
@@ -318,7 +320,7 @@ Default values: `--tilt: -30deg`, `--yaw: -35deg`.
 
 Plate geometry (per plate, index `i`, 0-based):
 - `translateZ(-(PLATE_D + PLATE_GAP) * i)` — depth stacking.
-- `translateX(posToOffsetX(currentPos, positions))` — horizontal slide. Position 1 = leftmost, position N = rightmost. `posToOffsetX = (center(positions) - currentPos) * holeStep(positions)`.
+- `translateX(posToOffsetX(currentPos, positions))` — horizontal slide. `posToOffsetX = (center(positions) - currentPos) * holeStep(positions)`. Higher `currentPos` → more negative offset → plate further left. Position 1 = leftmost hole on the plate (plate is visually rightmost); position N = rightmost hole (plate is visually leftmost).
 - `.face.front` — vertical front face.
 - `.face.top` — `rotateX(-90deg)` into X/Z plane.
 - `.face.right` — `rotateY(90deg)` for depth side.
