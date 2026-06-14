@@ -23,7 +23,7 @@ Heavy BFS and random generation run in Blob URL Web Workers so the UI stays resp
 {
   id: Number,          // 1-based; 1 is nearest/front-most in the visual stack
   positions: Number,   // odd number ≥ 3; default 7; center = Math.floor(positions / 2) + 1
-  currentPos: Number,  // 1..positions
+  currentPos: Number,  // 1..positions; 1 = leftmost hole, N = rightmost hole
   deps: [
     { targetId: Number, direction: 'same' | 'opposite', steps: Number }
   ]
@@ -38,16 +38,22 @@ All plates in a configuration share the same `positions` value. `steps` is alway
 {
   stage: 'config' | 'solve',
   plates: Plate[],
-  activePlate: Number,      // id of selected plate
-  history: String[],        // notation moves made in config stage
-  solution: String[],       // current solve path (compressed notation)
-  solverStep: Number,       // 0 = start, solution.length = end
+  activePlate: Number,          // id of selected plate
+  history: String[],            // notation moves made in config stage
+  solution: String[],           // current solve path (compressed notation)
+  solverStep: Number,           // 0 = start, solution.length = end
   autoInterval: Number | null,
-  cachedSolution: String[] | null  // reuse without re-running BFS
+  cachedSolution: String[] | null,  // reuse without re-running BFS
+  solveMode: 'following' | 'exploring',
+  exploreHistory: Array<{ plateId, dir, steps }>,
+  detachPositions: Number[] | null,  // plate positions at the moment of detach
+  detachStep: Number | null,         // solverStep at the moment of detach
 }
 ```
 
 `cachedSolution` is set by both random generation and BFS solve. It is cleared on any config mutation (keyboard move, dep edit, plate count change, position count change, import). Re-entering config from solve without changes preserves the cache.
+
+`solveMode` switches from `'following'` to `'exploring'` the first time the user presses A/D in solve stage. While exploring, `exploreHistory` accumulates free moves and `detachStep`/`detachPositions` record where the user branched off.
 
 ### Goal State
 
@@ -74,6 +80,10 @@ A move is `(plateId, direction)`, where direction is `'left'` or `'right'`.
 **Non-transitivity:** only the deps listed on the moved plate are affected. If plate A → B and B → C, moving A affects B but not C. C is only affected when B itself is moved directly by the player.
 
 Raised pins are visual only; they do not affect movement.
+
+### Blocking Plate Detection
+
+When a move is blocked, `getBlockingPlateId(plates, plateId, dir)` finds the first plate whose boundary would be exceeded. `flashBlockedPlate(plateId, sceneId)` triggers a 250ms CSS shake animation (`plate-blocked` class) and red tint on that plate's faces via `filter`. The shake uses the `translate` CSS property (not `transform`) to avoid conflicting with 3D positioning.
 
 ### Notation
 
@@ -208,13 +218,13 @@ Length is in compressed notation entries (e.g. `1A3` counts as 1).
 
 Left panel:
 - `Элементы` — plate count control `−/+` (range: 2–8).
-- `Позиции` — odd position count control `−/+` (minimum 3).
-- Difficulty buttons 🟢 🟡 🔴 — trigger random generation.
+- `Позиции` — odd position count control `−/+` (minimum 3). Hidden via container query when panel is narrow.
+- Difficulty buttons 🟢 🟡 🔴 — trigger random generation. Hidden via container query at narrower widths.
 - 📤 / 📥 — export/import via clipboard.
 - `Ctrl+C` — copy current config (when no text selected).
 - `Ctrl+V` — import config from clipboard (config stage only).
 - Position strip — each plate with `◄ currentPos ►` controls. **These buttons mutate `plate.currentPos` directly, bypassing `computeMove` entirely.** No dependency checks, no chain reactions, no blocking. This is intentional and must be preserved: the strip is a configuration tool that lets the designer place every plate at any valid position independently, regardless of what the dependency graph would allow during normal play.
-- Dependency matrix — N×N table; diagonal disabled; LMB cycles `none→same→opposite`, RMB cycles reverse.
+- Dependency matrix — N×N table; diagonal cells are disabled and rendered with a stripe pattern to signal unavailability; LMB cycles `none→same→opposite`, RMB cycles reverse. Cells show `нет / прямо / обратно` at full width, abbreviated `Х / П / О` when the matrix container is narrow (container query on `#plates-matrix`).
 - `РЕШЕНИЕ` — start BFS or use `cachedSolution`.
 
 Right panel: isometric 3D scene + keyboard legend.
@@ -223,12 +233,26 @@ Right panel: isometric 3D scene + keyboard legend.
 
 Left panel:
 - Solution notation string with current step highlighted; tokens are `white-space: nowrap`.
-- Step list: `Начало`, numbered moves, `Конец`.
+- Step list: `Начало`, numbered moves (via CSS counter — no manual numbering in JS), `Конец`. Clicking any step jumps directly to it.
 - Nav buttons: `Вернуться`, `← Шаг`, `▶ Авто` / `■ Стоп`, `Шаг →`.
 
 Right panel: same 3D scene, cloned from solve-start positions.
 
 `Ctrl+V` is blocked on the solve stage.
+
+### Explore Mode
+
+Pressing A/D in solve stage automatically enters explore mode (`solveMode = 'exploring'`):
+
+- Auto-play stops if running.
+- `detachStep` and `detachPositions` snapshot the current position in the solution.
+- Subsequent A/D moves apply freely to the current plate state and append to `exploreHistory`.
+- **Collapse logic:** consecutive moves on the same plate in the same direction increment `steps` on the last history entry; a move in the opposite direction decrements `steps` (or removes the entry if `steps` reaches 0). This prevents history bloat from back-and-forth.
+- A separator `↩ вернуться к шагу N` appears between the BFS steps and explore steps. Clicking the separator returns to `detachStep`.
+- Clicking any BFS step above the separator returns to that step in following mode.
+- If a move is blocked, the blocking plate flashes (see Blocking Plate Detection).
+
+`returnToSolution(targetStep)` resets `solveMode` to `'following'`, clears `exploreHistory` / `detachPositions` / `detachStep`, then calls `jumpToStep(targetStep)`.
 
 ### Computing Overlay
 
@@ -257,7 +281,7 @@ Escape on the import dialog clears the pending import state.
 
 ## Keyboard Controls
 
-All handlers exit early when `e.target` is `INPUT/SELECT/TEXTAREA` or when the computing overlay is active.
+All handlers use `e.code` (not `e.key`) for locale-independent key detection. Handlers exit early when `e.target` is `INPUT/SELECT/TEXTAREA` or when the computing overlay is active.
 
 ### Config Stage
 
@@ -274,8 +298,10 @@ All handlers exit early when `e.target` is `INPUT/SELECT/TEXTAREA` or when the c
 |---|---|
 | `W` / `↑` | Select next plate (visual highlight only) |
 | `S` / `↓` | Select previous plate |
-| `A` / `←` | Step backward |
-| `D` / `→` | Step forward |
+| `A` / `←` | **Following mode:** step backward. **Explore mode:** move active plate left |
+| `D` / `→` | **Following mode:** step forward. **Explore mode:** move active plate right |
+
+In following mode, the first A/D press switches to explore mode automatically — it does not step through the solution.
 
 ---
 
@@ -284,19 +310,55 @@ All handlers exit early when `e.target` is `INPUT/SELECT/TEXTAREA` or when the c
 CSS 3D turntable camera:
 
 ```css
-.scene { transform: rotateX(-30deg) rotateY(-35deg); transform-style: preserve-3d; }
+.scene { transform: rotateX(var(--tilt)) rotateY(var(--yaw)); transform-style: preserve-3d; }
 ```
+
+Default values: `--tilt: -30deg`, `--yaw: -35deg`.
 
 Plate geometry (per plate, index `i`, 0-based):
 - `translateZ(-(PLATE_D + PLATE_GAP) * i)` — depth stacking.
-- `translateX(posToOffsetX(currentPos, positions))` — horizontal slide.
+- `translateX(posToOffsetX(currentPos, positions))` — horizontal slide. Position 1 = leftmost, position N = rightmost. `posToOffsetX = (center(positions) - currentPos) * holeStep(positions)`.
 - `.face.front` — vertical front face.
 - `.face.top` — `rotateX(-90deg)` into X/Z plane.
 - `.face.right` — `rotateY(90deg)` for depth side.
 - Pins stand upright via `bottom: 100%` + mid-depth `translateZ`.
 - Pin X is compensated by `pinLeft()` so pins appear fixed while plates slide.
 
-Scene recenters via `--scene-cx` CSS variable; top padding via `--scene-overhead` for mobile.
+Scene recenters via `--scene-cx` CSS variable.
+
+---
+
+## Mobile Layout
+
+At `@media (max-width: 819px)`:
+
+- `body` and `#stage-config` switch to `height: auto; overflow: visible` (page scrolls).
+- `.panel-right` moves to the top of the stage via `order: -1`, takes `height: 15vh`, `flex: 0 0 15vh` (in solve's column flex context).
+- `.scene-wrap` is scaled down via `transform: scale(0.5); transform-origin: bottom center`.
+- The keyboard legend is hidden.
+- Each stage header (`h2`) shows two icon buttons (`.h2-actions`):
+  - `↕` — expand 3D view to 50vh (`panel-3d-expanded` class); also increases scene scale to 0.75 with `transform-origin: center center`.
+  - `⬡` — toggle 3D view visibility (`panel-3d-off` class). When off, the expand button is disabled.
+- Solve stage only: `#stage-solve` is `height: 100vh; overflow: hidden; flex-direction: column`, so the step list scrolls internally while the header, 3D view, notation string, and nav buttons remain visible.
+- Config stage: `#plates-matrix` remains scrollable as part of the natural page flow.
+
+`.h2-actions` is `display: none` outside the mobile breakpoint — the buttons are invisible on desktop.
+
+### Responsive Setting Row (Container Queries)
+
+`.panel-left` has `container-type: inline-size`. Controls hide progressively as the panel narrows:
+
+| Container width | Hidden element |
+|---|---|
+| ≤ 600px content-box | `Позиции` control |
+| ≤ 420px content-box | Difficulty buttons |
+| ≤ 270px content-box | Import/Export buttons |
+
+Note: container queries measure the content-box. With `padding: 24px` on `.panel`, the effective border-box thresholds are ~648px / ~468px / ~318px.
+
+### Responsive Dep Cell Text (Container Query)
+
+`#plates-matrix` has `container-type: inline-size`. When the matrix is ≤ 360px wide, dep cell text switches from full (`нет / прямо / обратно`) to abbreviated (`Х / П / О`) via `.dep-full` / `.dep-short` toggling.
 
 ---
 
@@ -304,24 +366,29 @@ Scene recenters via `--scene-cx` CSS variable; top padding via `--scene-overhead
 
 ```txt
 index.html
-  <style>                       CSS: theme vars, layout, scene, overlay, dialog, toasts, progress
+  <style>                       CSS: theme vars, layout, scene, overlay, dialog, toasts, progress,
+                                     mobile media query (at end, after all base rules)
   <body>                        Stage config, stage solve, overlay, dialog, toast container
   <script type="text/x-worker"> Worker: center, computeMove, compressPath, reconstructPath,
                                          bfsSolve (head-index + parent pointers), randomizer loop
   Script #1 — State             PLATE_W/D/GAP, DEFAULT_*, state object, makePlate(), center()
   Script #2 — Game logic        computeMove(), applyMove(), notation helpers (toNotation, parseNotation)
-  Script #3 — Game helpers      posToOffsetX(), holeStep() and other render helpers
+  Script #3 — Game helpers      posToOffsetX(), holeStep(), depCellHTML(), getBlockingPlateId(),
+                                 flashBlockedPlate(), addExploreMove(), returnToSolution()
   Script #4 — Render            buildScene(), updateScene(), pinLeft(), syncMatrixPositions()
   Script #5 — Config UI         plate/pos controls, matrix, difficulty buttons, import/export,
                                  btn-start handler, clipboard copy/paste
   Script #6 — Solve UI          switchToSolve(), switchToConfig(), renderSolvePanel(),
                                  solveStepForward/Back(), jumpToStep(), auto-play
-  Script #7 — WASD              keydown handler (config + solve stages)
+  Script #7 — WASD              keydown handler (config + solve stages, explore mode)
   Script #8 — Init              init() wires all handlers, builds initial scene
   Script #9 — Worker bootstrap  createWorker(), onWorkerMessage(), workerError(),
                                  random pool management (createRandomPool, terminateRandomPool,
                                  onRandomPoolMessage, renderPoolProgress),
                                  solve-token (solveId), overlay/progress helpers
+
+Shared helpers:
+  wire3dButtons(expandId, toggleId, panelSelector)  — wires ↕/⬡ for both stages
 ```
 
 ---
@@ -341,3 +408,22 @@ index.html
 - Cancel terminates all active workers, calls `resetProgress()`, recreates solve worker with all handlers.
 - Stale BFS answers rejected via `solveId` token; stage check (`state.stage === 'config'`) as secondary guard.
 - Stale random-pool answers rejected via `capturedId !== randomPoolId` check in `onRandomPoolMessage`.
+- CSS `@media` and `@container` override rules must be placed **after** the base rules they override in the stylesheet, or they will be silently overridden by the later base rule (same specificity, later wins).
+
+---
+
+## Development
+
+```bash
+# Open directly in browser
+open index.html       # macOS
+xdg-open index.html   # Linux
+
+# Run tests
+npx playwright test
+
+# One-time setup for pre-push hook
+git config core.hooksPath .githooks
+```
+
+Pre-push hook (`.githooks/pre-push`) runs `npx playwright test` before every push. Playwright viewport is set to 1920×1080 so container queries on `.panel-left` (`45vw - 48px` content-box) don't hide controls under test.
