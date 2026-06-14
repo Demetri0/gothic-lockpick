@@ -794,6 +794,7 @@ const TRANSLATIONS = {
     'toast-ctrl-v': 'Нажмите Ctrl+V',
     'progress-states': 'Состояний проверено: {n}',
     'progress-attempts': 'Попытки: {n} / {max} · {k}',
+    'thread-attempts': 'попыток',
   },
   en: {
     'config-title': 'Settings',    'solve-title': 'Solution',
@@ -822,6 +823,7 @@ const TRANSLATIONS = {
     'toast-ctrl-v': 'Press Ctrl+V',
     'progress-states': 'States checked: {n}',
     'progress-attempts': 'Attempts: {n} / {max} · {k}',
+    'thread-attempts': 'attempts',
   },
   uk: {
     'config-title': 'Налаштування', 'solve-title': 'Рішення',
@@ -850,6 +852,7 @@ const TRANSLATIONS = {
     'toast-ctrl-v': 'Натисніть Ctrl+V',
     'progress-states': 'Перевірено станів: {n}',
     'progress-attempts': 'Спроби: {n} / {max} · {k}',
+    'thread-attempts': 'спроб',
   },
 };
 
@@ -2185,7 +2188,7 @@ function renderPoolProgress() {
         '<span class="pt-branch"></span>' +
         '<span class="pt-id">#' + (parseInt(id) + 1) + '</span>' +
         '<span class="pt-att"></span>' +
-        '<span>попыток</span>' +
+        '<span class="pt-att-label" data-i18n="thread-attempts">' + t('thread-attempts') + '</span>' +
         '<span>·</span>' +
         '<span class="pt-iters"></span>';
       threadsEl.appendChild(row);
