@@ -178,6 +178,41 @@ test('gothic format: applied via import dialog', async ({ page }) => {
   await expect(page.getByTestId('val-plates')).toHaveText('5');
 });
 
+// ── Gothic export (serializeGothicFormat) ────────────────────────────────────
+
+test('export: gothic format contains position digits and rules', async ({ page }) => {
+  const result = await page.evaluate(() => {
+    const plates = [
+      { id: 1, positions: 7, currentPos: 1, deps: [{ targetId: 3, direction: 'opposite', steps: 1 }] },
+      { id: 2, positions: 7, currentPos: 5, deps: [{ targetId: 3, direction: 'same',     steps: 1 }] },
+      { id: 3, positions: 7, currentPos: 1, deps: [] },
+    ];
+    return serializeGothicFormat(plates);
+  });
+  // positions: currentPos-1 → 0,4,0 → "040"
+  expect(result).toMatch(/^040 /);
+  // A→C opposite, B→C same
+  expect(result).toContain('A:C-');
+  expect(result).toContain('B:C+');
+});
+
+test('export: gothic format round-trips through parser', async ({ page }) => {
+  const original = [
+    { id: 1, positions: 7, currentPos: 2, deps: [{ targetId: 2, direction: 'same',     steps: 1 }] },
+    { id: 2, positions: 7, currentPos: 6, deps: [{ targetId: 1, direction: 'opposite', steps: 1 }] },
+    { id: 3, positions: 7, currentPos: 4, deps: [] },
+  ];
+  const reparsed = await page.evaluate((plates) => {
+    const gothic = serializeGothicFormat(plates);
+    return parseGothicFormat(gothic);
+  }, original);
+  expect(reparsed).toHaveLength(3);
+  expect(reparsed[0].currentPos).toBe(2);
+  expect(reparsed[1].currentPos).toBe(6);
+  expect(reparsed[0].deps).toContainEqual({ targetId: 2, direction: 'same',     steps: 1 });
+  expect(reparsed[1].deps).toContainEqual({ targetId: 1, direction: 'opposite', steps: 1 });
+});
+
 test('Escape closes the dialog without applying config', async ({ page }) => {
   const platesBefore = await page.getByTestId('val-plates').textContent();
 

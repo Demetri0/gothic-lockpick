@@ -149,9 +149,14 @@ input[type=number] {
   color: var(--text-dim); font-size: 0.9em; letter-spacing: 1px;
 }
 .pos-val { display: inline-block; width: 22px; text-align: center; font-size: 0.95em; }
+.matrix-wrap {
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column;
+  border: 1px solid var(--border); border-radius: 4px;
+  overflow: hidden;
+}
 #plates-matrix {
   flex: 1; min-height: 0; overflow: auto;
-  border: 1px solid var(--border); border-radius: 4px;
   container-type: inline-size;
 }
 #plates-matrix table { border-collapse: collapse; width: 100%; table-layout: fixed; }
@@ -187,6 +192,28 @@ input[type=number] {
 .dep-cell[data-state="same"]:hover { background: #233823; }
 .dep-cell[data-state="opposite"] { background: #2e1c1c; border-color: #684545; color: #b07878; }
 .dep-cell[data-state="opposite"]:hover { background: #382323; }
+
+.matrix-hint {
+  font-size: 0.78em;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 6px 8px;
+  line-height: 1.5;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.matrix-hint kbd {
+  font-family: inherit;
+  font-size: 0.9em;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.matrix-hint code {
+  font-family: monospace;
+  color: var(--text-soft);
+}
 
 /* Solve panel */
 .notation-btn {
@@ -705,7 +732,8 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   body         { height: auto; overflow: visible; }
   .stage       { height: auto; overflow: visible; }
   .panel-left  { width: 100%; height: auto; border-right: none; overflow: visible; }
-  #plates-matrix { flex: none; overflow-y: visible; }
+  .matrix-wrap { flex: none; overflow: visible; }
+  #plates-matrix { overflow: visible; }
   .panel-right {
     order: -1;
     width: 100%;
@@ -790,7 +818,10 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         </span>
       </div>
       <div id="plates-positions" data-test-id="plates-positions"></div>
-      <div id="plates-matrix" data-test-id="plates-matrix"></div>
+      <div class="matrix-wrap">
+        <div id="plates-matrix" data-test-id="plates-matrix"></div>
+        <p class="matrix-hint"><span data-i18n="hint-paste-pre">Есть конфиг?</span> <kbd>Ctrl+V</kbd> <span data-i18n="hint-paste-post">— поддерживается формат</span> <code>040615 A:B-,C+;D:E-</code></p>
+      </div>
       <button id="btn-start" class="btn-primary" data-test-id="btn-start" data-i18n="btn-start">РЕШЕНИЕ</button>
     </div>
     <div class="panel panel-right">
@@ -890,7 +921,9 @@ const TRANSLATIONS = {
     'dep-same-s': 'В',      'dep-opposite-s': 'П',
     'copy-solution': 'Копировать цепочку',
     'toast-copied': 'Скопировано в буфер',
+    'toast-copied-json': 'Скопировано в буфер (JSON)',
     'toast-copy-fail': 'Не удалось скопировать',
+    'hint-paste-pre': 'Есть конфиг?', 'hint-paste-post': '— поддерживается формат',
     'toast-invalid': 'Невалидный конфиг',
     'toast-applied': 'Конфиг применён',
     'toast-no-solution': 'Решение не найдено',
@@ -923,7 +956,9 @@ const TRANSLATIONS = {
     'dep-same-s': 'S',      'dep-opposite-s': 'O',
     'copy-solution': 'Copy chain',
     'toast-copied': 'Copied to clipboard',
+    'toast-copied-json': 'Copied to clipboard (JSON)',
     'toast-copy-fail': 'Copy failed',
+    'hint-paste-pre': 'Have a config?', 'hint-paste-post': '— format supported:',
     'toast-invalid': 'Invalid config',
     'toast-applied': 'Config applied',
     'toast-no-solution': 'No solution found',
@@ -956,7 +991,9 @@ const TRANSLATIONS = {
     'dep-same-s': 'Р',      'dep-opposite-s': 'П',
     'copy-solution': 'Скопіювати ланцюжок',
     'toast-copied': 'Скопійовано',
+    'toast-copied-json': 'Скопійовано (JSON)',
     'toast-copy-fail': 'Не вдалось скопіювати',
+    'hint-paste-pre': 'Маєте конфіг?', 'hint-paste-post': '— підтримується формат',
     'toast-invalid': 'Невалідний конфіг',
     'toast-applied': 'Конфіг застосовано',
     'toast-no-solution': 'Рішення не знайдено',
@@ -1498,12 +1535,28 @@ function showToast(message, type = 'success') {
   }, 2500);
 }
 
-document.getElementById('btn-export').addEventListener('click', () => {
-  const data = JSON.stringify(
-    state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps }))
-  );
+function serializeGothicFormat(plates) {
+  const pos = plates.map(p => p.currentPos - 1).join('');
+  const rules = plates
+    .filter(p => p.deps.length > 0)
+    .map(p => {
+      const src = String.fromCharCode(64 + p.id);
+      const targets = p.deps
+        .map(d => String.fromCharCode(64 + d.targetId) + (d.direction === 'same' ? '+' : '-'))
+        .join(',');
+      return `${src}:${targets}`;
+    })
+    .join(';');
+  return rules ? `${pos} ${rules}` : pos;
+}
+
+document.getElementById('btn-export').addEventListener('click', (e) => {
+  const json = e.shiftKey;
+  const data = json
+    ? JSON.stringify(state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps })))
+    : serializeGothicFormat(state.plates);
   navigator.clipboard.writeText(data)
-    .then(() => showToast(t('toast-copied')))
+    .then(() => showToast(t(json ? 'toast-copied-json' : 'toast-copied')))
     .catch(() => showToast(t('toast-copy-fail'), 'error'));
 });
 
@@ -1687,10 +1740,7 @@ document.addEventListener('copy', (e) => {
   if (e.target.matches('input, textarea, select')) return;
   if (window.getSelection().toString()) return; // let browser handle normal text copy
   e.preventDefault();
-  const data = JSON.stringify(
-    state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps }))
-  );
-  e.clipboardData.setData('text/plain', data);
+  e.clipboardData.setData('text/plain', serializeGothicFormat(state.plates));
   showToast(t('toast-copied'));
 });
 
