@@ -24,7 +24,7 @@ test('dep cell: shows abbreviated text when container is narrow', async ({ page 
   const cell = page.getByTestId('dep-1-2');
   await expect(cell.locator('.dep-full')).toBeHidden();
   await expect(cell.locator('.dep-short')).toBeVisible();
-  await expect(cell.locator('.dep-short')).toHaveText('П');
+  await expect(cell.locator('.dep-short')).toHaveText('В');
 });
 
 // ── Plate count ──────────────────────────────────────────────────────────────
