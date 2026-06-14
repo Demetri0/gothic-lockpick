@@ -55,16 +55,20 @@ body {
   .dep-full { display: none; }
   .dep-short { display: inline; }
 }
-@media (max-width: 600px) {
-  body         { height: auto; overflow: visible; }
-  .stage       { height: auto; overflow: visible; }
-  .panel-left  { width: 100%; height: auto; border-right: none; overflow: visible; }
-  #plates-matrix { flex: none; overflow-y: visible; }
-  .panel-right { padding-top: var(--scene-overhead, 120px); }
-}
 
 h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
-     color: var(--text-dim); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+     color: var(--text-dim); border-bottom: 1px solid var(--border); padding-bottom: 10px;
+     display: flex; align-items: center; justify-content: space-between; }
+h2 .btn-icon {
+  letter-spacing: 0; text-transform: none; font-size: 1.1em;
+  color: var(--text-muted); border: 1px solid transparent; border-radius: 4px;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+h2 .btn-icon:hover { color: var(--text); border-color: var(--border-control); }
+h2 .btn-icon.active {
+  color: var(--accent); border-color: var(--border-strong); background: var(--bg-accent);
+}
+h2 .btn-icon:disabled { color: var(--border); border-color: transparent; cursor: default; }
 
 .setting-row { display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap; }
 .setting-row.minor { opacity: 0.55; font-size: 0.82em; }
@@ -163,7 +167,15 @@ input[type=number] {
   font-weight: normal; font-size: 0.8em;
   padding: 2px 8px; text-align: center; white-space: nowrap; width: 1px;
 }
-.matrix-diag { background: var(--bg-inset); }
+.matrix-diag {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--bg-inset),
+    var(--bg-inset) 4px,
+    var(--border) 4px,
+    var(--border) 6px
+  );
+}
 .dep-cell {
   display: block; width: 100%; min-width: 52px; height: 32px;
   border: 1px solid transparent; border-radius: 0;
@@ -570,6 +582,30 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   background: var(--pin-raised);
   box-shadow: 0 0 7px var(--pin-glow);
 }
+
+.panel-right.panel-3d-off { display: none; }
+.h2-actions { display: none; gap: 4px; }
+
+@media (max-width: 819px) {
+  body         { height: auto; overflow: visible; }
+  .stage       { height: auto; overflow: visible; }
+  .panel-left  { width: 100%; height: auto; border-right: none; overflow: visible; }
+  #plates-matrix { flex: none; overflow-y: visible; }
+  .panel-right {
+    order: -1;
+    width: 100%;
+    height: 15vh;
+    min-height: 0;
+    overflow: hidden;
+    gap: 0;
+  }
+  .h2-actions  { display: flex; }
+  .scene-wrap  { min-height: 0; flex: 1; transform: scale(0.5); transform-origin: bottom center; }
+  .legend      { display: none; }
+  .panel-right.panel-3d-expanded { height: 50vh; }
+  .panel-right.panel-3d-expanded .scene-wrap { transform: scale(0.75); transform-origin: center center; }
+}
+
   </style>
 </head>
 <body>
@@ -597,7 +633,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   <!-- STAGE: CONFIG -->
   <div id="stage-config" class="stage" data-test-id="stage-config">
     <div class="panel panel-left">
-      <h2>Настройки</h2>
+      <h2>Настройки<span class="h2-actions"><button id="btn-expand-3d-config" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-config" class="btn-icon active" title="3D вид">⬡</button></span></h2>
       <div class="setting-row">
         <span class="ctrl-plates">
           <label>Элементы:</label>
@@ -641,7 +677,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   <!-- STAGE: SOLVE -->
   <div id="stage-solve" class="stage hidden" data-test-id="stage-solve">
     <div class="panel panel-left">
-      <h2>Решение</h2>
+      <h2>Решение<span class="h2-actions"><button id="btn-expand-3d-solve" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-solve" class="btn-icon active" title="3D вид">⬡</button></span></h2>
       <div id="solution-string" class="solution-str" data-test-id="solution-string"></div>
       <ol id="solution-steps" class="solution-list" data-test-id="solution-steps"></ol>
       <div class="solve-buttons">
@@ -766,7 +802,7 @@ function applyMove(plates, plateId, dir) {
 /** Dep cell innerHTML: full label + short label toggled by CSS media query. */
 function depCellHTML(state) {
   const full  = state === 'same' ? 'прямо' : state === 'opposite' ? 'обратно' : 'нет';
-  const short = state === 'same' ? 'П'     : state === 'opposite' ? 'О'       : 'нет';
+  const short = state === 'same' ? 'П'     : state === 'opposite' ? 'О'       : 'Х';
   return `<span class="dep-full">${full}</span><span class="dep-short">${short}</span>`;
 }
 
@@ -1042,7 +1078,22 @@ function syncMatrixPositions() {
   }
 }
 
+function wire3dButtons(expandId, toggleId, panelSelector) {
+  const panel = document.querySelector(panelSelector);
+  document.getElementById(toggleId).addEventListener('click', () => {
+    const off = panel.classList.toggle('panel-3d-off');
+    document.getElementById(toggleId).classList.toggle('active', !off);
+    document.getElementById(expandId).disabled = off;
+  });
+  document.getElementById(expandId).addEventListener('click', () => {
+    const expanded = panel.classList.toggle('panel-3d-expanded');
+    document.getElementById(expandId).classList.toggle('active', expanded);
+  });
+}
+
 function wireConfigHandlers() {
+  wire3dButtons('btn-expand-3d-config', 'btn-toggle-3d-config', '#stage-config .panel-right');
+
   const updatePlateCountButtons = () => {
     document.getElementById('btn-plates-dec').disabled = getPlateCount() <= 2;
     document.getElementById('btn-plates-inc').disabled = getPlateCount() >= 8;
@@ -1533,6 +1584,8 @@ function addExploreMove(plateId, dir) {
 }
 
 function wireSolveHandlers() {
+  wire3dButtons('btn-expand-3d-solve', 'btn-toggle-3d-solve', '#stage-solve .panel-right');
+
   document.getElementById('btn-back').addEventListener('click', switchToConfig);
   document.getElementById('btn-prev').addEventListener('click', solveStepBack);
   document.getElementById('btn-step').addEventListener('click', solveStepForward);
