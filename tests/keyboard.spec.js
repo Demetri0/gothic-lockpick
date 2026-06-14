@@ -11,22 +11,22 @@ test.beforeEach(async ({ page }) => {
 
 // ── Config stage ─────────────────────────────────────────────────────────────
 
-test('D двигает активную плашку вправо', async ({ page }) => {
+test('D moves the active plate right', async ({ page }) => {
   const before = parseInt(await page.getByTestId('pos-val-1').textContent());
   await page.keyboard.press('d');
   await expect(page.getByTestId('pos-val-1')).toHaveText(String(before - 1));
 });
 
-test('A двигает активную плашку влево', async ({ page }) => {
-  // Сначала вправо, чтобы убедиться что A двигает обратно
+test('A moves the active plate left', async ({ page }) => {
+  // First press D so A has room to move back
   await page.keyboard.press('d');
   const before = parseInt(await page.getByTestId('pos-val-1').textContent());
   await page.keyboard.press('a');
   await expect(page.getByTestId('pos-val-1')).toHaveText(String(before + 1));
 });
 
-test('W/S переключают активную плашку', async ({ page }) => {
-  // Изначально активна плашка 1
+test('W/S switch the active plate', async ({ page }) => {
+  // Plate 1 is active by default
   await expect(page.getByTestId('pos-item-1')).toHaveClass(/active/);
 
   await page.keyboard.press('w');
@@ -36,20 +36,32 @@ test('W/S переключают активную плашку', async ({ page }
   await expect(page.getByTestId('pos-item-1')).toHaveClass(/active/);
 });
 
-test('стрелки работают как WASD в настройках', async ({ page }) => {
+test('arrow keys work as WASD in config stage', async ({ page }) => {
   const before = parseInt(await page.getByTestId('pos-val-1').textContent());
   await page.keyboard.press('ArrowRight');
   await expect(page.getByTestId('pos-val-1')).toHaveText(String(before - 1));
 });
 
-test('WASD не работает во время оверлея', async ({ page }) => {
+test('D at the left boundary does not move the plate', async ({ page }) => {
+  const cfg = JSON.stringify([
+    { id: 1, positions: 7, currentPos: 1, deps: [] },
+    { id: 2, positions: 7, currentPos: 4, deps: [] },
+  ]);
+  await page.evaluate((c) => openImportDialog(c), cfg);
+  await page.getByTestId('import-dialog-ok').click();
+
+  await page.keyboard.press('d');
+  await expect(page.getByTestId('pos-val-1')).toHaveText('1');
+});
+
+test('WASD is suppressed while the computing overlay is active', async ({ page }) => {
   const before = parseInt(await page.getByTestId('pos-val-1').textContent());
 
-  // Активируем оверлей напрямую — не зависим от скорости генерации
+  // Activate overlay directly — independent of generation speed
   await page.evaluate(() => document.getElementById('computing-overlay').classList.add('active'));
   await page.keyboard.press('d');
 
-  // Позиция не изменилась
+  // Position must not change
   await expect(page.getByTestId('pos-val-1')).toHaveText(String(before));
 
   await page.evaluate(() => document.getElementById('computing-overlay').classList.remove('active'));
@@ -57,35 +69,35 @@ test('WASD не работает во время оверлея', async ({ page 
 
 // ── Solve stage ──────────────────────────────────────────────────────────────
 
-test('D в режиме решения входит в explore и двигает плашку', async ({ page }) => {
+test('D in solve stage enters explore mode and moves the plate', async ({ page }) => {
   await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
   await page.getByTestId('import-dialog-ok').click();
   await page.getByTestId('btn-start').click();
   await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
 
-  // До нажатия — following mode, шаг на начале
+  // Before press — following mode, at start step
   await expect(page.getByTestId('step-start')).toHaveClass(/active/);
 
-  // D → entering explore mode; появляется разделитель
+  // D → enters explore mode; separator appears
   await page.keyboard.press('d');
   await expect(page.getByTestId('explore-separator')).toBeVisible();
 });
 
-test('A в explore-режиме схлопывает противоположный ход', async ({ page }) => {
+test('A in explore mode collapses the opposite move', async ({ page }) => {
   await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
   await page.getByTestId('import-dialog-ok').click();
   await page.getByTestId('btn-start').click();
   await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
 
-  // D, затем A — два хода отменяют друг друга
+  // D then A — two moves cancel each other
   await page.keyboard.press('d');
   await expect(page.getByTestId('explore-step-1')).toBeVisible();
   await page.keyboard.press('a');
-  // После схлопывания история пуста
+  // After collapse, explore history is empty
   await expect(page.getByTestId('explore-step-1')).not.toBeAttached();
 });
 
-test('клик по разделителю возвращает в following mode', async ({ page }) => {
+test('clicking the separator returns to following mode', async ({ page }) => {
   await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
   await page.getByTestId('import-dialog-ok').click();
   await page.getByTestId('btn-start').click();
@@ -95,40 +107,52 @@ test('клик по разделителю возвращает в following mod
   await expect(page.getByTestId('explore-separator')).toBeVisible();
 
   await page.getByTestId('explore-separator').click();
-  // Разделитель исчез — мы вернулись в following mode
+  // Separator gone — back in following mode
   await expect(page.getByTestId('explore-separator')).not.toBeAttached();
   await expect(page.getByTestId('step-start')).toHaveClass(/active/);
 });
 
-test('клик по пройденному BFS шагу возвращает в following mode на том шаге', async ({ page }) => {
+test('clicking a completed BFS step returns to following mode at that step', async ({ page }) => {
   await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
   await page.getByTestId('import-dialog-ok').click();
   await page.getByTestId('btn-start').click();
   await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
 
-  // Шагаем по BFS до шага 1, потом входим в explore
+  // Advance to BFS step 1, then enter explore
   await page.getByTestId('btn-step').click();
   await page.keyboard.press('d');
   await expect(page.getByTestId('explore-separator')).toBeVisible();
 
-  // Кликаем на пройденный шаг 1 (step-done-1)
+  // Click the completed step 1 (step-done-1)
   await page.getByTestId('step-done-1').click();
   await expect(page.getByTestId('explore-separator')).not.toBeAttached();
   await expect(page.getByTestId('step-1')).toHaveClass(/active/);
 });
 
-test('повторный D той же плашки схлопывается в одну запись с шагами', async ({ page }) => {
+test('W switches the active plate in solve stage', async ({ page }) => {
   await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
   await page.getByTestId('import-dialog-ok').click();
   await page.getByTestId('btn-start').click();
   await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
 
-  // Три раза D — должен быть ровно один элемент истории
+  // Switch to plate 2, then enter explore — notation should reference plate 2
+  await page.keyboard.press('w');
+  await page.keyboard.press('d');
+  await expect(page.getByTestId('explore-step-1')).toContainText('2');
+});
+
+test('repeated D on the same plate collapses into one entry with step count', async ({ page }) => {
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+
+  // Three D presses — exactly one history entry
   await page.keyboard.press('d');
   await page.keyboard.press('d');
   await page.keyboard.press('d');
   await expect(page.getByTestId('explore-step-1')).toBeVisible();
   await expect(page.getByTestId('explore-step-2')).not.toBeAttached();
-  // И нотация должна содержать цифру 3
+  // Notation must contain the digit 3
   await expect(page.getByTestId('explore-step-1')).toContainText('3');
 });

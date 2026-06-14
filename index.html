@@ -1057,6 +1057,7 @@ function buildScene(sceneId, plates) {
     const holesHTML = Array.from({ length: plate.positions }, (_, i) => {
       const isCenter = (i + 1) === center(plate.positions);
       return `<div class="hole${isCenter ? ' center-hole' : ''}" data-pos="${i + 1}"
+                   data-test-id="hole-${plate.id}-${i + 1}"
                    style="position:absolute;
                           left:${padding + i * step - HOLE_SIZE / 2}px;
                           top:50%;

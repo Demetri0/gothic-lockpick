@@ -9,7 +9,7 @@ const VALID_CONFIG = JSON.stringify([
   { id: 2, positions: 7, currentPos: 5, deps: [] },
 ]);
 
-test('валидный конфиг применяется', async ({ page }) => {
+test('valid config is applied', async ({ page }) => {
   await page.evaluate((cfg) => openImportDialog(cfg), VALID_CONFIG);
   await page.getByTestId('import-dialog-ok').click();
 
@@ -17,14 +17,14 @@ test('валидный конфиг применяется', async ({ page }) =>
   await expect(page.getByTestId('val-plates')).toHaveText('2');
 });
 
-test('невалидный JSON отклоняется', async ({ page }) => {
+test('invalid JSON is rejected', async ({ page }) => {
   await page.evaluate(() => openImportDialog('{broken json'));
   await page.getByTestId('import-dialog-ok').click();
 
   await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
 });
 
-test('id не с 1 — отклоняется', async ({ page }) => {
+test('ids not starting from 1 are rejected', async ({ page }) => {
   const cfg = JSON.stringify([
     { id: 2, positions: 7, currentPos: 3, deps: [] },
     { id: 3, positions: 7, currentPos: 4, deps: [] },
@@ -35,7 +35,7 @@ test('id не с 1 — отклоняется', async ({ page }) => {
   await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
 });
 
-test('самозависимость в deps — отклоняется', async ({ page }) => {
+test('self-dependency in deps is rejected', async ({ page }) => {
   const cfg = JSON.stringify([
     { id: 1, positions: 7, currentPos: 3, deps: [{ targetId: 1, direction: 'same', steps: 1 }] },
     { id: 2, positions: 7, currentPos: 4, deps: [] },
@@ -46,7 +46,7 @@ test('самозависимость в deps — отклоняется', async 
   await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
 });
 
-test('невалидный direction в dep — отклоняется', async ({ page }) => {
+test('invalid direction in dep is rejected', async ({ page }) => {
   const cfg = JSON.stringify([
     { id: 1, positions: 7, currentPos: 3, deps: [{ targetId: 2, direction: 'sideways', steps: 1 }] },
     { id: 2, positions: 7, currentPos: 4, deps: [] },
@@ -57,7 +57,7 @@ test('невалидный direction в dep — отклоняется', async (
   await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
 });
 
-test('разные positions у плашек — отклоняется', async ({ page }) => {
+test('different positions across plates are rejected', async ({ page }) => {
   const cfg = JSON.stringify([
     { id: 1, positions: 7, currentPos: 3, deps: [] },
     { id: 2, positions: 5, currentPos: 3, deps: [] },
@@ -68,7 +68,29 @@ test('разные positions у плашек — отклоняется', async 
   await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
 });
 
-test('Escape закрывает диалог без применения конфига', async ({ page }) => {
+test('currentPos out of range is rejected', async ({ page }) => {
+  const cfg = JSON.stringify([
+    { id: 1, positions: 7, currentPos: 0, deps: [] },
+    { id: 2, positions: 7, currentPos: 4, deps: [] },
+  ]);
+  await page.evaluate((c) => openImportDialog(c), cfg);
+  await page.getByTestId('import-dialog-ok').click();
+
+  await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
+});
+
+test('even positions count is rejected', async ({ page }) => {
+  const cfg = JSON.stringify([
+    { id: 1, positions: 4, currentPos: 2, deps: [] },
+    { id: 2, positions: 4, currentPos: 2, deps: [] },
+  ]);
+  await page.evaluate((c) => openImportDialog(c), cfg);
+  await page.getByTestId('import-dialog-ok').click();
+
+  await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
+});
+
+test('Escape closes the dialog without applying config', async ({ page }) => {
   const platesBefore = await page.getByTestId('val-plates').textContent();
 
   await page.evaluate(() => openImportDialog('[{"id":1,"positions":7,"currentPos":3,"deps":[]},{"id":2,"positions":7,"currentPos":4,"deps":[]}]'));

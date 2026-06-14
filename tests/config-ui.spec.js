@@ -6,8 +6,8 @@ test.beforeEach(async ({ page }) => {
 
 // ── Dep cell responsive text ──────────────────────────────────────────────────
 
-test('ячейка матрицы: при широком контейнере показывает полный текст', async ({ page }) => {
-  // Матрица широкая по умолчанию — принудительно задаём ширину выше порога
+test('dep cell: shows full text when container is wide', async ({ page }) => {
+  // Force width above the container-query threshold
   await page.evaluate(() => { document.getElementById('plates-matrix').style.width = '500px'; });
   await page.getByTestId('dep-1-2').click(); // none → same
 
@@ -16,8 +16,8 @@ test('ячейка матрицы: при широком контейнере п
   await expect(cell.locator('.dep-short')).toBeHidden();
 });
 
-test('ячейка матрицы: при узком контейнере показывает сокращённый текст', async ({ page }) => {
-  // Сужаем контейнер ниже порога (@container max-width: 360px)
+test('dep cell: shows abbreviated text when container is narrow', async ({ page }) => {
+  // Narrow the container below the threshold (@container max-width: 360px)
   await page.evaluate(() => { document.getElementById('plates-matrix').style.width = '280px'; });
   await page.getByTestId('dep-1-2').click(); // none → same
 
@@ -29,27 +29,27 @@ test('ячейка матрицы: при узком контейнере пок
 
 // ── Plate count ──────────────────────────────────────────────────────────────
 
-test('кнопка + увеличивает количество плашек', async ({ page }) => {
+test('+ button increases plate count', async ({ page }) => {
   const before = parseInt(await page.getByTestId('val-plates').textContent());
   await page.getByTestId('btn-plates-inc').click();
   await expect(page.getByTestId('val-plates')).toHaveText(String(before + 1));
 });
 
-test('кнопка − уменьшает количество плашек', async ({ page }) => {
+test('− button decreases plate count', async ({ page }) => {
   const before = parseInt(await page.getByTestId('val-plates').textContent());
   await page.getByTestId('btn-plates-dec').click();
   await expect(page.getByTestId('val-plates')).toHaveText(String(before - 1));
 });
 
-test('кнопка + отключается при 8 плашках', async ({ page }) => {
-  // Дефолт 4 — кликаем ровно 4 раза чтобы дойти до 8
+test('+ button is disabled at 8 plates', async ({ page }) => {
+  // Default 4 — click 4 times to reach 8
   for (let i = 0; i < 4; i++) await page.getByTestId('btn-plates-inc').click();
   await expect(page.getByTestId('val-plates')).toHaveText('8');
   await expect(page.getByTestId('btn-plates-inc')).toBeDisabled();
 });
 
-test('кнопка − отключается при 2 плашках', async ({ page }) => {
-  // Дефолт 4 — кликаем ровно 2 раза чтобы дойти до 2
+test('− button is disabled at 2 plates', async ({ page }) => {
+  // Default 4 — click 2 times to reach 2
   for (let i = 0; i < 2; i++) await page.getByTestId('btn-plates-dec').click();
   await expect(page.getByTestId('val-plates')).toHaveText('2');
   await expect(page.getByTestId('btn-plates-dec')).toBeDisabled();
@@ -57,20 +57,20 @@ test('кнопка − отключается при 2 плашках', async ({
 
 // ── Position count ───────────────────────────────────────────────────────────
 
-test('кнопка + увеличивает позиции на 2 (только нечётные)', async ({ page }) => {
+test('+ button increases positions by 2 (odd only)', async ({ page }) => {
   const before = parseInt(await page.getByTestId('val-positions').textContent());
   await page.getByTestId('btn-pos-inc').click();
   await expect(page.getByTestId('val-positions')).toHaveText(String(before + 2));
 });
 
-test('кнопка − уменьшает позиции на 2', async ({ page }) => {
+test('− button decreases positions by 2', async ({ page }) => {
   const before = parseInt(await page.getByTestId('val-positions').textContent());
   await page.getByTestId('btn-pos-dec').click();
   await expect(page.getByTestId('val-positions')).toHaveText(String(before - 2));
 });
 
-test('кнопка − позиций отключается при 3', async ({ page }) => {
-  // Дефолт 7 — 2 клика чтобы дойти до 3 (7→5→3)
+test('positions − button is disabled at 3', async ({ page }) => {
+  // Default 7 — 2 clicks to reach 3 (7→5→3)
   await page.getByTestId('btn-pos-dec').click();
   await page.getByTestId('btn-pos-dec').click();
   await expect(page.getByTestId('val-positions')).toHaveText('3');
@@ -79,42 +79,40 @@ test('кнопка − позиций отключается при 3', async ({
 
 // ── Position strip ───────────────────────────────────────────────────────────
 
-test('стрип позиций: ► увеличивает позицию плашки', async ({ page }) => {
+test('position strip: ► increases plate position', async ({ page }) => {
   const before = parseInt(await page.getByTestId('pos-val-1').textContent());
   await page.getByTestId('pos-inc-1').click();
   await expect(page.getByTestId('pos-val-1')).toHaveText(String(before + 1));
 });
 
-test('стрип позиций: ◄ уменьшает позицию плашки', async ({ page }) => {
-  // Сначала сдвинем вправо, чтобы кнопка ◄ не была заблокирована
+test('position strip: ◄ decreases plate position', async ({ page }) => {
+  // First move right so ◄ is not disabled
   await page.getByTestId('pos-inc-1').click();
   const before = parseInt(await page.getByTestId('pos-val-1').textContent());
   await page.getByTestId('pos-dec-1').click();
   await expect(page.getByTestId('pos-val-1')).toHaveText(String(before - 1));
 });
 
-test('стрип позиций: кнопки не проверяют зависимости и не блокируются ими', async ({ page }) => {
-  // Устанавливаем зависимость: плашка 1 → плашка 2 (прямо, 1 шаг)
-  // Это означает: движение плашки 1 вправо тянет плашку 2 вправо тоже
+test('position strip: buttons bypass dependency checks', async ({ page }) => {
+  // Set up dependency: plate 1 → plate 2 (same direction, 1 step)
   await page.getByTestId('dep-1-2').click(); // none → same
 
-  // Ставим плашку 2 в максимальную позицию через стрип (7 кликов с позиции 4)
+  // Put plate 2 at max position via strip (3 clicks from 4)
   for (let i = 0; i < 3; i++) await page.getByTestId('pos-inc-2').click();
   await expect(page.getByTestId('pos-val-2')).toHaveText('7');
 
-  // Теперь двигаем плашку 1 вправо через стрип — если бы шла проверка зависимостей,
-  // движение было бы заблокировано (плашка 2 уже на максимуме).
-  // Но стрип работает напрямую: плашка 1 обязана сдвинуться, плашка 2 — остаться на месте.
+  // Move plate 1 via strip — if deps were checked this would be blocked (plate 2 is at max).
+  // Strip is direct: plate 1 moves, plate 2 stays.
   const pos1Before = parseInt(await page.getByTestId('pos-val-1').textContent());
   await page.getByTestId('pos-inc-1').click();
 
   await expect(page.getByTestId('pos-val-1')).toHaveText(String(pos1Before + 1));
-  await expect(page.getByTestId('pos-val-2')).toHaveText('7'); // не изменилась
+  await expect(page.getByTestId('pos-val-2')).toHaveText('7');
 });
 
 // ── Dependency matrix ────────────────────────────────────────────────────────
 
-test('ЛКМ по ячейке матрицы циклически меняет состояние: нет → прямо → обратно → нет', async ({ page }) => {
+test('LMB on matrix cell cycles state: none → same → opposite → none', async ({ page }) => {
   const cell = page.getByTestId('dep-1-2');
 
   await expect(cell).toHaveAttribute('data-state', 'none');
@@ -129,7 +127,7 @@ test('ЛКМ по ячейке матрицы циклически меняет 
   await expect(cell).toHaveAttribute('data-state', 'none');
 });
 
-test('ПКМ по ячейке матрицы циклически меняет состояние в обратную сторону', async ({ page }) => {
+test('RMB on matrix cell cycles state in reverse', async ({ page }) => {
   const cell = page.getByTestId('dep-1-2');
 
   await expect(cell).toHaveAttribute('data-state', 'none');
@@ -146,39 +144,39 @@ test('ПКМ по ячейке матрицы циклически меняет 
 
 // ── Random generation ────────────────────────────────────────────────────────
 
-test('кнопка Лёгкий показывает оверлей и находит конфиг', async ({ page }) => {
+test('Easy button finds a random config', async ({ page }) => {
   await page.getByTestId('btn-easy').click();
-  // Ждём завершения генерации — оверлей может исчезнуть быстрее чем Playwright успеет его поймать
+  // Wait for generation to finish — overlay may disappear before Playwright can catch it
   await expect(page.getByTestId('overlay')).not.toHaveClass(/active/, { timeout: 30000 });
-  // Конфиг изменился — плашек теперь 2+
+  // Config changed — plate count is now 2+
   const count = parseInt(await page.getByTestId('val-plates').textContent());
   expect(count).toBeGreaterThanOrEqual(2);
 });
 
 // ── Clickable holes ───────────────────────────────────────────────────────────
 
-test('клик по дырке выставляет позицию плашки', async ({ page }) => {
-  // Дефолт: currentPos = center = 4, кликаем дырку 1
-  await page.locator('#scene-config-inner .plate[data-id="1"] .hole[data-pos="1"]').click({ force: true });
+test('clicking a hole sets the plate position', async ({ page }) => {
+  // Default currentPos = center = 4; click hole 1
+  await page.getByTestId('hole-1-1').click({ force: true });
   await expect(page.getByTestId('pos-val-1')).toHaveText('1');
 });
 
-test('клик по дырке обновляет стрип кнопки', async ({ page }) => {
-  // После клика по дырке 7 — кнопка ► должна стать disabled (max позиция)
-  await page.locator('#scene-config-inner .plate[data-id="1"] .hole[data-pos="7"]').click({ force: true });
+test('clicking a hole updates the strip buttons', async ({ page }) => {
+  // After clicking hole 7 — ► strip button must be disabled (max position)
+  await page.getByTestId('hole-1-7').click({ force: true });
   await expect(page.getByTestId('pos-val-1')).toHaveText('7');
   await expect(page.getByTestId('pos-inc-1')).toBeDisabled();
 });
 
-test('клик по дырке другой плашки меняет её позицию', async ({ page }) => {
-  await page.locator('#scene-config-inner .plate[data-id="2"] .hole[data-pos="1"]').click({ force: true });
+test('clicking a hole on a different plate changes its position', async ({ page }) => {
+  await page.getByTestId('hole-2-1').click({ force: true });
   await expect(page.getByTestId('pos-val-2')).toHaveText('1');
-  // Первая плашка не тронута
+  // Plate 1 is untouched
   await expect(page.getByTestId('pos-val-1')).toHaveText('4');
 });
 
-test('Cancel закрывает оверлей', async ({ page }) => {
-  // Активируем оверлей напрямую — не зависим от скорости генерации
+test('Cancel button closes the overlay', async ({ page }) => {
+  // Activate overlay directly — independent of generation speed
   await page.evaluate(() => document.getElementById('computing-overlay').classList.add('active'));
   await expect(page.getByTestId('overlay')).toHaveClass(/active/);
   await page.getByTestId('btn-cancel').click();
