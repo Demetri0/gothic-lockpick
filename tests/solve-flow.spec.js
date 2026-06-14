@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 const SIMPLE_CONFIG = JSON.stringify([
-  { id: 1, positions: 7, currentPos: 3, deps: [] },
-  { id: 2, positions: 7, currentPos: 3, deps: [] },
+  { id: 1, positions: 7, currentPos: 6, deps: [] },
+  { id: 2, positions: 7, currentPos: 6, deps: [] },
 ]);
 
 test.beforeEach(async ({ page }) => {

@@ -903,7 +903,7 @@ const state = {
  * @returns {Array<{plateId, newPos}>|null}
  */
 function computeMove(plates, plateId, dir) {
-  const primaryDelta = dir === 'left' ? -1 : 1;
+  const primaryDelta = dir === 'left' ? 1 : -1;
   const primary = plates.find(p => p.id === plateId);
   if (!primary) return null;
 
@@ -950,7 +950,7 @@ function depCellHTML(s) {
 
 /** Returns the id of the first plate that would go out of bounds, or null if move is valid. */
 function getBlockingPlateId(plates, plateId, dir) {
-  const primaryDelta = dir === 'left' ? -1 : 1;
+  const primaryDelta = dir === 'left' ? 1 : -1;
   const primary = plates.find(p => p.id === plateId);
   if (!primary) return null;
   const sign = primaryDelta > 0 ? 1 : -1;
@@ -1014,11 +1014,11 @@ function posToOffsetX(currentPos, positions) {
 
 /**
  * Pin left value within .face.top to keep it visually fixed in scene space.
- * The pin is a child of .face.top which moves with the plate (translateX).
+ * The pin is a child of .face.top which moves with the plate (translateX=offsetX).
  * To counteract: pinLeft = PLATE_W/2 - offsetX.
  * CSS has transform:translateX(-50%) on .pin so the center sits exactly at pinLeft.
  * When currentPos=center: offsetX=0, pinLeft=PLATE_W/2 = center of plate ✓
- * When plate slides: offsetX≠0, compensation keeps pin at scene X=PLATE_W/2 ✓
+ * When plate slides left (currentPos increases): offsetX<0, pinLeft increases → pin shifts right within plate → stays fixed ✓
  */
 function pinLeft(currentPos, positions) {
   return PLATE_W / 2 - posToOffsetX(currentPos, positions);
@@ -1906,7 +1906,7 @@ function parseNotation(s) {
 }
 
 function computeMove(plates, plateId, dir) {
-  const primaryDelta = dir === 'left' ? -1 : 1;
+  const primaryDelta = dir === 'left' ? 1 : -1;
   const primary = plates.find(p => p.id === plateId);
   if (!primary) return null;
 

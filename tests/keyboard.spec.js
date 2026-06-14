@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 const SIMPLE_CONFIG = JSON.stringify([
-  { id: 1, positions: 7, currentPos: 3, deps: [] },
-  { id: 2, positions: 7, currentPos: 3, deps: [] },
+  { id: 1, positions: 7, currentPos: 6, deps: [] },
+  { id: 2, positions: 7, currentPos: 6, deps: [] },
 ]);
 
 test.beforeEach(async ({ page }) => {
@@ -14,15 +14,15 @@ test.beforeEach(async ({ page }) => {
 test('D двигает активную плашку вправо', async ({ page }) => {
   const before = parseInt(await page.getByTestId('pos-val-1').textContent());
   await page.keyboard.press('d');
-  await expect(page.getByTestId('pos-val-1')).toHaveText(String(before + 1));
+  await expect(page.getByTestId('pos-val-1')).toHaveText(String(before - 1));
 });
 
 test('A двигает активную плашку влево', async ({ page }) => {
-  // Сначала вправо, чтобы можно было влево
+  // Сначала вправо, чтобы убедиться что A двигает обратно
   await page.keyboard.press('d');
   const before = parseInt(await page.getByTestId('pos-val-1').textContent());
   await page.keyboard.press('a');
-  await expect(page.getByTestId('pos-val-1')).toHaveText(String(before - 1));
+  await expect(page.getByTestId('pos-val-1')).toHaveText(String(before + 1));
 });
 
 test('W/S переключают активную плашку', async ({ page }) => {
@@ -39,7 +39,7 @@ test('W/S переключают активную плашку', async ({ page }
 test('стрелки работают как WASD в настройках', async ({ page }) => {
   const before = parseInt(await page.getByTestId('pos-val-1').textContent());
   await page.keyboard.press('ArrowRight');
-  await expect(page.getByTestId('pos-val-1')).toHaveText(String(before + 1));
+  await expect(page.getByTestId('pos-val-1')).toHaveText(String(before - 1));
 });
 
 test('WASD не работает во время оверлея', async ({ page }) => {
