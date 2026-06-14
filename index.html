@@ -593,6 +593,18 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 .panel-right.panel-3d-off { display: none; }
 .h2-actions { display: none; gap: 4px; }
 
+#lang-selector {
+  position: fixed; top: 6px; right: 10px; z-index: 200;
+  display: flex; gap: 2px;
+}
+#lang-selector button {
+  width: 28px; height: 22px; padding: 0; font-size: 15px; line-height: 22px;
+  border: 1px solid transparent; border-radius: 3px; background: transparent; cursor: pointer;
+  opacity: 0.35; transition: opacity 0.15s, border-color 0.15s;
+}
+#lang-selector button:hover  { opacity: 0.75; }
+#lang-selector button.active { opacity: 1; border-color: var(--border-control); background: var(--bg-control); }
+
 @media (max-width: 819px) {
   body         { height: auto; overflow: visible; }
   .stage       { height: auto; overflow: visible; }
@@ -624,14 +636,20 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 </head>
 <body>
 
+  <div id="lang-selector">
+    <button data-lang="ru" title="Русский">🇷🇺</button>
+    <button data-lang="uk" title="Українська">🇺🇦</button>
+    <button data-lang="en" title="English">🇬🇧</button>
+  </div>
+
   <div id="toast-container" data-test-id="toast-container"></div>
 
   <dialog id="import-dialog" data-test-id="import-dialog">
-    <h3>Импорт</h3>
-    <p>Применить конфигурацию из буфера обмена?</p>
+    <h3 data-i18n="dialog-import-title">Импорт</h3>
+    <p data-i18n="dialog-import-body">Применить конфигурацию из буфера обмена?</p>
     <div class="dialog-buttons">
-      <button id="import-dialog-cancel" data-test-id="import-dialog-cancel">Отмена</button>
-      <button id="import-dialog-ok" class="btn-primary" data-test-id="import-dialog-ok">Применить</button>
+      <button id="import-dialog-cancel" data-test-id="import-dialog-cancel" data-i18n="dialog-cancel">Отмена</button>
+      <button id="import-dialog-ok" class="btn-primary" data-test-id="import-dialog-ok" data-i18n="dialog-ok">Применить</button>
     </div>
   </dialog>
 
@@ -641,49 +659,49 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
       <div id="progress-total"></div>
       <div id="progress-threads"></div>
     </div>
-    <button class="btn-cancel" data-test-id="btn-cancel">Отмена</button>
+    <button class="btn-cancel" data-test-id="btn-cancel" data-i18n="overlay-cancel">Отмена</button>
   </div>
 
   <!-- STAGE: CONFIG -->
   <div id="stage-config" class="stage" data-test-id="stage-config">
     <div class="panel panel-left">
-      <h2>Настройки<span class="h2-actions"><button id="btn-expand-3d-config" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-config" class="btn-icon active" title="3D вид">⬡</button></span></h2>
+      <h2><span data-i18n="config-title">Настройки</span><span class="h2-actions"><button id="btn-expand-3d-config" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-config" class="btn-icon active" title="3D вид">⬡</button></span></h2>
       <div class="setting-row">
         <span class="ctrl-plates">
-          <label>Элементы:</label>
+          <label data-i18n="label-plates">Элементы:</label>
           <button id="btn-plates-dec" data-test-id="btn-plates-dec">−</button>
           <span id="val-plates" data-test-id="val-plates">4</span>
           <button id="btn-plates-inc" data-test-id="btn-plates-inc">+</button>
         </span>
         <span class="ctrl-positions">
-          <label>Позиции:</label>
+          <label data-i18n="label-positions">Позиции:</label>
           <button id="btn-pos-dec" data-test-id="btn-pos-dec">−</button>
           <span id="val-positions" data-test-id="val-positions">7</span>
           <button id="btn-pos-inc" data-test-id="btn-pos-inc">+</button>
         </span>
         <span style="flex:1"></span>
         <span class="ctrl-difficulty">
-          <label>Рандом:</label>
+          <label data-i18n="label-random">Рандом:</label>
           <button class="btn-difficulty" data-min="7"  data-max="13"             data-test-id="btn-easy"   title="Лёгкий"></button>
           <button class="btn-difficulty" data-min="14" data-max="20" data-plates="5" data-test-id="btn-medium" title="Средний"></button>
           <button class="btn-difficulty" data-min="21"               data-plates="7" data-test-id="btn-hard"   title="Сложный"></button>
         </span>
         <span class="ctrl-io">
-          <button id="btn-export" class="btn-icon" data-test-id="btn-export" title="Экспорт">📤</button>
-          <button id="btn-import" class="btn-icon" data-test-id="btn-import" title="Импорт">📥</button>
+          <button id="btn-export" class="btn-icon" data-test-id="btn-export" data-i18n-title="export-title" title="Экспорт">📤</button>
+          <button id="btn-import" class="btn-icon" data-test-id="btn-import" data-i18n-title="import-title" title="Импорт">📥</button>
         </span>
       </div>
       <div id="plates-positions" data-test-id="plates-positions"></div>
       <div id="plates-matrix" data-test-id="plates-matrix"></div>
-      <button id="btn-start" class="btn-primary" data-test-id="btn-start">РЕШЕНИЕ</button>
+      <button id="btn-start" class="btn-primary" data-test-id="btn-start" data-i18n="btn-start">РЕШЕНИЕ</button>
     </div>
     <div class="panel panel-right">
       <div id="scene-config" class="scene-wrap">
         <div class="scene" id="scene-config-inner"></div>
       </div>
       <div class="legend">
-        <div class="legend-row"><span class="keys"><kbd>A</kbd><kbd>D</kbd></span> Смещение элемента</div>
-        <div class="legend-row"><span class="keys"><kbd>W</kbd><kbd>S</kbd></span> Выбор элемента</div>
+        <div class="legend-row"><span class="keys"><kbd>A</kbd><kbd>D</kbd></span> <span data-i18n="legend-move">Смещение элемента</span></div>
+        <div class="legend-row"><span class="keys"><kbd>W</kbd><kbd>S</kbd></span> <span data-i18n="legend-select">Выбор элемента</span></div>
       </div>
     </div>
   </div>
@@ -691,14 +709,14 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   <!-- STAGE: SOLVE -->
   <div id="stage-solve" class="stage hidden" data-test-id="stage-solve">
     <div class="panel panel-left">
-      <h2>Решение<span class="h2-actions"><button id="btn-expand-3d-solve" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-solve" class="btn-icon active" title="3D вид">⬡</button></span></h2>
+      <h2><span data-i18n="solve-title">Решение</span><span class="h2-actions"><button id="btn-expand-3d-solve" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-solve" class="btn-icon active" title="3D вид">⬡</button></span></h2>
       <div id="solution-string" class="solution-str" data-test-id="solution-string"></div>
       <ol id="solution-steps" class="solution-list" data-test-id="solution-steps"></ol>
       <div class="solve-buttons">
-        <button id="btn-back" class="btn-primary btn-return" data-test-id="btn-back">Вернуться</button>
-        <button id="btn-prev" class="btn-primary" data-test-id="btn-prev">← Шаг</button>
+        <button id="btn-back" class="btn-primary btn-return" data-test-id="btn-back" data-i18n="btn-back">Вернуться</button>
+        <button id="btn-prev" class="btn-primary" data-test-id="btn-prev" data-i18n="btn-prev">← Шаг</button>
         <button id="btn-auto" class="btn-primary" data-test-id="btn-auto">▶ Авто</button>
-        <button id="btn-step" class="btn-primary" data-test-id="btn-step">Шаг →</button>
+        <button id="btn-step" class="btn-primary" data-test-id="btn-step" data-i18n="btn-step">Шаг →</button>
       </div>
     </div>
     <div class="panel panel-right">
@@ -706,8 +724,8 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         <div class="scene" id="scene-solve-inner"></div>
       </div>
       <div class="legend">
-        <div class="legend-row"><span class="keys"><kbd>A</kbd><kbd>D</kbd></span> Смещение элемента</div>
-        <div class="legend-row"><span class="keys"><kbd>W</kbd><kbd>S</kbd></span> Выбор элемента</div>
+        <div class="legend-row"><span class="keys"><kbd>A</kbd><kbd>D</kbd></span> <span data-i18n="legend-move">Смещение элемента</span></div>
+        <div class="legend-row"><span class="keys"><kbd>W</kbd><kbd>S</kbd></span> <span data-i18n="legend-select">Выбор элемента</span></div>
       </div>
     </div>
   </div>
@@ -748,6 +766,112 @@ function makePlate(id, positions) {
 }
 
 /** Global mutable state */
+const TRANSLATIONS = {
+  ru: {
+    'config-title': 'Настройки',   'solve-title': 'Решение',
+    'label-plates': 'Элементы:',   'label-positions': 'Позиции:',   'label-random': 'Рандом:',
+    'btn-start': 'РЕШЕНИЕ',        'btn-back': 'Вернуться',
+    'btn-prev': '← Шаг',          'btn-step': 'Шаг →',
+    'btn-auto': '▶ Авто',          'btn-stop': '■ Стоп',
+    'legend-move': 'Смещение элемента', 'legend-select': 'Выбор элемента',
+    'export-title': 'Экспорт',     'import-title': 'Импорт',
+    'dialog-import-title': 'Импорт',
+    'dialog-import-body': 'Применить конфигурацию из буфера обмена?',
+    'dialog-cancel': 'Отмена',     'dialog-ok': 'Применить',
+    'overlay-cancel': 'Отмена',
+    'step-start': 'Начало',        'step-end': 'Конец',
+    'explore-no-moves': 'нет ходов',
+    'explore-return': '↩ вернуться к шагу {step}',
+    'dep-none': 'нет',   'dep-same': 'прямо',    'dep-opposite': 'обратно',
+    'dep-none-s': 'Х',   'dep-same-s': 'П',      'dep-opposite-s': 'О',
+    'toast-copied': 'Скопировано в буфер',
+    'toast-copy-fail': 'Не удалось скопировать',
+    'toast-invalid': 'Невалидный конфиг',
+    'toast-applied': 'Конфиг применён',
+    'toast-no-solution': 'Решение не найдено',
+    'toast-error': 'Ошибка вычисления',
+    'toast-no-random': 'Не удалось сгенерировать конфигурацию',
+    'toast-ctrl-v': 'Нажмите Ctrl+V',
+    'progress-states': 'Состояний проверено: {n}',
+    'progress-attempts': 'Попытки: {n} / {max} · {k}',
+  },
+  en: {
+    'config-title': 'Settings',    'solve-title': 'Solution',
+    'label-plates': 'Plates:',     'label-positions': 'Positions:',  'label-random': 'Random:',
+    'btn-start': 'SOLVE',          'btn-back': 'Back',
+    'btn-prev': '← Step',          'btn-step': 'Step →',
+    'btn-auto': '▶ Auto',           'btn-stop': '■ Stop',
+    'legend-move': 'Move plate',   'legend-select': 'Select plate',
+    'export-title': 'Export',      'import-title': 'Import',
+    'dialog-import-title': 'Import',
+    'dialog-import-body': 'Apply config from clipboard?',
+    'dialog-cancel': 'Cancel',     'dialog-ok': 'Apply',
+    'overlay-cancel': 'Cancel',
+    'step-start': 'Start',         'step-end': 'End',
+    'explore-no-moves': 'no moves',
+    'explore-return': '↩ return to step {step}',
+    'dep-none': 'none', 'dep-same': 'direct',   'dep-opposite': 'reverse',
+    'dep-none-s': 'X',  'dep-same-s': 'D',      'dep-opposite-s': 'R',
+    'toast-copied': 'Copied to clipboard',
+    'toast-copy-fail': 'Copy failed',
+    'toast-invalid': 'Invalid config',
+    'toast-applied': 'Config applied',
+    'toast-no-solution': 'No solution found',
+    'toast-error': 'Computation error',
+    'toast-no-random': 'Failed to generate config',
+    'toast-ctrl-v': 'Press Ctrl+V',
+    'progress-states': 'States checked: {n}',
+    'progress-attempts': 'Attempts: {n} / {max} · {k}',
+  },
+  uk: {
+    'config-title': 'Налаштування', 'solve-title': 'Рішення',
+    'label-plates': 'Елементи:',   'label-positions': 'Позиції:',   'label-random': 'Рандом:',
+    'btn-start': 'ВИРІШИТИ',       'btn-back': 'Повернутись',
+    'btn-prev': '← Крок',          'btn-step': 'Крок →',
+    'btn-auto': '▶ Авто',           'btn-stop': '■ Стоп',
+    'legend-move': 'Зсув елемента', 'legend-select': 'Вибір елемента',
+    'export-title': 'Експорт',     'import-title': 'Імпорт',
+    'dialog-import-title': 'Імпорт',
+    'dialog-import-body': 'Застосувати конфіг з буфера обміну?',
+    'dialog-cancel': 'Скасувати',  'dialog-ok': 'Застосувати',
+    'overlay-cancel': 'Скасувати',
+    'step-start': 'Початок',       'step-end': 'Кінець',
+    'explore-no-moves': 'немає ходів',
+    'explore-return': '↩ повернутись до кроку {step}',
+    'dep-none': 'нема',  'dep-same': 'пряма',    'dep-opposite': 'зворот.',
+    'dep-none-s': 'Х',   'dep-same-s': 'П',      'dep-opposite-s': 'З',
+    'toast-copied': 'Скопійовано',
+    'toast-copy-fail': 'Не вдалось скопіювати',
+    'toast-invalid': 'Невалідний конфіг',
+    'toast-applied': 'Конфіг застосовано',
+    'toast-no-solution': 'Рішення не знайдено',
+    'toast-error': 'Помилка обчислення',
+    'toast-no-random': 'Не вдалось згенерувати конфіг',
+    'toast-ctrl-v': 'Натисніть Ctrl+V',
+    'progress-states': 'Перевірено станів: {n}',
+    'progress-attempts': 'Спроби: {n} / {max} · {k}',
+  },
+};
+
+function t(key, vars = {}) {
+  const str = (TRANSLATIONS[state.lang] || TRANSLATIONS.ru)[key] || key;
+  return str.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
+}
+
+function setLanguage(lang) {
+  state.lang = lang;
+  localStorage.setItem('lang', lang);
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = t(el.dataset.i18nTitle); });
+  const autoBtn = document.getElementById('btn-auto');
+  if (autoBtn) autoBtn.textContent = state.autoInterval ? t('btn-stop') : t('btn-auto');
+  const startBtn = document.getElementById('btn-start');
+  if (startBtn && startBtn.textContent !== '...') startBtn.textContent = t('btn-start');
+  document.querySelectorAll('#lang-selector button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  renderMatrix();
+  if (state.stage === 'solve') renderSolvePanel();
+}
+
 const state = {
   stage: 'config',          // 'config' | 'solve'
   plates: [],               // Plate[]
@@ -761,6 +885,7 @@ const state = {
   exploreHistory: [],       // manual moves recorded in explore mode
   detachPositions: null,    // plate currentPos snapshot at moment of detach
   detachStep: null,         // solverStep at moment of detach
+  lang: localStorage.getItem('lang') || 'ru',
 };
 </script>
   <!-- Script #2 — Game logic -->
@@ -814,9 +939,9 @@ function applyMove(plates, plateId, dir) {
 }
 
 /** Dep cell innerHTML: full label + short label toggled by CSS media query. */
-function depCellHTML(state) {
-  const full  = state === 'same' ? 'прямо' : state === 'opposite' ? 'обратно' : 'нет';
-  const short = state === 'same' ? 'П'     : state === 'opposite' ? 'О'       : 'Х';
+function depCellHTML(s) {
+  const full  = s === 'same' ? t('dep-same')   : s === 'opposite' ? t('dep-opposite')   : t('dep-none');
+  const short = s === 'same' ? t('dep-same-s') : s === 'opposite' ? t('dep-opposite-s') : t('dep-none-s');
   return `<span class="dep-full">${full}</span><span class="dep-short">${short}</span>`;
 }
 
@@ -1263,23 +1388,23 @@ document.getElementById('btn-export').addEventListener('click', () => {
     state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps }))
   );
   navigator.clipboard.writeText(data)
-    .then(() => showToast('Скопировано в буфер'))
-    .catch(() => showToast('Не удалось скопировать', 'error'));
+    .then(() => showToast(t('toast-copied')))
+    .catch(() => showToast(t('toast-copy-fail'), 'error'));
 });
 
 function applyImportedConfig(text) {
   let plates;
   try { plates = JSON.parse(text); } catch {
-    showToast('Невалидный конфиг', 'error'); return;
+    showToast(t('toast-invalid'), 'error'); return;
   }
   if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) {
-    showToast('Невалидный конфиг', 'error'); return;
+    showToast(t('toast-invalid'), 'error'); return;
   }
 
   const positions0 = plates[0]?.positions;
   const sortedIds = plates.map(p => p.id).slice().sort((a, b) => a - b);
   if (!sortedIds.every((id, i) => id === i + 1)) {
-    showToast('Невалидный конфиг', 'error'); return;
+    showToast(t('toast-invalid'), 'error'); return;
   }
 
   for (const p of plates) {
@@ -1288,7 +1413,7 @@ function applyImportedConfig(text) {
         p.positions !== positions0 ||
         typeof p.currentPos !== 'number' || p.currentPos < 1 || p.currentPos > p.positions ||
         !Array.isArray(p.deps)) {
-      showToast('Невалидный конфиг', 'error'); return;
+      showToast(t('toast-invalid'), 'error'); return;
     }
     for (const d of p.deps) {
       if (typeof d.targetId !== 'number' ||
@@ -1298,7 +1423,7 @@ function applyImportedConfig(text) {
           (d.direction !== 'same' && d.direction !== 'opposite') ||
           typeof d.steps !== 'number' ||
           !Number.isInteger(d.steps) || d.steps < 1) {
-        showToast('Невалидный конфиг', 'error'); return;
+        showToast(t('toast-invalid'), 'error'); return;
       }
     }
   }
@@ -1314,7 +1439,7 @@ function applyImportedConfig(text) {
   document.getElementById('btn-plates-dec').disabled = plates.length <= 2;
   document.getElementById('btn-plates-inc').disabled = plates.length >= 8;
   document.getElementById('btn-pos-dec').disabled = plates[0].positions <= 3;
-  showToast('Конфиг применён');
+  showToast(t('toast-applied'));
 }
 
 let _importPending = null;
@@ -1349,7 +1474,7 @@ document.addEventListener('copy', (e) => {
     state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps }))
   );
   e.clipboardData.setData('text/plain', data);
-  showToast('Скопировано в буфер');
+  showToast(t('toast-copied'));
 });
 
 // Permanent paste listener — catches Ctrl+V outside of form inputs
@@ -1386,7 +1511,7 @@ document.getElementById('btn-import').addEventListener('click', async () => {
   if (text) {
     openImportDialog(text);
   } else {
-    showToast('Нажмите Ctrl+V', 'success');
+    showToast(t('toast-ctrl-v'), 'success');
   }
 });
   </script>
@@ -1440,7 +1565,7 @@ function renderSolvePanel() {
     // Notation string: explore history
     if (state.exploreHistory.length === 0) {
       document.getElementById('solution-string').innerHTML =
-        '<span style="opacity:0.45">нет ходов</span>';
+        `<span style="opacity:0.45">${t('explore-no-moves')}</span>`;
     } else {
       const parts = state.exploreHistory.map((m, i) => {
         const n = toNotation(m.plateId, m.dir, m.steps);
@@ -1455,7 +1580,7 @@ function renderSolvePanel() {
 
     // Completed BFS steps (clickable — return to that step)
     const startLi = document.createElement('li');
-    startLi.textContent = 'Начало';
+    startLi.textContent = t('step-start');
     startLi.classList.add('endpoint');
     startLi.dataset.testId = 'step-start';
     startLi.addEventListener('click', () => returnToSolution(0));
@@ -1473,7 +1598,7 @@ function renderSolvePanel() {
     // Separator — click to return to detach point
     const sep = document.createElement('li');
     sep.className = 'explore-separator explore-separator--btn';
-    sep.textContent = `↩ вернуться к шагу ${state.detachStep}`;
+    sep.textContent = t('explore-return', { step: state.detachStep });
     sep.dataset.testId = 'explore-separator';
     sep.addEventListener('click', () => returnToSolution(state.detachStep));
     list.appendChild(sep);
@@ -1517,7 +1642,7 @@ function renderSolvePanel() {
       return li;
     };
 
-    list.appendChild(makeEndpoint('Начало', 0, 'step-start'));
+    list.appendChild(makeEndpoint(t('step-start'), 0, 'step-start'));
     state.solution.forEach((s, i) => {
       const li = document.createElement('li');
       li.textContent = s;
@@ -1526,7 +1651,7 @@ function renderSolvePanel() {
       li.addEventListener('click', () => jumpToStep(i + 1));
       list.appendChild(li);
     });
-    list.appendChild(makeEndpoint('Конец', state.solution.length, 'step-end'));
+    list.appendChild(makeEndpoint(t('step-end'), state.solution.length, 'step-end'));
 
     const active = list.querySelector('.active');
     if (active) active.scrollIntoView({ block: 'nearest' });
@@ -1609,15 +1734,15 @@ function wireSolveHandlers() {
     if (state.autoInterval) {
       clearInterval(state.autoInterval);
       state.autoInterval = null;
-      btn.textContent = '▶ Авто';
+      btn.textContent = t('btn-auto');
       return;
     }
-    btn.textContent = '■ Стоп';
+    btn.textContent = t('btn-stop');
     state.autoInterval = setInterval(() => {
       if (state.solverStep >= state.solution.length) {
         clearInterval(state.autoInterval);
         state.autoInterval = null;
-        btn.textContent = '▶ Авто';
+        btn.textContent = t('btn-auto');
         return;
       }
       solveStepForward();
@@ -1705,7 +1830,7 @@ document.addEventListener('keydown', (e) => {
         if (state.autoInterval) {
           clearInterval(state.autoInterval);
           state.autoInterval = null;
-          document.getElementById('btn-auto').textContent = '▶ Авто';
+          document.getElementById('btn-auto').textContent = t('btn-auto');
         }
         state.solveMode = 'exploring';
         state.detachStep = state.solverStep;
@@ -1734,6 +1859,14 @@ function init() {
     makePlate(i + 1, DEFAULT_POSITIONS)
   );
   state.activePlate = 1;
+
+  // Wire lang selector
+  document.querySelectorAll('#lang-selector button').forEach(btn => {
+    btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+  });
+  if (state.lang !== 'ru') setLanguage(state.lang);
+  else document.querySelectorAll('#lang-selector button').forEach(b =>
+    b.classList.toggle('active', b.dataset.lang === state.lang));
 
   // Wire UI
   wireConfigHandlers();
@@ -1946,7 +2079,7 @@ function hideOverlay() {
 
 function resetButtons() {
   const bs = document.getElementById('btn-start');
-  bs.disabled = false; bs.textContent = 'РЕШЕНИЕ';
+  bs.disabled = false; bs.textContent = t('btn-start');
   document.querySelectorAll('.btn-difficulty').forEach(b => b.disabled = false);
 }
 
@@ -1973,7 +2106,7 @@ function onWorkerMessage({ data }) {
   if (data.type === 'progress') {
     _progressStates = (_progressStates || 0) + (data.itersDelta || 0);
     document.getElementById('progress-total').textContent =
-      'Состояний проверено: ' + fmtK(_progressStates);
+      t('progress-states', { n: fmtK(_progressStates) });
     return;
   }
 
@@ -1984,9 +2117,9 @@ function onWorkerMessage({ data }) {
   if (data.type === 'solve') {
     const btn = document.getElementById('btn-start');
     btn.disabled = false;
-    btn.textContent = 'РЕШЕНИЕ';
+    btn.textContent = t('btn-start');
     if (data.solution === null) {
-      showToast('Решение не найдено', 'error');
+      showToast(t('toast-no-solution'), 'error');
       return;
     }
     if (state.stage !== 'config') return;
@@ -2001,7 +2134,7 @@ function onWorkerMessage({ data }) {
 function workerError() {
   hideOverlay();
   resetButtons();
-  showToast('Ошибка вычисления', 'error');
+  showToast(t('toast-error'), 'error');
 }
 
 let solveId = 0;
@@ -2037,7 +2170,7 @@ function terminateRandomPool() {
 
 function renderPoolProgress() {
   document.getElementById('progress-total').textContent =
-    'Попытки: ' + _totalAttempts + ' / ' + _maxAttempts + ' · ' + fmtK(_totalIters);
+    t('progress-attempts', { n: _totalAttempts, max: _maxAttempts, k: fmtK(_totalIters) });
 
   const threadsEl = document.getElementById('progress-threads');
   const entries = Object.entries(_perWorker).sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
@@ -2101,7 +2234,7 @@ function onRandomPoolMessage({ data }, poolId, workerId) {
       terminateRandomPool();
       hideOverlay();
       resetButtons();
-      showToast('Не удалось сгенерировать конфигурацию', 'error');
+      showToast(t('toast-no-random'), 'error');
     }
   }
 }
