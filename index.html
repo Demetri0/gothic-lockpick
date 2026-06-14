@@ -565,6 +565,18 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   background: var(--hole-center);
 }
 
+.scene.holes-clickable .hole {
+  cursor: pointer;
+  transition: border-color 0.1s, box-shadow 0.1s;
+}
+.scene.holes-clickable .hole:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 4px var(--accent);
+}
+.scene.holes-clickable .hole.center-hole:hover {
+  border-color: var(--accent);
+}
+
 /* Pin stands upright on the top face: anchored at the plate's top edge (bottom:100%),
    pushed to mid-depth of the plate by translateZ. Child of .plate, not .face.top —
    left is always set by JS via pinLeft(); translateX(-50%) centers on that point */
@@ -1044,7 +1056,7 @@ function buildScene(sceneId, plates) {
     const step = holeStep(plate.positions);
     const holesHTML = Array.from({ length: plate.positions }, (_, i) => {
       const isCenter = (i + 1) === center(plate.positions);
-      return `<div class="hole${isCenter ? ' center-hole' : ''}"
+      return `<div class="hole${isCenter ? ' center-hole' : ''}" data-pos="${i + 1}"
                    style="position:absolute;
                           left:${padding + i * step - HOLE_SIZE / 2}px;
                           top:50%;
@@ -1235,6 +1247,22 @@ function wire3dButtons(expandId, toggleId, panelSelector) {
 
 function wireConfigHandlers() {
   wire3dButtons('btn-expand-3d-config', 'btn-toggle-3d-config', '#stage-config .panel-right');
+
+  document.getElementById('scene-config-inner').classList.add('holes-clickable');
+  document.getElementById('scene-config-inner').addEventListener('click', e => {
+    const hole = e.target.closest('.hole[data-pos]');
+    if (!hole) return;
+    const plateEl = hole.closest('.plate');
+    if (!plateEl) return;
+    const plateId = parseInt(plateEl.dataset.id);
+    const pos = parseInt(hole.dataset.pos);
+    const plate = state.plates.find(p => p.id === plateId);
+    if (!plate || plate.currentPos === pos) return;
+    plate.currentPos = pos;
+    state.cachedSolution = null;
+    updateScene('scene-config-inner', state.plates, state.activePlate);
+    syncMatrixPositions();
+  });
 
   const updatePlateCountButtons = () => {
     document.getElementById('btn-plates-dec').disabled = getPlateCount() <= 2;
