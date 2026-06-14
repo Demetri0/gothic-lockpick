@@ -250,6 +250,21 @@ input[type=number] {
 }
 .nd-dl dt { color: var(--accent); }
 .nd-dl dd { color: var(--text-soft); margin: 0; }
+.solution-wrap { display: flex; align-items: flex-start; gap: 6px; }
+.solution-wrap .solution-str { flex: 1; }
+.btn-copy-solution {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text-muted);
+  font-size: 0.9em;
+  padding: 4px 6px;
+  cursor: pointer;
+  line-height: 1;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-copy-solution:hover { border-color: var(--border-control); color: var(--text); }
 .solution-str {
   font-size: 0.82em;
   color: var(--text-soft);
@@ -785,7 +800,10 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   <div id="stage-solve" class="stage hidden" data-test-id="stage-solve">
     <div class="panel panel-left">
       <h2><span style="display:inline-flex;align-items:center;gap:0"><span data-i18n="solve-title">Решение</span><button id="btn-notation-help" class="notation-btn">?</button></span><span class="h2-actions"><button id="btn-expand-3d-solve" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-solve" class="btn-icon active" title="3D вид">⬡</button></span></h2>
-      <div id="solution-string" class="solution-str" data-test-id="solution-string"></div>
+      <div class="solution-wrap">
+        <div id="solution-string" class="solution-str" data-test-id="solution-string"></div>
+        <button id="btn-copy-solution" class="btn-copy-solution" data-test-id="btn-copy-solution" data-i18n-title="copy-solution" title="Копировать цепочку">📋</button>
+      </div>
       <ol id="solution-steps" class="solution-list" data-test-id="solution-steps"></ol>
       <div class="solve-buttons">
         <button id="btn-back" class="btn-primary btn-return" data-test-id="btn-back" data-i18n="btn-back">Вернуться</button>
@@ -859,6 +877,7 @@ const TRANSLATIONS = {
     'explore-return': '↩ вернуться к шагу {step}',
     'dep-same': 'прямо',    'dep-opposite': 'обратно',
     'dep-same-s': 'П',      'dep-opposite-s': 'О',
+    'copy-solution': 'Копировать цепочку',
     'toast-copied': 'Скопировано в буфер',
     'toast-copy-fail': 'Не удалось скопировать',
     'toast-invalid': 'Невалидный конфиг',
@@ -888,6 +907,7 @@ const TRANSLATIONS = {
     'explore-return': '↩ return to step {step}',
     'dep-same': 'direct',   'dep-opposite': 'reverse',
     'dep-same-s': 'D',      'dep-opposite-s': 'R',
+    'copy-solution': 'Copy chain',
     'toast-copied': 'Copied to clipboard',
     'toast-copy-fail': 'Copy failed',
     'toast-invalid': 'Invalid config',
@@ -917,6 +937,7 @@ const TRANSLATIONS = {
     'explore-return': '↩ повернутись до кроку {step}',
     'dep-same': 'пряма',    'dep-opposite': 'зворот.',
     'dep-same-s': 'П',      'dep-opposite-s': 'З',
+    'copy-solution': 'Скопіювати ланцюжок',
     'toast-copied': 'Скопійовано',
     'toast-copy-fail': 'Не вдалось скопіювати',
     'toast-invalid': 'Невалідний конфіг',
@@ -1836,6 +1857,13 @@ function wireSolveHandlers() {
   <dt><code>[?кроків]</code></dt><dd>— кількість ходів; 1 якщо не вказано</dd>
 </dl>`,
   };
+
+  document.getElementById('btn-copy-solution').addEventListener('click', () => {
+    const text = state.solution.join(' ');
+    navigator.clipboard.writeText(text)
+      .then(() => showToast(t('toast-copied')))
+      .catch(() => showToast(t('toast-copy-fail'), 'error'));
+  });
 
   document.getElementById('btn-notation-help').addEventListener('click', () => {
     const render = _notationContent[state.lang] || _notationContent.ru;
