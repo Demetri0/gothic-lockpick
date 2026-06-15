@@ -11,18 +11,18 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Courier New', monospace;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 
-.stage { display: flex; flex-wrap: wrap; height: 100vh; overflow: hidden; }
+.stage { display: flex; flex-wrap: wrap; height: 100dvh; overflow: hidden; }
 .stage.hidden { display: none; }
 
 .panel { padding: 24px; }
 .panel-left {
   width: var(--panel-w);
   min-width: 280px;
-  height: 100vh;
+  height: 100dvh;
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   background: var(--bg-panel);
@@ -737,7 +737,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   .panel-right {
     order: -1;
     width: 100%;
-    height: 15vh;
+    height: 15dvh;
     min-height: 0;
     overflow: hidden;
     gap: 0;
@@ -745,13 +745,13 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   .h2-actions  { display: flex; }
   .scene-wrap  { min-height: 0; flex: 1; transform: scale(0.5); transform-origin: bottom center; }
   .legend      { display: none; }
-  .panel-right.panel-3d-expanded { height: 50vh; }
+  .panel-right.panel-3d-expanded { height: 50dvh; }
   .panel-right.panel-3d-expanded .scene-wrap { transform: scale(0.75); transform-origin: center center; }
 
   /* solve stage: viewport-locked, only step list scrolls */
-  #stage-solve                { height: 100vh; overflow: hidden; flex-direction: column; flex-wrap: nowrap; }
-  #stage-solve .panel-right   { height: auto; flex: 0 0 15vh; }
-  #stage-solve .panel-right.panel-3d-expanded { flex: 0 0 50vh; }
+  #stage-solve                { height: 100dvh; overflow: hidden; flex-direction: column; flex-wrap: nowrap; }
+  #stage-solve .panel-right   { height: auto; flex: 0 0 15dvh; }
+  #stage-solve .panel-right.panel-3d-expanded { flex: 0 0 50dvh; }
   #stage-solve .panel-left   { flex: 1; min-height: 0; overflow: hidden; }
   #stage-solve #solution-steps { min-height: 0; }
 }
