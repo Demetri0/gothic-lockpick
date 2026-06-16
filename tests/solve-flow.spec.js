@@ -19,7 +19,8 @@ test('BFS finds a solution and solve stage opens', async ({ page }) => {
   await page.getByTestId('import-dialog-ok').click();
   await page.getByTestId('btn-start').click();
 
-  await expect(page.getByTestId('overlay')).toHaveClass(/active/);
+  // Don't assert the overlay's transient "active" state — for a simple 2-plate config
+  // the solve can finish (and remove the class) faster than this can reliably catch it.
   await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
   await expect(page.getByTestId('stage-config')).toBeHidden();
 });

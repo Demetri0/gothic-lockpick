@@ -79,6 +79,9 @@ h2 .btn-icon:disabled { color: var(--border); border-color: transparent; cursor:
 .ctrl-plates, .ctrl-positions, .ctrl-difficulty, .ctrl-io {
   display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; white-space: nowrap;
 }
+/* Disabled buttons don't fire hover events in Chromium, so their title tooltip never
+   shows — wrap in a (non-disabled) span and put the title there instead when disabled. */
+.btn-tooltip-wrap { display: inline-flex; }
 @container (max-width: 600px) { .ctrl-positions  { display: none; } }
 @container (max-width: 420px) { .ctrl-difficulty { display: none; } }
 @container (max-width: 270px) { .ctrl-io { display: none; } }
@@ -955,7 +958,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
           <button class="btn-difficulty" data-min="21"               data-plates="7" data-test-id="btn-hard"   title="Сложный"></button>
         </span>
         <span class="ctrl-io">
-          <button id="btn-search-db" class="btn-icon" data-test-id="btn-search-db" data-i18n-title="search-title" title="Поиск по базе (Ctrl+K)">🔍</button>
+          <span id="btn-search-db-wrap" data-test-id="btn-search-db-wrap" class="btn-tooltip-wrap">
+            <button id="btn-search-db" class="btn-icon" data-test-id="btn-search-db" disabled data-i18n-title="search-title" title="Поиск по базе (Ctrl+K)">🔍</button>
+          </span>
           <button id="btn-import" class="btn-icon" data-test-id="btn-import" data-i18n-title="import-title" title="Импорт">📥</button>
           <button id="btn-export" class="btn-icon" data-test-id="btn-export" data-i18n-title="export-title" title="Экспорт">📤</button>
         </span>
@@ -1080,6 +1085,7 @@ const TRANSLATIONS = {
     'search-placeholder': 'Название, тег или позиции...',
     'search-no-results': 'Ничего не найдено',
     'toast-search-db-error': 'Не удалось загрузить базу',
+    'search-unavailable-title': 'Поиск недоступен: не удалось загрузить базу или библиотеку поиска',
   },
   en: {
     'config-title': 'Settings',    'solve-title': 'Solution',
@@ -1119,6 +1125,7 @@ const TRANSLATIONS = {
     'search-placeholder': 'Name, tag, or positions...',
     'search-no-results': 'No results found',
     'toast-search-db-error': 'Failed to load the database',
+    'search-unavailable-title': 'Search unavailable: failed to load the database or the search library',
   },
   uk: {
     'config-title': 'Налаштування', 'solve-title': 'Рішення',
@@ -1158,6 +1165,7 @@ const TRANSLATIONS = {
     'search-placeholder': 'Назва, тег або позиції...',
     'search-no-results': 'Нічого не знайдено',
     'toast-search-db-error': 'Не вдалося завантажити базу',
+    'search-unavailable-title': 'Пошук недоступний: не вдалося завантажити базу або бібліотеку пошуку',
   },
 };
 
@@ -2748,10 +2756,12 @@ let searchSelected = -1;   // index into searchResults, for arrow-key navigation
 
 async function loadChestDb() {
   if (chestDb) return chestDb;
+  if (typeof Fuse === 'undefined') return null; // CDN script failed to load
 
   const cached = localStorage.getItem('chestDb');
   try {
     const res = await fetch('chests.json');
+    if (!res.ok) throw new Error('bad response');
     chestDb = await res.json();
     localStorage.setItem('chestDb', JSON.stringify(chestDb));
   } catch {
@@ -2760,10 +2770,7 @@ async function loadChestDb() {
     }
   }
 
-  if (!chestDb) {
-    showToast(t('toast-search-db-error'), 'error');
-    return null;
-  }
+  if (!chestDb) return null;
 
   chestFuse = new Fuse(chestDb.entries, {
     keys: ['name.ru', 'name.en', 'name.de', 'name.uk', 'tags'],
@@ -2772,6 +2779,28 @@ async function loadChestDb() {
   });
   return chestDb;
 }
+
+// Resolved once at startup so the button/shortcut can be gated on actual availability
+// instead of failing silently (or with a stray toast) on first use. Exposed as a promise
+// (not just a boolean) so a fast Ctrl+K — pressed before the check has resolved — awaits
+// the real result instead of racing against the initial "not yet known" default.
+let chestSearchAvailable = false;
+
+async function initChestSearch() {
+  const ok = await loadChestDb();
+  chestSearchAvailable = !!ok;
+  const btn = document.getElementById('btn-search-db');
+  const wrap = document.getElementById('btn-search-db-wrap');
+  btn.disabled = !chestSearchAvailable;
+  if (!chestSearchAvailable) {
+    // The button itself won't fire hover events while disabled (no tooltip in Chromium) —
+    // put the explanatory title on the wrapping span instead, which stays interactive.
+    wrap.dataset.i18nTitle = 'search-unavailable-title';
+    wrap.title = t('search-unavailable-title');
+  }
+  return chestSearchAvailable;
+}
+const chestSearchReady = initChestSearch();
 
 // A query is treated as a position search when it's only digits and separators
 function isPositionQuery(q) {
@@ -2969,9 +2998,17 @@ document.getElementById('search-results').addEventListener('click', (e) => {
 });
 
 // Global Ctrl/Cmd+K — not gated on focused element, unlike the WASD listener
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', async (e) => {
   if ((e.ctrlKey || e.metaKey) && e.code === 'KeyK') {
     e.preventDefault();
+    // Await the same readiness promise rather than reading the flag synchronously —
+    // pressing Ctrl+K before the startup check resolves must wait for the real
+    // result, not race against its "not yet known" initial value.
+    const available = await chestSearchReady;
+    if (!available) {
+      showToast(t('toast-search-db-error'), 'error');
+      return;
+    }
     openSearchDialog();
   }
 });

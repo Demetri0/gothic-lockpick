@@ -32,7 +32,14 @@ const SIMPLE_CONFIG = JSON.stringify([
 
 async function mockChestDb(page, db = FIXTURE_DB) {
   await page.route('**/chests.json', route =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(db) }));
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      // no-store: tests that re-navigate with a failing route must hit the network again,
+      // not get this fulfilled response served back out of the browser's HTTP cache.
+      headers: { 'Cache-Control': 'no-store' },
+      body: JSON.stringify(db),
+    }));
 }
 
 test.beforeEach(async ({ page }) => {
@@ -186,10 +193,46 @@ test('nonsense query shows the no-results message', async ({ page }) => {
   await expect(page.getByTestId('search-results').locator('> div')).toHaveCount(0);
 });
 
-test('shows an error toast when the database fails to load', async ({ page }) => {
+test('search button is enabled once the database and Fuse.js load successfully', async ({ page }) => {
+  await expect(page.getByTestId('btn-search-db')).toBeEnabled();
+});
+
+test('search button stays disabled and Ctrl+K shows an error toast when chests.json fails to load', async ({ page }) => {
+  // Wait for beforeEach's own load to fully settle first — otherwise its still-pending
+  // fetch can write to localStorage *after* the clear() below but *before* this second
+  // goto() tears down the old page, leaving fresh cache for loadChestDb() to fall back on.
+  await expect(page.getByTestId('btn-search-db')).toBeEnabled();
+  await page.evaluate(() => localStorage.clear());
   await page.route('**/chests.json', route => route.abort('failed'));
-  await page.getByTestId('btn-search-db').click();
+  await page.goto('/'); // re-navigate so the startup availability check runs against the failing route
+
+  await expect(page.getByTestId('btn-search-db')).toBeDisabled();
+  await page.keyboard.press('Control+k');
   await expect(page.getByTestId('toast')).toHaveAttribute('data-test-type', 'error');
+  await expect(page.getByTestId('search-dialog')).toBeHidden();
+});
+
+test('search button stays disabled and Ctrl+K shows an error toast when Fuse.js fails to load', async ({ page }) => {
+  await page.route('**/fuse.min.js', route => route.abort('failed'));
+  await page.goto('/');
+
+  await expect(page.getByTestId('btn-search-db')).toBeDisabled();
+  await page.keyboard.press('Control+k');
+  await expect(page.getByTestId('toast')).toHaveAttribute('data-test-type', 'error');
+  await expect(page.getByTestId('search-dialog')).toBeHidden();
+});
+
+test('the disabled search button explains why it is unavailable', async ({ page }) => {
+  // See the equivalent wait in the "stays disabled ... chests.json fails to load" test above.
+  await expect(page.getByTestId('btn-search-db')).toBeEnabled();
+  await page.evaluate(() => localStorage.clear());
+  await page.route('**/chests.json', route => route.abort('failed'));
+  await page.goto('/');
+  await expect(page.getByTestId('btn-search-db')).toBeDisabled();
+  // The title lives on the wrapping span, not the disabled button — disabled elements
+  // don't fire hover events in Chromium, so a title on the button itself never shows.
+  await expect(page.getByTestId('btn-search-db-wrap')).toHaveAttribute(
+    'title', 'Поиск недоступен: не удалось загрузить базу или библиотеку поиска');
 });
 
 // ── Position search ──────────────────────────────────────────────────────────
