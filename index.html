@@ -629,6 +629,14 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 .solve-buttons .btn-primary { flex: 1; margin-top: 0; }
 .solve-buttons .btn-return { margin-right: 14px; }
 
+/* Four buttons in one row get too cramped for longer translations (e.g. uk "Повернутись")
+   on phone-width screens — step controls take the first row, Back drops to its own row
+   below (order, not DOM position, so tab order among the controls stays unchanged). */
+@media (max-width: 480px) {
+  .solve-buttons { flex-wrap: wrap; }
+  .solve-buttons .btn-return { flex: 1 1 100%; margin-right: 0; order: 1; margin-top: 6px; }
+}
+
 /* Game-style key legend, pinned to the bottom of the right panel */
 .legend {
   display: flex;
