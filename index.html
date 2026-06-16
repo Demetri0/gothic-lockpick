@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gothic Lockpick Solver</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
   <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -16,7 +19,7 @@ body {
 }
 
 .stage { display: flex; flex-wrap: wrap; height: 100dvh; overflow: hidden; }
-.stage.hidden { display: none; }
+.hidden { display: none; }
 
 .panel { padding: 24px; }
 .panel-left {
@@ -277,6 +280,132 @@ input[type=number] {
 }
 .nd-dl dt { color: var(--accent); }
 .nd-dl dd { color: var(--text-soft); margin: 0; }
+
+/* No padding/border on the dialog itself — .search-dialog-inner covers its entire content
+   box, so a click landing on the dialog element (not a descendant) can only be the backdrop. */
+#search-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  height: fit-content;
+  max-height: 80vh;
+  background: none;
+  border: none;
+  padding: 0;
+  min-width: 320px;
+  max-width: 640px;
+  width: 90vw;
+  outline: none;
+}
+#search-dialog[open] { display: block; }
+#search-dialog::backdrop { background: rgba(14, 12, 9, 0.65); }
+.search-dialog-inner {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  color: var(--text);
+  font-family: 'Courier New', monospace;
+  padding: 20px 24px;
+  max-height: 80vh;
+}
+.search-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+.search-dialog-header h3 {
+  font-size: 0.78em;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.dialog-close-x {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.75em;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+.dialog-close-x:hover { border-color: var(--accent); color: var(--accent); }
+#search-input {
+  width: 100%;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95em;
+  padding: 8px 10px;
+  border-radius: 3px;
+  margin-bottom: 12px;
+}
+#search-input:focus { outline: none; border-color: var(--accent); }
+#search-results {
+  overflow-y: auto;
+  max-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.search-empty {
+  color: var(--text-muted);
+  font-size: 0.85em;
+  text-align: center;
+  padding: 20px 0;
+}
+.search-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 8px;
+  background: var(--bg-inset);
+  cursor: pointer;
+}
+.search-result:hover { border-color: var(--text-dim); }
+.search-result.selected { border-color: var(--accent); box-shadow: 0 0 4px rgba(232, 200, 122, 0.3); }
+.sr-image {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 3px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.sr-image img { width: 100%; height: 100%; object-fit: cover; }
+.sr-image-placeholder { font-size: 1.3em; opacity: 0.35; }
+.sr-info { flex: 1; min-width: 0; }
+.sr-name { font-size: 0.85em; color: var(--text); }
+.sr-tags { font-size: 0.72em; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sr-preview { flex-shrink: 0; display: flex; flex-direction: column; gap: 2px; }
+.sr-plate { display: flex; gap: 2px; }
+.sr-hole {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--hole);
+  border: 1px solid var(--hole-edge);
+}
+.sr-hole.active { background: var(--accent); border-color: var(--accent); }
 .solution-wrap {
   display: flex;
   align-items: flex-start;
@@ -761,9 +890,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 <body>
 
   <div id="lang-selector">
-    <button data-lang="ru" title="Русский">🇷🇺</button>
-    <button data-lang="uk" title="Українська">🇺🇦</button>
-    <button data-lang="en" title="English">🇬🇧</button>
+    <button data-lang="ru" data-test-id="lang-ru" title="Русский">🇷🇺</button>
+    <button data-lang="uk" data-test-id="lang-uk" title="Українська">🇺🇦</button>
+    <button data-lang="en" data-test-id="lang-en" title="English">🇬🇧</button>
   </div>
 
   <div id="toast-container" data-test-id="toast-container"></div>
@@ -781,6 +910,19 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
     <div id="notation-dialog-body" data-test-id="notation-dialog-body"></div>
     <div class="dialog-buttons">
       <button id="btn-notation-close" class="btn-primary" data-test-id="btn-notation-close" data-i18n="dialog-cancel">Закрыть</button>
+    </div>
+  </dialog>
+
+  <dialog id="search-dialog" data-test-id="search-dialog">
+    <div id="search-dialog-inner" class="search-dialog-inner" data-test-id="search-dialog-inner">
+      <div class="search-dialog-header">
+        <h3 data-i18n="search-title" data-test-id="search-dialog-title">Поиск по базе</h3>
+        <button id="btn-search-close" class="dialog-close-x" data-test-id="btn-search-close" data-i18n-title="dialog-cancel" title="Закрыть">✕</button>
+      </div>
+      <input type="text" id="search-input" data-test-id="search-input"
+             data-i18n-placeholder="search-placeholder" placeholder="Название, тег или позиции...">
+      <div id="search-results" data-test-id="search-results"></div>
+      <div id="search-empty" class="search-empty hidden" data-test-id="search-empty" data-i18n="search-no-results">Ничего не найдено</div>
     </div>
   </dialog>
 
@@ -813,6 +955,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
           <button class="btn-difficulty" data-min="21"               data-plates="7" data-test-id="btn-hard"   title="Сложный"></button>
         </span>
         <span class="ctrl-io">
+          <button id="btn-search-db" class="btn-icon" data-test-id="btn-search-db" data-i18n-title="search-title" title="Поиск по базе (Ctrl+K)">🔍</button>
           <button id="btn-import" class="btn-icon" data-test-id="btn-import" data-i18n-title="import-title" title="Импорт">📥</button>
           <button id="btn-export" class="btn-icon" data-test-id="btn-export" data-i18n-title="export-title" title="Экспорт">📤</button>
         </span>
@@ -933,6 +1076,10 @@ const TRANSLATIONS = {
     'progress-states': 'Состояний проверено: {n}',
     'progress-attempts': 'Попытки: {n} / {max} · {k}',
     'thread-attempts': 'попыток',
+    'search-title': 'Поиск по базе',
+    'search-placeholder': 'Название, тег или позиции...',
+    'search-no-results': 'Ничего не найдено',
+    'toast-search-db-error': 'Не удалось загрузить базу',
   },
   en: {
     'config-title': 'Settings',    'solve-title': 'Solution',
@@ -968,6 +1115,10 @@ const TRANSLATIONS = {
     'progress-states': 'States checked: {n}',
     'progress-attempts': 'Attempts: {n} / {max} · {k}',
     'thread-attempts': 'attempts',
+    'search-title': 'Search the database',
+    'search-placeholder': 'Name, tag, or positions...',
+    'search-no-results': 'No results found',
+    'toast-search-db-error': 'Failed to load the database',
   },
   uk: {
     'config-title': 'Налаштування', 'solve-title': 'Рішення',
@@ -1003,6 +1154,10 @@ const TRANSLATIONS = {
     'progress-states': 'Перевірено станів: {n}',
     'progress-attempts': 'Спроби: {n} / {max} · {k}',
     'thread-attempts': 'спроб',
+    'search-title': 'Пошук по базі',
+    'search-placeholder': 'Назва, тег або позиції...',
+    'search-no-results': 'Нічого не знайдено',
+    'toast-search-db-error': 'Не вдалося завантажити базу',
   },
 };
 
@@ -1016,6 +1171,7 @@ function setLanguage(lang) {
   localStorage.setItem('lang', lang);
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = t(el.dataset.i18nTitle); });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
   const autoBtn = document.getElementById('btn-auto');
   if (autoBtn) autoBtn.textContent = state.autoInterval ? t('btn-stop') : t('btn-auto');
   const startBtn = document.getElementById('btn-start');
@@ -2085,6 +2241,10 @@ const KEY_MAP = {
 document.addEventListener('keydown', (e) => {
   if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
   if (document.getElementById('computing-overlay').classList.contains('active')) return;
+  // Block WASD/arrows whenever any modal dialog is open, regardless of where focus
+  // currently is — focus can leave a dialog's input (e.g. clicking a non-focusable
+  // result card) while the dialog itself stays open, letting keys leak through otherwise.
+  if (document.querySelector('dialog[open]')) return;
 
   const key = KEY_MAP[e.code];
   if (!key) return;
@@ -2574,6 +2734,246 @@ document.querySelector('#computing-overlay .btn-cancel').addEventListener('click
   resetProgress();
   hideOverlay();
   resetButtons();
+});
+  </script>
+
+  <!-- Script #10 — Chest DB Search -->
+  <script>
+// ── Script #10 — Chest DB Search ─────────────────────────────────────────
+
+let chestDb = null;        // { v, updated, entries }
+let chestFuse = null;      // Fuse instance over chestDb.entries
+let searchResults = [];    // entries currently shown in the results list
+let searchSelected = -1;   // index into searchResults, for arrow-key navigation
+
+async function loadChestDb() {
+  if (chestDb) return chestDb;
+
+  const cached = localStorage.getItem('chestDb');
+  try {
+    const res = await fetch('chests.json');
+    chestDb = await res.json();
+    localStorage.setItem('chestDb', JSON.stringify(chestDb));
+  } catch {
+    if (cached) {
+      try { chestDb = JSON.parse(cached); } catch { /* ignore corrupt cache */ }
+    }
+  }
+
+  if (!chestDb) {
+    showToast(t('toast-search-db-error'), 'error');
+    return null;
+  }
+
+  chestFuse = new Fuse(chestDb.entries, {
+    keys: ['name.ru', 'name.en', 'name.de', 'name.uk', 'tags'],
+    threshold: 0.4,
+    ignoreLocation: true,
+  });
+  return chestDb;
+}
+
+// A query is treated as a position search when it's only digits and separators
+function isPositionQuery(q) {
+  return /\d/.test(q) && /^[\d\s,.;-]+$/.test(q);
+}
+
+function parsePositionQuery(q) {
+  const trimmed = q.trim();
+  // No separators at all — compact digit string (e.g. "00206"), one digit per position
+  if (/^\d+$/.test(trimmed)) return trimmed.split('').map(Number);
+  return trimmed.split(/[\s,.;-]+/).filter(Boolean).map(Number);
+}
+
+function arraysEqual(a, b) {
+  return a.length === b.length && a.every((v, i) => v === b[i]);
+}
+
+// DB positions are 0-based; users may type either 0-based or the app's 1-based display
+function searchByPosition(nums, entries) {
+  const shifted = nums.map(n => n - 1);
+  return entries.filter(e => arraysEqual(e.pos, nums) || arraysEqual(e.pos, shifted));
+}
+
+function entryName(entry) {
+  for (const lang of [state.lang, 'ru', 'en', 'uk', 'de']) {
+    if (entry.name[lang]) return entry.name[lang];
+  }
+  return Object.values(entry.name)[0] || '';
+}
+
+function runChestSearch(query) {
+  if (!chestDb) return [];
+  const q = query.trim();
+  if (!q) return [];
+  return isPositionQuery(q)
+    ? searchByPosition(parsePositionQuery(q), chestDb.entries)
+    : chestFuse.search(q).map(r => r.item);
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function buildResultCard(entry, idx) {
+  const name = escapeHtml(entryName(entry));
+  const tagsStr = escapeHtml(entry.tags.join(', '));
+  const image = entry.img[0]
+    ? `<img src="${entry.img[0]}" alt="">`
+    : `<span class="sr-image-placeholder" data-test-id="search-result-${idx}-placeholder">🖼</span>`;
+  const plateRows = entry.pos.map((p, plateIdx) => {
+    const holes = Array.from({ length: 7 }, (_, i) =>
+      `<span class="sr-hole${i === p ? ' active' : ''}"
+             data-test-id="search-result-${idx}-hole-${plateIdx}-${i}"
+             data-active="${i === p}"></span>`
+    ).join('');
+    return `<div class="sr-plate" data-test-id="search-result-${idx}-plate-${plateIdx}">${holes}</div>`;
+  }).join('');
+
+  return `
+    <div class="search-result" data-test-id="search-result-${idx}" data-idx="${idx}" data-selected="false">
+      <div class="sr-image" data-test-id="search-result-${idx}-image">${image}</div>
+      <div class="sr-info">
+        <div class="sr-name" data-test-id="search-result-${idx}-name">${name}</div>
+        <div class="sr-tags" data-test-id="search-result-${idx}-tags">${tagsStr}</div>
+      </div>
+      <div class="sr-preview">${plateRows}</div>
+    </div>
+  `;
+}
+
+function highlightSearchSelected() {
+  document.querySelectorAll('#search-results .search-result').forEach((el, i) => {
+    const isSelected = i === searchSelected;
+    el.classList.toggle('selected', isSelected);
+    el.dataset.selected = isSelected ? 'true' : 'false';
+  });
+  const sel = document.querySelector('#search-results .search-result.selected');
+  if (sel) sel.scrollIntoView({ block: 'nearest' });
+}
+
+function clearSearchResults() {
+  searchResults = [];
+  searchSelected = -1;
+  document.getElementById('search-results').innerHTML = '';
+  document.getElementById('search-empty').classList.add('hidden');
+}
+
+function renderSearchResults(list) {
+  searchResults = list;
+  searchSelected = list.length ? 0 : -1;
+  const container = document.getElementById('search-results');
+  const empty = document.getElementById('search-empty');
+
+  if (!list.length) {
+    container.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  container.innerHTML = list.map((entry, i) => buildResultCard(entry, i)).join('');
+  highlightSearchSelected();
+}
+
+function applySearchResult(entry) {
+  // applyImportedConfig() already shows its own success toast — don't double up
+  applyImportedConfig(`start_pos="${entry.pos.join(',')}" rules="${entry.rules}"`);
+  document.getElementById('search-dialog').close();
+  if (state.stage !== 'config') switchToConfig();
+}
+
+// Opens the dialog synchronously (before any await) so it can never be
+// reopened by a late showModal() racing against a test/user closing it first.
+// Database loading happens in the background; the search re-runs once ready.
+function openSearchDialog() {
+  const input = document.getElementById('search-input');
+  input.value = '';
+  clearSearchResults();
+  document.getElementById('search-dialog').showModal();
+  input.focus();
+
+  loadChestDb().then(() => {
+    if (input.value.trim()) renderSearchResults(runChestSearch(input.value));
+  });
+}
+
+document.getElementById('btn-search-db').addEventListener('click', openSearchDialog);
+document.getElementById('btn-search-close').addEventListener('click', () =>
+  document.getElementById('search-dialog').close());
+
+// .search-dialog-inner covers the dialog's entire content box (dialog itself has
+// no padding/border), so target === dialog can only happen on a backdrop click.
+document.getElementById('search-dialog').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) e.currentTarget.close();
+});
+
+document.getElementById('search-input').addEventListener('input', (e) => {
+  renderSearchResults(runChestSearch(e.target.value));
+});
+
+document.getElementById('search-input').addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (searchResults.length) {
+      searchSelected = (searchSelected + 1) % searchResults.length;
+      highlightSearchSelected();
+    }
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (searchResults.length) {
+      searchSelected = (searchSelected - 1 + searchResults.length) % searchResults.length;
+      highlightSearchSelected();
+    }
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (searchSelected >= 0 && searchResults[searchSelected]) {
+      applySearchResult(searchResults[searchSelected]);
+    }
+  } else if (e.key === 'Escape') {
+    // Chrome fires a normal cancelable keydown for Escape on a focused input — intercept
+    // it here and close immediately, skipping Chrome's default action (blurring the input).
+    e.preventDefault();
+    document.getElementById('search-dialog').close();
+  }
+});
+
+// Firefox does NOT dispatch any keydown/keyup for Escape to page script when a focused
+// text input consumes it first — it just blurs the input natively, unreachable from JS.
+// The blur itself IS observable though, so use it as a fallback signal: if the input loses
+// focus to nothing-in-particular (document.body) while the dialog is still open, and that
+// wasn't caused by clicking elsewhere inside the dialog, treat it as an Escape and close.
+let _searchContentMouseDown = false;
+document.getElementById('search-dialog-inner').addEventListener('mousedown', () => {
+  _searchContentMouseDown = true;
+});
+document.getElementById('search-input').addEventListener('blur', () => {
+  const wasContentClick = _searchContentMouseDown;
+  _searchContentMouseDown = false;
+  if (wasContentClick) return;
+  // document.activeElement can transiently read as <body> while blur is firing, before
+  // the browser finishes applying a new focus target (e.g. focus moving to another
+  // element within the dialog) — defer so that transition has settled before checking.
+  setTimeout(() => {
+    const dialog = document.getElementById('search-dialog');
+    if (dialog.hasAttribute('open') && document.activeElement === document.body) {
+      dialog.close();
+    }
+  }, 0);
+});
+
+document.getElementById('search-results').addEventListener('click', (e) => {
+  const card = e.target.closest('.search-result');
+  if (!card) return;
+  const idx = parseInt(card.dataset.idx, 10);
+  if (searchResults[idx]) applySearchResult(searchResults[idx]);
+});
+
+// Global Ctrl/Cmd+K — not gated on focused element, unlike the WASD listener
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.code === 'KeyK') {
+    e.preventDefault();
+    openSearchDialog();
+  }
 });
   </script>
 

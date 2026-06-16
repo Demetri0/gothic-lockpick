@@ -7,7 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "build:db": "node tools/ini2json.cjs chests.ini chests.json",
+    "translate:db": "bash tools/translate.sh ru en && bash tools/translate.sh en ru && bash tools/translate.sh ru de && bash tools/translate.sh ru uk"
   },
   "keywords": [],
   "author": "",
