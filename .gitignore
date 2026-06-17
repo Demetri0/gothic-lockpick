@@ -2,3 +2,4 @@ node_modules/
 .playwright-browsers/
 test-results/
 chests.ini
+.claude/*.lock
