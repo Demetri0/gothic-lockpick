@@ -108,3 +108,27 @@ test('dependency with steps > 1', async ({ page }) => {
   expect(result).toContainEqual({ plateId: 1, newPos: 5 });
   expect(result).toContainEqual({ plateId: 2, newPos: 4 });
 });
+
+test('cyclic dependency: A↔B — moving A moves both once, B\'s back-dep does not re-fire', async ({ page }) => {
+  const result = await page.evaluate(() => {
+    const plates = [
+      { id: 1, positions: 7, currentPos: 4, deps: [{ targetId: 2, direction: 'same', steps: 1 }] },
+      { id: 2, positions: 7, currentPos: 4, deps: [{ targetId: 1, direction: 'same', steps: 1 }] },
+    ];
+    return computeMove(plates, 1, 'right');
+  });
+
+  // Non-transitive: A and B each move exactly once; A is not pulled back by B's dep
+  expect(result).toHaveLength(2);
+  expect(result).toContainEqual({ plateId: 1, newPos: 3 });
+  expect(result).toContainEqual({ plateId: 2, newPos: 3 });
+});
+
+test('valid move landing exactly on the boundary returns the move', async ({ page }) => {
+  const result = await page.evaluate(() => {
+    const plates = [{ id: 1, positions: 7, currentPos: 2, deps: [] }];
+    return computeMove(plates, 1, 'right'); // right = −1 → lands on pos 1 (edge, still valid)
+  });
+
+  expect(result).toEqual([{ plateId: 1, newPos: 1 }]);
+});

@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { posDigit, expectPosDigit, expectActivePlate } from './helpers.js';
 
 const SIMPLE_CONFIG = JSON.stringify([
   { id: 1, positions: 7, currentPos: 6, deps: [] },
@@ -12,34 +13,51 @@ test.beforeEach(async ({ page }) => {
 // ── Config stage ─────────────────────────────────────────────────────────────
 
 test('D moves the active plate right', async ({ page }) => {
-  const before = parseInt(await page.getByTestId('pos-val-1').textContent());
+  const before = parseInt(await posDigit(page, 1));
   await page.keyboard.press('d');
-  await expect(page.getByTestId('pos-val-1')).toHaveText(String(before - 1));
+  await expectPosDigit(page, 1, before - 1);
 });
 
 test('A moves the active plate left', async ({ page }) => {
   // First press D so A has room to move back
   await page.keyboard.press('d');
-  const before = parseInt(await page.getByTestId('pos-val-1').textContent());
+  const before = parseInt(await posDigit(page, 1));
   await page.keyboard.press('a');
-  await expect(page.getByTestId('pos-val-1')).toHaveText(String(before + 1));
+  await expectPosDigit(page, 1, before + 1);
 });
 
 test('W/S switch the active plate', async ({ page }) => {
   // Plate 1 is active by default
-  await expect(page.getByTestId('pos-item-1')).toHaveClass(/active/);
+  await expectActivePlate(page, 1);
 
   await page.keyboard.press('w');
-  await expect(page.getByTestId('pos-item-2')).toHaveClass(/active/);
+  await expectActivePlate(page, 2);
 
   await page.keyboard.press('s');
-  await expect(page.getByTestId('pos-item-1')).toHaveClass(/active/);
+  await expectActivePlate(page, 1);
 });
 
-test('arrow keys work as WASD in config stage', async ({ page }) => {
-  const before = parseInt(await page.getByTestId('pos-val-1').textContent());
+test('arrows drive the position lock in config (↓ value, → selection)', async ({ page }) => {
+  // ArrowDown decreases the active plate's value (like its − button)
+  const before = parseInt(await posDigit(page, 1));
+  await page.keyboard.press('ArrowDown');
+  await expectPosDigit(page, 1, before - 1);
+
+  // ArrowRight moves the selection to the next plate (does not change values)
   await page.keyboard.press('ArrowRight');
-  await expect(page.getByTestId('pos-val-1')).toHaveText(String(before - 1));
+  await expectActivePlate(page, 2);
+});
+
+test('ArrowUp increases the active plate value; arrows do not move plates', async ({ page }) => {
+  const before = parseInt(await posDigit(page, 1));
+  await page.keyboard.press('ArrowUp');
+  await expectPosDigit(page, 1, before + 1);
+});
+
+test('global Backspace removes the active plate without a focused input', async ({ page }) => {
+  await page.keyboard.press('Backspace');
+  await expect(page.getByTestId('val-plates')).toHaveText('3');
+  await expect(page.getByTestId('pos-input-4')).toHaveCount(0);
 });
 
 test('D at the left boundary does not move the plate', async ({ page }) => {
@@ -51,18 +69,18 @@ test('D at the left boundary does not move the plate', async ({ page }) => {
   await page.getByTestId('import-dialog-ok').click();
 
   await page.keyboard.press('d');
-  await expect(page.getByTestId('pos-val-1')).toHaveText('1');
+  await expectPosDigit(page, 1, 1);
 });
 
 test('WASD is suppressed while the computing overlay is active', async ({ page }) => {
-  const before = parseInt(await page.getByTestId('pos-val-1').textContent());
+  const before = parseInt(await posDigit(page, 1));
 
   // Activate overlay directly — independent of generation speed
   await page.evaluate(() => document.getElementById('computing-overlay').classList.add('active'));
   await page.keyboard.press('d');
 
   // Position must not change
-  await expect(page.getByTestId('pos-val-1')).toHaveText(String(before));
+  await expectPosDigit(page, 1, before);
 
   await page.evaluate(() => document.getElementById('computing-overlay').classList.remove('active'));
 });

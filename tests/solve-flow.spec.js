@@ -50,6 +50,30 @@ test('clicking a step in the list jumps to it', async ({ page }) => {
   await expect(page.getByTestId('step-end')).toHaveClass(/active/);
 });
 
+test('the ← Step button is disabled at the start, enabled after stepping forward', async ({ page }) => {
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+
+  await expect(page.getByTestId('step-start')).toHaveClass(/active/);
+  await expect(page.getByTestId('btn-prev')).toBeDisabled();   // nothing before the start
+  await page.getByTestId('btn-step').click();
+  await expect(page.getByTestId('btn-prev')).toBeEnabled();
+});
+
+test('the Step → / Auto buttons are disabled at the end', async ({ page }) => {
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+
+  await page.getByTestId('step-end').click();
+  await expect(page.getByTestId('step-end')).toHaveClass(/active/);
+  await expect(page.getByTestId('btn-step')).toBeDisabled();   // nothing after the end
+  await expect(page.getByTestId('btn-auto')).toBeDisabled();
+});
+
 test('"End" is highlighted on the last step', async ({ page }) => {
   await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
   await page.getByTestId('import-dialog-ok').click();

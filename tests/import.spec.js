@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { expectPosDigit } from './helpers.js';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -87,6 +88,58 @@ test('even positions count is rejected', async ({ page }) => {
   await page.evaluate((c) => openImportDialog(c), cfg);
   await page.getByTestId('import-dialog-ok').click();
 
+  await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
+});
+
+test('positions below 3 are rejected', async ({ page }) => {
+  const cfg = JSON.stringify([
+    { id: 1, positions: 1, currentPos: 1, deps: [] },
+    { id: 2, positions: 1, currentPos: 1, deps: [] },
+  ]);
+  await page.evaluate((c) => openImportDialog(c), cfg);
+  await page.getByTestId('import-dialog-ok').click();
+  await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
+});
+
+test('fewer than 2 plates is rejected', async ({ page }) => {
+  const cfg = JSON.stringify([{ id: 1, positions: 7, currentPos: 4, deps: [] }]);
+  await page.evaluate((c) => openImportDialog(c), cfg);
+  await page.getByTestId('import-dialog-ok').click();
+  await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
+});
+
+test('more than 8 plates is rejected', async ({ page }) => {
+  const cfg = JSON.stringify(
+    Array.from({ length: 9 }, (_, i) => ({ id: i + 1, positions: 7, currentPos: 4, deps: [] }))
+  );
+  await page.evaluate((c) => openImportDialog(c), cfg);
+  await page.getByTestId('import-dialog-ok').click();
+  await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
+});
+
+test('JSON that is not an array is rejected', async ({ page }) => {
+  await page.evaluate(() => openImportDialog('{"id":1,"positions":7,"currentPos":4,"deps":[]}'));
+  await page.getByTestId('import-dialog-ok').click();
+  await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
+});
+
+test('dependency targetId out of range is rejected', async ({ page }) => {
+  const cfg = JSON.stringify([
+    { id: 1, positions: 7, currentPos: 3, deps: [{ targetId: 5, direction: 'same', steps: 1 }] },
+    { id: 2, positions: 7, currentPos: 4, deps: [] },
+  ]);
+  await page.evaluate((c) => openImportDialog(c), cfg);
+  await page.getByTestId('import-dialog-ok').click();
+  await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
+});
+
+test('dependency with steps below 1 is rejected', async ({ page }) => {
+  const cfg = JSON.stringify([
+    { id: 1, positions: 7, currentPos: 3, deps: [{ targetId: 2, direction: 'same', steps: 0 }] },
+    { id: 2, positions: 7, currentPos: 4, deps: [] },
+  ]);
+  await page.evaluate((c) => openImportDialog(c), cfg);
+  await page.getByTestId('import-dialog-ok').click();
   await expect(page.getByTestId('toast')).toContainText('Невалидный конфиг');
 });
 
@@ -339,6 +392,21 @@ test('gothic format: plates with no rules produce empty deps', async ({ page }) 
   expect(result[4].deps).toHaveLength(0); // E
 });
 
+test('gothic format: fewer positions than rule letters throws', async ({ page }) => {
+  // 2 positions but rules mention A, B, C → inconsistent
+  const threw = await page.evaluate(() => {
+    try { parseGothicFormat('04 A:B-,C+'); return false; } catch { return true; }
+  });
+  expect(threw).toBe(true);
+});
+
+test('gothic format: more than 8 positions throws', async ({ page }) => {
+  const threw = await page.evaluate(() => {
+    try { parseGothicFormat('start_pos="1,2,3,4,5,6,7,8,9"'); return false; } catch { return true; }
+  });
+  expect(threw).toBe(true);
+});
+
 // ── Complex export / round-trip scenarios ─────────────────────────────────────
 
 test('export: no-deps config serializes to digits only', async ({ page }) => {
@@ -376,8 +444,8 @@ test('gothic format: applied via dialog updates plate count and positions', asyn
   await page.getByTestId('import-dialog-ok').click();
   await expect(page.getByTestId('toast')).toContainText('Конфиг применён');
   await expect(page.getByTestId('val-plates')).toHaveText('6');
-  await expect(page.getByTestId('pos-val-4')).toHaveText('7');
-  await expect(page.getByTestId('pos-val-1')).toHaveText('1');
+  await expectPosDigit(page, 4, 7);
+  await expectPosDigit(page, 1, 1);
 });
 
 test('Escape closes the dialog without applying config', async ({ page }) => {

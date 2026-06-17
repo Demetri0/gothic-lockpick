@@ -88,8 +88,28 @@ h2 .btn-icon:disabled { color: var(--border); border-color: transparent; cursor:
 .setting-row { display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: nowrap; }
 .setting-row.minor { opacity: 0.55; font-size: 0.82em; }
 .setting-row label { white-space: nowrap; }
-.ctrl-plates, .ctrl-positions, .ctrl-difficulty, .ctrl-io {
+.ctrl-difficulty, .ctrl-io {
   display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; white-space: nowrap;
+}
+.ctrl-search { flex: 0 1 auto; min-width: 0; }
+/* Search trigger styled like a clickable search field, with a keyboard-shortcut hint. */
+.search-box {
+  display: inline-flex; align-items: center; gap: 6px; width: 100%;
+  min-width: 0; max-width: 260px;
+  padding: 5px 8px; font: inherit; font-size: 0.85em;
+  color: var(--text-dim); text-align: left; cursor: pointer;
+  background: var(--bg-control);
+  border: 1px solid var(--border); border-radius: 4px;
+}
+.search-box:hover:not(:disabled) { border-color: var(--border-strong); color: var(--text); }
+.search-box:disabled { opacity: 0.5; cursor: default; }
+.search-box-icon { flex-shrink: 0; }
+.search-box-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.search-box kbd {
+  flex-shrink: 0;
+  padding: 1px 5px; font-size: 0.85em; line-height: 1.4;
+  border: 1px solid var(--border); border-radius: 3px;
+  background: var(--bg-inset);
 }
 /* Disabled buttons don't fire hover events in Chromium, so their title tooltip never
    shows — wrap in a (non-disabled) span and put the title there instead when disabled. */
@@ -149,24 +169,77 @@ input[type=number] {
 
 /* Config matrix */
 #plates-positions {
-  display: flex; flex-wrap: wrap; gap: 6px;
-  padding: 7px 8px;
+  display: flex; justify-content: center;
+  padding: 10px 4px;
   border: 1px solid var(--border); border-radius: 4px;
   background: var(--bg-panel);
 }
-.pos-item {
-  display: flex; align-items: center; gap: 4px;
-  padding: 5px; border-radius: 4px;
-  border: 1px solid var(--border);
-  background: var(--bg-control);
+/* Combination-lock: edge ghost controls + a core of per-plate columns (+ / digit / −). */
+.poslock {
+  --cell-max: 2.6rem;
+  /* Plate width = available width ÷ (N plates + ghosts), capped at --cell-max. Ghosts are
+     full-cell columns just like plates. --ghosts = edge controls shown (0–2). 100cqw = panel
+     content width; −12px ≈ #plates-positions padding + border, the only reserved margin. */
+  --cell: clamp(1.4rem, calc((100cqw - 12px) / (var(--n) + var(--ghosts, 0))), var(--cell-max));
+  display: flex; align-items: stretch; justify-content: center;
 }
-.pos-item.active { background: var(--bg-accent); border-color: var(--border-strong); }
-.pos-item button { padding: 4px 10px; font-size: 0.9em; }
-.matrix-plate-label {
-  display: inline-block; min-width: 20px; text-align: center;
-  color: var(--text-dim); font-size: 0.9em; letter-spacing: 1px;
+.poslock-core {
+  width: calc(var(--n) * var(--cell));
 }
-.pos-val { display: inline-block; width: 22px; text-align: center; font-size: 0.95em; }
+/* One self-contained column per plate ( + / digit / − ), laid out in a row. The plate's
+   own border IS the outline; the active plate brightens it — no separate frame layer. */
+.poslock-plates {
+  display: grid;
+  grid-template-columns: repeat(var(--n), var(--cell));
+}
+.poslock-plate {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 4px 0;                          /* match the buttons' horizontal inset */
+  border: 2px solid var(--border); border-radius: 6px;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.poslock-plate.active {
+  border-color: var(--border-strong);
+  background: var(--bg-accent);
+}
+.poslock-plate button {
+  width: calc(var(--cell) - 8px); height: 1.7rem;
+  padding: 0; font-size: 1.1rem; line-height: 1;
+  border: 1px solid var(--border); border-radius: 4px;
+  background: var(--bg-control); color: var(--text); cursor: pointer;
+}
+.poslock-plate button:hover:not(:disabled) { border-color: var(--border-strong); }
+.poslock-plate button:disabled { opacity: 0.3; cursor: default; }
+.poslock-plate .btn-pos-inc { margin-bottom: 4px; }
+.poslock-plate .btn-pos-dec { margin-top: 4px; }
+/* One input per plate — each digit centred in its own column, no letter-spacing tricks. */
+.poslock-digit {
+  width: 100%; height: var(--cell); line-height: var(--cell);
+  box-sizing: border-box; padding: 0;
+  font-family: 'Courier New', monospace; font-size: calc(var(--cell) * 0.65); font-weight: 700;
+  text-align: center; color: var(--text);
+  background: transparent;
+  border: 1px solid transparent; border-radius: 4px;
+  caret-color: transparent;               /* the active plate shows position, not the caret */
+}
+.poslock-digit:focus { outline: none; }
+/* The cell auto-selects its char on focus (so a keystroke replaces it) — hide that highlight. */
+.poslock-digit::selection { background: transparent; }
+.poslock-digit::-moz-selection { background: transparent; }
+/* Edge ghost controls (dashed): − removes the last plate, + appends / accepts typing. */
+.poslock-ghost {
+  align-self: stretch; box-sizing: border-box;
+  width: var(--cell);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Courier New', monospace; font-size: calc(var(--cell) * 0.6);
+  text-align: center; line-height: 1;
+  border: 2px dashed var(--border); border-radius: 6px;
+  background: transparent; color: var(--text-dim);
+  opacity: 0.55; cursor: pointer;
+}
+.poslock-ghost:hover  { opacity: 1; border-color: var(--border-strong); }
+.poslock-ghost:focus  { outline: none; opacity: 1; border-color: var(--border-strong); }
+.poslock-ghost::placeholder { color: var(--text-dim); opacity: 1; }
 .matrix-wrap {
   flex: 1; min-height: 0;
   display: flex; flex-direction: column;
@@ -200,7 +273,8 @@ input[type=number] {
   );
 }
 .dep-cell {
-  display: block; width: 100%; min-width: 52px; height: 32px;
+  display: block; width: 100%; height: 32px;
+  padding: 0;   /* override global button { padding: 4px 12px } so text isn't pushed off-centre */
   border: 1px solid transparent; border-radius: 0;
   cursor: pointer; font-size: 0.78em; font-family: inherit;
 }
@@ -231,6 +305,7 @@ input[type=number] {
 .matrix-hint code {
   font-family: monospace;
   color: var(--text-soft);
+  white-space: nowrap;
 }
 
 /* Solve panel */
@@ -883,6 +958,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 @media (max-width: 819px) {
   body         { height: auto; overflow: visible; }
   .stage       { height: auto; overflow: visible; }
+  .panel       { padding: 8px; }          /* 24px is too much on a phone */
   #lang-selector { left: 10px; right: auto; }
   .panel-left  { width: 100%; height: auto; border-right: none; overflow: visible; }
   .matrix-wrap { flex: none; overflow: visible; }
@@ -964,12 +1040,15 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
     <div class="panel panel-left">
       <h2><span data-i18n="config-title">Настройки</span><span class="h2-actions"><button id="btn-expand-3d-config" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-config" class="btn-icon active" title="3D вид">⬡</button></span></h2>
       <div class="setting-row">
-        <span class="ctrl-plates">
-          <label data-i18n="label-plates">Элементы:</label>
-          <button id="btn-plates-dec" data-test-id="btn-plates-dec">−</button>
-          <span id="val-plates" data-test-id="val-plates">4</span>
-          <button id="btn-plates-inc" data-test-id="btn-plates-inc">+</button>
+        <span id="btn-search-db-wrap" data-test-id="btn-search-db-wrap" class="btn-tooltip-wrap ctrl-search">
+          <button id="btn-search-db" class="search-box" data-test-id="btn-search-db" disabled data-i18n-title="search-title" title="Поиск по базе (Ctrl+K)">
+            <span class="search-box-icon">🔍</span>
+            <span class="search-box-label" data-i18n="search-box">Поиск</span>
+            <kbd>Ctrl K</kbd>
+          </button>
         </span>
+        <!-- plate count is driven by the position lock now; kept hidden as the count store -->
+        <span id="val-plates" data-test-id="val-plates" hidden>4</span>
 
         <span style="flex:1"></span>
         <span class="ctrl-difficulty">
@@ -979,9 +1058,6 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
           <button class="btn-difficulty" data-min="21"               data-plates="7" data-test-id="btn-hard"   title="Сложный"></button>
         </span>
         <span class="ctrl-io">
-          <span id="btn-search-db-wrap" data-test-id="btn-search-db-wrap" class="btn-tooltip-wrap">
-            <button id="btn-search-db" class="btn-icon" data-test-id="btn-search-db" disabled data-i18n-title="search-title" title="Поиск по базе (Ctrl+K)">🔍</button>
-          </span>
           <button id="btn-import" class="btn-icon" data-test-id="btn-import" data-i18n-title="import-title" title="Импорт">📥</button>
           <button id="btn-export" class="btn-icon" data-test-id="btn-export" data-i18n-title="export-title" title="Экспорт">📤</button>
         </span>
@@ -1070,11 +1146,13 @@ function makePlate(id, positions) {
 const TRANSLATIONS = {
   ru: {
     'config-title': 'Настройки',   'solve-title': 'Решение',
-    'label-plates': 'Элементы:',   'label-positions': 'Позиции:',   'label-random': 'Рандом:',
+    'label-random': 'Рандом:',
     'btn-start': 'РЕШЕНИЕ',        'btn-back': 'Вернуться',
     'btn-prev': '← Шаг',          'btn-step': 'Шаг →',
     'btn-auto': '▶ Авто',          'btn-stop': '■ Стоп',
     'legend-move': 'Смещение элемента', 'legend-select': 'Выбор элемента',
+    'pos-inc': 'Позиция +1',       'pos-dec': 'Позиция −1',
+    'pos-del': 'Удалить элемент',  'pos-add': 'Добавить элемент',
     'export-title': 'Экспорт',     'import-title': 'Импорт',
     'dialog-import-title': 'Импорт',
     'dialog-import-body': 'Применить конфигурацию из буфера обмена?',
@@ -1103,6 +1181,7 @@ const TRANSLATIONS = {
     'progress-attempts': 'Попытки: {n} / {max} · {k}',
     'thread-attempts': 'попыток',
     'search-title': 'Поиск по базе',
+    'search-box': 'Поиск',
     'search-placeholder': 'Название, тег или позиции...',
     'search-no-results': 'Ничего не найдено',
     'toast-search-db-error': 'Не удалось загрузить базу',
@@ -1110,11 +1189,13 @@ const TRANSLATIONS = {
   },
   en: {
     'config-title': 'Settings',    'solve-title': 'Solution',
-    'label-plates': 'Plates:',     'label-positions': 'Positions:',  'label-random': 'Random:',
+    'label-random': 'Random:',
     'btn-start': 'SOLVE',          'btn-back': 'Back',
     'btn-prev': '← Step',          'btn-step': 'Step →',
     'btn-auto': '▶ Auto',           'btn-stop': '■ Stop',
     'legend-move': 'Move plate',   'legend-select': 'Select plate',
+    'pos-inc': 'Position +1',      'pos-dec': 'Position −1',
+    'pos-del': 'Remove plate',     'pos-add': 'Add plate',
     'export-title': 'Export',      'import-title': 'Import',
     'dialog-import-title': 'Import',
     'dialog-import-body': 'Apply config from clipboard?',
@@ -1143,6 +1224,7 @@ const TRANSLATIONS = {
     'progress-attempts': 'Attempts: {n} / {max} · {k}',
     'thread-attempts': 'attempts',
     'search-title': 'Search the database',
+    'search-box': 'Search',
     'search-placeholder': 'Name, tag, or positions...',
     'search-no-results': 'No results found',
     'toast-search-db-error': 'Failed to load the database',
@@ -1150,11 +1232,13 @@ const TRANSLATIONS = {
   },
   uk: {
     'config-title': 'Налаштування', 'solve-title': 'Рішення',
-    'label-plates': 'Елементи:',   'label-positions': 'Позиції:',   'label-random': 'Рандом:',
+    'label-random': 'Рандом:',
     'btn-start': 'ВИРІШИТИ',       'btn-back': 'Повернутись',
     'btn-prev': '← Крок',          'btn-step': 'Крок →',
     'btn-auto': '▶ Авто',           'btn-stop': '■ Стоп',
     'legend-move': 'Зсув елемента', 'legend-select': 'Вибір елемента',
+    'pos-inc': 'Позиція +1',       'pos-dec': 'Позиція −1',
+    'pos-del': 'Видалити елемент', 'pos-add': 'Додати елемент',
     'export-title': 'Експорт',     'import-title': 'Імпорт',
     'dialog-import-title': 'Імпорт',
     'dialog-import-body': 'Застосувати конфіг з буфера обміну?',
@@ -1183,6 +1267,7 @@ const TRANSLATIONS = {
     'progress-attempts': 'Спроби: {n} / {max} · {k}',
     'thread-attempts': 'спроб',
     'search-title': 'Пошук по базі',
+    'search-box': 'Пошук',
     'search-placeholder': 'Назва, тег або позиції...',
     'search-no-results': 'Нічого не знайдено',
     'toast-search-db-error': 'Не вдалося завантажити базу',
@@ -1447,48 +1532,46 @@ function updateScene(sceneId, plates, activePlateId) {
 // ── Script #5 — Config UI ─────────────────────────────────────────────────
 
 
-function getPlateCount() {
-  return parseInt(document.getElementById('val-plates').textContent);
-}
-
-function rebuildConfig() {
-  const count = getPlateCount();
-  const positions = DEFAULT_POSITIONS;
-  const existing = state.plates;
-  state.plates = Array.from({ length: count }, (_, i) => {
-    const id = i + 1;
-    const old = existing.find(p => p.id === id);
-    const plate = makePlate(id, positions);
-    if (old) {
-      plate.currentPos = Math.min(Math.max(old.currentPos, 1), positions);
-      plate.deps = old.deps.filter(d => d.targetId !== id && d.targetId <= count);
-    }
-    return plate;
-  });
-  state.activePlate = 1;
-  state.cachedSolution = null;
-  renderMatrix();
-  buildScene('scene-config-inner', state.plates);
-  updateScene('scene-config-inner', state.plates, state.activePlate);
-}
-
 function renderMatrix() {
   const plates = state.plates;
 
-  // Position strip
+  // Position lock — edge ghost controls + a core of per-plate columns (+ / digit / −)
   const posContainer = document.getElementById('plates-positions');
-  posContainer.innerHTML = '';
-  for (const plate of plates) {
-    const item = document.createElement('div');
-    item.className = 'pos-item' + (plate.id === state.activePlate ? ' active' : '');
-    item.dataset.id = plate.id;
-    item.dataset.testId = `pos-item-${plate.id}`;
-    item.innerHTML = `<span class="matrix-plate-label">${plate.id}</span>`
-      + `<button class="btn-pos-dec" data-id="${plate.id}" data-test-id="pos-dec-${plate.id}"${plate.currentPos <= 1 ? ' disabled' : ''}>◄</button>`
-      + `<span class="pos-val" data-id="${plate.id}" data-test-id="pos-val-${plate.id}">${plate.currentPos}</span>`
-      + `<button class="btn-pos-inc" data-id="${plate.id}" data-test-id="pos-inc-${plate.id}"${plate.currentPos >= plate.positions ? ' disabled' : ''}>►</button>`;
-    posContainer.appendChild(item);
-  }
+  const n = plates.length;
+  const showDel = n > POS_MIN_PLATES;   // left ghost: remove last plate
+  const showAdd = n < POS_MAX_PLATES;   // right ghost: append a plate
+  const ghosts = (showDel ? 1 : 0) + (showAdd ? 1 : 0);
+  const activeI = Math.min(state.activePlate - 1, n - 1);
+
+  const plateCols = plates.map((p, idx) =>
+    `<div class="poslock-plate${idx === activeI ? ' active' : ''}">`
+    + `<button type="button" class="btn-pos-inc" data-id="${p.id}" data-test-id="pos-inc-${p.id}"`
+    +   ` data-i18n-title="pos-inc" title="${t('pos-inc')}" aria-label="${t('pos-inc')}"`
+    +   `${p.currentPos >= p.positions ? ' disabled' : ''}>+</button>`
+    + `<input class="poslock-digit" data-id="${p.id}" data-test-id="pos-input-${p.id}"`
+    +   ` inputmode="numeric" maxlength="1" autocomplete="off" value="${p.currentPos}">`
+    + `<button type="button" class="btn-pos-dec" data-id="${p.id}" data-test-id="pos-dec-${p.id}"`
+    +   ` data-i18n-title="pos-dec" title="${t('pos-dec')}" aria-label="${t('pos-dec')}"`
+    +   `${p.currentPos <= 1 ? ' disabled' : ''}>−</button>`
+    + `</div>`).join('');
+
+  const ghostDel = showDel
+    ? `<button type="button" class="poslock-ghost poslock-ghost-del" data-test-id="poslock-ghost-del"`
+      + ` data-i18n-title="pos-del" title="${t('pos-del')}" aria-label="${t('pos-del')}">×</button>`
+    : '';
+  const ghostAdd = showAdd
+    ? `<input class="poslock-ghost poslock-ghost-add" data-test-id="poslock-ghost-add"`
+      + ` inputmode="numeric" maxlength="1" autocomplete="off" placeholder="+"`
+      + ` data-i18n-title="pos-add" title="${t('pos-add')}" aria-label="${t('pos-add')}">`
+    : '';
+
+  posContainer.innerHTML =
+    `<div class="poslock" data-test-id="poslock" data-active="${state.activePlate}"`
+    + ` style="--n:${n}; --ghosts:${ghosts}">`
+    + ghostDel
+    + `<div class="poslock-core"><div class="poslock-plates">${plateCols}</div></div>`
+    + ghostAdd
+    + `</div>`;
 
   // Dependency matrix
   const container = document.getElementById('plates-matrix');
@@ -1541,21 +1624,148 @@ function renderMatrix() {
   container.appendChild(table);
 }
 
+const POS_MIN_PLATES = 2;
+const POS_MAX_PLATES = 8;
+
 function updateMatrixActive() {
-  document.querySelectorAll('#plates-positions .pos-item').forEach(el => {
-    el.classList.toggle('active', parseInt(el.dataset.id) === state.activePlate);
-  });
+  const lock = document.querySelector('#plates-positions .poslock');
+  if (!lock) return;
+  const i = Math.min(state.activePlate - 1, state.plates.length - 1);
+  lock.dataset.active = i + 1;
+  lock.querySelectorAll('.poslock-plate').forEach((el, idx) => el.classList.toggle('active', idx === i));
 }
 
 function syncMatrixPositions() {
   for (const plate of state.plates) {
-    const posVal = document.querySelector(`#plates-positions .pos-val[data-id="${plate.id}"]`);
-    if (posVal) posVal.textContent = plate.currentPos;
+    const inp = document.querySelector(`#plates-positions .poslock-digit[data-id="${plate.id}"]`);
+    if (inp && document.activeElement !== inp) inp.value = plate.currentPos;
     const dec = document.querySelector(`#plates-positions .btn-pos-dec[data-id="${plate.id}"]`);
     if (dec) dec.disabled = plate.currentPos <= 1;
     const inc = document.querySelector(`#plates-positions .btn-pos-inc[data-id="${plate.id}"]`);
     if (inc) inc.disabled = plate.currentPos >= plate.positions;
   }
+}
+
+// ── Position lock editing (per-cell inputs + edge ghost controls) ───────────────
+
+/** Focus a plate's digit input and select its char so a keystroke replaces it. */
+function posFocusPlate(id) {
+  const el = document.querySelector(`#plates-positions .poslock-digit[data-id="${id}"]`);
+  if (el) { el.focus(); el.select(); }
+  return el;
+}
+/** Focus the append ghost (returns null when it's hidden, i.e. at max plates). */
+function posFocusGhostAdd() {
+  const el = document.querySelector('#plates-positions .poslock-ghost-add');
+  if (el) el.focus();
+  return el;
+}
+
+/** Set the active plate (1..N) and repaint frame + 3D — no rebuild. */
+function posSetActive(id) {
+  state.activePlate = Math.min(Math.max(id, 1), state.plates.length);
+  updateMatrixActive();
+  updateScene('scene-config-inner', state.plates, state.activePlate);
+}
+
+/** Arrow ↑/↓: bump the active plate's value by ±1 (like its +/− buttons; deps bypassed). */
+function posBumpActive(delta) {
+  const plate = state.plates.find(p => p.id === state.activePlate);
+  if (!plate) return;
+  const next = plate.currentPos + delta;
+  if (next >= 1 && next <= plate.positions) posSetPlateValue(plate.id, next);
+}
+
+/** Arrow ←/→: move the active plate selection by ±1 (no focus change). */
+function posMoveActive(delta) {
+  posSetActive(state.activePlate + delta);
+}
+
+/** PgUp/PgDown: set the active plate straight to its max / min value. */
+function posSetActiveExtreme(toMax) {
+  const plate = state.plates.find(p => p.id === state.activePlate);
+  if (plate) posSetPlateValue(plate.id, toMax ? plate.positions : 1);
+}
+
+/** Set a plate's value (clamped) in place; refresh its input + its +/− buttons + 3D. */
+function posSetPlateValue(id, d) {
+  const plate = state.plates.find(p => p.id === id);
+  if (!plate) return;
+  plate.currentPos = Math.min(Math.max(d, 1), plate.positions);
+  state.cachedSolution = null;
+  const inp = document.querySelector(`#plates-positions .poslock-digit[data-id="${id}"]`);
+  if (inp) inp.value = plate.currentPos;
+  const dec = document.querySelector(`#plates-positions .btn-pos-dec[data-id="${id}"]`);
+  if (dec) dec.disabled = plate.currentPos <= 1;
+  const inc = document.querySelector(`#plates-positions .btn-pos-inc[data-id="${id}"]`);
+  if (inc) inc.disabled = plate.currentPos >= plate.positions;
+  updateScene('scene-config-inner', state.plates, state.activePlate);
+}
+
+/** Rebuild after a structural change (N changed), then run an optional focus callback. */
+function posStructuralUpdate(afterFocus) {
+  document.getElementById('val-plates').textContent = state.plates.length;
+  state.activePlate = Math.min(state.activePlate, state.plates.length);
+  state.cachedSolution = null;
+  renderMatrix();
+  buildScene('scene-config-inner', state.plates);
+  if (afterFocus) afterFocus();
+  updateMatrixActive();
+  updateScene('scene-config-inner', state.plates, state.activePlate);
+}
+
+/** Append a plate (value d), keep typing-focus on the ghost (or the new last plate at max). */
+function posAppendPlate(d) {
+  if (state.plates.length >= POS_MAX_PLATES) return;
+  const positions = DEFAULT_POSITIONS;
+  const plate = makePlate(state.plates.length + 1, positions);
+  plate.currentPos = Math.min(Math.max(d, 1), positions);
+  state.plates.push(plate);
+  state.activePlate = state.plates.length;
+  posStructuralUpdate(() => { if (!posFocusGhostAdd()) posFocusPlate(state.plates.length); });
+}
+
+/** Remove the last plate (left ghost / Backspace on the ghost). */
+function posRemoveLast() {
+  if (state.plates.length <= POS_MIN_PLATES) return;
+  posRemovePlateAt(state.plates.length - 1);
+  posStructuralUpdate(() => { if (!posFocusGhostAdd()) posFocusPlate(state.plates.length); });
+}
+
+/** Remove a specific plate. Backspace shifts focus left; Delete (forward) keeps the index
+ *  so the next plate slides in. focusAfter=false for the global (no-focus) path. */
+function posRemovePlate(id, focusAfter = true, forward = false) {
+  if (state.plates.length <= POS_MIN_PLATES) return;
+  const idx = state.plates.findIndex(p => p.id === id);
+  if (idx === -1) return;
+  posRemovePlateAt(idx);
+  const n = state.plates.length;
+  state.activePlate = forward ? Math.min(idx + 1, n) : Math.min(Math.max(idx, 1), n);
+  posStructuralUpdate(focusAfter ? () => posFocusPlate(state.activePlate) : null);
+}
+
+/** Splice plate at index, renumber ids 1..N-1 and fix dependency targets. */
+function posRemovePlateAt(idx) {
+  const removedId = state.plates[idx].id;
+  state.plates.splice(idx, 1);
+  state.plates.forEach((p, i) => { p.id = i + 1; });
+  state.plates.forEach(p => {
+    p.deps = p.deps
+      .filter(dep => dep.targetId !== removedId)
+      .map(dep => ({ ...dep, targetId: dep.targetId > removedId ? dep.targetId - 1 : dep.targetId }))
+      .filter(dep => dep.targetId !== p.id);
+  });
+}
+
+/** Replace the whole set from pasted digits (>1): N = digit count (max 8), deps reset. */
+function posReplaceAll(digitsStr) {
+  const positions = DEFAULT_POSITIONS;
+  const vals = digitsStr.slice(0, POS_MAX_PLATES).split('')
+    .map(c => Math.min(Math.max(parseInt(c, 10), 1), positions));
+  while (vals.length < POS_MIN_PLATES) vals.push(center(positions));
+  state.plates = vals.map((v, i) => { const p = makePlate(i + 1, positions); p.currentPos = v; return p; });
+  state.activePlate = state.plates.length;
+  posStructuralUpdate(() => { if (!posFocusGhostAdd()) posFocusPlate(state.plates.length); });
 }
 
 function wire3dButtons(expandId, toggleId, panelSelector) {
@@ -1590,28 +1800,6 @@ function wireConfigHandlers() {
     syncMatrixPositions();
   });
 
-  const updatePlateCountButtons = () => {
-    document.getElementById('btn-plates-dec').disabled = getPlateCount() <= 2;
-    document.getElementById('btn-plates-inc').disabled = getPlateCount() >= 8;
-  };
-
-  document.getElementById('btn-plates-dec').addEventListener('click', () => {
-    const cur = getPlateCount();
-    if (cur <= 2) return;
-    document.getElementById('val-plates').textContent = cur - 1;
-    rebuildConfig();
-    updatePlateCountButtons();
-  });
-
-  document.getElementById('btn-plates-inc').addEventListener('click', () => {
-    document.getElementById('val-plates').textContent = getPlateCount() + 1;
-    rebuildConfig();
-    updatePlateCountButtons();
-  });
-
-  updatePlateCountButtons();
-
-
   document.querySelectorAll('.btn-difficulty').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.btn-difficulty').forEach(b => b.disabled = true);
@@ -1639,20 +1827,109 @@ function wireConfigHandlers() {
     });
   });
 
-  // Delegated: position buttons
-  document.getElementById('plates-positions').addEventListener('click', (e) => {
-    if (!e.target.classList.contains('btn-pos-dec') && !e.target.classList.contains('btn-pos-inc')) return;
-    const id = parseInt(e.target.dataset.id);
+  // Delegated: position lock +/− buttons
+  const posCont = document.getElementById('plates-positions');
+  posCont.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-pos-dec, .btn-pos-inc');
+    if (!btn) return;
+    const id = parseInt(btn.dataset.id);
     const plate = state.plates.find(p => p.id === id);
     if (!plate) return;
-    const dec = e.target.classList.contains('btn-pos-dec');
+    const dec = btn.classList.contains('btn-pos-dec');
     if (dec && plate.currentPos > 1) plate.currentPos--;
     if (!dec && plate.currentPos < plate.positions) plate.currentPos++;
+    state.activePlate = id;             // selecting a group also activates it
     state.cachedSolution = null;
-    document.querySelector(`#plates-positions .pos-val[data-id="${id}"]`).textContent = plate.currentPos;
-    document.querySelector(`#plates-positions .btn-pos-dec[data-id="${id}"]`).disabled = plate.currentPos <= 1;
-    document.querySelector(`#plates-positions .btn-pos-inc[data-id="${id}"]`).disabled = plate.currentPos >= plate.positions;
+    syncMatrixPositions();
+    updateMatrixActive();
     updateScene('scene-config-inner', state.plates, state.activePlate);
+  });
+
+  // Typing a digit: into a cell → set value + advance; into the add-ghost → append a plate
+  posCont.addEventListener('beforeinput', (e) => {
+    const digit = e.target.closest('.poslock-digit');
+    const ghost = e.target.closest('.poslock-ghost-add');
+    if (!digit && !ghost) return;
+    if (e.inputType === 'insertText') {
+      e.preventDefault();
+      const ch = (e.data || '').replace(/\D/g, '').slice(-1);
+      if (!ch) return;
+      const d = parseInt(ch, 10);
+      if (digit) {
+        const id = parseInt(digit.dataset.id);
+        posSetPlateValue(id, d);
+        if (id < state.plates.length) posFocusPlate(id + 1);
+        else if (!posFocusGhostAdd()) posFocusPlate(id);   // last plate at max → stay
+      } else {
+        posAppendPlate(d);
+      }
+    } else if (e.inputType.startsWith('insert') || e.inputType.startsWith('delete')) {
+      e.preventDefault();   // Backspace handled in keydown; block paste-as-input/formatting
+    }
+  });
+
+  // Backspace/Delete remove a plate; arrows move focus / bump value; Home/End/PgUp/PgDown jump
+  posCont.addEventListener('keydown', (e) => {
+    const digit = e.target.closest('.poslock-digit');
+    const ghost = e.target.closest('.poslock-ghost-add');
+    if (!digit && !ghost) return;
+    const id = digit ? parseInt(digit.dataset.id) : null;
+    const N = state.plates.length;
+    const jump = e.ctrlKey || e.metaKey;   // Ctrl/Cmd + ← / → = jump to first / last
+    if (e.key === 'Backspace') {
+      e.preventDefault();
+      if (digit) posRemovePlate(id); else posRemoveLast();
+    } else if (e.key === 'Delete') {
+      e.preventDefault();
+      if (digit) posRemovePlate(id, true, true); else posRemoveLast();
+    } else if (e.key === 'Home' || (jump && e.key === 'ArrowLeft')) {
+      e.preventDefault(); posFocusPlate(1);
+    } else if (e.key === 'End' || (jump && e.key === 'ArrowRight')) {
+      e.preventDefault(); posFocusPlate(N);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      if (digit) { if (id > 1) posFocusPlate(id - 1); }
+      else posFocusPlate(N);                            // ghost → last plate
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      if (digit) { if (id < N) posFocusPlate(id + 1); else posFocusGhostAdd(); }
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      if (digit) { e.preventDefault(); e.key === 'PageUp' ? posSetActiveExtreme(true) : posBumpActive(+1); }
+    } else if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+      if (digit) { e.preventDefault(); e.key === 'PageDown' ? posSetActiveExtreme(false) : posBumpActive(-1); }
+    }
+  });
+
+  // Paste: a full import config (rules / keys / JSON) is applied whole if valid; otherwise
+  // we keep only the digits — >1 digit replaces the whole set, a single digit edits/appends.
+  posCont.addEventListener('paste', (e) => {
+    if (!e.target.closest('.poslock-digit, .poslock-ghost-add')) return;
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData('text') || '';
+    if (looksLikeImportConfig(text)) {
+      const plates = parseImportConfig(text);
+      if (plates) { applyPlates(plates); showToast(t('toast-applied')); return; }
+    }
+    const digits = text.replace(/\D/g, '');
+    if (!digits) return;
+    if (digits.length > 1) { posReplaceAll(digits); return; }
+    const d = parseInt(digits, 10);
+    const digit = e.target.closest('.poslock-digit');
+    if (digit) posSetPlateValue(parseInt(digit.dataset.id, 10), d);
+    else posAppendPlate(d);
+  });
+
+  // Focusing a cell makes its plate active (frame + 3D follow)
+  posCont.addEventListener('focusin', (e) => {
+    const digit = e.target.closest('.poslock-digit');
+    if (digit) { posSetActive(parseInt(digit.dataset.id, 10)); return; }
+    if (e.target.closest('.poslock-ghost-add')) posSetActive(state.plates.length);
+  });
+
+  // Edge ghost clicks: − removes the last plate, + appends a centred plate
+  posCont.addEventListener('click', (e) => {
+    if (e.target.closest('.poslock-ghost-del')) { posRemoveLast(); return; }
+    if (e.target.closest('.poslock-ghost-add')) { posAppendPlate(center(DEFAULT_POSITIONS)); }
   });
 
   function cycleDepCell(btn, plate, toId, reverse) {
@@ -1842,7 +2119,8 @@ function parseGothicFormat(raw) {
   });
 }
 
-function applyImportedConfig(rawText) {
+/** Parse JSON or gothic-format text into a validated plates array, or null if invalid. */
+function parseImportConfig(rawText) {
   const text = rawText.trim();
   let plates;
   try {
@@ -1851,18 +2129,14 @@ function applyImportedConfig(rawText) {
     try {
       plates = parseGothicFormat(text);
     } catch {
-      showToast(t('toast-invalid'), 'error'); return;
+      return null;
     }
   }
-  if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) {
-    showToast(t('toast-invalid'), 'error'); return;
-  }
+  if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) return null;
 
   const positions0 = plates[0]?.positions;
   const sortedIds = plates.map(p => p.id).slice().sort((a, b) => a - b);
-  if (!sortedIds.every((id, i) => id === i + 1)) {
-    showToast(t('toast-invalid'), 'error'); return;
-  }
+  if (!sortedIds.every((id, i) => id === i + 1)) return null;
 
   for (const p of plates) {
     if (typeof p.id !== 'number' ||
@@ -1870,7 +2144,7 @@ function applyImportedConfig(rawText) {
         p.positions !== positions0 ||
         typeof p.currentPos !== 'number' || p.currentPos < 1 || p.currentPos > p.positions ||
         !Array.isArray(p.deps)) {
-      showToast(t('toast-invalid'), 'error'); return;
+      return null;
     }
     for (const d of p.deps) {
       if (typeof d.targetId !== 'number' ||
@@ -1880,11 +2154,25 @@ function applyImportedConfig(rawText) {
           (d.direction !== 'same' && d.direction !== 'opposite') ||
           typeof d.steps !== 'number' ||
           !Number.isInteger(d.steps) || d.steps < 1) {
-        showToast(t('toast-invalid'), 'error'); return;
+        return null;
       }
     }
   }
+  return plates;
+}
 
+/** Does the text look like a full importable config (rules / keys / JSON) vs. bare digits? */
+function looksLikeImportConfig(text) {
+  const t = text.trim();
+  if (!t) return false;
+  if (t[0] === '[' || t[0] === '{') return true;                          // JSON
+  if (/\b(?:rules|start_pos|cells|name|tags)\s*=/i.test(t)) return true;  // INI/keyed format
+  if (/[A-G]\s*:\s*[A-G]\s*[+\-]/i.test(t)) return true;                  // a dependency rule token
+  return false;
+}
+
+/** Apply a validated plates array to state + UI (no toast). */
+function applyPlates(plates) {
   state.plates = plates;
   state.activePlate = 1;
   state.cachedSolution = null;
@@ -1892,8 +2180,12 @@ function applyImportedConfig(rawText) {
   renderMatrix();
   buildScene('scene-config-inner', state.plates);
   updateScene('scene-config-inner', state.plates, state.activePlate);
-  document.getElementById('btn-plates-dec').disabled = plates.length <= 2;
-  document.getElementById('btn-plates-inc').disabled = plates.length >= 8;
+}
+
+function applyImportedConfig(rawText) {
+  const plates = parseImportConfig(rawText);
+  if (!plates) { showToast(t('toast-invalid'), 'error'); return; }
+  applyPlates(plates);
   showToast(t('toast-applied'));
 }
 
@@ -2274,6 +2566,48 @@ document.addEventListener('keydown', (e) => {
   // currently is — focus can leave a dialog's input (e.g. clicking a non-focusable
   // result card) while the dialog itself stays open, letting keys leak through otherwise.
   if (document.querySelector('dialog[open]')) return;
+
+  // Digit 1..9 sets the active plate's position directly (a natural extension of A/D
+  // moving it and W/S selecting it) — works even when no cell input is focused.
+  if (state.stage === 'config' && /^[1-9]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    const plate = state.plates.find(p => p.id === state.activePlate);
+    if (plate) {
+      e.preventDefault();
+      posSetPlateValue(plate.id, parseInt(e.key, 10));      // clamps to 1..positions
+      const n = state.plates.length;
+      if (state.activePlate < n) {                          // advance to the next plate
+        state.activePlate++;
+        updateMatrixActive();
+        updateScene('scene-config-inner', state.plates, state.activePlate);
+      } else if (n < POS_MAX_PLATES) {
+        // past the last plate → focus the add-ghost so continued typing appends plates
+        posFocusGhostAdd();
+      }
+    }
+    return;
+  }
+
+  // Keyboard drives the position lock (not plate movement) in config, even with nothing
+  // focused: ↑/↓ change the value, PgUp/PgDown jump it to max/min, ←/→ move the selection,
+  // Home/End/Ctrl+←/→ jump to the first/last plate, Backspace/Delete remove the active plate.
+  if (state.stage === 'config' && !e.altKey) {
+    const N = state.plates.length;
+    if (e.ctrlKey || e.metaKey) {                          // Ctrl/Cmd + ← / →
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); posSetActive(1); return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); posSetActive(N); return; }
+    } else {
+      if (e.key === 'ArrowUp')    { e.preventDefault(); posBumpActive(+1); return; }
+      if (e.key === 'ArrowDown')  { e.preventDefault(); posBumpActive(-1); return; }
+      if (e.key === 'PageUp')     { e.preventDefault(); posSetActiveExtreme(true); return; }
+      if (e.key === 'PageDown')   { e.preventDefault(); posSetActiveExtreme(false); return; }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); posMoveActive(-1); return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); posMoveActive(+1); return; }
+      if (e.key === 'Home')       { e.preventDefault(); posSetActive(1); return; }
+      if (e.key === 'End')        { e.preventDefault(); posSetActive(N); return; }
+      if (e.key === 'Backspace')  { e.preventDefault(); posRemovePlate(state.activePlate, false); return; }
+      if (e.key === 'Delete')     { e.preventDefault(); posRemovePlate(state.activePlate, false, true); return; }
+    }
+  }
 
   const key = KEY_MAP[e.code];
   if (!key) return;
@@ -2736,8 +3070,6 @@ function onRandomPoolMessage({ data }, poolId, workerId) {
     renderMatrix();
     buildScene('scene-config-inner', state.plates);
     updateScene('scene-config-inner', state.plates, state.activePlate);
-    document.getElementById('btn-plates-dec').disabled = data.plates.length <= 2;
-    document.getElementById('btn-plates-inc').disabled = data.plates.length >= 8;
     return;
   }
 
@@ -3034,6 +3366,7 @@ document.addEventListener('keydown', async (e) => {
   }
 });
   </script>
+
 
 </body>
 </html>

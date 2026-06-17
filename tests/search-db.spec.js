@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { posDigit, expectPosDigit } from './helpers.js';
 
 // Controlled fixture — tests must not depend on the real chests.json content,
 // since that database is regenerated independently and will keep changing.
@@ -145,15 +146,15 @@ test('clicking the card\'s own padding (not a specific child element) does not c
 // ── Keyboard isolation from puzzle controls ─────────────────────────────────
 
 test('WASD/arrow keys do not move plates while the dialog is open and the input is focused', async ({ page }) => {
-  const before = await page.getByTestId('pos-val-1').textContent();
+  const before = parseInt(await posDigit(page, 1));
   await page.getByTestId('btn-search-db').click();
   await page.keyboard.press('d');
   await page.keyboard.press('ArrowRight');
-  await expect(page.getByTestId('pos-val-1')).toHaveText(before);
+  await expectPosDigit(page, 1, before);
 });
 
 test('WASD/arrow keys stay blocked even after focus leaves the input to another dialog element', async ({ page }) => {
-  const before = await page.getByTestId('pos-val-1').textContent();
+  const before = parseInt(await posDigit(page, 1));
 
   await page.getByTestId('btn-search-db').click();
   // .focus() moves focus deterministically, sidestepping the dialog's native Tab-order quirks
@@ -163,7 +164,7 @@ test('WASD/arrow keys stay blocked even after focus leaves the input to another 
   await page.keyboard.press('d');
   await page.keyboard.press('ArrowRight');
   await expect(page.getByTestId('search-dialog')).toBeVisible(); // sanity: still open, not closed
-  await expect(page.getByTestId('pos-val-1')).toHaveText(before);
+  await expectPosDigit(page, 1, before);
 });
 
 // ── Text search ──────────────────────────────────────────────────────────────
