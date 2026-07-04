@@ -1876,6 +1876,19 @@ function wireConfigHandlers() {
     posSetActive(id);                                // selecting a group also activates it
   });
 
+  // Scroll wheel over a digit: up = +1, down = −1 (like its +/− buttons).
+  // passive:false so we can preventDefault and stop the page from scrolling.
+  posCont.addEventListener('wheel', (e) => {
+    const digit = e.target.closest('.poslock-digit');
+    if (!digit) return;
+    e.preventDefault();
+    const id = parseInt(digit.dataset.id);
+    const plate = state.plates.find(p => p.id === id);
+    if (!plate) return;
+    posSetPlateValue(id, plate.currentPos + (e.deltaY < 0 ? 1 : -1));
+    posSetActive(id);
+  }, { passive: false });
+
   // Typing a digit: into a cell → set value + advance; into the add-ghost → append a plate
   posCont.addEventListener('beforeinput', (e) => {
     const digit = e.target.closest('.poslock-digit');

@@ -464,6 +464,22 @@ test('clicking a hole on a different plate changes its position', async ({ page 
   await expectPosDigit(page, 1, 4);
 });
 
+test('mouse wheel over a position digit increments and decrements', async ({ page }) => {
+  await expectPosDigit(page, 1, 4); // default centre
+  await page.getByTestId('pos-input-1').hover();
+  await page.mouse.wheel(0, -100);  // scroll up → +1
+  await expectPosDigit(page, 1, 5);
+  await page.mouse.wheel(0, 120);   // scroll down → −1
+  await expectPosDigit(page, 1, 4);
+});
+
+test('mouse wheel over a position digit clamps and activates its plate', async ({ page }) => {
+  await page.getByTestId('pos-input-2').hover();
+  for (let i = 0; i < 5; i++) await page.mouse.wheel(0, 120); // scroll well past the minimum
+  await expectPosDigit(page, 2, 1); // clamped at 1
+  await expect(page.getByTestId('poslock')).toHaveAttribute('data-active', '2');
+});
+
 test('Cancel button closes the overlay', async ({ page }) => {
   // Activate overlay directly — independent of generation speed
   await page.evaluate(() => document.getElementById('computing-overlay').classList.add('active'));
