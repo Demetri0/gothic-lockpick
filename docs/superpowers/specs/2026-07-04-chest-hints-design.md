@@ -51,6 +51,12 @@ Whole card is clickable. Contents (only what the DB actually has):
   `buildResultCard` (7 holes per plate, active hole at `entry.pos[i]`), with
   hint-specific `data-test-id`s.
 
+The card name uses `entryName(entry)`, which already prefers `state.lang` (the
+currently active UI language) and falls back through `ru → en → uk → de → first
+available`. Because `setLanguage()` calls `renderMatrix()` — which re-renders the
+hints — switching the interface language re-renders visible hint names in the new
+language immediately. Tags are shown as stored in the DB (not language-specific).
+
 Dimming: when `entry.cells !== state.plates.length`, the card gets
 `data-dim="true"` and reduced opacity. It stays clickable.
 
@@ -82,6 +88,26 @@ Gated on `chestDb` being loaded (renders nothing until then). A re-render is
 triggered when `chestSearchReady` resolves, so hints appear once the DB finishes
 loading even if the user set positions before load completed.
 
+## Database-unavailable scenario (legitimate, must degrade silently)
+
+`chests.json` may fail to load: offline first visit, fetch error, or the Fuse.js
+CDN script missing (`loadChestDb` returns `null` in these cases; the hints
+themselves don't need Fuse, but they share the same `loadChestDb`/`chestDb`
+gate). This is a normal, expected state — **not** an error to surface.
+
+Required behaviour:
+
+- `renderChestHints()` must guard on `chestDb` and return early (container
+  hidden) when it is `null`. No throw, no toast, no console error, no empty
+  placeholder — the config stage looks exactly as it does today.
+- Awaiting/observing `chestSearchReady` must not reject; a failed load resolves
+  to "unavailable" and the hints stay hidden for the rest of the session (matching
+  how the search button gets disabled). If a cached copy exists in `localStorage`,
+  `loadChestDb` already recovers it, so hints work offline after a first success.
+- No test may assume the DB is present without arranging it; the DB-unavailable
+  path gets its own test asserting the hints container stays hidden and nothing
+  else breaks (positions still editable, matrix still renders, SOLVE still works).
+
 ## Localization
 
 Add `hints-label` to all three locales (`ru`, `en`, `uk`) in `TRANSLATIONS`.
@@ -102,6 +128,9 @@ Scenarios:
 - Clicking a hint card applies both its positions and its dependency rules
   (assert the resulting matrix/positions).
 - Fewer than 2 matching leading discs → no hints (container hidden).
+- With the DB fetch mocked to fail, the hints container stays hidden and the
+  config stage still works (positions editable, matrix renders, SOLVE works).
+- Switching the UI language re-renders a visible hint's name in the new language.
 
 ## Decisions locked
 
