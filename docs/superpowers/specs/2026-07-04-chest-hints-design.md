@@ -93,9 +93,12 @@ the positions, which re-renders the hints — the clicked chest then matches ful
 - Horizontal flex row of up to 3 cards; each card is itself a row with the
   **name + tags on the left** and the **disc preview on the right**. Cards shrink
   as the window narrows.
-- Responsive count (CSS `:nth-child` in the existing breakpoints, no JS): desktop
-  3, tablet (`≤ 819px`) 2, mobile (`≤ 480px`) 1. `computeChestHints` still caps at
-  3; the media queries only hide the surplus cards.
+- Responsive count keys off the **container width**, not the viewport — the
+  config panel is only ~half the viewport on desktop, so a viewport media query
+  would be wrong (a 1000px desktop viewport gives a ~400px panel). `#chest-hints`
+  is a `container-type: inline-size` query container; CSS `@container` rules hide
+  surplus cards: `≤ 560px` → 2, `≤ 380px` → 1. `computeChestHints` still caps at 3;
+  the container queries only hide the overflow (no JS, no recompute on resize).
 - Optional localized heading `hints-label` ("Похоже на:" / "Looks like:" /
   "Схоже на:"), shown only when there is at least one card.
 - Empty candidate set → container hidden (`.hidden`), no "nothing found" text.

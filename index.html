@@ -498,7 +498,11 @@ input[type=number] {
 .sr-hole.active { background: var(--accent); border-color: var(--accent); }
 
 /* Live position hints (config stage) — DB chests matching current disc positions */
-.chest-hints { margin: 6px 0 2px; }
+.chest-hints { margin: 6px 0 2px; container-type: inline-size; }
+/* Count follows the container's (the config panel's) width, not the viewport:
+   the panel is only ~half the viewport on desktop, so keying off viewport is wrong. */
+@container (max-width: 560px) { .chest-hints-row .chest-hint:nth-child(n+3) { display: none; } } /* ≤560px → at most 2 */
+@container (max-width: 380px) { .chest-hints-row .chest-hint:nth-child(n+2) { display: none; } } /* ≤380px → a single hint */
 .chest-hints-label { font-size: 0.72em; color: var(--text-muted); margin-bottom: 4px; }
 .chest-hints-row { display: flex; gap: 6px; align-items: stretch; }
 .chest-hint {
@@ -750,7 +754,6 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 @media (max-width: 480px) {
   .solve-buttons { flex-wrap: wrap; }
   .solve-buttons .btn-return { flex: 1 1 100%; margin-right: 0; order: 1; margin-top: 6px; }
-  .chest-hints-row .chest-hint:nth-child(n+2) { display: none; }  /* mobile: a single hint */
 }
 
 /* Game-style key legend, pinned to the bottom of the right panel */
@@ -987,7 +990,6 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 @media (max-width: 819px) {
   body         { height: auto; overflow: visible; }
   .stage       { height: auto; overflow: visible; }
-  .chest-hints-row .chest-hint:nth-child(n+3) { display: none; }  /* tablet: at most 2 hints */
   .panel       { padding: 8px; }          /* 24px is too much on a phone */
   #lang-selector { left: 10px; right: auto; }
   .panel-left  { width: 100%; height: auto; border-right: none; overflow: visible; }

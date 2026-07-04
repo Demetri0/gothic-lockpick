@@ -103,17 +103,18 @@ test('matching chests render as hint cards ranked by prefix', async ({ page }) =
   await expect(page.getByTestId('chest-hint-3')).toHaveCount(0);
 });
 
-test('the visible hint count shrinks on tablet and mobile widths', async ({ page }) => {
+test('the visible hint count follows the panel width, not the viewport', async ({ page }) => {
   await mockChestDb(page);
   await page.goto('/');
-  // Desktop (config viewport is wide): all 3 candidates visible
+  // Wide viewport, wide panel → 3
   await expect(page.getByTestId('chest-hint-2')).toBeVisible();
-  // Tablet: down to 2
-  await page.setViewportSize({ width: 800, height: 900 });
+  // Still a wide (desktop) viewport, but the config panel is only half of it
+  // (panels sit side by side) → the narrow panel drops to 2 cards
+  await page.setViewportSize({ width: 1000, height: 900 });
   await expect(page.getByTestId('chest-hint-2')).toBeHidden();
   await expect(page.getByTestId('chest-hint-1')).toBeVisible();
-  // Mobile: down to 1
-  await page.setViewportSize({ width: 400, height: 800 });
+  // Narrow, stacked panel → 1
+  await page.setViewportSize({ width: 380, height: 800 });
   await expect(page.getByTestId('chest-hint-1')).toBeHidden();
   await expect(page.getByTestId('chest-hint-0')).toBeVisible();
 });
