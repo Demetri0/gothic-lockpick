@@ -3381,10 +3381,10 @@ function buildHintCard(entry, idx, score, matchLen) {
   }).join('');
   return `
     <button type="button" class="chest-hint" data-test-id="chest-hint-${idx}" data-idx="${idx}"
-            data-score="${Math.round(score * 100)}" style="opacity:${opacity}">
+            data-score="${Math.round(score * 100)}" style="opacity:${opacity}" title="${name}">
       <div class="chest-hint-info">
         <div class="chest-hint-name" data-test-id="chest-hint-${idx}-name">${name}</div>
-        <div class="chest-hint-tags" data-test-id="chest-hint-${idx}-tags">${tagsStr}</div>
+        <div class="chest-hint-tags" data-test-id="chest-hint-${idx}-tags" title="${tagsStr}">${tagsStr}</div>
       </div>
       <div class="sr-preview">${plateRows}</div>
     </button>`;

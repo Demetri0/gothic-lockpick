@@ -156,6 +156,14 @@ test('matching discs in a hint preview are highlighted', async ({ page }) => {
   await expect(page.getByTestId('chest-hint-2-hole-2-1')).toHaveAttribute('data-match', 'false');
 });
 
+test('a hint card exposes the full name as a title tooltip', async ({ page }) => {
+  await mockChestDb(page);
+  await page.goto('/');
+  // The name is ellipsis-truncated in the UI, so the untruncated name lives in a title
+  await expect(page.getByTestId('chest-hint-0')).toHaveAttribute('title', 'Точный');
+  await expect(page.getByTestId('chest-hint-0-tags')).toHaveAttribute('title', 'four');
+});
+
 test('clicking a hint applies its positions and dependency rules', async ({ page }) => {
   await mockChestDb(page);
   await page.goto('/');
