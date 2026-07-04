@@ -47,7 +47,7 @@ Given `user0 = state.plates.map(p => p.currentPos - 1)`:
 3. **Candidates:** entries with `score > 0.25`. This effectively requires `L ≥ 2`
    (a single leading match tops out at `0.25` and is excluded).
 4. **Rank** by `score` descending; tie-break by `pos.length` ascending, then `id`.
-5. **Limit:** render the top **4**.
+5. **Limit:** render the top **3**.
 
 The score is returned alongside each entry (`{ entry, score }`) so the card can
 map it to opacity. Pure loop over 508 entries per keystroke — negligible cost,
@@ -88,9 +88,14 @@ the positions, which re-renders the hints — the clicked chest then matches ful
 
 ## Layout & placement
 
-- New container `#chest-hints` inserted **between** `#plates-positions` (line
-  1065) and `.matrix-wrap` (line 1066).
-- Horizontal flex row; cards shrink as the window narrows; ~3–4 fit on desktop.
+- New container `#chest-hints` inserted **between** `#plates-positions` and
+  `.matrix-wrap`.
+- Horizontal flex row of up to 3 cards; each card is itself a row with the
+  **name + tags on the left** and the **disc preview on the right**. Cards shrink
+  as the window narrows.
+- Responsive count (CSS `:nth-child` in the existing breakpoints, no JS): desktop
+  3, tablet (`≤ 819px`) 2, mobile (`≤ 480px`) 1. `computeChestHints` still caps at
+  3; the media queries only hide the surplus cards.
 - Optional localized heading `hints-label` ("Похоже на:" / "Looks like:" /
   "Схоже на:"), shown only when there is at least one card.
 - Empty candidate set → container hidden (`.hidden`), no "nothing found" text.

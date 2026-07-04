@@ -80,14 +80,14 @@ test('computeChestHints excludes entries with a single leading match', async ({ 
   expect(ids).toEqual([]);
 });
 
-test('computeChestHints caps results at the limit', async ({ page }) => {
+test('computeChestHints caps results at the default limit of 3', async ({ page }) => {
   await page.goto('/');
   const count = await page.evaluate(() => {
     const mk = (id, pos) => ({ id, pos, cells: pos.length, name: {}, tags: [], rules: '' });
     const entries = Array.from({ length: 6 }, (_, i) => mk(`e${i}`, [2, 2, i, 0]));
-    return computeChestHints(entries, [2, 2, 2, 2], 4, 4).length;
+    return computeChestHints(entries, [2, 2, 2, 2], 4).length; // no explicit limit → default
   });
-  expect(count).toBe(4);
+  expect(count).toBe(3);
 });
 
 // ── Rendering (integration) ──────────────────────────────────────────────────
@@ -101,6 +101,21 @@ test('matching chests render as hint cards ranked by prefix', async ({ page }) =
   await expect(page.getByTestId('chest-hint-1-name')).toHaveText('Длинный');
   await expect(page.getByTestId('chest-hint-2-name')).toHaveText('Замок Два');
   await expect(page.getByTestId('chest-hint-3')).toHaveCount(0);
+});
+
+test('the visible hint count shrinks on tablet and mobile widths', async ({ page }) => {
+  await mockChestDb(page);
+  await page.goto('/');
+  // Desktop (config viewport is wide): all 3 candidates visible
+  await expect(page.getByTestId('chest-hint-2')).toBeVisible();
+  // Tablet: down to 2
+  await page.setViewportSize({ width: 800, height: 900 });
+  await expect(page.getByTestId('chest-hint-2')).toBeHidden();
+  await expect(page.getByTestId('chest-hint-1')).toBeVisible();
+  // Mobile: down to 1
+  await page.setViewportSize({ width: 400, height: 800 });
+  await expect(page.getByTestId('chest-hint-1')).toBeHidden();
+  await expect(page.getByTestId('chest-hint-0')).toBeVisible();
 });
 
 test('cards fade by combined match score', async ({ page }) => {

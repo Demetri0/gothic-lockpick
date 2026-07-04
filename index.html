@@ -505,9 +505,9 @@ input[type=number] {
   flex: 1 1 0;
   min-width: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   border: 1px solid var(--border);
   border-radius: 3px;
   padding: 6px;
@@ -515,9 +515,12 @@ input[type=number] {
   cursor: pointer;
   font: inherit;
   color: var(--text);
+  text-align: left;
 }
 .chest-hint:hover { border-color: var(--accent); box-shadow: 0 0 4px rgba(232, 200, 122, 0.3); }
 .chest-hint .sr-hole.match { background: #5cb85c; border-color: #5cb85c; }
+.chest-hint-info { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.chest-hint .sr-preview { flex-shrink: 0; }
 .chest-hint-name { font-size: 0.8em; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .chest-hint-tags { font-size: 0.68em; color: var(--text-muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -747,6 +750,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 @media (max-width: 480px) {
   .solve-buttons { flex-wrap: wrap; }
   .solve-buttons .btn-return { flex: 1 1 100%; margin-right: 0; order: 1; margin-top: 6px; }
+  .chest-hints-row .chest-hint:nth-child(n+2) { display: none; }  /* mobile: a single hint */
 }
 
 /* Game-style key legend, pinned to the bottom of the right panel */
@@ -983,6 +987,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 @media (max-width: 819px) {
   body         { height: auto; overflow: visible; }
   .stage       { height: auto; overflow: visible; }
+  .chest-hints-row .chest-hint:nth-child(n+3) { display: none; }  /* tablet: at most 2 hints */
   .panel       { padding: 8px; }          /* 24px is too much on a phone */
   #lang-selector { left: 10px; right: auto; }
   .panel-left  { width: 100%; height: auto; border-right: none; overflow: visible; }
@@ -3248,10 +3253,10 @@ function leadingMatchLength(entryPos, user0) {
  * @param {object[]} entries   DB entries ({ pos, ... })
  * @param {number[]} user0     user positions, 0-based
  * @param {number}   plateCount current plate count
- * @param {number}   [limit=4]  max entries returned
+ * @param {number}   [limit=3]  max entries returned
  * @returns {{entry: object, score: number, matchLen: number}[]} best match first
  */
-function computeChestHints(entries, user0, plateCount, limit = 4) {
+function computeChestHints(entries, user0, plateCount, limit = 3) {
   const scored = [];
   for (const entry of entries) {
     const L = leadingMatchLength(entry.pos, user0);
@@ -3375,9 +3380,11 @@ function buildHintCard(entry, idx, score, matchLen) {
   return `
     <button type="button" class="chest-hint" data-test-id="chest-hint-${idx}" data-idx="${idx}"
             data-score="${Math.round(score * 100)}" style="opacity:${opacity}">
+      <div class="chest-hint-info">
+        <div class="chest-hint-name" data-test-id="chest-hint-${idx}-name">${name}</div>
+        <div class="chest-hint-tags" data-test-id="chest-hint-${idx}-tags">${tagsStr}</div>
+      </div>
       <div class="sr-preview">${plateRows}</div>
-      <div class="chest-hint-name" data-test-id="chest-hint-${idx}-name">${name}</div>
-      <div class="chest-hint-tags" data-test-id="chest-hint-${idx}-tags">${tagsStr}</div>
     </button>`;
 }
 
