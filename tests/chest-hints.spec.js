@@ -31,38 +31,60 @@ async function mockChestDb(page, db = FIXTURE_DB) {
 // computeChestHints(entries, user0, plateCount, limit) ranks DB entries whose
 // disc positions match the user's current positions (0-based) by a left prefix.
 
-test('computeChestHints ranks candidates by leading-prefix match length', async ({ page }) => {
+// Combined match score = prefix * (0.7 + 0.3 * count), where prefix = L / N and
+// count = 1 / (1 + |plates - N|). An entry is included only when score > 0.25.
+// Returns [{ entry, score }] ranked by score descending.
+
+test('computeChestHints excludes weak matches and ranks by combined score', async ({ page }) => {
   await page.goto('/');
-  const ids = await page.evaluate(() => {
+  const res = await page.evaluate(() => {
+    const mk = (id, pos) => ({ id, pos, cells: pos.length, name: {}, tags: [], rules: '' });
     const entries = [
-      { id: 'p3', pos: [1, 2, 3, 4], cells: 4, name: {}, tags: [], rules: '' }, // L=4
-      { id: 'p2', pos: [1, 2, 9, 9], cells: 4, name: {}, tags: [], rules: '' }, // L=2
-      { id: 'p1', pos: [1, 9, 9, 9], cells: 4, name: {}, tags: [], rules: '' }, // L=1 → excluded
-      { id: 'p0', pos: [9, 9, 9, 9], cells: 4, name: {}, tags: [], rules: '' }, // L=0 → excluded
+      mk('l4', [1, 2, 3, 4]), // L=4 → prefix 1.00 → score 1.00
+      mk('l2', [1, 2, 9, 9]), // L=2 → prefix 0.50 → score 0.50
+      mk('l1', [1, 9, 9, 9]), // L=1 → prefix 0.25 → score 0.25 → excluded (not > 0.25)
+      mk('l0', [9, 9, 9, 9]), // L=0 → excluded
     ];
-    return computeChestHints(entries, [1, 2, 3, 4], 4, 4).map(e => e.id);
+    return computeChestHints(entries, [1, 2, 3, 4], 4, 4).map(r => ({ id: r.entry.id, score: r.score }));
   });
-  expect(ids).toEqual(['p3', 'p2']);
+  expect(res.map(r => r.id)).toEqual(['l4', 'l2']);
+  expect(res[0].score).toBeCloseTo(1);
+  expect(res[1].score).toBeCloseTo(0.5);
 });
 
-test('computeChestHints ranks exact plate-count above a mismatched count at equal prefix', async ({ page }) => {
+test('a differing plate count lowers the score at equal prefix', async ({ page }) => {
+  await page.goto('/');
+  const res = await page.evaluate(() => {
+    const mk = (id, pos) => ({ id, pos, cells: pos.length, name: {}, tags: [], rules: '' });
+    const entries = [
+      mk('longer', [3, 3, 3, 3, 3, 3]), // L=2, 6 plates → count 1/3 → score 0.40
+      mk('exact', [3, 3, 3, 3]),        // L=2, 4 plates → count 1   → score 0.50
+    ];
+    return computeChestHints(entries, [3, 3, 5, 5], 4, 4).map(r => ({ id: r.entry.id, score: r.score }));
+  });
+  expect(res.map(r => r.id)).toEqual(['exact', 'longer']);
+  expect(res[0].score).toBeCloseTo(0.5);
+  expect(res[1].score).toBeCloseTo(0.4);
+});
+
+test('computeChestHints excludes entries with a single leading match', async ({ page }) => {
   await page.goto('/');
   const ids = await page.evaluate(() => {
+    const mk = (id, pos) => ({ id, pos, cells: pos.length, name: {}, tags: [], rules: '' });
     const entries = [
-      { id: 'longer', pos: [3, 3, 3, 3, 3, 3], cells: 6, name: {}, tags: [], rules: '' }, // L=2, count 6
-      { id: 'exact', pos: [3, 3, 3, 3], cells: 4, name: {}, tags: [], rules: '' },         // L=2, count 4
+      mk('one', [3, 9, 9, 9]),  // L=1, exact count → score 0.25 → excluded
+      mk('zero', [9, 9, 9, 9]), // L=0 → excluded
     ];
-    return computeChestHints(entries, [3, 3, 5, 5], 4, 4).map(e => e.id);
+    return computeChestHints(entries, [3, 3, 3, 3], 4, 4).map(r => r.entry.id);
   });
-  expect(ids).toEqual(['exact', 'longer']);
+  expect(ids).toEqual([]);
 });
 
 test('computeChestHints caps results at the limit', async ({ page }) => {
   await page.goto('/');
   const count = await page.evaluate(() => {
-    const entries = Array.from({ length: 6 }, (_, i) => ({
-      id: `e${i}`, pos: [2, 2, i, 0], cells: 4, name: {}, tags: [], rules: '',
-    }));
+    const mk = (id, pos) => ({ id, pos, cells: pos.length, name: {}, tags: [], rules: '' });
+    const entries = Array.from({ length: 6 }, (_, i) => mk(`e${i}`, [2, 2, i, 0]));
     return computeChestHints(entries, [2, 2, 2, 2], 4, 4).length;
   });
   expect(count).toBe(4);
@@ -81,12 +103,18 @@ test('matching chests render as hint cards ranked by prefix', async ({ page }) =
   await expect(page.getByTestId('chest-hint-3')).toHaveCount(0);
 });
 
-test('a chest with a different plate count is dimmed', async ({ page }) => {
+test('cards fade by combined match score', async ({ page }) => {
   await mockChestDb(page);
   await page.goto('/');
-  // exact4 (4 plates, matches current 4) not dim; longer6 (6 plates) dim
-  await expect(page.getByTestId('chest-hint-0')).toHaveAttribute('data-dim', 'false');
-  await expect(page.getByTestId('chest-hint-1')).toHaveAttribute('data-dim', 'true');
+  // exact4: score 1.00 → 100; longer6: score 0.80 → 80; apply2: score 0.50 → 50
+  await expect(page.getByTestId('chest-hint-0')).toHaveAttribute('data-score', '100');
+  await expect(page.getByTestId('chest-hint-1')).toHaveAttribute('data-score', '80');
+  await expect(page.getByTestId('chest-hint-2')).toHaveAttribute('data-score', '50');
+  // Opacity is driven by the score: a higher-scoring card is more opaque
+  const [o0, o2] = await page.evaluate(() =>
+    ['chest-hint-0', 'chest-hint-2'].map(id =>
+      parseFloat(getComputedStyle(document.querySelector(`[data-test-id="${id}"]`)).opacity)));
+  expect(o0).toBeGreaterThan(o2);
 });
 
 test('clicking a hint applies its positions and dependency rules', async ({ page }) => {

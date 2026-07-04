@@ -32,14 +32,26 @@ Given `user0 = state.plates.map(p => p.currentPos - 1)`:
 1. For each entry compute the **leading prefix match length** `L`: the count of
    consecutive indices from 0 where `entry.pos[i] === user0[i]`, stopping at the
    first mismatch or the end of the shorter array.
-2. **Candidates:** entries with `L > 1` (at least 2 leading discs match).
-3. **Rank** candidates by:
-   - `L` descending;
-   - then exact plate-count first (`entry.cells === state.plates.length`);
-   - then `cells` ascending, then name — for stable ordering.
-4. **Limit:** render the top **4**.
+2. Compute a **combined match score** from two normalized signals:
+   - `prefix = L / plateCount` — how much of the user's config the chest
+     reproduces, left-aligned (`1.0` = every user disc matched).
+   - `count  = 1 / (1 + |entry.pos.length − plateCount|)` — closeness of the disc
+     count (`1.0` exact, decaying gently, never zero).
+   - `score  = prefix * (0.7 + 0.3 * count)`.
 
-Pure loop over 508 entries per keystroke — negligible cost, no Fuse.js.
+   The combination is **multiplicative** so `prefix` is mandatory: an entry with
+   the same disc count but no positional overlap (`prefix = 0`) scores `0`. An
+   additive form would let the `count` term (0.3 at exact count) alone clear the
+   gate and surface non-matching chests. Weights are `0.7 / 0.3` (prefix-dominant);
+   `count` only modulates the multiplier over `0.7 … 1.0`.
+3. **Candidates:** entries with `score > 0.25`. This effectively requires `L ≥ 2`
+   (a single leading match tops out at `0.25` and is excluded).
+4. **Rank** by `score` descending; tie-break by `pos.length` ascending, then `id`.
+5. **Limit:** render the top **4**.
+
+The score is returned alongside each entry (`{ entry, score }`) so the card can
+map it to opacity. Pure loop over 508 entries per keystroke — negligible cost,
+no Fuse.js.
 
 ## Card
 
@@ -57,8 +69,12 @@ available`. Because `setLanguage()` calls `renderMatrix()` — which re-renders 
 hints — switching the interface language re-renders visible hint names in the new
 language immediately. Tags are shown as stored in the DB (not language-specific).
 
-Dimming: when `entry.cells !== state.plates.length`, the card gets
-`data-dim="true"` and reduced opacity. It stays clickable.
+Gradation: the card's opacity is driven by the match score —
+`opacity = 0.4 + 0.6 * score` (range ~`0.55 … 1.0` for kept entries). A stronger
+match reads brighter; the `0.4` floor keeps weak matches legible. Because ranking
+and opacity share the same score, the top card is always the brightest. The
+rounded score (`0 … 100`) is exposed as `data-score` for testing. Every card
+stays fully clickable.
 
 Click → `applyImportedConfig('start_pos="' + entry.pos.join(',') + '" rules="' +
 entry.rules + '"')` (the same core `applySearchResult` uses, minus the dialog
@@ -119,15 +135,18 @@ No other user-visible strings are introduced (names/tags come from the DB).
 ## Testing (Playwright, English descriptions & comments)
 
 New `data-test-id`s: `chest-hints`, `chest-hint-{i}`, `chest-hint-{i}-name`,
-`chest-hint-{i}-tags`, `chest-hint-{i}-hole-{plate}-{hole}`, plus `data-dim` on
-the card.
+`chest-hint-{i}-tags`, `chest-hint-{i}-hole-{plate}-{hole}`, plus `data-score`
+on the card.
 
 Scenarios:
 
+- `computeChestHints` excludes weak matches (`score ≤ 0.25`) and ranks by score.
+- A differing plate count lowers the score at an equal prefix.
+- A single leading match (`L = 1`) is excluded.
 - Setting positions to a known entry's leading prefix shows that entry among the
-  hints, ranked by prefix length.
-- A candidate whose plate count differs from the current plate count renders with
-  `data-dim="true"`.
+  hints, ranked best first.
+- Cards fade by score: a higher-scoring card carries a higher `data-score` and a
+  larger computed opacity than a lower-scoring one.
 - Clicking a hint card applies both its positions and its dependency rules
   (assert the resulting matrix/positions).
 - Fewer than 2 matching leading discs → no hints (container hidden).
@@ -140,3 +159,6 @@ Scenarios:
 - Card limit: **4**.
 - Section heading `hints-label` included.
 - Matching is deterministic 0-based (no dual 0/1 fallback).
+- Combined score `prefix * (0.7 + 0.3 * count)`, multiplicative, weights `0.7/0.3`.
+- Inclusion gate `score > 0.25`; opacity `0.4 + 0.6 * score` (ranking, gate, and
+  brightness all driven by the one score — no separate binary dim).

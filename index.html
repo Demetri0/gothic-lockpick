@@ -517,7 +517,6 @@ input[type=number] {
   color: var(--text);
 }
 .chest-hint:hover { border-color: var(--accent); box-shadow: 0 0 4px rgba(232, 200, 122, 0.3); }
-.chest-hint[data-dim="true"] { opacity: 0.45; }
 .chest-hint-name { font-size: 0.8em; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .chest-hint-tags { font-size: 0.68em; color: var(--text-muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -3226,26 +3225,37 @@ function leadingMatchLength(entryPos, user0) {
 }
 
 /**
- * Rank DB entries by how long their disc prefix matches the user's positions.
+ * Rank DB entries by a combined match score and keep the strongest.
+ *
+ *   prefix = L / plateCount                    // how much of the user's config matches, left-aligned
+ *   count  = 1 / (1 + |entry.plates - plateCount|)  // closeness of disc count
+ *   score  = prefix * (0.7 + 0.3 * count)      // prefix is mandatory: prefix 0 → score 0
+ *
+ * Only entries scoring above 0.25 are kept (this effectively requires L ≥ 2).
+ * The score also drives card opacity, so brightness tracks the ranking.
+ *
  * @param {object[]} entries   DB entries ({ pos, ... })
  * @param {number[]} user0     user positions, 0-based
- * @param {number}   plateCount current plate count (for exact-count tie-break)
+ * @param {number}   plateCount current plate count
  * @param {number}   [limit=4]  max entries returned
- * @returns {object[]} ranked entries (L > 1 only), best prefix first
+ * @returns {{entry: object, score: number}[]} best match first
  */
 function computeChestHints(entries, user0, plateCount, limit = 4) {
   const scored = [];
-  for (const e of entries) {
-    const L = leadingMatchLength(e.pos, user0);
-    if (L > 1) scored.push({ e, L });
+  for (const entry of entries) {
+    const L = leadingMatchLength(entry.pos, user0);
+    if (L === 0) continue;
+    const prefix = L / plateCount;
+    const count = 1 / (1 + Math.abs(entry.pos.length - plateCount));
+    const score = prefix * (0.7 + 0.3 * count);
+    if (score > 0.25) scored.push({ entry, score });
   }
   scored.sort((a, b) =>
-    b.L - a.L
-    || (b.e.pos.length === plateCount) - (a.e.pos.length === plateCount)
-    || a.e.pos.length - b.e.pos.length
-    || (a.e.id < b.e.id ? -1 : a.e.id > b.e.id ? 1 : 0)
+    b.score - a.score
+    || a.entry.pos.length - b.entry.pos.length
+    || (a.entry.id < b.entry.id ? -1 : a.entry.id > b.entry.id ? 1 : 0)
   );
-  return scored.slice(0, limit).map(s => s.e);
+  return scored.slice(0, limit);
 }
 
 function entryName(entry) {
@@ -3332,9 +3342,12 @@ function renderSearchResults(list) {
 
 let hintResults = [];   // entries currently shown as hint cards, for click dispatch
 
-function buildHintCard(entry, idx, dim) {
+// score ∈ (0.25, 1] drives both the data-score badge and the card opacity, so a
+// stronger match reads brighter. Floor at 0.4 keeps even weak matches legible.
+function buildHintCard(entry, idx, score) {
   const name = escapeHtml(entryName(entry));
   const tagsStr = escapeHtml(entry.tags.join(', '));
+  const opacity = (0.4 + 0.6 * score).toFixed(3);
   const plateRows = entry.pos.map((p, plateIdx) => {
     const holes = Array.from({ length: 7 }, (_, i) =>
       `<span class="sr-hole${i === p ? ' active' : ''}"`
@@ -3343,7 +3356,8 @@ function buildHintCard(entry, idx, dim) {
     return `<div class="sr-plate" data-test-id="chest-hint-${idx}-plate-${plateIdx}">${holes}</div>`;
   }).join('');
   return `
-    <button type="button" class="chest-hint" data-test-id="chest-hint-${idx}" data-idx="${idx}" data-dim="${dim}">
+    <button type="button" class="chest-hint" data-test-id="chest-hint-${idx}" data-idx="${idx}"
+            data-score="${Math.round(score * 100)}" style="opacity:${opacity}">
       <div class="sr-preview">${plateRows}</div>
       <div class="chest-hint-name" data-test-id="chest-hint-${idx}-name">${name}</div>
       <div class="chest-hint-tags" data-test-id="chest-hint-${idx}-tags">${tagsStr}</div>
@@ -3361,10 +3375,10 @@ function renderChestHints() {
 
   const user0 = state.plates.map(p => p.currentPos - 1);
   const hints = computeChestHints(chestDb.entries, user0, state.plates.length);
-  hintResults = hints;
   if (!hints.length) return hide();
 
-  const cards = hints.map((e, i) => buildHintCard(e, i, e.pos.length !== state.plates.length)).join('');
+  hintResults = hints.map(h => h.entry);   // index-aligned with the rendered cards, for click dispatch
+  const cards = hints.map((h, i) => buildHintCard(h.entry, i, h.score)).join('');
   container.innerHTML =
     `<div class="chest-hints-label" data-i18n="hints-label">${t('hints-label')}</div>`
     + `<div class="chest-hints-row">${cards}</div>`;
