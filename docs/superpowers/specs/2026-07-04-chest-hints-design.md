@@ -98,14 +98,13 @@ the positions, which re-renders the hints — the clicked chest then matches ful
 
 ## Re-render hooks
 
-`renderChestHints()` is called from:
+`renderChestHints()` is called from just two places, because every single-plate
+position edit funnels through one setter:
 
-- the end of `posSetPlateValue()` — covers digit typing, arrow-key bump, PgUp/Dn,
-  and single-digit paste;
-- the `+/−` button `click` handler on `#plates-positions`, which mutates
-  `currentPos` directly and does **not** go through `posSetPlateValue`;
-- the 3D-scene hole `click` handler on `#scene-config-inner`, which also mutates
-  `currentPos` directly (clicking a hole sets that plate's position);
+- the end of `posSetPlateValue()` — the single entry point for a position change.
+  Digit typing, the `+/−` buttons, arrow-key bump, PgUp/Dn, single-digit paste,
+  and 3D-scene hole clicks all call `posSetPlateValue` rather than mutating
+  `currentPos` directly (the `+/−` and hole handlers were refactored to do so).
 - the end of `renderMatrix()` — covers structural changes (add/remove plate,
   `posStructuralUpdate` → `renderMatrix`), import (`applyPlates`/`applyImportedConfig`),
   randomize, reset, and language switch (`setLanguage`) — all call `renderMatrix`.

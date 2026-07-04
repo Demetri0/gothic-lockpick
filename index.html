@@ -1719,7 +1719,13 @@ function posSetActiveExtreme(toMax) {
   if (plate) posSetPlateValue(plate.id, toMax ? plate.positions : 1);
 }
 
-/** Set a plate's value (clamped) in place; refresh its input + its +/− buttons + 3D. */
+/**
+ * Single entry point for changing one plate's position. Clamps to [1, positions],
+ * refreshes that plate's input + its +/− buttons + the 3D scene, invalidates the
+ * cached solution, and re-renders the chest hints. Every position edit — typing,
+ * +/− buttons, arrow keys, paste, and 3D hole clicks — routes through here rather
+ * than mutating `currentPos` directly, so those side effects stay in one place.
+ */
 function posSetPlateValue(id, d) {
   const plate = state.plates.find(p => p.id === id);
   if (!plate) return;
@@ -1827,11 +1833,7 @@ function wireConfigHandlers() {
     const pos = parseInt(hole.dataset.pos);
     const plate = state.plates.find(p => p.id === plateId);
     if (!plate || plate.currentPos === pos) return;
-    plate.currentPos = pos;
-    state.cachedSolution = null;
-    updateScene('scene-config-inner', state.plates, state.activePlate);
-    syncMatrixPositions();
-    renderChestHints();
+    posSetPlateValue(plateId, pos);   // single position-change entry point
   });
 
   document.querySelectorAll('.btn-difficulty').forEach(btn => {
@@ -1869,15 +1871,9 @@ function wireConfigHandlers() {
     const id = parseInt(btn.dataset.id);
     const plate = state.plates.find(p => p.id === id);
     if (!plate) return;
-    const dec = btn.classList.contains('btn-pos-dec');
-    if (dec && plate.currentPos > 1) plate.currentPos--;
-    if (!dec && plate.currentPos < plate.positions) plate.currentPos++;
-    state.activePlate = id;             // selecting a group also activates it
-    state.cachedSolution = null;
-    syncMatrixPositions();
-    updateMatrixActive();
-    updateScene('scene-config-inner', state.plates, state.activePlate);
-    renderChestHints();
+    const dir = btn.classList.contains('btn-pos-dec') ? -1 : 1;
+    posSetPlateValue(id, plate.currentPos + dir);   // single position-change entry point (clamps)
+    posSetActive(id);                                // selecting a group also activates it
   });
 
   // Typing a digit: into a cell → set value + advance; into the add-ghost → append a plate
