@@ -496,6 +496,31 @@ input[type=number] {
   border: 1px solid var(--hole-edge);
 }
 .sr-hole.active { background: var(--accent); border-color: var(--accent); }
+
+/* Live position hints (config stage) — DB chests matching current disc positions */
+.chest-hints { margin: 6px 0 2px; }
+.chest-hints-label { font-size: 0.72em; color: var(--text-muted); margin-bottom: 4px; }
+.chest-hints-row { display: flex; gap: 6px; align-items: stretch; }
+.chest-hint {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 6px;
+  background: var(--bg-inset);
+  cursor: pointer;
+  font: inherit;
+  color: var(--text);
+}
+.chest-hint:hover { border-color: var(--accent); box-shadow: 0 0 4px rgba(232, 200, 122, 0.3); }
+.chest-hint[data-dim="true"] { opacity: 0.45; }
+.chest-hint-name { font-size: 0.8em; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chest-hint-tags { font-size: 0.68em; color: var(--text-muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 .solution-wrap {
   display: flex;
   align-items: flex-start;
@@ -1063,6 +1088,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         </span>
       </div>
       <div id="plates-positions" data-test-id="plates-positions"></div>
+      <div id="chest-hints" class="chest-hints hidden" data-test-id="chest-hints"></div>
       <div class="matrix-wrap">
         <div id="plates-matrix" data-test-id="plates-matrix"></div>
         <p class="matrix-hint"><span data-i18n="hint-paste-pre">Есть конфиг?</span> <kbd>Ctrl+V</kbd> <span data-i18n="hint-paste-post">— поддерживается формат</span> <code>040615 A:B-,C+;D:E-</code></p>
@@ -1184,6 +1210,7 @@ const TRANSLATIONS = {
     'search-box': 'Поиск',
     'search-placeholder': 'Название, тег или позиции...',
     'search-no-results': 'Ничего не найдено',
+    'hints-label': 'Похоже на:',
     'toast-search-db-error': 'Не удалось загрузить базу',
     'search-unavailable-title': 'Поиск недоступен: не удалось загрузить базу или библиотеку поиска',
   },
@@ -1227,6 +1254,7 @@ const TRANSLATIONS = {
     'search-box': 'Search',
     'search-placeholder': 'Name, tag, or positions...',
     'search-no-results': 'No results found',
+    'hints-label': 'Looks like:',
     'toast-search-db-error': 'Failed to load the database',
     'search-unavailable-title': 'Search unavailable: failed to load the database or the search library',
   },
@@ -1270,6 +1298,7 @@ const TRANSLATIONS = {
     'search-box': 'Пошук',
     'search-placeholder': 'Назва, тег або позиції...',
     'search-no-results': 'Нічого не знайдено',
+    'hints-label': 'Схоже на:',
     'toast-search-db-error': 'Не вдалося завантажити базу',
     'search-unavailable-title': 'Пошук недоступний: не вдалося завантажити базу або бібліотеку пошуку',
   },
@@ -1622,6 +1651,9 @@ function renderMatrix() {
   }
   table.appendChild(tbody);
   container.appendChild(table);
+
+  // Defined later (Script #10); init()'s first renderMatrix runs before that script.
+  if (typeof renderChestHints === 'function') renderChestHints();
 }
 
 const POS_MIN_PLATES = 2;
@@ -1700,6 +1732,7 @@ function posSetPlateValue(id, d) {
   const inc = document.querySelector(`#plates-positions .btn-pos-inc[data-id="${id}"]`);
   if (inc) inc.disabled = plate.currentPos >= plate.positions;
   updateScene('scene-config-inner', state.plates, state.activePlate);
+  renderChestHints();
 }
 
 /** Rebuild after a structural change (N changed), then run an optional focus callback. */
@@ -1843,6 +1876,7 @@ function wireConfigHandlers() {
     syncMatrixPositions();
     updateMatrixActive();
     updateScene('scene-config-inner', state.plates, state.activePlate);
+    renderChestHints();
   });
 
   // Typing a digit: into a cell → set value + advance; into the add-ghost → append a plate
@@ -3177,6 +3211,43 @@ function searchByPosition(nums, entries) {
   return entries.filter(e => arraysEqual(e.pos, nums) || arraysEqual(e.pos, shifted));
 }
 
+// ── Live position hints ─────────────────────────────────────────────────────
+// Suggest DB chests whose disc positions match the user's current positions by a
+// left prefix. Unlike searchByPosition (free-text, unknown convention), here both
+// ends are known: DB pos is 0-based, so callers pass user positions already
+// converted to 0-based (currentPos - 1).
+
+/** Count consecutive leading positions where entry.pos matches user0 (0-based). */
+function leadingMatchLength(entryPos, user0) {
+  const n = Math.min(entryPos.length, user0.length);
+  let L = 0;
+  while (L < n && entryPos[L] === user0[L]) L++;
+  return L;
+}
+
+/**
+ * Rank DB entries by how long their disc prefix matches the user's positions.
+ * @param {object[]} entries   DB entries ({ pos, ... })
+ * @param {number[]} user0     user positions, 0-based
+ * @param {number}   plateCount current plate count (for exact-count tie-break)
+ * @param {number}   [limit=4]  max entries returned
+ * @returns {object[]} ranked entries (L > 1 only), best prefix first
+ */
+function computeChestHints(entries, user0, plateCount, limit = 4) {
+  const scored = [];
+  for (const e of entries) {
+    const L = leadingMatchLength(e.pos, user0);
+    if (L > 1) scored.push({ e, L });
+  }
+  scored.sort((a, b) =>
+    b.L - a.L
+    || (b.e.pos.length === plateCount) - (a.e.pos.length === plateCount)
+    || a.e.pos.length - b.e.pos.length
+    || (a.e.id < b.e.id ? -1 : a.e.id > b.e.id ? 1 : 0)
+  );
+  return scored.slice(0, limit).map(s => s.e);
+}
+
 function entryName(entry) {
   for (const lang of [state.lang, 'ru', 'en', 'uk', 'de']) {
     if (entry.name[lang]) return entry.name[lang];
@@ -3256,6 +3327,61 @@ function renderSearchResults(list) {
   container.innerHTML = list.map((entry, i) => buildResultCard(entry, i)).join('');
   highlightSearchSelected();
 }
+
+// ── Live position hint cards (rendered between the position lock and matrix) ──
+
+let hintResults = [];   // entries currently shown as hint cards, for click dispatch
+
+function buildHintCard(entry, idx, dim) {
+  const name = escapeHtml(entryName(entry));
+  const tagsStr = escapeHtml(entry.tags.join(', '));
+  const plateRows = entry.pos.map((p, plateIdx) => {
+    const holes = Array.from({ length: 7 }, (_, i) =>
+      `<span class="sr-hole${i === p ? ' active' : ''}"`
+      + ` data-test-id="chest-hint-${idx}-hole-${plateIdx}-${i}" data-active="${i === p}"></span>`
+    ).join('');
+    return `<div class="sr-plate" data-test-id="chest-hint-${idx}-plate-${plateIdx}">${holes}</div>`;
+  }).join('');
+  return `
+    <button type="button" class="chest-hint" data-test-id="chest-hint-${idx}" data-idx="${idx}" data-dim="${dim}">
+      <div class="sr-preview">${plateRows}</div>
+      <div class="chest-hint-name" data-test-id="chest-hint-${idx}-name">${name}</div>
+      <div class="chest-hint-tags" data-test-id="chest-hint-${idx}-tags">${tagsStr}</div>
+    </button>`;
+}
+
+// Recomputed on every position/structure change. Degrades silently: when the DB
+// never loaded (offline / fetch or Fuse CDN failure) chestDb is null and the
+// container just stays hidden — no error, no placeholder.
+function renderChestHints() {
+  const container = document.getElementById('chest-hints');
+  if (!container) return;
+  const hide = () => { container.classList.add('hidden'); container.innerHTML = ''; hintResults = []; };
+  if (!chestDb || state.stage !== 'config') return hide();
+
+  const user0 = state.plates.map(p => p.currentPos - 1);
+  const hints = computeChestHints(chestDb.entries, user0, state.plates.length);
+  hintResults = hints;
+  if (!hints.length) return hide();
+
+  const cards = hints.map((e, i) => buildHintCard(e, i, e.pos.length !== state.plates.length)).join('');
+  container.innerHTML =
+    `<div class="chest-hints-label" data-i18n="hints-label">${t('hints-label')}</div>`
+    + `<div class="chest-hints-row">${cards}</div>`;
+  container.classList.remove('hidden');
+}
+
+// Whole card is clickable — apply the chest's full config (positions + rules),
+// reusing the same import path the search dialog uses.
+document.getElementById('chest-hints').addEventListener('click', (e) => {
+  const card = e.target.closest('.chest-hint');
+  if (!card) return;
+  const entry = hintResults[parseInt(card.dataset.idx, 10)];
+  if (entry) applyImportedConfig(`start_pos="${entry.pos.join(',')}" rules="${entry.rules}"`);
+});
+
+// Show hints once the DB finishes loading, in case the user is already on config.
+chestSearchReady.then(() => renderChestHints());
 
 function applySearchResult(entry) {
   // applyImportedConfig() already shows its own success toast — don't double up

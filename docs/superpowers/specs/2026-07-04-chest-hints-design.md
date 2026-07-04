@@ -79,10 +79,13 @@ the positions, which re-renders the hints — the clicked chest then matches ful
 
 `renderChestHints()` is called from:
 
-- the end of `posSetPlateValue()` — covers +/− buttons, arrow keys, digit typing,
-  and paste (all value edits funnel through it);
-- the end of `renderMatrix()` — covers structural changes (add/remove plate),
-  import, randomize, reset, and language switch (all call `renderMatrix`).
+- the end of `posSetPlateValue()` — covers digit typing, arrow-key bump, PgUp/Dn,
+  and single-digit paste;
+- the `+/−` button `click` handler on `#plates-positions` (~line 1832), which
+  mutates `currentPos` directly and does **not** go through `posSetPlateValue`;
+- the end of `renderMatrix()` — covers structural changes (add/remove plate,
+  `posStructuralUpdate` → `renderMatrix`), import (`applyPlates`/`applyImportedConfig`),
+  randomize, reset, and language switch (`setLanguage`) — all call `renderMatrix`.
 
 Gated on `chestDb` being loaded (renders nothing until then). A re-render is
 triggered when `chestSearchReady` resolves, so hints appear once the DB finishes
