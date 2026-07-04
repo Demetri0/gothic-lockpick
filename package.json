@@ -1,6 +1,6 @@
 {
   "name": "gothic-lockpick",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Браузерный решатель и визуализатор головоломки с дисковыми замками — механика взлома из Gothic и подобных RPG.",
   "main": "index.js",
   "directories": {
