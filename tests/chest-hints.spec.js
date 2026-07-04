@@ -119,6 +119,18 @@ test('the visible hint count follows the panel width, not the viewport', async (
   await expect(page.getByTestId('chest-hint-0')).toBeVisible();
 });
 
+test('no horizontal page scroll at viewport widths >= 320px', async ({ page }) => {
+  await mockChestDb(page);
+  await page.goto('/');
+  await expect(page.getByTestId('chest-hint-0')).toBeVisible(); // hints rendered — a common overflow culprit
+  for (const width of [320, 360, 400, 480, 600, 768, 820, 1024, 1280, 1920]) {
+    await page.setViewportSize({ width, height: 800 });
+    const overflow = await page.evaluate(() =>
+      document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow, `horizontal overflow at ${width}px`).toBeLessThanOrEqual(0);
+  }
+});
+
 test('cards fade by combined match score', async ({ page }) => {
   await mockChestDb(page);
   await page.goto('/');
