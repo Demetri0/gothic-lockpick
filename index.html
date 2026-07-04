@@ -527,6 +527,9 @@ input[type=number] {
 .chest-hint .sr-preview { flex-shrink: 0; }
 .chest-hint-name { font-size: 0.8em; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .chest-hint-tags { font-size: 0.68em; color: var(--text-muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chest-hint-rules { font-size: 0.66em; font-family: ui-monospace, monospace; color: var(--text-dim); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 1px; }
+.chest-hint-rules .dep-tok[data-rel="match"]    { color: #5cb85c; }
+.chest-hint-rules .dep-tok[data-rel="conflict"] { color: #d86a6a; }
 
 .solution-wrap {
   display: flex;
@@ -1997,6 +2000,7 @@ function wireConfigHandlers() {
       btn.dataset.state = next; btn.title = depCellTitle(next, btn.dataset.from, btn.dataset.to); btn.innerHTML = depCellHTML(next);
     }
     state.cachedSolution = null;
+    renderChestHints();   // deps affect hint ranking + rule-line colors
   }
 
   // Delegated: dep cells (LMB — forward, RMB — reverse)
@@ -3234,6 +3238,45 @@ function searchByPosition(nums, entries) {
 // ends are known: DB pos is 0-based, so callers pass user positions already
 // converted to 0-based (currentPos - 1).
 
+// Parse a Gothic rules string ("A:B-,C+;D:E-") into ordered groups of directed
+// edges. Letters map to 1-based plate ids; "+" = same, "-" = opposite.
+function parseRuleGroups(rulesStr) {
+  const groups = [];
+  for (const part of (rulesStr || '').split(';')) {
+    const m = part.trim().match(/^([A-H])\s*:\s*(.+)$/i);
+    if (!m) continue;
+    const from = m[1].toUpperCase().charCodeAt(0) - 64;
+    const tokens = [];
+    for (const tok of m[2].split(',')) {
+      const tm = tok.trim().match(/^([A-H])\s*([+-])$/i);
+      if (tm) tokens.push({ to: tm[1].toUpperCase().charCodeAt(0) - 64, dir: tm[2] === '+' ? 'same' : 'opposite' });
+    }
+    if (tokens.length) groups.push({ from, tokens });
+  }
+  return groups;
+}
+
+// Cached `${from}>${to}` → dir map per DB entry (rules never change at runtime).
+const _edgeCache = new WeakMap();
+function entryEdges(entry) {
+  let edges = _edgeCache.get(entry);
+  if (!edges) {
+    edges = new Map();
+    for (const g of parseRuleGroups(entry.rules))
+      for (const t of g.tokens) edges.set(`${g.from}>${t.to}`, t.dir);
+    _edgeCache.set(entry, edges);
+  }
+  return edges;
+}
+
+/** Build the user's entered dependency edges as `${from}>${to}` → dir. */
+function buildUserEdges(plates) {
+  const edges = new Map();
+  for (const p of plates)
+    for (const d of p.deps) edges.set(`${p.id}>${d.targetId}`, d.direction);
+  return edges;
+}
+
 /** Count consecutive leading positions where entry.pos matches user0 (0-based). */
 function leadingMatchLength(entryPos, user0) {
   const n = Math.min(entryPos.length, user0.length);
@@ -3256,16 +3299,31 @@ function leadingMatchLength(entryPos, user0) {
  * @param {number[]} user0     user positions, 0-based
  * @param {number}   plateCount current plate count
  * @param {number}   [limit=3]  max entries returned
+ * @param {Map}      [userEdges] entered dependencies (`${from}>${to}` → dir). When
+ *   non-empty, they modulate the score: each matching edge +0.5, each edge the
+ *   chest lacks (missing) −0.2, each opposite-direction edge (conflict) −1.5, as a
+ *   multiplier clamped ≥ 0. Empty → no effect (positions decide alone).
  * @returns {{entry: object, score: number, matchLen: number}[]} best match first
  */
-function computeChestHints(entries, user0, plateCount, limit = 3) {
+function computeChestHints(entries, user0, plateCount, limit = 3, userEdges = new Map()) {
   const scored = [];
   for (const entry of entries) {
     const L = leadingMatchLength(entry.pos, user0);
     if (L === 0) continue;
     const prefix = L / plateCount;
     const count = 1 / (1 + Math.abs(entry.pos.length - plateCount));
-    const score = prefix * (0.7 + 0.3 * count);
+    let score = prefix * (0.7 + 0.3 * count);
+    if (userEdges.size) {
+      const edges = entryEdges(entry);
+      let match = 0, missing = 0, conflict = 0;
+      for (const [key, dir] of userEdges) {
+        const chestDir = edges.get(key);
+        if (chestDir === undefined) missing++;
+        else if (chestDir === dir) match++;
+        else conflict++;
+      }
+      score *= Math.max(0, 1 + 0.5 * match - 0.2 * missing - 1.5 * conflict);
+    }
     if (score > 0.25) scored.push({ entry, score, matchLen: L });
   }
   scored.sort((a, b) =>
@@ -3360,12 +3418,32 @@ function renderSearchResults(list) {
 
 let hintResults = [];   // entries currently shown as hint cards, for click dispatch
 
+// Render entry.rules as a gothic-format line ("A:B+,C-;D:E-"), each target token
+// colored by how it relates to the user's entered deps: match (green), conflict
+// (red), or none. Position digits are omitted — the preview shows them already.
+function renderRulesLine(idx, entry, userEdges) {
+  const groups = parseRuleGroups(entry.rules);
+  if (!groups.length) return '';
+  const body = groups.map(g => {
+    const fromL = String.fromCharCode(64 + g.from);
+    const toks = g.tokens.map(t => {
+      const ud = userEdges.get(`${g.from}>${t.to}`);
+      const rel = ud === undefined ? 'none' : ud === t.dir ? 'match' : 'conflict';
+      const tok = String.fromCharCode(64 + t.to) + (t.dir === 'same' ? '+' : '-');
+      return `<span class="dep-tok" data-rel="${rel}" data-test-id="chest-hint-${idx}-rule-${g.from}-${t.to}">${tok}</span>`;
+    }).join(',');
+    return `${fromL}:${toks}`;
+  }).join(';');
+  return `<div class="chest-hint-rules" data-test-id="chest-hint-${idx}-rules" title="${escapeHtml(entry.rules)}">${body}</div>`;
+}
+
 // score drives the data-score badge and the card opacity, so a stronger match
 // reads brighter. A full match (score ≈ 1) jumps to full opacity while partials
 // share a lower band — the gap above a full match is deliberately larger than the
 // gaps among partials. matchLen = leading discs that coincide with the user's
-// positions; those discs are highlighted green in the preview.
-function buildHintCard(entry, idx, score, matchLen) {
+// positions; those discs are highlighted green in the preview. The rules line is
+// colored against userEdges (the user's entered dependencies).
+function buildHintCard(entry, idx, score, matchLen, userEdges) {
   const name = escapeHtml(entryName(entry));
   const tagsStr = escapeHtml(entry.tags.join(', '));
   const opacity = (score >= 0.999 ? 1 : 0.35 + 0.45 * score).toFixed(3);
@@ -3385,6 +3463,7 @@ function buildHintCard(entry, idx, score, matchLen) {
       <div class="chest-hint-info">
         <div class="chest-hint-name" data-test-id="chest-hint-${idx}-name">${name}</div>
         <div class="chest-hint-tags" data-test-id="chest-hint-${idx}-tags" title="${tagsStr}">${tagsStr}</div>
+        ${renderRulesLine(idx, entry, userEdges)}
       </div>
       <div class="sr-preview">${plateRows}</div>
     </button>`;
@@ -3400,11 +3479,12 @@ function renderChestHints() {
   if (!chestDb || state.stage !== 'config') return hide();
 
   const user0 = state.plates.map(p => p.currentPos - 1);
-  const hints = computeChestHints(chestDb.entries, user0, state.plates.length);
+  const userEdges = buildUserEdges(state.plates);
+  const hints = computeChestHints(chestDb.entries, user0, state.plates.length, 3, userEdges);
   if (!hints.length) return hide();
 
   hintResults = hints.map(h => h.entry);   // index-aligned with the rendered cards, for click dispatch
-  const cards = hints.map((h, i) => buildHintCard(h.entry, i, h.score, h.matchLen)).join('');
+  const cards = hints.map((h, i) => buildHintCard(h.entry, i, h.score, h.matchLen, userEdges)).join('');
   container.innerHTML =
     `<div class="chest-hints-label" data-i18n="hints-label">${t('hints-label')}</div>`
     + `<div class="chest-hints-row">${cards}</div>`;

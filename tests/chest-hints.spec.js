@@ -90,6 +90,53 @@ test('computeChestHints caps results at the default limit of 3', async ({ page }
   expect(count).toBe(3);
 });
 
+// ── Dependency-aware scoring ─────────────────────────────────────────────────
+// When the user has entered dependencies (userEdges), they modulate the score:
+//   match +0.5, missing -0.2, conflict -1.5 (clamped >= 0). Empty → no effect.
+
+test('a matching user dependency boosts a chest over an identical one without it', async ({ page }) => {
+  await page.goto('/');
+  const res = await page.evaluate(() => {
+    const mk = (id, pos, rules) => ({ id, pos, cells: pos.length, name: {}, tags: [], rules });
+    const entries = [
+      mk('plain', [3, 3, 3, 3], ''),       // full prefix, no rules → user's dep is "missing"
+      mk('withdep', [3, 3, 3, 3], 'A:B+'), // full prefix, has 1->2 same → matches the user
+    ];
+    const userEdges = new Map([['1>2', 'same']]);
+    return computeChestHints(entries, [3, 3, 3, 3], 4, 3, userEdges).map(r => r.entry.id);
+  });
+  expect(res).toEqual(['withdep', 'plain']);
+});
+
+test('a conflicting user dependency drops a chest out of the list', async ({ page }) => {
+  await page.goto('/');
+  const res = await page.evaluate(() => {
+    const mk = (id, pos, rules) => ({ id, pos, cells: pos.length, name: {}, tags: [], rules });
+    const entries = [
+      mk('conflict', [3, 3, 3, 3], 'A:B-'), // 1->2 opposite vs user 1->2 same → conflict → excluded
+      mk('plain', [3, 3, 3, 3], ''),        // missing → mild penalty, still shown
+    ];
+    const userEdges = new Map([['1>2', 'same']]);
+    return computeChestHints(entries, [3, 3, 3, 3], 4, 3, userEdges).map(r => r.entry.id);
+  });
+  expect(res).toEqual(['plain']);
+});
+
+test('matches must strongly outweigh a conflict to keep a chest', async ({ page }) => {
+  await page.goto('/');
+  const res = await page.evaluate(() => {
+    const mk = (id, pos, rules) => ({ id, pos, cells: pos.length, name: {}, tags: [], rules });
+    const entries = [
+      // user asserts 1->2, 1->3, 1->4 all same
+      mk('rescued', [3, 3, 3, 3], 'A:B-,C+,D+'), // conflict(1>2) + 2 matches(1>3,1>4) → depMult 0.5 → kept
+      mk('doomed', [3, 3, 3, 3], 'A:B-,C+'),     // conflict(1>2) + 1 match + 1 missing → depMult 0 → dropped
+    ];
+    const userEdges = new Map([['1>2', 'same'], ['1>3', 'same'], ['1>4', 'same']]);
+    return computeChestHints(entries, [3, 3, 3, 3], 4, 3, userEdges).map(r => r.entry.id);
+  });
+  expect(res).toEqual(['rescued']);
+});
+
 // ── Rendering (integration) ──────────────────────────────────────────────────
 
 test('matching chests render as hint cards ranked by prefix', async ({ page }) => {
@@ -101,6 +148,32 @@ test('matching chests render as hint cards ranked by prefix', async ({ page }) =
   await expect(page.getByTestId('chest-hint-1-name')).toHaveText('Длинный');
   await expect(page.getByTestId('chest-hint-2-name')).toHaveText('Замок Два');
   await expect(page.getByTestId('chest-hint-3')).toHaveCount(0);
+});
+
+test('chest rules render as a gothic-format line, colored against entered deps', async ({ page }) => {
+  const DEP_DB = {
+    v: 1, updated: '2026-01-01T00:00:00Z',
+    entries: [
+      { id: 'mixed', name: { ru: 'Микс', en: 'Mixed', de: 'Mix', uk: 'Мікс' },
+        cells: 4, rules: 'A:B+,C+,D-', pos: [3, 3, 3, 3], tags: ['m'], img: [] },
+    ],
+  };
+  await mockChestDb(page, DEP_DB);
+  await page.goto('/');
+  await expect(page.getByTestId('chest-hint-0')).toBeVisible();
+  // With no deps entered yet, the rules line is present but every token is neutral
+  await expect(page.getByTestId('chest-hint-0-rules')).toBeVisible();
+  await expect(page.getByTestId('chest-hint-0-rule-1-2')).toHaveAttribute('data-rel', 'none');
+
+  // Enter 1->2, 1->3, 1->4 all "same" via the matrix (each LMB click: none → same)
+  await page.getByTestId('dep-1-2').click();
+  await page.getByTestId('dep-1-3').click();
+  await page.getByTestId('dep-1-4').click();
+
+  // chest has 1->2 same, 1->3 same, 1->4 opposite → two matches (green) + one conflict (red)
+  await expect(page.getByTestId('chest-hint-0-rule-1-2')).toHaveAttribute('data-rel', 'match');
+  await expect(page.getByTestId('chest-hint-0-rule-1-3')).toHaveAttribute('data-rel', 'match');
+  await expect(page.getByTestId('chest-hint-0-rule-1-4')).toHaveAttribute('data-rel', 'conflict');
 });
 
 test('the visible hint count follows the panel width, not the viewport', async ({ page }) => {

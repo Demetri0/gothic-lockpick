@@ -46,8 +46,22 @@ Given `user0 = state.plates.map(p => p.currentPos - 1)`:
    `count` only modulates the multiplier over `0.7 … 1.0`.
 3. **Candidates:** entries with `score > 0.25`. This effectively requires `L ≥ 2`
    (a single leading match tops out at `0.25` and is excluded).
-4. **Rank** by `score` descending; tie-break by `pos.length` ascending, then `id`.
-5. **Limit:** render the top **3**.
+4. **Dependency modulation** (only when the user has entered ≥1 dependency in the
+   matrix — otherwise no effect). Both sides are directed edges `(from→to, dir)`;
+   the user's come from `state.plates[].deps`, the chest's from parsing
+   `entry.rules` (`+` = same, `-` = opposite). Only the **user's** edges are
+   evaluated (extra chest edges are ignored — the user may not know them yet). Per
+   user edge: chest has it same-dir → **match**; opposite-dir → **conflict**; chest
+   lacks it → **missing**. Then:
+
+   `score *= max(0, 1 + 0.5·match − 0.2·missing − 1.5·conflict)`
+
+   Missing is a soft penalty (the user may not have entered/known that link yet).
+   Conflict is heavy: a lone opposite-direction edge zeroes the entry out, and
+   matches only rescue it if they strongly outweigh (≥2 matches survive one
+   conflict, 3 neutralize it). Positions still gate: `prefix = 0` → `score = 0`.
+5. **Rank** by `score` descending; tie-break by `pos.length` ascending, then `id`.
+6. **Limit:** render the top **3**.
 
 The score is returned alongside each entry (`{ entry, score }`) so the card can
 map it to opacity. Pure loop over 508 entries per keystroke — negligible cost,
@@ -72,6 +86,12 @@ currently active UI language) and falls back through `ru → en → uk → de �
 available`. Because `setLanguage()` calls `renderMatrix()` — which re-renders the
 hints — switching the interface language re-renders visible hint names in the new
 language immediately. Tags are shown as stored in the DB (not language-specific).
+
+Rules line: a third text line shows the chest's dependency rules in gothic format
+(`A:B+,C-;D:E-`, no position digits — the preview shows those). Each target token
+is colored against the user's entered deps: **green** when it matches, **red**
+when it conflicts (opposite direction), neutral otherwise (`data-rel` =
+`match`/`conflict`/`none`). Chests with empty rules render no rules line.
 
 Gradation: the card's opacity is driven by the match score. A full match
 (`score ≈ 1`, i.e. same discs and same plate count) jumps to opacity `1.0`, while
@@ -113,6 +133,8 @@ position edit funnels through one setter:
   Digit typing, the `+/−` buttons, arrow-key bump, PgUp/Dn, single-digit paste,
   and 3D-scene hole clicks all call `posSetPlateValue` rather than mutating
   `currentPos` directly (the `+/−` and hole handlers were refactored to do so).
+- the end of `cycleDepCell()` — editing a matrix dependency changes both the
+  ranking (dep modulation) and the rule-line colors;
 - the end of `renderMatrix()` — covers structural changes (add/remove plate,
   `posStructuralUpdate` → `renderMatrix`), import (`applyPlates`/`applyImportedConfig`),
   randomize, reset, and language switch (`setLanguage`) — all call `renderMatrix`.
