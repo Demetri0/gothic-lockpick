@@ -117,6 +117,29 @@ test('cards fade by combined match score', async ({ page }) => {
   expect(o0).toBeGreaterThan(o2);
 });
 
+test('a full match pulls further ahead in opacity than partials do from each other', async ({ page }) => {
+  await mockChestDb(page);
+  await page.goto('/');
+  // exact4 is a full match (score 1); longer6 and apply2 are partials. The gap
+  // between full and the best partial must exceed the gap between partials.
+  await expect(page.getByTestId('chest-hint-2')).toBeVisible();
+  const [o0, o1, o2] = await page.evaluate(() =>
+    ['chest-hint-0', 'chest-hint-1', 'chest-hint-2'].map(id =>
+      parseFloat(getComputedStyle(document.querySelector(`[data-test-id="${id}"]`)).opacity)));
+  expect(o0 - o1).toBeGreaterThan(o1 - o2);
+});
+
+test('matching discs in a hint preview are highlighted', async ({ page }) => {
+  await mockChestDb(page);
+  await page.goto('/');
+  // exact4 (card 0): every plate matches the user's centre positions
+  await expect(page.getByTestId('chest-hint-0-hole-0-3')).toHaveAttribute('data-match', 'true');
+  await expect(page.getByTestId('chest-hint-0-hole-3-3')).toHaveAttribute('data-match', 'true');
+  // apply2 (card 2, pos [3,3,1,0]): first two plates match (L=2), plate 2 does not
+  await expect(page.getByTestId('chest-hint-2-hole-0-3')).toHaveAttribute('data-match', 'true');
+  await expect(page.getByTestId('chest-hint-2-hole-2-1')).toHaveAttribute('data-match', 'false');
+});
+
 test('clicking a hint applies its positions and dependency rules', async ({ page }) => {
   await mockChestDb(page);
   await page.goto('/');
@@ -135,6 +158,16 @@ test('fewer than 2 matching leading discs hides the hints', async ({ page }) => 
   await page.getByTestId('pos-dec-1').click();
   await page.getByTestId('pos-dec-1').click();
   await page.getByTestId('pos-dec-1').click();
+  await expect(page.getByTestId('chest-hints')).toBeHidden();
+});
+
+test('clicking a hole in the 3D preview updates the hints', async ({ page }) => {
+  await mockChestDb(page);
+  await page.goto('/');
+  await expect(page.getByTestId('chest-hints')).toBeVisible();
+  // Set plate 1 to position 1 (user0[0] = 0) via the 3D scene: no fixture entry
+  // shares ≥2 leading discs any more, so the hints must disappear.
+  await page.getByTestId('hole-1-1').click({ force: true });
   await expect(page.getByTestId('chest-hints')).toBeHidden();
 });
 

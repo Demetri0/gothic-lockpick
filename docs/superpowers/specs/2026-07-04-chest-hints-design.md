@@ -61,7 +61,11 @@ Whole card is clickable. Contents (only what the DB actually has):
 - **Tags** joined by `, `.
 - **Disc preview** — reuse the `sr-plate` / `sr-hole` markup shape from
   `buildResultCard` (7 holes per plate, active hole at `entry.pos[i]`), with
-  hint-specific `data-test-id`s.
+  hint-specific `data-test-id`s. The active hole of each plate in the leading
+  matching prefix (`plateIdx < matchLen`, where `matchLen = L`) gets a `match`
+  class and `data-match="true"` and is drawn **green** — visually marking exactly
+  the discs that coincide with the user's positions. `computeChestHints` returns
+  `matchLen` alongside `entry` and `score` for this.
 
 The card name uses `entryName(entry)`, which already prefers `state.lang` (the
 currently active UI language) and falls back through `ru → en → uk → de → first
@@ -69,12 +73,13 @@ available`. Because `setLanguage()` calls `renderMatrix()` — which re-renders 
 hints — switching the interface language re-renders visible hint names in the new
 language immediately. Tags are shown as stored in the DB (not language-specific).
 
-Gradation: the card's opacity is driven by the match score —
-`opacity = 0.4 + 0.6 * score` (range ~`0.55 … 1.0` for kept entries). A stronger
-match reads brighter; the `0.4` floor keeps weak matches legible. Because ranking
-and opacity share the same score, the top card is always the brightest. The
-rounded score (`0 … 100`) is exposed as `data-score` for testing. Every card
-stays fully clickable.
+Gradation: the card's opacity is driven by the match score. A full match
+(`score ≈ 1`, i.e. same discs and same plate count) jumps to opacity `1.0`, while
+partials map to a lower band `opacity = 0.35 + 0.45 * score` (~`0.46 … 0.80`).
+This deliberately makes the gap between a full match and the best partial larger
+than the gaps among partials. Because ranking and opacity share the same score,
+the top card is always the brightest. The rounded score (`0 … 100`) is exposed as
+`data-score` for testing. Every card stays fully clickable.
 
 Click → `applyImportedConfig('start_pos="' + entry.pos.join(',') + '" rules="' +
 entry.rules + '"')` (the same core `applySearchResult` uses, minus the dialog
@@ -97,8 +102,10 @@ the positions, which re-renders the hints — the clicked chest then matches ful
 
 - the end of `posSetPlateValue()` — covers digit typing, arrow-key bump, PgUp/Dn,
   and single-digit paste;
-- the `+/−` button `click` handler on `#plates-positions` (~line 1832), which
-  mutates `currentPos` directly and does **not** go through `posSetPlateValue`;
+- the `+/−` button `click` handler on `#plates-positions`, which mutates
+  `currentPos` directly and does **not** go through `posSetPlateValue`;
+- the 3D-scene hole `click` handler on `#scene-config-inner`, which also mutates
+  `currentPos` directly (clicking a hole sets that plate's position);
 - the end of `renderMatrix()` — covers structural changes (add/remove plate,
   `posStructuralUpdate` → `renderMatrix`), import (`applyPlates`/`applyImportedConfig`),
   randomize, reset, and language switch (`setLanguage`) — all call `renderMatrix`.
