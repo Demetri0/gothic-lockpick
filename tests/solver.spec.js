@@ -110,17 +110,78 @@ test.describe('compressPath', () => {
   });
 });
 
+test.describe('bfsSolveGrouped', () => {
+  // Gothic-format reference configs with externally verified optima:
+  // SITE_CFG comes from unlockmyloot.com (their exact solver shows 11 groups),
+  // REF1_CFG is our in-game reference (prototype-verified optimum: 8 groups).
+  const SITE_CFG = '040615 A:C-;B:C+,D-;D:E-,C+;E:F-;F:E+,B-';
+  const REF1_CFG = '3055665 A:C+,D+;B:A-,E-,G+;D:B-;E:D-;F:B-;G:A+,B-';
+
+  test('keeps the minimal move count while minimizing group switches (site config)', async ({ page }) => {
+    const res = await page.evaluate((cfg) => {
+      const plain   = bfsSolve(parseImportConfig(cfg)).solution;
+      const grouped = bfsSolveGrouped(parseImportConfig(cfg)).solution;
+      const raw = sol => sol.reduce((a, s) => a + parseNotation(s).steps, 0);
+      return { plainRaw: raw(plain), groupedRaw: raw(grouped), groups: grouped.length };
+    }, SITE_CFG);
+    expect(res.groupedRaw).toBe(res.plainRaw);  // same number of keypresses — still minimal
+    expect(res.groupedRaw).toBe(41);
+    expect(res.groups).toBe(11);                // the verified optimum for this config
+  });
+
+  test('minimizes groups on the in-game reference config', async ({ page }) => {
+    const res = await page.evaluate((cfg) => {
+      const sol = bfsSolveGrouped(parseImportConfig(cfg)).solution;
+      return { groups: sol.length, raw: sol.reduce((a, s) => a + parseNotation(s).steps, 0) };
+    }, REF1_CFG);
+    expect(res.raw).toBe(23);
+    expect(res.groups).toBe(8);
+  });
+
+  test('grouped solution replays to all-centered without blocking', async ({ page }) => {
+    const result = await page.evaluate((cfg) => {
+      const plates = parseImportConfig(cfg);
+      const sol = bfsSolveGrouped(parseImportConfig(cfg)).solution;
+      for (const step of sol) {
+        const { plateId, dir, steps } = parseNotation(step);
+        for (let i = 0; i < steps; i++) {
+          if (!applyMove(plates, plateId, dir)) return { blocked: step };
+        }
+      }
+      return { final: plates.map(p => p.currentPos) };
+    }, SITE_CFG);
+    expect(result.blocked).toBeUndefined();
+    expect(result.final).toEqual([4, 4, 4, 4, 4, 4]);
+  });
+
+  test('returns [] when already solved and null when unsolvable', async ({ page }) => {
+    const res = await page.evaluate(() => {
+      const solved = [
+        { id: 1, positions: 7, currentPos: 4, deps: [] },
+        { id: 2, positions: 7, currentPos: 4, deps: [] },
+      ];
+      // Mutual same-deps: plates always move together, offset can never close
+      const stuck = [
+        { id: 1, positions: 7, currentPos: 3, deps: [{ targetId: 2, direction: 'same', steps: 1 }] },
+        { id: 2, positions: 7, currentPos: 4, deps: [{ targetId: 1, direction: 'same', steps: 1 }] },
+      ];
+      return [bfsSolveGrouped(solved).solution, bfsSolveGrouped(stuck).solution];
+    });
+    expect(res).toEqual([[], null]);
+  });
+});
+
 test.describe('worker equivalence', () => {
   test('the real worker returns the same solution as the in-page solver', async ({ page }) => {
     // Structural guarantee is single-source injection; this is the runtime proof:
     // solving the same config in the page and through the actual Web Worker
-    // (SOLVE button) must produce identical move lists.
+    // (SOLVE button, which uses the grouped solver) must produce identical lists.
     const CONFIG = JSON.stringify([
       { id: 1, positions: 7, currentPos: 2, deps: [{ targetId: 2, direction: 'opposite', steps: 1 }] },
       { id: 2, positions: 7, currentPos: 5, deps: [] },
       { id: 3, positions: 7, currentPos: 6, deps: [{ targetId: 1, direction: 'same', steps: 1 }] },
     ]);
-    const inPage = await page.evaluate((cfg) => bfsSolve(JSON.parse(cfg)).solution, CONFIG);
+    const inPage = await page.evaluate((cfg) => bfsSolveGrouped(JSON.parse(cfg)).solution, CONFIG);
     await startSolve(page, CONFIG);
     const fromWorker = await page.evaluate(() => state.solution);
     expect(fromWorker).toEqual(inPage);

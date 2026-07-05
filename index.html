@@ -1270,6 +1270,159 @@ function bfsSolve(plates, onProgress) {
   return { solution: null, iters: iter };
 }
 
+/**
+ * Group-optimized solver: same minimal keypress count as bfsSolve, but among
+ * ALL minimal-move solutions picks one with the fewest switches between plates
+ * — i.e. the shortest compressed step list a human has to follow.
+ *
+ * Three phases:
+ *   1. BFS from the start → exact distance-from-start (distS) until the goal
+ *      is discovered at depth L. BFS invariant: every level < L is fully
+ *      discovered at that point, which is all the corridor needs (the only
+ *      depth-L state on a shortest path is the goal itself).
+ *   2. BFS back from the goal restricted to the shortest-path corridor
+ *      (distS[v] === distS[u] − 1). Moves are reversible — the inverse deltas
+ *      are legal exactly when the forward move was, both endpoints being in
+ *      bounds — so expanding forward moves reaches all graph neighbors.
+ *   3. Exact DP over the corridor, node = (state, last moved plate),
+ *      minimizing plate switches. Tracking only the plate (not the direction)
+ *      suffices: on a shortest path a plate can never move twice in a row in
+ *      opposite directions — that would revisit the previous state.
+ *
+ * Returns the same shape as bfsSolve: { solution: string[]|null, iters }.
+ */
+function bfsSolveGrouped(plates, onProgress) {
+  const startArr = plates.map(p => p.currentPos);
+  const goalKey  = plates.map(p => center(p.positions)).join(',');
+  const startKey = startArr.join(',');
+  if (startKey === goalKey) return { solution: [], iters: 0 };
+
+  let iter = 0;
+  const tick = () => { iter++; if (onProgress && iter % 2000 === 0) onProgress(2000); };
+
+  /** All legal moves from a position vector: [plateId, dir, newPositions][] */
+  const expand = (positions) => {
+    const snap = plates.map((p, i) => ({ ...p, currentPos: positions[i] }));
+    const out = [];
+    for (const plate of snap) {
+      for (const dir of ['left', 'right']) {
+        const effects = computeMove(snap, plate.id, dir);
+        if (!effects) continue;
+        const np = [...positions];
+        for (const { plateId, newPos } of effects) np[plateId - 1] = newPos;
+        out.push([plate.id, dir, np]);
+      }
+    }
+    return out;
+  };
+  const parseKey = k => k.split(',').map(Number);
+
+  // ── Phase 1: distS ──────────────────────────────────────────────────────
+  const distS = new Map([[startKey, 0]]);
+  let frontier = [startKey];
+  let L = -1;
+  while (frontier.length && L === -1) {
+    const next = [];
+    for (const key of frontier) {
+      if (L !== -1) break;
+      const d = distS.get(key);
+      for (const [, , np] of expand(parseKey(key))) {
+        const nk = np.join(',');
+        if (distS.has(nk)) continue;
+        distS.set(nk, d + 1);
+        tick();
+        next.push(nk);
+        if (nk === goalKey) { L = d + 1; break; }
+      }
+    }
+    frontier = next;
+  }
+  if (L === -1) return { solution: null, iters: iter };
+
+  // ── Phase 2: distG over the corridor only ───────────────────────────────
+  const distG = new Map([[goalKey, 0]]);
+  const layers = Array.from({ length: L + 1 }, () => []);  // corridor states by distS
+  layers[L].push(goalKey);
+  frontier = [goalKey];
+  while (frontier.length) {
+    const next = [];
+    for (const key of frontier) {
+      const g = distG.get(key);
+      const ds = distS.get(key);
+      for (const [, , np] of expand(parseKey(key))) {
+        const nk = np.join(',');
+        if (distG.has(nk) || distS.get(nk) !== ds - 1) continue;
+        distG.set(nk, g + 1);
+        tick();
+        layers[ds - 1].push(nk);
+        next.push(nk);
+      }
+    }
+    frontier = next;
+  }
+
+  // Pathologically wide corridors would make the exact DP too heavy — fall back
+  // to a greedy walk that still keeps the minimal move count (each step goes one
+  // layer closer to the goal) and merely prefers continuing the same plate.
+  const CORRIDOR_LIMIT = 200000;
+  if (distG.size > CORRIDOR_LIMIT) {
+    const path = [];
+    let key = startKey, last = 0;
+    for (let d = 0; d < L; d++) {
+      let pick = null;
+      for (const [plateId, dir, np] of expand(parseKey(key))) {
+        const nk = np.join(',');
+        if (distG.get(nk) !== L - d - 1) continue;
+        if (!pick || plateId === last) pick = [plateId, dir, nk];
+        if (plateId === last) break;
+      }
+      path.push(toNotation(pick[0], pick[1], 1));
+      last = pick[0]; key = pick[2];
+    }
+    return { solution: compressPath(path), iters: iter };
+  }
+
+  // ── Phase 3: exact DP, node = state + '|' + lastPlate ───────────────────
+  let layerNodes = new Map([[startKey + '|0', { groups: 0, prev: null, move: null }]]);
+  const history = [layerNodes];
+  for (let d = 0; d < L; d++) {
+    const next = new Map();
+    for (const [nodeKey, node] of layerNodes) {
+      const sep = nodeKey.lastIndexOf('|');
+      const key = nodeKey.slice(0, sep);
+      const last = Number(nodeKey.slice(sep + 1));
+      for (const [plateId, dir, np] of expand(parseKey(key))) {
+        const nk = np.join(',');
+        if (distS.get(nk) !== d + 1 || distG.get(nk) !== L - d - 1) continue;
+        const g = node.groups + (plateId === last ? 0 : 1);
+        const nnk = nk + '|' + plateId;
+        const prev = next.get(nnk);
+        if (!prev || g < prev.groups) {
+          next.set(nnk, { groups: g, prev: nodeKey, move: toNotation(plateId, dir, 1) });
+        }
+      }
+    }
+    layerNodes = next;
+    history.push(next);
+  }
+
+  let bestKey = null, bestGroups = Infinity;
+  for (const [nodeKey, node] of layerNodes) {
+    if (nodeKey.slice(0, nodeKey.lastIndexOf('|')) === goalKey && node.groups < bestGroups) {
+      bestGroups = node.groups;
+      bestKey = nodeKey;
+    }
+  }
+  const path = [];
+  for (let d = L; d > 0; d--) {
+    const node = history[d].get(bestKey);
+    path.push(node.move);
+    bestKey = node.prev;
+  }
+  path.reverse();
+  return { solution: compressPath(path), iters: iter };
+}
+
 /** Collapse consecutive same-plate same-direction moves: 1A 1A 1A → 1A3. */
 function compressPath(path) {
   if (!path.length) return path;
@@ -2882,7 +3035,10 @@ init();
 // createWorker() prepends to this source when building the worker Blob.
 self.onmessage = ({ data }) => {
   if (data.type === 'solve') {
-    const { solution } = bfsSolve(data.plates, (n) => {
+    // User-facing solve: group-optimized (fewest plate switches among all
+    // minimal-move solutions). The randomizer below keeps plain bfsSolve —
+    // it only needs solution length and runs hundreds of attempts.
+    const { solution } = bfsSolveGrouped(data.plates, (n) => {
       self.postMessage({ type: 'progress', itersDelta: n });
     });
     self.postMessage({ type: 'solve', solution, solveId: data.solveId });
