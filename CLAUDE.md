@@ -4,7 +4,8 @@
 
 Disc-lock puzzle solver (BFS) + 3D visualizer, plus a searchable database of real Gothic 1 Remake chest locks. Single file `index.html`, no deps, no build. `chests.ini` is never committed.
 
-- All app code lives in `index.html`, split into numbered `<script>` blocks (`Script #1` … `#10`) — grep for `Script #` to find the right one before editing.
+- All app code lives in `index.html`, split into numbered `<script>` blocks (`Script #0` … `#10`) — grep for `Script #` to find the right one before editing.
+- **Solver logic lives only in Script #0 (`id="solver-src"`)** — it executes in the page (unit-testable globals) and its `textContent` is prepended to the worker Blob by `createWorker()`. Never re-define solver functions in the worker entry (`id="worker-src"`) or elsewhere; edit Script #0 and both consumers pick it up.
 - `chests.ini` (raw, uncommitted) → `chests.json` (committed, fetched by the app) via `tools/ini2json.cjs` (`npm run build:db`); translations via `tools/translate.sh` (`npm run translate:db`).
 - Tests: `tests/*.spec.js`, Playwright, run via `npx playwright test`.
 - **Changing one plate's position always goes through `posSetPlateValue(id, value)`** (Script #5) — the single entry point that clamps, syncs the input/buttons, updates the 3D scene, invalidates the cached solution, and re-renders the chest hints. Never mutate `plate.currentPos` directly in a handler; route new position-editing gestures through it so those side effects can't be forgotten.

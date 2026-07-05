@@ -1143,6 +1143,152 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
     </div>
   </div>
 
+  <!-- Script #0 — Solver core. Executes as a normal script (page globals, unit-testable)
+       AND its textContent is injected verbatim into the Web Worker Blob by createWorker()
+       — one source, two consumers, so the tested code IS the code the worker runs. -->
+  <script id="solver-src">
+// ── Script #0 — Solver core (shared with the worker) ─────────────────────────
+
+/** Center position index (1-based) for a given positions count */
+function center(positions) {
+  return Math.floor(positions / 2) + 1;
+}
+
+/**
+ * Convert a move to notation string.
+ * steps > 1 only when compressing consecutive same-plate same-dir moves.
+ */
+function toNotation(plateId, dir, steps) {
+  const d = dir === 'left' ? 'A' : 'D';
+  return steps === 1 ? `${plateId}${d}` : `${plateId}${d}${steps}`;
+}
+
+/** Parse a notation string back to {plateId, dir, steps} */
+function parseNotation(s) {
+  const m = s.match(/^(\d+)([AD])(\d*)$/);
+  if (!m) throw new Error(`Invalid notation: ${s}`);
+  return {
+    plateId: parseInt(m[1]),
+    dir:     m[2] === 'A' ? 'left' : 'right',
+    steps:   m[3] ? parseInt(m[3]) : 1
+  };
+}
+
+/**
+ * Compute all plate deltas for a move. Returns null if blocked.
+ * @param {object[]} plates
+ * @param {number}   plateId   id of the plate the player moves
+ * @param {'left'|'right'} dir
+ * @returns {Array<{plateId, newPos}>|null}
+ */
+function computeMove(plates, plateId, dir) {
+  const primaryDelta = dir === 'left' ? 1 : -1;
+  const primary = plates.find(p => p.id === plateId);
+  if (!primary) return null;
+
+  const sign = primaryDelta > 0 ? 1 : -1;
+  const effects = [{ plate: primary, delta: primaryDelta }];
+
+  for (const dep of primary.deps) {
+    const target = plates.find(p => p.id === dep.targetId);
+    if (!target) continue;
+    const depSign = dep.direction === 'same' ? sign : -sign;
+    effects.push({ plate: target, delta: depSign * dep.steps });
+  }
+
+  // Blocking check — all or nothing
+  for (const { plate, delta } of effects) {
+    const newPos = plate.currentPos + delta;
+    if (newPos < 1 || newPos > plate.positions) return null;
+  }
+
+  return effects.map(({ plate, delta }) => ({
+    plateId: plate.id,
+    newPos: plate.currentPos + delta
+  }));
+}
+
+/** Walk parent pointers back from queue[idx] to the root, returning the move list. */
+function reconstructPath(queue, idx) {
+  const path = [];
+  while (queue[idx].move !== null) {
+    path.push(queue[idx].move);
+    idx = queue[idx].parentIdx;
+  }
+  return path.reverse();
+}
+
+/**
+ * Breadth-first search over position states — guarantees a minimal solution.
+ * Head-index queue (O(1) dequeue) + parent pointers (linear memory).
+ * @returns {{solution: string[]|null, iters: number}} compressed notation or null
+ */
+function bfsSolve(plates, onProgress) {
+  const startPos = plates.map(p => p.currentPos);
+  const goalPos  = plates.map(p => center(p.positions));
+
+  if (startPos.every((p, i) => p === goalPos[i])) return { solution: [], iters: 0 };
+
+  const startKey = startPos.join(',');
+  const visited  = new Set([startKey]);
+  const queue    = [{ positions: startPos, parentIdx: -1, move: null }];
+  let head = 0;
+  let iter = 0;
+
+  while (head < queue.length) {
+    const { positions } = queue[head];
+    const currentIdx = head;
+    head++;
+
+    const snap = plates.map((p, i) => ({ ...p, currentPos: positions[i] }));
+
+    for (const plate of snap) {
+      for (const dir of ['left', 'right']) {
+        const effects = computeMove(snap, plate.id, dir);
+        if (!effects) continue;
+
+        const newPos = [...positions];
+        for (const { plateId, newPos: np } of effects) newPos[plateId - 1] = np;
+
+        const key = newPos.join(',');
+        if (visited.has(key)) continue;
+        visited.add(key);
+        iter++;
+
+        if (onProgress && iter % 2000 === 0) onProgress(2000);
+
+        const newIdx = queue.length;
+        queue.push({ positions: newPos, parentIdx: currentIdx, move: toNotation(plate.id, dir, 1) });
+
+        if (newPos.every((p, i) => p === goalPos[i])) {
+          return { solution: compressPath(reconstructPath(queue, newIdx)), iters: iter };
+        }
+      }
+    }
+  }
+
+  return { solution: null, iters: iter };
+}
+
+/** Collapse consecutive same-plate same-direction moves: 1A 1A 1A → 1A3. */
+function compressPath(path) {
+  if (!path.length) return path;
+  const result = [];
+  let cur = parseNotation(path[0]);
+  let count = 1;
+  for (let i = 1; i < path.length; i++) {
+    const next = parseNotation(path[i]);
+    if (next.plateId === cur.plateId && next.dir === cur.dir) {
+      count++;
+    } else {
+      result.push(toNotation(cur.plateId, cur.dir, count));
+      cur = next; count = 1;
+    }
+  }
+  result.push(toNotation(cur.plateId, cur.dir, count));
+  return result;
+}
+  </script>
   <!-- Script #1 — State & constants -->
   <script>
 // ── Script #1 — State & constants ─────────────────────────────────────────
@@ -1158,11 +1304,6 @@ const AUTO_DELAY    = 500;   // ms between auto-play steps
 
 const DEFAULT_PLATE_COUNT = 4;
 const DEFAULT_POSITIONS   = 7;
-
-/** Center position index (1-based) for a given positions count */
-function center(positions) {
-  return Math.floor(positions / 2) + 1;
-}
 
 /**
  * Create a fresh plate object.
@@ -1352,40 +1493,8 @@ const state = {
   <!-- Script #2 — Game logic -->
   <script>
 // ── Script #2 — Game logic ────────────────────────────────────────────────
-
-/**
- * Compute all plate deltas for a move. Returns null if blocked.
- * @param {object[]} plates
- * @param {number}   plateId   id of the plate the player moves
- * @param {'left'|'right'} dir
- * @returns {Array<{plateId, newPos}>|null}
- */
-function computeMove(plates, plateId, dir) {
-  const primaryDelta = dir === 'left' ? 1 : -1;
-  const primary = plates.find(p => p.id === plateId);
-  if (!primary) return null;
-
-  const sign = primaryDelta > 0 ? 1 : -1;
-  const effects = [{ plate: primary, delta: primaryDelta }];
-
-  for (const dep of primary.deps) {
-    const target = plates.find(p => p.id === dep.targetId);
-    if (!target) continue;
-    const depSign = dep.direction === 'same' ? sign : -sign;
-    effects.push({ plate: target, delta: depSign * dep.steps });
-  }
-
-  // Blocking check — all or nothing
-  for (const { plate, delta } of effects) {
-    const newPos = plate.currentPos + delta;
-    if (newPos < 1 || newPos > plate.positions) return null;
-  }
-
-  return effects.map(({ plate, delta }) => ({
-    plateId: plate.id,
-    newPos: plate.currentPos + delta
-  }));
-}
+// computeMove / toNotation / parseNotation live in Script #0 (solver core),
+// shared verbatim with the Web Worker.
 
 /**
  * Apply a move in-place. Returns true if move was applied, false if blocked.
@@ -1438,26 +1547,6 @@ function flashBlockedPlate(plateId, sceneId) {
   void el.offsetWidth; // force reflow so animation restarts if already running
   el.classList.add('plate-blocked');
   setTimeout(() => el.classList.remove('plate-blocked'), 250);
-}
-
-/**
- * Convert a move to notation string.
- * steps > 1 only when compressing consecutive same-plate same-dir moves.
- */
-function toNotation(plateId, dir, steps) {
-  const d = dir === 'left' ? 'A' : 'D';
-  return steps === 1 ? `${plateId}${d}` : `${plateId}${d}${steps}`;
-}
-
-/** Parse a notation string back to {plateId, dir, steps} */
-function parseNotation(s) {
-  const m = s.match(/^(\d+)([AD])(\d*)$/);
-  if (!m) throw new Error(`Invalid notation: ${s}`);
-  return {
-    plateId: parseInt(m[1]),
-    dir:     m[2] === 'A' ? 'left' : 'right',
-    steps:   m[3] ? parseInt(m[3]) : 1
-  };
 }
 </script>
   <!-- Script #4 — Render -->
@@ -2788,126 +2877,9 @@ init();
 
   <!-- Worker source — not executed by the browser, read as text by Script #9 -->
   <script type="text/x-worker" id="worker-src">
-function center(positions) {
-  return Math.floor(positions / 2) + 1;
-}
-
-function toNotation(plateId, dir, steps) {
-  const d = dir === 'left' ? 'A' : 'D';
-  return steps === 1 ? `${plateId}${d}` : `${plateId}${d}${steps}`;
-}
-
-function parseNotation(s) {
-  const m = s.match(/^(\d+)([AD])(\d*)$/);
-  if (!m) throw new Error('Invalid notation: ' + s);
-  return {
-    plateId: parseInt(m[1]),
-    dir:     m[2] === 'A' ? 'left' : 'right',
-    steps:   m[3] ? parseInt(m[3]) : 1
-  };
-}
-
-function computeMove(plates, plateId, dir) {
-  const primaryDelta = dir === 'left' ? 1 : -1;
-  const primary = plates.find(p => p.id === plateId);
-  if (!primary) return null;
-
-  const sign = primaryDelta > 0 ? 1 : -1;
-  const effects = [{ plate: primary, delta: primaryDelta }];
-
-  for (const dep of primary.deps) {
-    const target = plates.find(p => p.id === dep.targetId);
-    if (!target) continue;
-    const depSign = dep.direction === 'same' ? sign : -sign;
-    effects.push({ plate: target, delta: depSign * dep.steps });
-  }
-
-  for (const { plate, delta } of effects) {
-    const newPos = plate.currentPos + delta;
-    if (newPos < 1 || newPos > plate.positions) return null;
-  }
-
-  return effects.map(({ plate, delta }) => ({
-    plateId: plate.id,
-    newPos: plate.currentPos + delta
-  }));
-}
-
-
-function reconstructPath(queue, idx) {
-  const path = [];
-  while (queue[idx].move !== null) {
-    path.push(queue[idx].move);
-    idx = queue[idx].parentIdx;
-  }
-  return path.reverse();
-}
-
-function bfsSolve(plates, onProgress) {
-  const startPos = plates.map(p => p.currentPos);
-  const goalPos  = plates.map(p => center(p.positions));
-
-  if (startPos.every((p, i) => p === goalPos[i])) return { solution: [], iters: 0 };
-
-  const startKey = startPos.join(',');
-  const visited  = new Set([startKey]);
-  const queue    = [{ positions: startPos, parentIdx: -1, move: null }];
-  let head = 0;
-  let iter = 0;
-
-  while (head < queue.length) {
-    const { positions } = queue[head];
-    const currentIdx = head;
-    head++;
-
-    const snap = plates.map((p, i) => ({ ...p, currentPos: positions[i] }));
-
-    for (const plate of snap) {
-      for (const dir of ['left', 'right']) {
-        const effects = computeMove(snap, plate.id, dir);
-        if (!effects) continue;
-
-        const newPos = [...positions];
-        for (const { plateId, newPos: np } of effects) newPos[plateId - 1] = np;
-
-        const key = newPos.join(',');
-        if (visited.has(key)) continue;
-        visited.add(key);
-        iter++;
-
-        if (onProgress && iter % 2000 === 0) onProgress(2000);
-
-        const newIdx = queue.length;
-        queue.push({ positions: newPos, parentIdx: currentIdx, move: toNotation(plate.id, dir, 1) });
-
-        if (newPos.every((p, i) => p === goalPos[i])) {
-          return { solution: compressPath(reconstructPath(queue, newIdx)), iters: iter };
-        }
-      }
-    }
-  }
-
-  return { solution: null, iters: iter };
-}
-
-function compressPath(path) {
-  if (!path.length) return path;
-  const result = [];
-  let cur = parseNotation(path[0]);
-  let count = 1;
-  for (let i = 1; i < path.length; i++) {
-    const next = parseNotation(path[i]);
-    if (next.plateId === cur.plateId && next.dir === cur.dir) {
-      count++;
-    } else {
-      result.push(toNotation(cur.plateId, cur.dir, count));
-      cur = next; count = 1;
-    }
-  }
-  result.push(toNotation(cur.plateId, cur.dir, count));
-  return result;
-}
-
+// Worker entry — message protocol only. All solver logic (center, computeMove,
+// bfsSolve, compressPath, ...) comes from Script #0 (solver-src), which
+// createWorker() prepends to this source when building the worker Blob.
 self.onmessage = ({ data }) => {
   if (data.type === 'solve') {
     const { solution } = bfsSolve(data.plates, (n) => {
@@ -2967,8 +2939,12 @@ self.onmessage = ({ data }) => {
 // ── Script #9 — Web Worker bootstrap ─────────────────────────────────────────
 
 function createWorker() {
+  // Solver core (Script #0) + worker entry, concatenated verbatim. The core also
+  // runs in the page, so unit tests exercise the exact source the worker executes.
   const url = URL.createObjectURL(new Blob(
-    [document.getElementById('worker-src').textContent],
+    [document.getElementById('solver-src').textContent,
+     '\n',
+     document.getElementById('worker-src').textContent],
     { type: 'application/javascript' }
   ));
   const w = new Worker(url);

@@ -207,9 +207,13 @@ BFS и генерация выполняются в Web Workers через Blob 
 ### Структура скриптов
 
 ```
-<script type="text/x-worker">  Воркер: BFS + рандомизатор
-Script #1 — State             Константы, state, makePlate(), center()
-Script #2 — Game logic        computeMove(), applyMove(), нотация, depCellHTML(),
+Script #0 — Solver core       center(), computeMove(), нотация, bfsSolve(),
+  (id="solver-src")            compressPath(). Исполняется страницей И инъектится
+                               в Blob воркера — один исходник, два потребителя
+<script type="text/x-worker">  Точка входа воркера: только onmessage
+  (id="worker-src")            (solve + рандомизатор); логика — из Script #0
+Script #1 — State             Константы, state, makePlate()
+Script #2 — Game logic        applyMove(), depCellHTML(),
                                getBlockingPlateId(), flashBlockedPlate()
 Script #4 — Render            buildScene(), updateScene(), posToOffsetX()
 Script #5 — Config UI         Барабан позиций (posSetPlateValue — единая точка
