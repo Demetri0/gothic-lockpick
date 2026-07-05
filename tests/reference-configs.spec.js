@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { expectPosDigit, startSolve } from './helpers.js';
 
-// Reference configs taken from the real game — each describe pins one known
-// lock end-to-end: gothic-string parsing → dependency matrix → start positions
-// → the exact solver output. These are characterization tests: bfsSolve is
-// deterministic, so the full move sequence is stable and any change to solver
-// iteration order or parsing will show up here.
+// Reference configs taken from the real game and from unlockmyloot.com — each
+// describe pins one known lock end-to-end: gothic-string parsing → dependency
+// matrix → start positions → the exact solver output. Characterization tests:
+// bfsSolveGrouped is deterministic, so the full move sequence is stable and any
+// change to solver iteration order or parsing will show up here. Site-published
+// solutions are replayed through our engine as independent physics validation.
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -146,5 +147,56 @@ test.describe('reference: 040615 A:C-;B:C+,D-;D:E-,C+;E:F-;F:E+,B- (unlockmyloot
     expect(res.groups).toBe(11); // same optimum the site's exact solver reports
     // Characterization: a different but equally-optimal sequence than the site's
     expect(res.sol).toEqual(['3A3', '1A3', '3A6', '6D', '4D6', '3A6', '2D5', '3A4', '5D2', '4D2', '6D3']);
+  });
+});
+
+test.describe('reference: 252666 B:A+,E-,F-;C:B+;D:A+,B-;E:A+,F- (unlockmyloot.com)', () => {
+  const CONFIG = '252666 B:A+,E-,F-;C:B+;D:A+,B-;E:A+,F-';
+  // The sequence unlockmyloot.com shows for this lock (12 groups, 56 keypresses)
+  const SITE_SOLUTION = ['6D6', '1A4', '5D6', '6D6', '3A', '1A6', '2D6', '6D6', '1A6', '5D3', '4D3', '1A3'];
+
+  test('parses into the expected dependency matrix', async ({ page }) => {
+    await importConfig(page, CONFIG);
+    await expectMatrix(page, 6, {
+      2: { 1: 'same', 5: 'opposite', 6: 'opposite' },
+      3: { 2: 'same' },
+      4: { 1: 'same', 2: 'opposite' },
+      5: { 1: 'same', 6: 'opposite' },
+    });
+  });
+
+  test('sets the expected start positions', async ({ page }) => {
+    await importConfig(page, CONFIG);
+    const digits = [3, 6, 3, 7, 7, 7]; // "252666" is 0-based
+    for (let i = 0; i < digits.length; i++) {
+      await expectPosDigit(page, i + 1, digits[i]);
+    }
+    await expect(page.getByTestId('pos-input-7')).toHaveCount(0);
+  });
+
+  test("the site's published solution replays to all-centered in our engine", async ({ page }) => {
+    const result = await page.evaluate(({ cfg, steps }) => {
+      const plates = parseImportConfig(cfg);
+      for (const step of steps) {
+        const { plateId, dir, steps: n } = parseNotation(step);
+        for (let i = 0; i < n; i++) {
+          if (!applyMove(plates, plateId, dir)) return { blocked: step };
+        }
+      }
+      return { final: plates.map(p => p.currentPos) };
+    }, { cfg: CONFIG, steps: SITE_SOLUTION });
+    expect(result.blocked).toBeUndefined();
+    expect(result.final).toEqual([4, 4, 4, 4, 4, 4]);
+  });
+
+  test('our solver matches the site optimum: 56 keypresses in 12 groups', async ({ page }) => {
+    const res = await page.evaluate((cfg) => {
+      const sol = bfsSolveGrouped(parseImportConfig(cfg)).solution;
+      return { sol, groups: sol.length, raw: sol.reduce((a, s) => a + parseNotation(s).steps, 0) };
+    }, CONFIG);
+    expect(res.raw).toBe(56);
+    expect(res.groups).toBe(12);
+    // Characterization: a different but equally-optimal sequence than the site's
+    expect(res.sol).toEqual(['1A4', '3A', '6D6', '5D6', '1A6', '6D6', '2D6', '1A3', '4D3', '1A6', '6D6', '5D3']);
   });
 });
