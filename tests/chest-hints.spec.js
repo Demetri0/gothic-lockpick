@@ -301,6 +301,21 @@ test('hints stay hidden when the database fails to load', async ({ page }) => {
   await expect(page.getByTestId('btn-start')).toBeEnabled();
 });
 
+test('a nameless entry shows a localized unknown-lock placeholder', async ({ page }) => {
+  const NAMELESS_DB = {
+    v: 1, updated: '2026-01-01T00:00:00Z',
+    entries: [
+      { id: 'lock-3333', name: {}, cells: 4, rules: '', pos: [3, 3, 3, 3], tags: [], img: [] },
+    ],
+  };
+  await mockChestDb(page, NAMELESS_DB);
+  await page.goto('/');
+  // Default config (all centre) fully matches the nameless entry
+  await expect(page.getByTestId('chest-hint-0-name')).toHaveText('Неизвестный замок');
+  await page.getByTestId('lang-en').click();
+  await expect(page.getByTestId('chest-hint-0-name')).toHaveText('Unknown lock');
+});
+
 test('hint names follow the active language', async ({ page }) => {
   await mockChestDb(page);
   await page.goto('/');

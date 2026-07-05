@@ -1453,6 +1453,7 @@ const TRANSLATIONS = {
     'search-placeholder': 'Название, тег или позиции...',
     'search-no-results': 'Ничего не найдено',
     'hints-label': 'Похоже на:',
+    'unknown-lock': 'Неизвестный замок',
     'toast-search-db-error': 'Не удалось загрузить базу',
     'search-unavailable-title': 'Поиск недоступен: не удалось загрузить базу или библиотеку поиска',
   },
@@ -1497,6 +1498,7 @@ const TRANSLATIONS = {
     'search-placeholder': 'Name, tag, or positions...',
     'search-no-results': 'No results found',
     'hints-label': 'Looks like:',
+    'unknown-lock': 'Unknown lock',
     'toast-search-db-error': 'Failed to load the database',
     'search-unavailable-title': 'Search unavailable: failed to load the database or the search library',
   },
@@ -1541,6 +1543,7 @@ const TRANSLATIONS = {
     'search-placeholder': 'Назва, тег або позиції...',
     'search-no-results': 'Нічого не знайдено',
     'hints-label': 'Схоже на:',
+    'unknown-lock': 'Невідомий замок',
     'toast-search-db-error': 'Не вдалося завантажити базу',
     'search-unavailable-title': 'Пошук недоступний: не вдалося завантажити базу або бібліотеку пошуку',
   },
@@ -3428,7 +3431,7 @@ function escapeHtml(s) {
 }
 
 function buildResultCard(entry, idx) {
-  const name = escapeHtml(entryName(entry));
+  const name = escapeHtml(entryName(entry) || t('unknown-lock'));
   const tagsStr = escapeHtml(entry.tags.join(', '));
   const image = entry.img[0]
     ? `<img src="${entry.img[0]}" alt="">`
@@ -3517,7 +3520,7 @@ function renderRulesLine(idx, entry, userEdges) {
 // positions; those discs are highlighted green in the preview. The rules line is
 // colored against userEdges (the user's entered dependencies).
 function buildHintCard(entry, idx, score, matchLen, userEdges) {
-  const name = escapeHtml(entryName(entry));
+  const name = escapeHtml(entryName(entry) || t('unknown-lock'));
   const tagsStr = escapeHtml(entry.tags.join(', '));
   const opacity = (score >= 0.999 ? 1 : 0.35 + 0.45 * score).toFixed(3);
   const plateRows = entry.pos.map((p, plateIdx) => {

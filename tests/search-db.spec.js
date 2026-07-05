@@ -384,3 +384,16 @@ test('no-results message is localized to English', async ({ page }) => {
   await page.getByTestId('search-input').fill('zzqxxnonexistent999');
   await expect(page.getByTestId('search-empty')).toHaveText('No results found');
 });
+
+test('a nameless entry renders a localized unknown-lock placeholder in results', async ({ page }) => {
+  // Re-route with a nameless fixture; the default success mock is no-store,
+  // so re-navigation goes back through the (new, later-registered) route.
+  await mockChestDb(page, {
+    v: 1, updated: '2026-01-01T00:00:00Z',
+    entries: [{ id: 'lock-12305', name: {}, cells: 5, rules: '', pos: [1, 2, 3, 0, 5], tags: [], img: [] }],
+  });
+  await page.goto('/');
+  await page.getByTestId('btn-search-db').click();
+  await page.getByTestId('search-input').fill('1,2,3,0,5'); // exact position search
+  await expect(page.getByTestId('search-result-0-name')).toHaveText('Неизвестный замок');
+});
