@@ -458,3 +458,16 @@ test('Escape closes the dialog without applying config', async ({ page }) => {
   await expect(page.getByTestId('import-dialog')).toBeHidden();
   await expect(page.getByTestId('val-plates')).toHaveText(platesBefore);
 });
+
+test('8-plate Gothic export round-trips a dependency on plate H', async ({ page }) => {
+  // serialize emits letters up to H for plate 8; the parser must accept H too,
+  // otherwise any dependency touching plate 8 is silently dropped on re-import.
+  const ok = await page.evaluate(() => {
+    const plates = Array.from({ length: 8 }, (_, i) => ({ id: i + 1, positions: 7, currentPos: 4, deps: [] }));
+    plates[0].deps.push({ targetId: 8, direction: 'opposite', steps: 1 }); // A -> H opposite
+    const parsed = parseImportConfig(serializeGothicFormat(plates));
+    const p1 = parsed && parsed.find(p => p.id === 1);
+    return !!p1 && p1.deps.some(d => d.targetId === 8 && d.direction === 'opposite');
+  });
+  expect(ok).toBe(true);
+});

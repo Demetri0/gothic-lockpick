@@ -2130,12 +2130,12 @@ function parseGothicFormat(raw) {
   // ── 5. Parse dependency rules ────────────────────────────────────────────
   const depMap = {};
   for (const token of rulesStr.split(';')) {
-    const m = token.trim().match(/([A-G])\s*:\s*(.+)$/i);
+    const m = token.trim().match(/([A-H])\s*:\s*(.+)$/i);
     if (!m) continue;
     const src = m[1].toUpperCase();
     if (!depMap[src]) depMap[src] = [];
     for (const part of m[2].split(',')) {
-      const pm = part.trim().match(/^([A-G])\s*([+\-])$/i);
+      const pm = part.trim().match(/^([A-H])\s*([+\-])$/i);
       if (!pm) continue;
       depMap[src].push({
         targetId: pm[1].toUpperCase().charCodeAt(0) - 64,
@@ -2222,7 +2222,7 @@ function looksLikeImportConfig(text) {
   if (!t) return false;
   if (t[0] === '[' || t[0] === '{') return true;                          // JSON
   if (/\b(?:rules|start_pos|cells|name|tags)\s*=/i.test(t)) return true;  // INI/keyed format
-  if (/[A-G]\s*:\s*[A-G]\s*[+\-]/i.test(t)) return true;                  // a dependency rule token
+  if (/[A-H]\s*:\s*[A-H]\s*[+\-]/i.test(t)) return true;                  // a dependency rule token
   return false;
 }
 
@@ -2614,6 +2614,22 @@ const KEY_MAP = {
   ArrowUp: 'W', ArrowDown: 'S', ArrowLeft: 'A', ArrowRight: 'D'
 };
 
+// Config-stage A/D: move the active plate (deps applied, all-or-nothing blocking),
+// then refresh the scene, matrix inputs, and chest hints together. Distinct from
+// the solve stage, where A/D drive explore mode and must not touch the config.
+function configMovePlate(dir) {
+  if (applyMove(state.plates, state.activePlate, dir)) {
+    state.cachedSolution = null;
+    state.history.push(toNotation(state.activePlate, dir, 1));
+    updateScene('scene-config-inner', state.plates, state.activePlate);
+    syncMatrixPositions();
+    renderChestHints();
+  } else {
+    const b = getBlockingPlateId(state.plates, state.activePlate, dir);
+    if (b !== null) flashBlockedPlate(b, 'scene-config-inner');
+  }
+}
+
 document.addEventListener('keydown', (e) => {
   if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
   if (document.getElementById('computing-overlay').classList.contains('active')) return;
@@ -2685,30 +2701,8 @@ document.addEventListener('keydown', (e) => {
       updateScene('scene-config-inner', state.plates, state.activePlate);
       updateMatrixActive();
     }
-    if (key === 'A') {
-      const moved = applyMove(state.plates, state.activePlate, 'left');
-      if (moved) {
-        state.cachedSolution = null;
-        state.history.push(toNotation(state.activePlate, 'left', 1));
-        updateScene('scene-config-inner', state.plates, state.activePlate);
-        syncMatrixPositions();
-      } else {
-        const b = getBlockingPlateId(state.plates, state.activePlate, 'left');
-        if (b !== null) flashBlockedPlate(b, 'scene-config-inner');
-      }
-    }
-    if (key === 'D') {
-      const moved = applyMove(state.plates, state.activePlate, 'right');
-      if (moved) {
-        state.cachedSolution = null;
-        state.history.push(toNotation(state.activePlate, 'right', 1));
-        updateScene('scene-config-inner', state.plates, state.activePlate);
-        syncMatrixPositions();
-      } else {
-        const b = getBlockingPlateId(state.plates, state.activePlate, 'right');
-        if (b !== null) flashBlockedPlate(b, 'scene-config-inner');
-      }
-    }
+    if (key === 'A') configMovePlate('left');
+    if (key === 'D') configMovePlate('right');
   }
 
   if (state.stage === 'solve') {

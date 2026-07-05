@@ -280,6 +280,16 @@ test('clicking a hole in the 3D preview updates the hints', async ({ page }) => 
   await expect(page.getByTestId('chest-hints')).toBeHidden();
 });
 
+test('a config A/D keyboard move refreshes the hints', async ({ page }) => {
+  await mockChestDb(page);
+  await page.goto('/');
+  await expect(page.getByTestId('chest-hints')).toBeVisible();
+  // D moves the active plate (1) right: pos 4 -> 3, so user0[0] = 2 and no fixture
+  // entry shares >= 2 leading discs any more — the hints must update (here: hide).
+  await page.keyboard.press('d');
+  await expect(page.getByTestId('chest-hints')).toBeHidden();
+});
+
 test('hints stay hidden when the database fails to load', async ({ page }) => {
   await page.route('**/chests.json', route => route.abort());
   await page.goto('/');
