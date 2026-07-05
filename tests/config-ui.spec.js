@@ -22,8 +22,8 @@ test('dep cell: shows full text when container is wide', async ({ page }) => {
   await page.getByTestId('dep-1-2').click(); // none → same
 
   const cell = page.getByTestId('dep-1-2');
-  await expect(cell.locator('.dep-full')).toBeVisible();
-  await expect(cell.locator('.dep-short')).toBeHidden();
+  await expect(cell.getByTestId('dep-full')).toBeVisible();
+  await expect(cell.getByTestId('dep-short')).toBeHidden();
 });
 
 test('dep cell: shows abbreviated text when container is narrow', async ({ page }) => {
@@ -32,9 +32,9 @@ test('dep cell: shows abbreviated text when container is narrow', async ({ page 
   await page.getByTestId('dep-1-2').click(); // none → same
 
   const cell = page.getByTestId('dep-1-2');
-  await expect(cell.locator('.dep-full')).toBeHidden();
-  await expect(cell.locator('.dep-short')).toBeVisible();
-  await expect(cell.locator('.dep-short')).toHaveText('В');
+  await expect(cell.getByTestId('dep-full')).toBeHidden();
+  await expect(cell.getByTestId('dep-short')).toBeVisible();
+  await expect(cell.getByTestId('dep-short')).toHaveText('В');
 });
 
 // ── Position lock ────────────────────────────────────────────────────────────

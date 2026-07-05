@@ -173,12 +173,12 @@ test('typing a name shows matching results', async ({ page }) => {
   await page.getByTestId('btn-search-db').click();
   await page.getByTestId('search-input').fill('арена');
   await expect(page.getByTestId('search-result-0')).toBeVisible();
-  await expect(page.getByTestId('search-results').locator('> div')).toHaveCount(1);
+  await expect(page.getByTestId('search-result-1')).toHaveCount(0); // exactly one result (result-0 asserted visible above)
 });
 
 test('empty query shows no results and no empty-state message', async ({ page }) => {
   await page.getByTestId('btn-search-db').click();
-  await expect(page.getByTestId('search-results').locator('> div')).toHaveCount(0);
+  await expect(page.getByTestId('search-result-0')).toHaveCount(0);
   await expect(page.getByTestId('search-empty')).toBeHidden();
 });
 
@@ -191,7 +191,7 @@ test('nonsense query shows the no-results message', async ({ page }) => {
 
   await page.getByTestId('search-input').fill('zzqxxnonexistent999');
   await expect(page.getByTestId('search-empty')).toBeVisible();
-  await expect(page.getByTestId('search-results').locator('> div')).toHaveCount(0);
+  await expect(page.getByTestId('search-result-0')).toHaveCount(0);
 });
 
 test('search button is enabled once the database and Fuse.js load successfully', async ({ page }) => {
@@ -242,7 +242,7 @@ test('a digit-only query searches by position instead of fuzzy text', async ({ p
   await page.getByTestId('btn-search-db').click();
   await page.getByTestId('search-input').fill('1,2,3,5,5,6');
   await expect(page.getByTestId('search-result-0')).toBeVisible();
-  await expect(page.getByTestId('search-results').locator('> div')).toHaveCount(1);
+  await expect(page.getByTestId('search-result-1')).toHaveCount(0); // exactly one result (result-0 asserted visible above)
   const activeHoles = page.locator('[data-test-id^="search-result-0-hole-"][data-active="true"]');
   await expect(activeHoles).toHaveCount(6);
 });
@@ -270,7 +270,7 @@ test('a +1-shifted compact query still matches the stored 0-based position', asy
 test('ArrowDown moves selection without losing focus from the input', async ({ page }) => {
   await page.getByTestId('btn-search-db').click();
   await page.getByTestId('search-input').fill('тест'); // matches both fixture entries
-  await expect(page.getByTestId('search-results').locator('> div')).toHaveCount(2);
+  await expect(page.getByTestId('search-result-2')).toHaveCount(0); // exactly two results
 
   await expect(page.getByTestId('search-result-0')).toHaveAttribute('data-selected', 'true');
   await page.getByTestId('search-input').press('ArrowDown');
@@ -282,7 +282,7 @@ test('ArrowDown moves selection without losing focus from the input', async ({ p
 test('ArrowUp wraps from the first to the last result', async ({ page }) => {
   await page.getByTestId('btn-search-db').click();
   await page.getByTestId('search-input').fill('тест');
-  await expect(page.getByTestId('search-results').locator('> div')).toHaveCount(2);
+  await expect(page.getByTestId('search-result-2')).toHaveCount(0); // exactly two results
 
   await page.getByTestId('search-input').press('ArrowUp'); // from index 0, wraps to last (index 1)
   await expect(page.getByTestId('search-result-1')).toHaveAttribute('data-selected', 'true');

@@ -1409,7 +1409,7 @@ function depCellTitle(s, from, to) {
 function depCellHTML(s) {
   const full  = s === 'same' ? t('dep-same')   : s === 'opposite' ? t('dep-opposite')   : '·';
   const short = s === 'same' ? t('dep-same-s') : s === 'opposite' ? t('dep-opposite-s') : '·';
-  return `<span class="dep-full">${full}</span><span class="dep-short">${short}</span>`;
+  return `<span class="dep-full" data-test-id="dep-full">${full}</span><span class="dep-short" data-test-id="dep-short">${short}</span>`;
 }
 
 /** Returns the id of the first plate that would go out of bounds, or null if move is valid. */

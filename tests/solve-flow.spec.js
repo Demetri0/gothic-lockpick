@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { startSolve } from './helpers.js';
 
 const SIMPLE_CONFIG = JSON.stringify([
   { id: 1, positions: 7, currentPos: 6, deps: [] },
@@ -26,10 +27,7 @@ test('BFS finds a solution and solve stage opens', async ({ page }) => {
 });
 
 test('step forward and backward through the solution', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await expect(page.getByTestId('step-start')).toHaveClass(/active/);
 
@@ -41,20 +39,14 @@ test('step forward and backward through the solution', async ({ page }) => {
 });
 
 test('clicking a step in the list jumps to it', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await page.getByTestId('step-end').click();
   await expect(page.getByTestId('step-end')).toHaveClass(/active/);
 });
 
 test('the ← Step button is disabled at the start, enabled after stepping forward', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await expect(page.getByTestId('step-start')).toHaveClass(/active/);
   await expect(page.getByTestId('btn-prev')).toBeDisabled();   // nothing before the start
@@ -63,10 +55,7 @@ test('the ← Step button is disabled at the start, enabled after stepping forwa
 });
 
 test('the Step → / Auto buttons are disabled at the end', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await page.getByTestId('step-end').click();
   await expect(page.getByTestId('step-end')).toHaveClass(/active/);
@@ -75,10 +64,7 @@ test('the Step → / Auto buttons are disabled at the end', async ({ page }) => 
 });
 
 test('"End" is highlighted on the last step', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   // Jump to end via click
   await page.getByTestId('step-end').click();
@@ -87,23 +73,19 @@ test('"End" is highlighted on the last step', async ({ page }) => {
 });
 
 test('auto-play toggles the button to Stop and back', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
+
+  // Assert the actual play state rather than the localized button label, which
+  // would re-encode a display string and break on any translation rewording.
+  await page.getByTestId('btn-auto').click();
+  expect(await page.evaluate(() => state.autoInterval !== null)).toBe(true);
 
   await page.getByTestId('btn-auto').click();
-  await expect(page.getByTestId('btn-auto')).toContainText('Стоп');
-
-  await page.getByTestId('btn-auto').click();
-  await expect(page.getByTestId('btn-auto')).toContainText('Авто');
+  expect(await page.evaluate(() => state.autoInterval !== null)).toBe(false);
 });
 
 test('Back button returns to config stage', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await page.getByTestId('btn-back').click();
   await expect(page.getByTestId('stage-config')).toBeVisible();
@@ -111,10 +93,7 @@ test('Back button returns to config stage', async ({ page }) => {
 });
 
 test('Solve reuses the cached solution when config is unchanged', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   // Return to config
   await page.getByTestId('btn-back').click();
@@ -128,20 +107,14 @@ test('Solve reuses the cached solution when config is unchanged', async ({ page 
 // ── Notation help dialog ──────────────────────────────────────────────────────
 
 test('? button opens the notation help dialog', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await page.getByTestId('btn-notation-help').click();
   await expect(page.getByTestId('notation-dialog')).toBeVisible();
 });
 
 test('notation dialog close button dismisses it', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await page.getByTestId('btn-notation-help').click();
   await expect(page.getByTestId('notation-dialog')).toBeVisible();
@@ -151,10 +124,7 @@ test('notation dialog close button dismisses it', async ({ page }) => {
 });
 
 test('notation dialog body contains content after opening', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await page.getByTestId('btn-notation-help').click();
   const body = page.getByTestId('notation-dialog-body');
@@ -171,13 +141,11 @@ test('copy button shows a success toast', async ({ page }) => {
     });
   });
   await page.goto('/');
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await page.getByTestId('btn-copy-solution').click();
-  await expect(page.getByTestId('toast').filter({ hasText: 'Скопировано' })).toBeVisible();
+  // The copy toast is the newest one (the setup's "applied" toast may still linger)
+  await expect(page.locator('[data-test-id="toast"][data-test-type="success"]').last()).toBeVisible();
 });
 
 test('copy button writes solution steps joined with ➝ separator', async ({ page }) => {
@@ -189,10 +157,7 @@ test('copy button writes solution steps joined with ➝ separator', async ({ pag
     });
   });
   await page.goto('/');
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await page.getByTestId('btn-copy-solution').click();
   const copied = await page.evaluate(() => window.__copiedText);

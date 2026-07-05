@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { posDigit, expectPosDigit, expectActivePlate } from './helpers.js';
+import { posDigit, expectPosDigit, expectActivePlate, startSolve } from './helpers.js';
 
 const SIMPLE_CONFIG = JSON.stringify([
   { id: 1, positions: 7, currentPos: 6, deps: [] },
@@ -88,10 +88,7 @@ test('WASD is suppressed while the computing overlay is active', async ({ page }
 // ── Solve stage ──────────────────────────────────────────────────────────────
 
 test('D in solve stage enters explore mode and moves the plate', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   // Before press — following mode, at start step
   await expect(page.getByTestId('step-start')).toHaveClass(/active/);
@@ -102,10 +99,7 @@ test('D in solve stage enters explore mode and moves the plate', async ({ page }
 });
 
 test('A in explore mode collapses the opposite move', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   // D then A — two moves cancel each other
   await page.keyboard.press('d');
@@ -116,10 +110,7 @@ test('A in explore mode collapses the opposite move', async ({ page }) => {
 });
 
 test('clicking the separator returns to following mode', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   await page.keyboard.press('d');
   await expect(page.getByTestId('explore-separator')).toBeVisible();
@@ -131,10 +122,7 @@ test('clicking the separator returns to following mode', async ({ page }) => {
 });
 
 test('clicking a completed BFS step returns to following mode at that step', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   // Advance to BFS step 1, then enter explore
   await page.getByTestId('btn-step').click();
@@ -148,10 +136,7 @@ test('clicking a completed BFS step returns to following mode at that step', asy
 });
 
 test('W switches the active plate in solve stage', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   // Switch to plate 2, then enter explore — notation should reference plate 2
   await page.keyboard.press('w');
@@ -160,10 +145,7 @@ test('W switches the active plate in solve stage', async ({ page }) => {
 });
 
 test('repeated D on the same plate collapses into one entry with step count', async ({ page }) => {
-  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
-  await page.getByTestId('import-dialog-ok').click();
-  await page.getByTestId('btn-start').click();
-  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await startSolve(page, SIMPLE_CONFIG);
 
   // Three D presses — exactly one history entry
   await page.keyboard.press('d');

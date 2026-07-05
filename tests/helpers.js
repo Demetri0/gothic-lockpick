@@ -17,3 +17,11 @@ export async function expectPosDigit(page, i, val) {
 export async function expectActivePlate(page, i) {
   await expect(page.getByTestId('poslock')).toHaveAttribute('data-active', String(i));
 }
+
+/** Import `cfg`, run SOLVE, and wait for the solve stage. */
+export async function startSolve(page, cfg) {
+  await page.evaluate((c) => openImportDialog(c), cfg);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+}
