@@ -1338,7 +1338,6 @@ const state = {
   stage: 'config',          // 'config' | 'solve'
   plates: [],               // Plate[]
   activePlate: 1,           // id of currently selected plate
-  history: [],              // move notation array (config stage)
   solution: [],             // compressed notation array (solve stage)
   solverStep: 0,            // current step index in solution
   autoInterval: null,       // setInterval handle for auto-play
@@ -2025,7 +2024,6 @@ function wireConfigHandlers() {
     if (state.cachedSolution !== null) {
       state.solution = state.cachedSolution;
       state.solverStep = 0;
-      state.history = [];
       switchToSolve();
       return;
     }
@@ -2052,6 +2050,19 @@ function showToast(message, type = 'success') {
   }, 2500);
 }
 
+// Copy with a success/failure toast. Wrapped in try/catch because reading
+// navigator.clipboard.writeText throws synchronously (not a rejection) when the
+// Clipboard API is unavailable (insecure context / older browser).
+function copyToClipboard(text, successKey = 'toast-copied') {
+  try {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast(t(successKey)))
+      .catch(() => showToast(t('toast-copy-fail'), 'error'));
+  } catch {
+    showToast(t('toast-copy-fail'), 'error');
+  }
+}
+
 function serializeGothicFormat(plates) {
   const pos = plates.map(p => p.currentPos - 1).join('');
   const rules = plates
@@ -2072,9 +2083,7 @@ document.getElementById('btn-export').addEventListener('click', (e) => {
   const data = json
     ? JSON.stringify(state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps })))
     : serializeGothicFormat(state.plates);
-  navigator.clipboard.writeText(data)
-    .then(() => showToast(t(json ? 'toast-copied-json' : 'toast-copied')))
-    .catch(() => showToast(t('toast-copy-fail'), 'error'));
+  copyToClipboard(data, json ? 'toast-copied-json' : 'toast-copied');
 });
 
 /**
@@ -2351,6 +2360,10 @@ function switchToConfig() {
   state.activePlate = 1;
   document.getElementById('stage-solve').classList.add('hidden');
   document.getElementById('stage-config').classList.remove('hidden');
+  // Repaint the config view for the restored plates: position inputs/buttons and
+  // the active-plate highlight (reset to plate 1) were not touched during solve.
+  syncMatrixPositions();
+  updateMatrixActive();
   updateScene('scene-config-inner', state.plates, state.activePlate);
 }
 
@@ -2569,9 +2582,7 @@ function wireSolveHandlers() {
 
   document.getElementById('btn-copy-solution').addEventListener('click', () => {
     const text = state.solution.join(' ➝ ');
-    navigator.clipboard.writeText(text)
-      .then(() => showToast(t('toast-copied')))
-      .catch(() => showToast(t('toast-copy-fail'), 'error'));
+    copyToClipboard(text);
   });
 
   document.getElementById('btn-notation-help').addEventListener('click', () => {
@@ -2620,7 +2631,6 @@ const KEY_MAP = {
 function configMovePlate(dir) {
   if (applyMove(state.plates, state.activePlate, dir)) {
     state.cachedSolution = null;
-    state.history.push(toNotation(state.activePlate, dir, 1));
     updateScene('scene-config-inner', state.plates, state.activePlate);
     syncMatrixPositions();
     renderChestHints();
@@ -3024,7 +3034,6 @@ function onWorkerMessage({ data }) {
     state.solution = data.solution;
     state.cachedSolution = data.solution;
     state.solverStep = 0;
-    state.history = [];
     switchToSolve();
   }
 }

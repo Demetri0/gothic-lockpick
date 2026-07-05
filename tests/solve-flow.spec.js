@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { startSolve } from './helpers.js';
+import { startSolve, expectActivePlate } from './helpers.js';
 
 const SIMPLE_CONFIG = JSON.stringify([
   { id: 1, positions: 7, currentPos: 6, deps: [] },
@@ -84,6 +84,20 @@ test('auto-play toggles the button to Stop and back', async ({ page }) => {
   expect(await page.evaluate(() => state.autoInterval !== null)).toBe(false);
 });
 
+test('returning to config repaints the active-plate highlight', async ({ page }) => {
+  await page.evaluate((cfg) => openImportDialog(cfg), SIMPLE_CONFIG);
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('pos-input-2').click();   // make plate 2 the active plate on config
+  await expectActivePlate(page, 2);
+
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await page.getByTestId('btn-back').click();
+
+  // switchToConfig resets activePlate to 1 — the poslock highlight must follow
+  await expectActivePlate(page, 1);
+});
+
 test('Back button returns to config stage', async ({ page }) => {
   await startSolve(page, SIMPLE_CONFIG);
 
@@ -146,6 +160,19 @@ test('copy button shows a success toast', async ({ page }) => {
   await page.getByTestId('btn-copy-solution').click();
   // The copy toast is the newest one (the setup's "applied" toast may still linger)
   await expect(page.locator('[data-test-id="toast"][data-test-type="success"]').last()).toBeVisible();
+});
+
+test('copy solution shows an error toast when clipboard is unavailable', async ({ page }) => {
+  // Older/insecure contexts have no navigator.clipboard; writeText would throw
+  // synchronously, bypassing the .catch. The copy must fail gracefully with a toast.
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true });
+  });
+  await page.goto('/');
+  await startSolve(page, SIMPLE_CONFIG);
+
+  await page.getByTestId('btn-copy-solution').click();
+  await expect(page.locator('[data-test-id="toast"][data-test-type="error"]')).toBeVisible();
 });
 
 test('copy button writes solution steps joined with ➝ separator', async ({ page }) => {
