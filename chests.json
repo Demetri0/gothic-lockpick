@@ -1,6 +1,6 @@
 {
   "v": 1,
-  "updated": "2026-06-15T19:09:45.845Z",
+  "updated": "2026-07-05T21:12:29.870Z",
   "entries": [
     {
       "id": "старый-лагерь-внутри-ворот-старого-лагеря",
@@ -55,6 +55,55 @@
       "img": []
     },
     {
+      "id": "пещера-за-домом-кавалорна",
+      "name": {
+        "ru": "Пещера за домом Кавалорна",
+        "en": "Cave behind Cavalorn's house",
+        "de": "Höhle hinter Cavalorns Haus",
+        "uk": "Печера за будинком Кавалорна"
+      },
+      "cells": 6,
+      "rules": "A:B-,C+;C:A+,E-;D:F+,B-,C-;E:D-,F+;F:A+",
+      "pos": [
+        1,
+        3,
+        4,
+        6,
+        4,
+        4
+      ],
+      "tags": [
+        "Кавалорн",
+        "дорога в новый лагерь",
+        "глава 1",
+        "пещера"
+      ],
+      "img": []
+    },
+    {
+      "id": "дверьвнутри-пещеры-за-домом-кавалорна",
+      "name": {
+        "ru": "дверь.внутри пещеры за домом Кавалорна",
+        "en": "Door inside the cave behind Cavalorn's house",
+        "de": "Tür in der Höhle hinter dem Haus von Cavalorn",
+        "uk": "двері. всередині печери за будинком Кавалорна"
+      },
+      "cells": 6,
+      "rules": "A:C+,B-;C:A+,E-;D:B-,C-,F+;E:D-,F+;F:A+",
+      "pos": [
+        1,
+        3,
+        4,
+        6,
+        4,
+        4
+      ],
+      "tags": [
+        "старый лагерь 1 глава"
+      ],
+      "img": []
+    },
+    {
       "id": "старый-лагерь-дом-граво",
       "name": {
         "ru": "Старый лагерь, дом Граво",
@@ -74,6 +123,29 @@
       "tags": [
         "дом Граво",
         "Старый лагерь"
+      ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-сундук-граво",
+      "name": {
+        "ru": "Старый лагерь, сундук Граво",
+        "en": "Old Camp, Gravo's chest",
+        "de": "Altes Lager, Truhe von Gravo",
+        "uk": "Старий табір, скриня Граво"
+      },
+      "cells": 5,
+      "rules": "B:C+,E+;C:E+,A-;D:C-;E:B+",
+      "pos": [
+        5,
+        1,
+        0,
+        0,
+        4
+      ],
+      "tags": [
+        "Старый лагерь",
+        "Граво"
       ],
       "img": []
     },
@@ -170,6 +242,30 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-первый-дом-справа-от-северных-ворот",
+      "name": {
+        "ru": "Старый лагерь, первый дом справа от северных ворот",
+        "en": "Old Camp, first house on the right from the northern gate",
+        "de": "Altes Lager, erstes Haus rechts vom Nordtor",
+        "uk": "Старий табір, перший будинок праворуч від північних воріт"
+      },
+      "cells": 5,
+      "rules": "A:D-;C:A+;D:A-,B+,C-;E:B-,D-",
+      "pos": [
+        0,
+        3,
+        6,
+        4,
+        2
+      ],
+      "tags": [
+        "старый лагерь",
+        "северные ворота",
+        "хижина"
+      ],
+      "img": []
+    },
+    {
       "id": "swamp-camp-shack-on-the-top-of-a-big-tree",
       "name": {
         "en": "Swamp Camp, shack on the top of a big tree",
@@ -195,6 +291,56 @@
       "img": []
     },
     {
+      "id": "болотный-лагерь-2-этаж-дом-послушника-1-глава-6-плит",
+      "name": {
+        "ru": "болотный лагерь, 2 этаж, дом послушника, 1 глава, 6 плит.",
+        "en": "Swamp Camp, 2nd floor, novice's house, chapter 1, 6 plates",
+        "de": "Sumpflager, 2. Stockwerk, Novizenhaus, Kapitel 1, 6 Platten",
+        "uk": "болотний табір, 2 поверх, будинок послушника, 1 глава, 6 плит."
+      },
+      "cells": 6,
+      "rules": "A:E+;B:F+,E-;C:E+,F-;D:B+,E-;E:B-;F:C+",
+      "pos": [
+        2,
+        1,
+        1,
+        5,
+        6,
+        6
+      ],
+      "tags": [
+        "болотный лагерь",
+        "2 этаж",
+        "дом послушника",
+        "1 глава",
+        "6 плит."
+      ],
+      "img": []
+    },
+    {
+      "id": "болотный-лагерь-3",
+      "name": {
+        "ru": "Болотный лагерь",
+        "en": "Swamp Camp",
+        "de": "Sumpflager",
+        "uk": "Болотний табір"
+      },
+      "cells": 6,
+      "rules": "A:E+;B:E-,F+;C:E+,F-;D:E-,B+;E:B-;F:C+",
+      "pos": [
+        2,
+        1,
+        1,
+        5,
+        6,
+        6
+      ],
+      "tags": [
+        "дом Кор Ангар"
+      ],
+      "img": []
+    },
+    {
       "id": "болотный-лагерь-третий-этаж-к-хижине-ведёт-лестница",
       "name": {
         "ru": "Болотный лагерь, третий этаж, к хижине ведёт лестница",
@@ -216,6 +362,29 @@
         "болотный лагер",
         "1 глава",
         "хижина"
+      ],
+      "img": []
+    },
+    {
+      "id": "болотный-лагерь-5",
+      "name": {
+        "ru": "Болотный лагерь",
+        "en": "Swamp Camp",
+        "de": "Sumpflager",
+        "uk": "Болотний табір"
+      },
+      "cells": 6,
+      "rules": "B:E-,D-;C:D-;D:A+;E:F+;F:A+,D-",
+      "pos": [
+        0,
+        0,
+        4,
+        3,
+        0,
+        2
+      ],
+      "tags": [
+        "дом Нирас"
       ],
       "img": []
     },
@@ -248,6 +417,33 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-дом-рядом-с-большим-котелком-для-еды-на-стенах-дом",
+      "name": {
+        "ru": "Старый лагерь, дом рядом с большим котелком для еды, на стенах дома карты, мб это дом картографа.",
+        "en": "Old Camp, house near the large cooking pot, maps on the walls, possibly the cartographer's house",
+        "de": "Altes Lager, Haus neben dem großen Kochtopf, an den Wänden des Hauses Karten, möglicherweise das Haus des Kartographen",
+        "uk": "Старий табір, будинок біля великого казана для їжі, на стінах будинку карти, можливо це будинок картографа"
+      },
+      "cells": 6,
+      "rules": "A:E+;C:A+,E-,F+;D:E+;E:B-;F:B+,D-",
+      "pos": [
+        6,
+        1,
+        1,
+        5,
+        0,
+        2
+      ],
+      "tags": [
+        "глава 1",
+        "старый лагерь",
+        "хижина",
+        "котелок",
+        "картограф"
+      ],
+      "img": []
+    },
+    {
       "id": "болотный-лагерь-лаборатория-кор-галома-лестница-наверх",
       "name": {
         "ru": "Болотный лагерь, лаборатория Кор Галома, лестница наверх",
@@ -269,32 +465,6 @@
         "болотный лагерь",
         "квест декстера",
         "рецепт"
-      ],
-      "img": []
-    },
-    {
-      "id": "altes-lager-arena",
-      "name": {
-        "de": "Altes Lager, Arena",
-        "ru": "Старый лагерь, арена",
-        "en": "Old Camp, Arena",
-        "uk": "Старий табір, арена"
-      },
-      "cells": 6,
-      "rules": "A:D-;B:A-,D+,F-;C:F-;D:B+,F+;E:F-,B+;F:D+",
-      "pos": [
-        4,
-        5,
-        0,
-        2,
-        1,
-        0
-      ],
-      "tags": [
-        "arena",
-        "altes lager",
-        "kapitel 1",
-        "huette"
       ],
       "img": []
     },
@@ -325,6 +495,106 @@
       "img": []
     },
     {
+      "id": "болотный-лагерь-сундук-в-хижине-кор-галома-по-лестнице",
+      "name": {
+        "ru": "Болотный лагерь, сундук в хижине Кор Галома по лестнице",
+        "en": "Swamp Camp, chest in Cor Kalom's hut up the stairs",
+        "de": "Sumpflager, Truhe in der Hütte von Cor Kalom, die Treppe hinauf",
+        "uk": "Болотний табір, скриня в хижині Кор Галома на сходах"
+      },
+      "cells": 6,
+      "rules": "A:C+;C:B-,E-;D:A-,C+;E:D+,B-",
+      "pos": [
+        5,
+        4,
+        4,
+        6,
+        0,
+        3
+      ],
+      "tags": [
+        "кор галом",
+        "болотный лагерь"
+      ],
+      "img": []
+    },
+    {
+      "id": "altes-lager-arena",
+      "name": {
+        "de": "Altes Lager, Arena",
+        "ru": "Старый лагерь, арена",
+        "en": "Old Camp, Arena",
+        "uk": "Старий табір, арена"
+      },
+      "cells": 6,
+      "rules": "A:D-;B:A-,D+,F-;C:F-;D:B+,F+;E:F-,B+;F:D+",
+      "pos": [
+        4,
+        5,
+        0,
+        2,
+        1,
+        0
+      ],
+      "tags": [
+        "arena",
+        "altes lager",
+        "kapitel 1",
+        "huette"
+      ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-дом-над-ареной",
+      "name": {
+        "ru": "Старый лагерь, дом над ареной",
+        "en": "Old Camp, house above the Arena",
+        "de": "Altes Lager, Haus über der Arena",
+        "uk": "Старий табір, будинок над ареною"
+      },
+      "cells": 6,
+      "rules": "A:D-;B:A-,D+,F-;C:F-;D:B+,F+;E:B+,F-;F:D+",
+      "pos": [
+        4,
+        5,
+        0,
+        2,
+        1,
+        0
+      ],
+      "tags": [
+        "Старый лагерь",
+        "глава 1",
+        "арена",
+        "над ареной",
+        "дом над ареной"
+      ],
+      "img": []
+    },
+    {
+      "id": "имба-сундук-сверху-орены-в-углу-bugiman",
+      "name": {
+        "ru": "ИМБА СУНДУК СВЕРХУ ОРЕНЫ В УГЛУ BUGIMAN",
+        "en": "OP chest above the Arena in the corner BUGIMAN",
+        "de": "OP-TRUHE OBEN AN DER ARENA IN DER ECKE (BUGIMAN)",
+        "uk": "ІМБА СКРИНЯ ЗВЕРХУ АРЕНИ В КУТКУ BUGIMAN"
+      },
+      "cells": 6,
+      "rules": "A:D-;B:D+,A-,F-;C:F-;D:B+,F+;E:B+,F-;F:D+",
+      "pos": [
+        4,
+        5,
+        0,
+        2,
+        1,
+        0
+      ],
+      "tags": [
+        "имба СУНДУК СВЕРХУ ОРЕНЫ BUGIMAN"
+      ],
+      "img": []
+    },
+    {
       "id": "старий-табір-хатина-скатті-завдання-фінгерса",
       "name": {
         "uk": "Старий табір, хатина Скатті завдання Фінгерса",
@@ -345,6 +615,77 @@
         "скатті",
         "фінгерс",
         "старий табір"
+      ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-дом-скатти-глава1",
+      "name": {
+        "ru": "Старый лагерь, Дом Скатти, Глава1",
+        "en": "Old Camp, Scatty's house, Chapter 1",
+        "de": "Altes Lager, Haus von Scatty, Kapitel 1",
+        "uk": "Старий табір, Будинок Скатті, Розділ 1"
+      },
+      "cells": 5,
+      "rules": "C:E-;A:D+;D:B+,C-,E-;B:E+",
+      "pos": [
+        5,
+        2,
+        1,
+        0,
+        6
+      ],
+      "tags": [
+        "Скатти",
+        "старый лагерь",
+        "глава 1",
+        "хижина"
+      ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-сундук-скатти-2",
+      "name": {
+        "ru": "\"\"Старый лагерь, Сундук Скатти\"\"",
+        "en": "Old Camp, Scatty's chest",
+        "de": "Altes Lager, Truhe von Scatty",
+        "uk": "Старий табір, Скриня Скатті"
+      },
+      "cells": 5,
+      "rules": "A:D+;B:E+;C:E-;D:E-,C-,B+",
+      "pos": [
+        5,
+        2,
+        1,
+        0,
+        6
+      ],
+      "tags": [
+        "Сундук Скатти"
+      ],
+      "img": []
+    },
+    {
+      "id": "ru",
+      "name": {
+        "en": "RU",
+        "ru": "RU",
+        "de": "RU",
+        "uk": "RU"
+      },
+      "cells": 5,
+      "rules": "A:D+;B:E+;C:E-;D:B+,E-,C-",
+      "pos": [
+        5,
+        2,
+        1,
+        0,
+        6
+      ],
+      "tags": [
+        "Дом Скатти",
+        "слева от Фингерса",
+        "глава 1"
       ],
       "img": []
     },
@@ -373,6 +714,54 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-комната-над-рынком",
+      "name": {
+        "ru": "Старый лагерь, комната над рынком",
+        "en": "Old Camp, room above the market",
+        "de": "Altes Lager, Raum über dem Markt",
+        "uk": "Старий табір, кімната над ринком"
+      },
+      "cells": 5,
+      "rules": "A:C-,D+;B:C+;C:B+,A-;D:A-,B-;E:B-,D+",
+      "pos": [
+        0,
+        5,
+        0,
+        0,
+        5
+      ],
+      "tags": [
+        "старый лагерь",
+        "глава 1",
+        "рынок"
+      ],
+      "img": []
+    },
+    {
+      "id": "altes-lager-lagerhaus-an-südlicher-burgmauer",
+      "name": {
+        "de": "Altes Lager, Lagerhaus an südlicher Burgmauer",
+        "ru": "Старый лагерь, склад у южной стены замка",
+        "en": "Old Camp, Warehouse at the southern castle wall",
+        "uk": "Старий табір, склад біля південної стіни замку"
+      },
+      "cells": 5,
+      "rules": "A:D+,C-;B:C+;C:B+,A-;D:A-,B-;E:D+,B-",
+      "pos": [
+        0,
+        5,
+        0,
+        0,
+        5
+      ],
+      "tags": [
+        "Altes Lager",
+        "Lagerhaus",
+        "Burg"
+      ],
+      "img": []
+    },
+    {
       "id": "en",
       "name": {
         "en": "EN",
@@ -393,6 +782,31 @@
         "Джес",
         "старый лагерь",
         "хижина рядом"
+      ],
+      "img": []
+    },
+    {
+      "id": "джесс-старый-лагерь-глава-1-хижина",
+      "name": {
+        "ru": "джесс, старый лагерь, глава 1, хижина",
+        "en": "Jess, Old Camp, chapter 1, hut",
+        "de": "Jess, Altes Lager, Kapitel 1, Hütte",
+        "uk": "Джесс, старий табір, глава 1, хижина"
+      },
+      "cells": 5,
+      "rules": "A:D-;B:A-;C:A+,B-,D+;D:B+,E-;E:A-",
+      "pos": [
+        3,
+        1,
+        5,
+        0,
+        4
+      ],
+      "tags": [
+        "джесс",
+        "старый лагерь",
+        "глава 1",
+        "хижина"
       ],
       "img": []
     },
@@ -468,6 +882,28 @@
       "img": []
     },
     {
+      "id": "freie-mine-kiste-in-hütte",
+      "name": {
+        "de": "Freie Mine, Kiste in Hütte",
+        "ru": "Свободная шахта, сундук в хижине",
+        "en": "Free Mine, chest in the hut",
+        "uk": "Вільна шахта, скриня в хижі"
+      },
+      "cells": 5,
+      "rules": "E:C+;D:E-;B:C+,E+,A-;A:E+,D-",
+      "pos": [
+        2,
+        6,
+        6,
+        3,
+        0
+      ],
+      "tags": [
+        "Freie Mine"
+      ],
+      "img": []
+    },
+    {
       "id": "1-глава-болотный-лагерь-хижина-кор-галома-рецепт",
       "name": {
         "ru": "1 Глава, Болотный Лагерь, хижина Кор Галома, рецепт",
@@ -488,6 +924,28 @@
         "Болотный Лагерь",
         "хижина Кор Галома",
         "рецепт"
+      ],
+      "img": []
+    },
+    {
+      "id": "болотный-лагерь-хижина-кор-галома-сундук-с-рецептом",
+      "name": {
+        "ru": "Болотный лагерь, хижина Кор Галома, сундук с рецептом",
+        "en": "Swamp Camp, Cor Kalom's hut, chest with the recipe",
+        "de": "Sumpflager, Hütte von Cor Kalom, Truhe mit Rezept",
+        "uk": "Болотний табір, хижа Кор Галома, скриня з рецептом"
+      },
+      "cells": 4,
+      "rules": "A:D+;B:D+,A+;C:A+,B-",
+      "pos": [
+        6,
+        6,
+        5,
+        0
+      ],
+      "tags": [
+        "кор галом",
+        "болотный лагерь"
       ],
       "img": []
     },
@@ -513,30 +971,24 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-дом-над-ареной",
+      "id": "дверь-в-разрушеную-башню-с-двумя-сундуками-возле-старого-лагеря",
       "name": {
-        "ru": "Старый лагерь, дом над ареной",
-        "en": "Old Camp, house above the Arena",
-        "de": "Altes Lager, Haus über der Arena",
-        "uk": "Старий табір, будинок над ареною"
+        "ru": "Дверь в разрушеную башню с двумя сундуками возле старого лагеря",
+        "en": "Door to the ruined tower with two chests near the Old Camp",
+        "de": "Tür zum zerstörten Turm mit zwei Truhen nahe dem Alten Lager",
+        "uk": "Двері до зруйнованої башти з двома скринями біля старого табору"
       },
       "cells": 6,
-      "rules": "A:D-;B:A-,D+,F-;C:F-;D:B+,F+;E:B+,F-;F:D+",
+      "rules": "B:C-,D+,E+;C:D+;E:A-,B+,C-,F-;F:A-,B+",
       "pos": [
         4,
         5,
-        0,
-        2,
         1,
+        1,
+        0,
         0
       ],
-      "tags": [
-        "Старый лагерь",
-        "глава 1",
-        "арена",
-        "над ареной",
-        "дом над ареной"
-      ],
+      "tags": [],
       "img": []
     },
     {
@@ -615,29 +1067,52 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-дом-рядом-с-большим-котелком-для-еды-на-стенах-дом",
+      "id": "chest-in-the-house-on-the-right-side-of-the-entrance-of-the-old-",
       "name": {
-        "ru": "Старый лагерь, дом рядом с большим котелком для еды, на стенах дома карты, мб это дом картографа.",
-        "en": "Old Camp, house near the large cooking pot, maps on the walls, possibly the cartographer's house",
-        "de": "Altes Lager, Haus neben dem großen Kochtopf, an den Wänden des Hauses Karten, möglicherweise das Haus des Kartographen",
-        "uk": "Старий табір, будинок біля великого казана для їжі, на стінах будинку карти, можливо це будинок картографа"
+        "en": "Chest in the house on the right side of the entrance of the old camp",
+        "ru": "Сундук в доме справа от входа в Старый лагерь",
+        "de": "Truhe im Haus rechts vom Eingang des Alten Lagers",
+        "uk": "Скриня в будинку справа від входу в Старий табір"
       },
-      "cells": 6,
-      "rules": "A:E+;C:A+,E-,F+;D:E+;E:B-;F:B+,D-",
+      "cells": 5,
+      "rules": "A:B-,C-,E-;B:A-;C:B-;D:A+,B+,C+;E:C+,B-",
       "pos": [
+        3,
+        3,
         6,
-        1,
-        1,
-        5,
-        0,
-        2
+        6,
+        6
       ],
       "tags": [
-        "глава 1",
+        "old camp",
+        "chapter 1",
+        "hut",
+        "entrance",
+        "right"
+      ],
+      "img": []
+    },
+    {
+      "id": "первый-дом-справа-от-ворот",
+      "name": {
+        "ru": "первый дом справа от ворот",
+        "en": "First house on the right from the gate",
+        "de": "Erstes Haus rechts vom Tor",
+        "uk": "перший будинок праворуч від воріт"
+      },
+      "cells": 5,
+      "rules": "A:B-;A:C-;A:E-;B:A-;C:B-;D:A+;D:B+;D:C+;E:B-;E:C+",
+      "pos": [
+        3,
+        3,
+        6,
+        6,
+        6
+      ],
+      "tags": [
         "старый лагерь",
-        "хижина",
-        "котелок",
-        "картограф"
+        "глава 1",
+        "хижина"
       ],
       "img": []
     },
@@ -692,6 +1167,78 @@
       "img": []
     },
     {
+      "id": "новый-лагер-под-водой-под-таверной-около-плотины",
+      "name": {
+        "ru": "Новый лагер, под водой, под таверной около плотины",
+        "en": "New Camp, underwater, under the Tavern near the dam",
+        "de": "Neues Lager, unter Wasser, unter der Taverne beim Damm",
+        "uk": "Новий табір, під водою, під таверною біля дамби"
+      },
+      "cells": 5,
+      "rules": "A:C-;B:A+,D-;C:A-,B+,D+;D:A-,E+;E:C-",
+      "pos": [
+        3,
+        2,
+        6,
+        1,
+        4
+      ],
+      "tags": [
+        "Новый лагер",
+        "под водой",
+        "таверна",
+        "плотина"
+      ],
+      "img": []
+    },
+    {
+      "id": "новый-лагерь-таверна-подвал-сундук-под-водой",
+      "name": {
+        "ru": "новый лагерь, таверна, подвал, сундук под водой",
+        "en": "New Camp, Tavern, basement, chest underwater",
+        "de": "Neues Lager, Taverne, Keller, Truhe unter Wasser",
+        "uk": "новий табір, таверна, підвал, скриня під водою"
+      },
+      "cells": 5,
+      "rules": "A:C-;B:A+,D-;C:D+,B+,A-;D:E+,A-;E:C-",
+      "pos": [
+        3,
+        2,
+        6,
+        1,
+        4
+      ],
+      "tags": [
+        "новый лагерь",
+        "таверна",
+        "подвал",
+        "сундук под водой"
+      ],
+      "img": []
+    },
+    {
+      "id": "новый-лагерь-вводе-таверна",
+      "name": {
+        "ru": "Новый лагерь Вводе таверна",
+        "en": "New Camp, underwater, Tavern",
+        "de": "Neues Lager, Taverne (im Wasser)",
+        "uk": "Новий табір, у воді, таверна"
+      },
+      "cells": 5,
+      "rules": "A:C-;B:A+,D-;C:B+,D+,A-;D:E+,A-;E:C-",
+      "pos": [
+        3,
+        2,
+        6,
+        1,
+        4
+      ],
+      "tags": [
+        "Новый лагерь Вводе таверна"
+      ],
+      "img": []
+    },
+    {
       "id": "подвал-силаса-возле-трупа",
       "name": {
         "ru": "Подвал Силаса, возле трупа",
@@ -738,6 +1285,30 @@
         "болотный лагерь",
         "кузница",
         "глава 1"
+      ],
+      "img": []
+    },
+    {
+      "id": "sumpflager;-darrion-schmiede",
+      "name": {
+        "en": "Sumpflager; Darrion Schmiede",
+        "ru": "Болотный лагерь, кузница Дарриона",
+        "de": "Sumpflager, Darrions Schmiede",
+        "uk": "Болотний табір, кузня Дарріона"
+      },
+      "cells": 6,
+      "rules": "B:C+,D-;A:C-;D:C+,E-;E:F-;F:E+,B-",
+      "pos": [
+        0,
+        4,
+        0,
+        6,
+        1,
+        5
+      ],
+      "tags": [
+        "Sumpflager",
+        "Darrion"
       ],
       "img": []
     },
@@ -916,28 +1487,27 @@
       "img": []
     },
     {
-      "id": "пещера-за-домом-кавалорна",
+      "id": "новый-лагерь-сундук-внутри-тавернырядом-с-трупом",
       "name": {
-        "ru": "Пещера за домом Кавалорна",
-        "en": "Cave behind Cavalorn's house",
-        "de": "Höhle hinter Cavalorns Haus",
-        "uk": "Печера за будинком Кавалорна"
+        "ru": "Новый лагерь, сундук внутри таверны(рядом с трупом)",
+        "en": "New Camp, chest inside the Tavern (near the corpse)",
+        "de": "Neues Lager, Truhe in der Taverne (neben der Leiche)",
+        "uk": "Новий табір, скриня всередині таверни (поруч з трупом)"
       },
       "cells": 6,
-      "rules": "A:B-,C+;C:A+,E-;D:F+,B-,C-;E:D-,F+;F:A+",
+      "rules": "A:B+,F+;B:C+,F-;C:D+;E:F+,C+;F:C-",
       "pos": [
         1,
         3,
-        4,
-        6,
-        4,
-        4
+        3,
+        5,
+        1,
+        6
       ],
       "tags": [
-        "Кавалорн",
-        "дорога в новый лагерь",
-        "глава 1",
-        "пещера"
+        "новый лагерь",
+        "таверна",
+        "рядом с трупом"
       ],
       "img": []
     },
@@ -968,6 +1538,30 @@
       "img": []
     },
     {
+      "id": "neues-lager-tür-zum-hinterraum-in-der-taverne",
+      "name": {
+        "de": "Neues Lager, Tür zum Hinterraum in der Taverne",
+        "ru": "Новый лагерь, дверь в заднюю комнату таверны",
+        "en": "New Camp, door to the back room in the tavern",
+        "uk": "Новий табір, двері до задньої кімнати в таверні"
+      },
+      "cells": 6,
+      "rules": "B:C+,F-;C:B-,E+,F-;D:A+,C-;F:C-;E:A-,F-",
+      "pos": [
+        4,
+        4,
+        5,
+        1,
+        6,
+        6
+      ],
+      "tags": [
+        "Neues Lager",
+        "Taverne"
+      ],
+      "img": []
+    },
+    {
       "id": "ruдверь-в-корабль-на-пляже-с-огненными-ящерами-enthe-door-to-the",
       "name": {
         "ru": "Дверь в корабль на пляже с огненными ящерами",
@@ -991,32 +1585,6 @@
         "beach",
         "ship",
         "door"
-      ],
-      "img": []
-    },
-    {
-      "id": "chest-in-the-house-on-the-right-side-of-the-entrance-of-the-old-",
-      "name": {
-        "en": "Chest in the house on the right side of the entrance of the old camp",
-        "ru": "Сундук в доме справа от входа в Старый лагерь",
-        "de": "Truhe im Haus rechts vom Eingang des Alten Lagers",
-        "uk": "Скриня в будинку справа від входу в Старий табір"
-      },
-      "cells": 5,
-      "rules": "A:B-,C-,E-;B:A-;C:B-;D:A+,B+,C+;E:C+,B-",
-      "pos": [
-        3,
-        3,
-        6,
-        6,
-        6
-      ],
-      "tags": [
-        "old camp",
-        "chapter 1",
-        "hut",
-        "entrance",
-        "right"
       ],
       "img": []
     },
@@ -1078,6 +1646,57 @@
       "img": []
     },
     {
+      "id": "сундук-в-разбитом-корабле-рядом-с-огненными-ящерицами-на-берегу",
+      "name": {
+        "ru": "Сундук в разбитом корабле, рядом с огненными ящерицами на берегу",
+        "en": "Chest in a wrecked ship, near fire lizards on the shore",
+        "de": "Truhe im Schiffswrack, neben den Feuerleguanen am Ufer",
+        "uk": "Скриня в розбитому кораблі, поряд з вогняними ящірками на березі"
+      },
+      "cells": 6,
+      "rules": "F:B+;A:F+,B-,C-;D:F+,A-;E:D+,F-",
+      "pos": [
+        6,
+        0,
+        5,
+        4,
+        1,
+        0
+      ],
+      "tags": [
+        "сундук",
+        "разбитый корабль",
+        "огненные ящерицы",
+        "на берегу"
+      ],
+      "img": []
+    },
+    {
+      "id": "schiffswrack-am-strand-kiste-harnischamulett",
+      "name": {
+        "en": "Schiffswrack am Strand, Kiste, Harnischamulett",
+        "ru": "Обломки корабля на берегу, сундук, амулет доспехов",
+        "de": "Schiffswrack am Strand, Kiste, Harnischamulett",
+        "uk": "Уламки корабля на березі, скриня, амулет обладунків"
+      },
+      "cells": 6,
+      "rules": "F:B+;A:B-,C-,F+;D:A-,F+;E:D+,F-",
+      "pos": [
+        6,
+        0,
+        5,
+        4,
+        1,
+        0
+      ],
+      "tags": [
+        "Schiffswrack",
+        "Amulett",
+        "Strand"
+      ],
+      "img": []
+    },
+    {
       "id": "дом-слая",
       "name": {
         "ru": "Дом Слая",
@@ -1130,31 +1749,6 @@
       "img": []
     },
     {
-      "id": "новый-лагер-под-водой-под-таверной-около-плотины",
-      "name": {
-        "ru": "Новый лагер, под водой, под таверной около плотины",
-        "en": "New Camp, underwater, under the Tavern near the dam",
-        "de": "Neues Lager, unter Wasser, unter der Taverne beim Damm",
-        "uk": "Новий табір, під водою, під таверною біля дамби"
-      },
-      "cells": 5,
-      "rules": "A:C-;B:A+,D-;C:A-,B+,D+;D:A-,E+;E:C-",
-      "pos": [
-        3,
-        2,
-        6,
-        1,
-        4
-      ],
-      "tags": [
-        "Новый лагер",
-        "под водой",
-        "таверна",
-        "плотина"
-      ],
-      "img": []
-    },
-    {
       "id": "hut-at-hereks-grind-stone-with-the-fur-in-front",
       "name": {
         "en": "Hut at Hereks grind stone with the fur in front",
@@ -1182,31 +1776,6 @@
       "img": []
     },
     {
-      "id": "новый-лагерь-сундук-внутри-тавернырядом-с-трупом",
-      "name": {
-        "ru": "Новый лагерь, сундук внутри таверны(рядом с трупом)",
-        "en": "New Camp, chest inside the Tavern (near the corpse)",
-        "de": "Neues Lager, Truhe in der Taverne (neben der Leiche)",
-        "uk": "Новий табір, скриня всередині таверни (поруч з трупом)"
-      },
-      "cells": 6,
-      "rules": "A:B+,F+;B:C+,F-;C:D+;E:F+,C+;F:C-",
-      "pos": [
-        1,
-        3,
-        3,
-        5,
-        1,
-        6
-      ],
-      "tags": [
-        "новый лагерь",
-        "таверна",
-        "рядом с трупом"
-      ],
-      "img": []
-    },
-    {
       "id": "новый-лагерь-в-воде-в-подвале-под-таверной-силоса",
       "name": {
         "ru": "Новый лагерь, в воде в подвале под таверной Силоса",
@@ -1227,6 +1796,75 @@
         "Новый лагерь",
         "таверна",
         "глава 1"
+      ],
+      "img": []
+    },
+    {
+      "id": "новый-лагерь-под-таверной-под-водой-по-пути-в-подвал-силаса",
+      "name": {
+        "ru": "Новый лагерь, под таверной (под водой) по пути в подвал Силаса",
+        "en": "New Camp, under the Tavern (underwater) on the way to Silas' basement",
+        "de": "Neues Lager, unter der Taverne (unter Wasser), auf dem Weg in Silas' Keller",
+        "uk": "Новий табір, під тавернею (під водою) на шляху до підвалу Силаса"
+      },
+      "cells": 5,
+      "rules": "A:B-,C-;B:A+,D-;C:A-,B+,D+;D:E+,A-;E:C-",
+      "pos": [
+        3,
+        2,
+        6,
+        1,
+        4
+      ],
+      "tags": [
+        "Новый лагерь",
+        "Подвал Силаса (под водой)"
+      ],
+      "img": []
+    },
+    {
+      "id": "neues-lager-silas-kneipe-unterwasser",
+      "name": {
+        "de": "Neues Lager, Silas Kneipe Unterwasser",
+        "ru": "Новый лагерь, таверна Силаса, под водой",
+        "en": "New Camp, Silas' Pub, Underwater",
+        "uk": "Новий табір, таверна Сіласа під водою"
+      },
+      "cells": 5,
+      "rules": "A:C-;A:B-;B:D-;B:A+;C:A-;C:B+;C:D+;D:E+;D:A-;E:C-",
+      "pos": [
+        3,
+        2,
+        6,
+        1,
+        4
+      ],
+      "tags": [
+        "Silas",
+        "unterwasser"
+      ],
+      "img": []
+    },
+    {
+      "id": "тайник-под-таверной-силаса",
+      "name": {
+        "ru": "Тайник под таверной Силаса",
+        "en": "Stash under Silas' Tavern",
+        "de": "Versteck unter der Taverne von Silas",
+        "uk": "Сховок під тавернею Силаса"
+      },
+      "cells": 5,
+      "rules": "A:B-,C-;B:A+,D-;C:B+,D+,A-;D:E+,A-;E:C-",
+      "pos": [
+        3,
+        2,
+        6,
+        1,
+        4
+      ],
+      "tags": [
+        "Силас",
+        "тайник"
       ],
       "img": []
     },
@@ -1303,6 +1941,32 @@
         "новый лагерь",
         "озеро",
         "хижина со сломанной крышей"
+      ],
+      "img": []
+    },
+    {
+      "id": "новый-лагерь-сундук-под-водой-в-доме-который-ближе-к-таверне",
+      "name": {
+        "ru": "Новый лагерь сундук под водой в доме который ближе к таверне",
+        "en": "New Camp, chest underwater in the house closer to the Tavern",
+        "de": "Neues Lager, Truhe unter Wasser im Haus näher an der Taverne",
+        "uk": "Новий табір, скриня під водою в будинку, який ближче до таверни"
+      },
+      "cells": 5,
+      "rules": "A:C+,E-;B:A-,E-;C:A+,D+,E+;D:E-,B+;E:A-",
+      "pos": [
+        4,
+        2,
+        1,
+        6,
+        2
+      ],
+      "tags": [
+        "глава 1",
+        "новый лагерь",
+        "озеро",
+        "таверна",
+        "под водой"
       ],
       "img": []
     },
@@ -1398,49 +2062,50 @@
       "img": []
     },
     {
-      "id": "дверьвнутри-пещеры-за-домом-кавалорна",
+      "id": "новый-лагерь-сундук-лареса",
       "name": {
-        "ru": "дверь.внутри пещеры за домом Кавалорна",
-        "en": "Door inside the cave behind Cavalorn's house",
-        "de": "Tür in der Höhle hinter dem Haus von Cavalorn",
-        "uk": "двері. всередині печери за будинком Кавалорна"
+        "ru": "Новый лагерь, сундук Лареса",
+        "en": "New Camp, Lares' chest",
+        "de": "Neues Lager, Truhe von Lares",
+        "uk": "Новий табір, скриня Лареса"
       },
       "cells": 6,
-      "rules": "A:C+,B-;C:A+,E-;D:B-,C-,F+;E:D-,F+;F:A+",
+      "rules": "A:C+,B-,D-,E-;B:F+;E:F+,C-,D-",
       "pos": [
-        1,
-        3,
-        4,
         6,
-        4,
+        3,
+        5,
+        2,
+        6,
         4
       ],
       "tags": [
-        "старый лагерь 1 глава"
+        "новый лагерь",
+        "Ларес"
       ],
       "img": []
     },
     {
-      "id": "болотный-лагерь-сундук-в-хижине-кор-галома-по-лестнице",
+      "id": "neues-lager-kiste-im-haus-von-lares",
       "name": {
-        "ru": "Болотный лагерь, сундук в хижине Кор Галома по лестнице",
-        "en": "Swamp Camp, chest in Cor Kalom's hut up the stairs",
-        "de": "Sumpflager, Truhe in der Hütte von Cor Kalom, die Treppe hinauf",
-        "uk": "Болотний табір, скриня в хижині Кор Галома на сходах"
+        "de": "Neues Lager, Kiste im Haus von Lares",
+        "ru": "Новый лагерь, сундук в доме Лареса",
+        "en": "New Camp, chest in Lares' house",
+        "uk": "Новий табір, скриня в будинку Лареса"
       },
       "cells": 6,
-      "rules": "A:C+;C:B-,E-;D:A-,C+;E:D+,B-",
+      "rules": "E:F+,C-,D-;A:B-,C+,D-,E-;B:F+",
       "pos": [
-        5,
-        4,
-        4,
         6,
-        0,
-        3
+        3,
+        5,
+        2,
+        6,
+        4
       ],
       "tags": [
-        "кор галом",
-        "болотный лагерь"
+        "Neues Lager",
+        "Lares"
       ],
       "img": []
     },
@@ -1469,6 +2134,30 @@
       "img": []
     },
     {
+      "id": "neues-lager-kiste-im-haus-im-see",
+      "name": {
+        "de": "Neues Lager, Kiste im Haus im See",
+        "ru": "Новый лагерь, сундук в доме на озере",
+        "en": "New Camp, chest in the house in the lake",
+        "uk": "Новий табір, скриня в будинку на озері"
+      },
+      "cells": 5,
+      "rules": "A:D-,E-;D:C+,B-,E-;E:C+",
+      "pos": [
+        5,
+        3,
+        2,
+        6,
+        1
+      ],
+      "tags": [
+        "Neues Lager",
+        "See",
+        "Wasser"
+      ],
+      "img": []
+    },
+    {
       "id": "новый-лагерь-пещера-хижина-горна",
       "name": {
         "ru": "Новый лагерь, пещера, хижина Горна",
@@ -1489,53 +2178,6 @@
         "горн",
         "новый лагерь",
         "хижина"
-      ],
-      "img": []
-    },
-    {
-      "id": "дверь-в-разрушеную-башню-с-двумя-сундуками-возле-старого-лагеря",
-      "name": {
-        "ru": "Дверь в разрушеную башню с двумя сундуками возле старого лагеря",
-        "en": "Door to the ruined tower with two chests near the Old Camp",
-        "de": "Tür zum zerstörten Turm mit zwei Truhen nahe dem Alten Lager",
-        "uk": "Двері до зруйнованої башти з двома скринями біля старого табору"
-      },
-      "cells": 6,
-      "rules": "B:C-,D+,E+;C:D+;E:A-,B+,C-,F-;F:A-,B+",
-      "pos": [
-        4,
-        5,
-        1,
-        1,
-        0,
-        0
-      ],
-      "tags": [],
-      "img": []
-    },
-    {
-      "id": "новый-лагерь-сундук-под-водой-в-доме-который-ближе-к-таверне",
-      "name": {
-        "ru": "Новый лагерь сундук под водой в доме который ближе к таверне",
-        "en": "New Camp, chest underwater in the house closer to the Tavern",
-        "de": "Neues Lager, Truhe unter Wasser im Haus näher an der Taverne",
-        "uk": "Новий табір, скриня під водою в будинку, який ближче до таверни"
-      },
-      "cells": 5,
-      "rules": "A:C+,E-;B:A-,E-;C:A+,D+,E+;D:E-,B+;E:A-",
-      "pos": [
-        4,
-        2,
-        1,
-        6,
-        2
-      ],
-      "tags": [
-        "глава 1",
-        "новый лагерь",
-        "озеро",
-        "таверна",
-        "под водой"
       ],
       "img": []
     },
@@ -1567,27 +2209,28 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-дом-скатти-глава1",
+      "id": "старый-лагерь-внутренний-круг-дверь-после-лестницывниз",
       "name": {
-        "ru": "Старый лагерь, Дом Скатти, Глава1",
-        "en": "Old Camp, Scatty's house, Chapter 1",
-        "de": "Altes Lager, Haus von Scatty, Kapitel 1",
-        "uk": "Старий табір, Будинок Скатті, Розділ 1"
+        "ru": "\"\"Старый лагерь, внутренний круг, дверь после лестницывниз.",
+        "en": "Old Camp, Inner Ring, door after the staircase down",
+        "de": "Altes Lager, Innerer Ring, Tür nach der Treppe nach unten",
+        "uk": "\"\"Старий табір, внутрішнє коло, двері після сходів вниз."
       },
-      "cells": 5,
-      "rules": "C:E-;A:D+;D:B+,C-,E-;B:E+",
+      "cells": 6,
+      "rules": "A:B-,C-,D-,E-,F-;D:E+,F-;E:D+;F:D-;C:F-",
       "pos": [
-        5,
+        6,
         2,
         1,
-        0,
-        6
+        5,
+        1,
+        5
       ],
       "tags": [
-        "Скатти",
         "старый лагерь",
-        "глава 1",
-        "хижина"
+        "внутренний круг",
+        "подвал",
+        "глава 1"
       ],
       "img": []
     },
@@ -1670,6 +2313,32 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-решетка-после-винного-склада",
+      "name": {
+        "ru": "\"\"Старый лагерь, решетка после винного склада",
+        "en": "Old Camp, grate after the wine warehouse",
+        "de": "Altes Lager, Gitter nach dem Weinlager",
+        "uk": "\"\"Старий табір, решітка після винного складу"
+      },
+      "cells": 5,
+      "rules": "A:E+,D-;B:A+,C-,E-;C:A+,B-;D:A+,B-;E:D-",
+      "pos": [
+        6,
+        0,
+        1,
+        1,
+        4
+      ],
+      "tags": [
+        "старый лагерь",
+        "глава 1",
+        "погреб",
+        "решетка",
+        "внутренний круг"
+      ],
+      "img": []
+    },
+    {
       "id": "stara-kopalnia-za-ulbertem",
       "name": {
         "pl": "Stara Kopalnia, za Ulbertem",
@@ -1696,6 +2365,28 @@
       "img": []
     },
     {
+      "id": "шахта-сундук-за-ульбертом-и-за-помещением-с-сундукомкоторый-он-о",
+      "name": {
+        "ru": "Шахта, сундук за Ульбертом и за помещением с сундуком(который он охраняет)",
+        "en": "Mine, chest behind Ulbert and behind the room with the chest (which he guards)",
+        "de": "Mine, Truhe hinter Ulbert und hinter dem Raum mit der Truhe (die er bewacht)",
+        "uk": "Шахта, скриня за Ульбертом і за приміщенням зі скринею (яку він охороняє)"
+      },
+      "cells": 5,
+      "rules": "A:C-;B:A-,C+,E+;C:A+,B+,D+;E:D+,C-",
+      "pos": [
+        0,
+        5,
+        1,
+        2,
+        2
+      ],
+      "tags": [
+        "RU"
+      ],
+      "img": []
+    },
+    {
       "id": "новый-лагерь-по-направлению-взгляда-брюса-проход-в-скалах-с-факе",
       "name": {
         "ru": "Новый лагерь по направлению взгляда Брюса проход в скалах с факелами, пещере-комнате справа",
@@ -1718,6 +2409,31 @@
         "Новый лагерь",
         "глава 1",
         "пещера"
+      ],
+      "img": []
+    },
+    {
+      "id": "если-смотреть-на-лареса-справа-в-тоннели",
+      "name": {
+        "ru": "Если смотреть на Лареса справа в тоннели",
+        "en": "Facing Lares, to the right in the tunnels",
+        "de": "Wenn man zu Lares schaut, rechts in den Tunneln",
+        "uk": "Якщо дивитися на Лареса, справа в тунелі"
+      },
+      "cells": 6,
+      "rules": "A:E-;B:E+;D:A-,C+,F+;E:A-,B+,C-;F:E-",
+      "pos": [
+        4,
+        3,
+        2,
+        0,
+        1,
+        1
+      ],
+      "tags": [
+        "Новый Лагерь",
+        "Тоннель",
+        "Ларес"
       ],
       "img": []
     },
@@ -1749,30 +2465,6 @@
       "img": []
     },
     {
-      "id": "первый-дом-справа-от-ворот",
-      "name": {
-        "ru": "первый дом справа от ворот",
-        "en": "First house on the right from the gate",
-        "de": "Erstes Haus rechts vom Tor",
-        "uk": "перший будинок праворуч від воріт"
-      },
-      "cells": 5,
-      "rules": "A:B-;A:C-;A:E-;B:A-;C:B-;D:A+;D:B+;D:C+;E:B-;E:C+",
-      "pos": [
-        3,
-        3,
-        6,
-        6,
-        6
-      ],
-      "tags": [
-        "старый лагерь",
-        "глава 1",
-        "хижина"
-      ],
-      "img": []
-    },
-    {
       "id": "старый-лагерь-хижина-фингерса",
       "name": {
         "ru": "Старый лагерь, Хижина Фингерса",
@@ -1795,6 +2487,53 @@
         "Старый лагерь",
         "глава 1",
         "хижина"
+      ],
+      "img": []
+    },
+    {
+      "id": "сундук-фингерса",
+      "name": {
+        "ru": "Сундук Фингерса",
+        "en": "Fingers' chest",
+        "de": "Truhe von Fingers",
+        "uk": "Скриня Фінгерса"
+      },
+      "cells": 6,
+      "rules": "A:F+;B:C-,D+;D:C+,F+;E:A+,D-;F:A+,B-",
+      "pos": [
+        0,
+        5,
+        0,
+        4,
+        4,
+        5
+      ],
+      "tags": [
+        "Сундук Фингерса"
+      ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-дом-фингерса",
+      "name": {
+        "ru": "Старый лагерь, дом Фингерса",
+        "en": "Old Camp, Fingers' house",
+        "de": "Altes Lager, Haus von Fingers",
+        "uk": "Старий табір, будинок Фінгерса"
+      },
+      "cells": 6,
+      "rules": "A:F+;B:D+,C-;D:C+,F+;E:A+,D-;F:A+,B-",
+      "pos": [
+        0,
+        5,
+        0,
+        4,
+        4,
+        5
+      ],
+      "tags": [
+        "старый лагерь",
+        "Фингерс"
       ],
       "img": []
     },
@@ -1822,30 +2561,6 @@
         "stara kopalnia",
         "rozdzial 1",
         "maly magazyn"
-      ],
-      "img": []
-    },
-    {
-      "id": "новый-лагерь-сундук-лареса",
-      "name": {
-        "ru": "Новый лагерь, сундук Лареса",
-        "en": "New Camp, Lares' chest",
-        "de": "Neues Lager, Truhe von Lares",
-        "uk": "Новий табір, скриня Лареса"
-      },
-      "cells": 6,
-      "rules": "A:C+,B-,D-,E-;B:F+;E:F+,C-,D-",
-      "pos": [
-        6,
-        3,
-        5,
-        2,
-        6,
-        4
-      ],
-      "tags": [
-        "новый лагерь",
-        "Ларес"
       ],
       "img": []
     },
@@ -1924,6 +2639,29 @@
       "img": []
     },
     {
+      "id": "шахта-сундук-сантино",
+      "name": {
+        "ru": "Шахта, Сундук Сантино",
+        "en": "Mine, Santino's chest",
+        "de": "Mine, Truhe von Santino",
+        "uk": "Шахта, скриня Сантіно"
+      },
+      "cells": 5,
+      "rules": "B:E+;C:B+,D-;D:E+;E:C-,A-",
+      "pos": [
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      "tags": [
+        "Шахта",
+        "Сундук Сантино"
+      ],
+      "img": []
+    },
+    {
       "id": "новый-лагерь-таверна-дверь-за-силасом",
       "name": {
         "ru": "Новый лагерь, таверна, дверь за Силасом",
@@ -1946,28 +2684,6 @@
         "новый лагерь",
         "таверна",
         "дверь"
-      ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-сундук-скатти-2",
-      "name": {
-        "ru": "\"\"Старый лагерь, Сундук Скатти\"\"",
-        "en": "Old Camp, Scatty's chest",
-        "de": "Altes Lager, Truhe von Scatty",
-        "uk": "Старий табір, Скриня Скатті"
-      },
-      "cells": 5,
-      "rules": "A:D+;B:E+;C:E-;D:E-,C-,B+",
-      "pos": [
-        5,
-        2,
-        1,
-        0,
-        6
-      ],
-      "tags": [
-        "Сундук Скатти"
       ],
       "img": []
     },
@@ -1998,6 +2714,30 @@
       "img": []
     },
     {
+      "id": "хижина-фингерса-2",
+      "name": {
+        "ru": "хижина Фингерса",
+        "en": "Fingers' hut",
+        "de": "Hütte von Fingers",
+        "uk": "хижа Фінгерса"
+      },
+      "cells": 6,
+      "rules": "A:F+;B:C-;B:D+;D:F+;E:A+;E:D-;F:A+;F:B-",
+      "pos": [
+        0,
+        5,
+        0,
+        4,
+        4,
+        5
+      ],
+      "tags": [
+        "Фингерс",
+        "глава 1. хижина"
+      ],
+      "img": []
+    },
+    {
       "id": "tower-near-cavalorns-camp",
       "name": {
         "en": "Tower near Cavalorn's Camp",
@@ -2018,31 +2758,6 @@
       "tags": [
         "cavalorn",
         "tower"
-      ],
-      "img": []
-    },
-    {
-      "id": "новый-лагерь-таверна-подвал-сундук-под-водой",
-      "name": {
-        "ru": "новый лагерь, таверна, подвал, сундук под водой",
-        "en": "New Camp, Tavern, basement, chest underwater",
-        "de": "Neues Lager, Taverne, Keller, Truhe unter Wasser",
-        "uk": "новий табір, таверна, підвал, скриня під водою"
-      },
-      "cells": 5,
-      "rules": "A:C-;B:A+,D-;C:D+,B+,A-;D:E+,A-;E:C-",
-      "pos": [
-        3,
-        2,
-        6,
-        1,
-        4
-      ],
-      "tags": [
-        "новый лагерь",
-        "таверна",
-        "подвал",
-        "сундук под водой"
       ],
       "img": []
     },
@@ -2145,49 +2860,26 @@
       "img": []
     },
     {
-      "id": "сундук-фингерса",
+      "id": "altes-lager-haus-links-neben-schmiede",
       "name": {
-        "ru": "Сундук Фингерса",
-        "en": "Fingers' chest",
-        "de": "Truhe von Fingers",
-        "uk": "Скриня Фінгерса"
+        "de": "Altes Lager, Haus links neben Schmiede",
+        "ru": "Старый лагерь, дом слева от кузницы",
+        "en": "Old Camp, House left of the Forge",
+        "uk": "Старий табір, будинок зліва біля кузні"
       },
       "cells": 6,
-      "rules": "A:F+;B:C-,D+;D:C+,F+;E:A+,D-;F:A+,B-",
+      "rules": "A:C+,E+;B:F+,A-,C-,E-;D:B-;E:C+",
       "pos": [
-        0,
-        5,
-        0,
-        4,
-        4,
-        5
+        2,
+        6,
+        3,
+        6,
+        6,
+        3
       ],
       "tags": [
-        "Сундук Фингерса"
-      ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-дом-фингерса",
-      "name": {
-        "ru": "Старый лагерь, дом Фингерса",
-        "en": "Old Camp, Fingers' house",
-        "de": "Altes Lager, Haus von Fingers",
-        "uk": "Старий табір, будинок Фінгерса"
-      },
-      "cells": 6,
-      "rules": "A:F+;B:D+,C-;D:C+,F+;E:A+,D-;F:A+,B-",
-      "pos": [
-        0,
-        5,
-        0,
-        4,
-        4,
-        5
-      ],
-      "tags": [
-        "старый лагерь",
-        "Фингерс"
+        "Altes Lager",
+        "Schmiede"
       ],
       "img": []
     },
@@ -2213,6 +2905,58 @@
       "tags": [
         "старый лагерь",
         "справа от арены"
+      ],
+      "img": []
+    },
+    {
+      "id": "харим-старый-лагерь-глава-1-хижина",
+      "name": {
+        "ru": "харим, старый лагерь, глава 1, хижина",
+        "en": "Harim, Old Camp, chapter 1, hut",
+        "de": "Harim, Altes Lager, Kapitel 1, Hütte",
+        "uk": "харім, старий табір, розділ 1, хижа"
+      },
+      "cells": 7,
+      "rules": "C:B-,F+;E:B-;F:C-,E+;G:A-,D-,F+",
+      "pos": [
+        2,
+        2,
+        3,
+        1,
+        2,
+        6,
+        0
+      ],
+      "tags": [
+        "харим",
+        "старый лагерь",
+        "глава 1",
+        "хижина"
+      ],
+      "img": []
+    },
+    {
+      "id": "altes-lager-kharim",
+      "name": {
+        "de": "Altes Lager, Kharim",
+        "ru": "Старый лагерь, Карим",
+        "en": "Old Camp, Kharim",
+        "uk": "Старий табір, Харім"
+      },
+      "cells": 7,
+      "rules": "C:B-,F+;E:B-;F:E+,C-;G:F+,A-,D-",
+      "pos": [
+        2,
+        2,
+        3,
+        1,
+        2,
+        6,
+        0
+      ],
+      "tags": [
+        "Altes Lager",
+        "Kharim"
       ],
       "img": []
     },
@@ -2267,28 +3011,6 @@
       "img": []
     },
     {
-      "id": "болотный-лагерь-хижина-кор-галома-сундук-с-рецептом",
-      "name": {
-        "ru": "Болотный лагерь, хижина Кор Галома, сундук с рецептом",
-        "en": "Swamp Camp, Cor Kalom's hut, chest with the recipe",
-        "de": "Sumpflager, Hütte von Cor Kalom, Truhe mit Rezept",
-        "uk": "Болотний табір, хижа Кор Галома, скриня з рецептом"
-      },
-      "cells": 4,
-      "rules": "A:D+;B:D+,A+;C:A+,B-",
-      "pos": [
-        6,
-        6,
-        5,
-        0
-      ],
-      "tags": [
-        "кор галом",
-        "болотный лагерь"
-      ],
-      "img": []
-    },
-    {
       "id": "хижина-справа-от-снаффа-если-смотреть-в-сторону-арены-без-обучен",
       "name": {
         "ru": "Хижина справа от Снаффа (если смотреть в сторону арены) (без обучения)",
@@ -2335,6 +3057,30 @@
         "Мордраг",
         "старый лагерь",
         "глава 1"
+      ],
+      "img": []
+    },
+    {
+      "id": "altes-lager-mordrags-hütte",
+      "name": {
+        "de": "Altes Lager, Mordrags Hütte",
+        "ru": "Старый лагерь, хижина Мордрага",
+        "en": "Old Camp, Mordrag's Hut",
+        "uk": "Старий табір, хижа Мордрага"
+      },
+      "cells": 6,
+      "rules": "A:B-,E-;B:A+;E:B+;C:A-,E-;D:E-,F+",
+      "pos": [
+        0,
+        1,
+        0,
+        4,
+        1,
+        0
+      ],
+      "tags": [
+        "Altes Lager",
+        "Mordrag"
       ],
       "img": []
     },
@@ -2440,30 +3186,6 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-комната-над-рынком",
-      "name": {
-        "ru": "Старый лагерь, комната над рынком",
-        "en": "Old Camp, room above the market",
-        "de": "Altes Lager, Raum über dem Markt",
-        "uk": "Старий табір, кімната над ринком"
-      },
-      "cells": 5,
-      "rules": "A:C-,D+;B:C+;C:B+,A-;D:A-,B-;E:B-,D+",
-      "pos": [
-        0,
-        5,
-        0,
-        0,
-        5
-      ],
-      "tags": [
-        "старый лагерь",
-        "глава 1",
-        "рынок"
-      ],
-      "img": []
-    },
-    {
       "id": "старый-лагерь-хижина-возле-ареныстартовая",
       "name": {
         "ru": "Старый лагерь, хижина возле Арены(стартовая)",
@@ -2480,52 +3202,6 @@
         6
       ],
       "tags": [],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-сундук-граво",
-      "name": {
-        "ru": "Старый лагерь, сундук Граво",
-        "en": "Old Camp, Gravo's chest",
-        "de": "Altes Lager, Truhe von Gravo",
-        "uk": "Старий табір, скриня Граво"
-      },
-      "cells": 5,
-      "rules": "B:C+,E+;C:E+,A-;D:C-;E:B+",
-      "pos": [
-        5,
-        1,
-        0,
-        0,
-        4
-      ],
-      "tags": [
-        "Старый лагерь",
-        "Граво"
-      ],
-      "img": []
-    },
-    {
-      "id": "новый-лагерь-под-таверной-под-водой-по-пути-в-подвал-силаса",
-      "name": {
-        "ru": "Новый лагерь, под таверной (под водой) по пути в подвал Силаса",
-        "en": "New Camp, under the Tavern (underwater) on the way to Silas' basement",
-        "de": "Neues Lager, unter der Taverne (unter Wasser), auf dem Weg in Silas' Keller",
-        "uk": "Новий табір, під тавернею (під водою) на шляху до підвалу Силаса"
-      },
-      "cells": 5,
-      "rules": "A:B-,C-;B:A+,D-;C:A-,B+,D+;D:E+,A-;E:C-",
-      "pos": [
-        3,
-        2,
-        6,
-        1,
-        4
-      ],
-      "tags": [
-        "Новый лагерь",
-        "Подвал Силаса (под водой)"
-      ],
       "img": []
     },
     {
@@ -2551,30 +3227,6 @@
         "старый лагерь",
         "глава 1",
         "хижина"
-      ],
-      "img": []
-    },
-    {
-      "id": "ru",
-      "name": {
-        "en": "RU",
-        "ru": "RU",
-        "de": "RU",
-        "uk": "RU"
-      },
-      "cells": 5,
-      "rules": "A:D+;B:E+;C:E-;D:B+,E-,C-",
-      "pos": [
-        5,
-        2,
-        1,
-        0,
-        6
-      ],
-      "tags": [
-        "Дом Скатти",
-        "слева от Фингерса",
-        "глава 1"
       ],
       "img": []
     },
@@ -2654,52 +3306,24 @@
       "img": []
     },
     {
-      "id": "если-смотреть-на-лареса-справа-в-тоннели",
+      "id": "старый-лагерь-доб-баронов-второй-этаж-дверь-справа",
       "name": {
-        "ru": "Если смотреть на Лареса справа в тоннели",
-        "en": "Facing Lares, to the right in the tunnels",
-        "de": "Wenn man zu Lares schaut, rechts in den Tunneln",
-        "uk": "Якщо дивитися на Лареса, справа в тунелі"
+        "ru": "Старый лагерь, доб баронов, второй этаж дверь справа",
+        "en": "Old Camp, Barons' house, second floor, door on the right",
+        "de": "Altes Lager, Baronenhaus, zweites Stockwerk, Tür rechts",
+        "uk": "Старий табір, дім баронів, другий поверх, двері праворуч"
       },
       "cells": 6,
-      "rules": "A:E-;B:E+;D:A-,C+,F+;E:A-,B+,C-;F:E-",
+      "rules": "A:C-,E-;B:D+,F+;C:B+,F-;E:A-;F:E+,C+",
       "pos": [
-        4,
-        3,
-        2,
         0,
         1,
-        1
-      ],
-      "tags": [
-        "Новый Лагерь",
-        "Тоннель",
-        "Ларес"
-      ],
-      "img": []
-    },
-    {
-      "id": "хижина-фингерса-2",
-      "name": {
-        "ru": "хижина Фингерса",
-        "en": "Fingers' hut",
-        "de": "Hütte von Fingers",
-        "uk": "хижа Фінгерса"
-      },
-      "cells": 6,
-      "rules": "A:F+;B:C-;B:D+;D:F+;E:A+;E:D-;F:A+;F:B-",
-      "pos": [
-        0,
+        6,
+        6,
         5,
-        0,
-        4,
-        4,
-        5
+        4
       ],
-      "tags": [
-        "Фингерс",
-        "глава 1. хижина"
-      ],
+      "tags": [],
       "img": []
     },
     {
@@ -2723,28 +3347,6 @@
       "tags": [
         "выход из тайного хода",
         "старый лагерь"
-      ],
-      "img": []
-    },
-    {
-      "id": "новый-лагерь-вводе-таверна",
-      "name": {
-        "ru": "Новый лагерь Вводе таверна",
-        "en": "New Camp, underwater, Tavern",
-        "de": "Neues Lager, Taverne (im Wasser)",
-        "uk": "Новий табір, у воді, таверна"
-      },
-      "cells": 5,
-      "rules": "A:C-;B:A+,D-;C:B+,D+,A-;D:E+,A-;E:C-",
-      "pos": [
-        3,
-        2,
-        6,
-        1,
-        4
-      ],
-      "tags": [
-        "Новый лагерь Вводе таверна"
       ],
       "img": []
     },
@@ -2775,76 +3377,6 @@
       "img": []
     },
     {
-      "id": "neues-lager-silas-kneipe-unterwasser",
-      "name": {
-        "de": "Neues Lager, Silas Kneipe Unterwasser",
-        "ru": "Новый лагерь, таверна Силаса, под водой",
-        "en": "New Camp, Silas' Pub, Underwater",
-        "uk": "Новий табір, таверна Сіласа під водою"
-      },
-      "cells": 5,
-      "rules": "A:C-;A:B-;B:D-;B:A+;C:A-;C:B+;C:D+;D:E+;D:A-;E:C-",
-      "pos": [
-        3,
-        2,
-        6,
-        1,
-        4
-      ],
-      "tags": [
-        "Silas",
-        "unterwasser"
-      ],
-      "img": []
-    },
-    {
-      "id": "шахта-сундук-сантино",
-      "name": {
-        "ru": "Шахта, Сундук Сантино",
-        "en": "Mine, Santino's chest",
-        "de": "Mine, Truhe von Santino",
-        "uk": "Шахта, скриня Сантіно"
-      },
-      "cells": 5,
-      "rules": "B:E+;C:B+,D-;D:E+;E:C-,A-",
-      "pos": [
-        0,
-        0,
-        6,
-        0,
-        0
-      ],
-      "tags": [
-        "Шахта",
-        "Сундук Сантино"
-      ],
-      "img": []
-    },
-    {
-      "id": "altes-lager-lagerhaus-an-südlicher-burgmauer",
-      "name": {
-        "de": "Altes Lager, Lagerhaus an südlicher Burgmauer",
-        "ru": "Старый лагерь, склад у южной стены замка",
-        "en": "Old Camp, Warehouse at the southern castle wall",
-        "uk": "Старий табір, склад біля південної стіни замку"
-      },
-      "cells": 5,
-      "rules": "A:D+,C-;B:C+;C:B+,A-;D:A-,B-;E:D+,B-",
-      "pos": [
-        0,
-        5,
-        0,
-        0,
-        5
-      ],
-      "tags": [
-        "Altes Lager",
-        "Lagerhaus",
-        "Burg"
-      ],
-      "img": []
-    },
-    {
       "id": "na-koncu-zatopionej-kopalni-skrzynia-za-orkiem",
       "name": {
         "pl": "Na koncu zatopionej kopalni, skrzynia za orkiem",
@@ -2871,26 +3403,46 @@
       "img": []
     },
     {
-      "id": "имба-сундук-сверху-орены-в-углу-bugiman",
+      "id": "гнездо-ползунов-комната-с-телом-каина-правый-от-входа-сундук",
       "name": {
-        "ru": "ИМБА СУНДУК СВЕРХУ ОРЕНЫ В УГЛУ BUGIMAN",
-        "en": "OP chest above the Arena in the corner BUGIMAN",
-        "de": "OP-TRUHE OBEN AN DER ARENA IN DER ECKE (BUGIMAN)",
-        "uk": "ІМБА СКРИНЯ ЗВЕРХУ АРЕНИ В КУТКУ BUGIMAN"
+        "ru": "\"\"Гнездо ползунов\"\" комната с телом Каина правый от входа сундук",
+        "en": "\"Crawler's Nest\", room with Cain's body, right chest from the entrance",
+        "de": "\"Krabblernest\", Raum mit Cains Leiche, rechte Truhe vom Eingang",
+        "uk": "\"Гніздо повзунів\" кімната з тілом Каїна, праворуч від входу скриня"
       },
-      "cells": 6,
-      "rules": "A:D-;B:D+,A-,F-;C:F-;D:B+,F+;E:B+,F-;F:D+",
+      "cells": 5,
+      "rules": "A:D-;B:A+,C-,E-;C:A-,B+;D:C-,E-;E:B-,A+",
       "pos": [
+        3,
         4,
         5,
-        0,
-        2,
-        1,
+        4,
         0
       ],
       "tags": [
-        "имба СУНДУК СВЕРХУ ОРЕНЫ BUGIMAN"
+        "Гнездо ползунов",
+        "Каин"
       ],
+      "img": []
+    },
+    {
+      "id": "свободная-шахта-в-ответвлении-справа-по-спуску",
+      "name": {
+        "ru": "Свободная шахта, в ответвлении справа по спуску",
+        "en": "Free Mine, in the right branch going down",
+        "de": "Freie Mine, Abzweigung rechts am Abstieg",
+        "uk": "Вільна шахта, у відгалуженні праворуч по спуску"
+      },
+      "cells": 5,
+      "rules": "A:D-;B:A+,C-,E-;C:A-,B+;D:C-,E-;E:A+,B-",
+      "pos": [
+        3,
+        4,
+        5,
+        4,
+        0
+      ],
+      "tags": [],
       "img": []
     },
     {
@@ -2969,6 +3521,32 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-дверь-торговца-фиска",
+      "name": {
+        "ru": "Старый лагерь, дверь торговца фиска",
+        "en": "Old Camp, Fisk the trader's door",
+        "de": "Altes Lager, Tür des Händlers Fisk",
+        "uk": "Старий табір, двері торговця Фіска"
+      },
+      "cells": 6,
+      "rules": "A:E-;B:C+,D+,A-;C:F+;D:A+,C-;E:C+",
+      "pos": [
+        6,
+        0,
+        1,
+        6,
+        0,
+        6
+      ],
+      "tags": [
+        "фиск",
+        "старый лагерь",
+        "глава 1",
+        "хижина"
+      ],
+      "img": []
+    },
+    {
       "id": "пещера-с-двумя-зомби-недалеко-от-юнитора-нираса",
       "name": {
         "ru": "Пещера с двумя зомби недалеко от юнитора Нираса",
@@ -2995,6 +3573,56 @@
       "img": []
     },
     {
+      "id": "юнитор-над-болотным-лагерем-пещера-с-зомби-на-скале",
+      "name": {
+        "ru": "Юнитор над болотным лагерем, пещера с зомби на скале",
+        "en": "Unitor above Swamp Camp, cave with zombies on the rock",
+        "de": "Yunitor über dem Sumpflager, Höhle mit Zombies auf dem Felsen",
+        "uk": "Юнітор над Болотним табором, печера з зомбі на скалі"
+      },
+      "cells": 6,
+      "rules": "A:B-;B:A+,F+;C:B+;D:B+,F+,A-;E:D+,B+,A+;F:C-",
+      "pos": [
+        4,
+        1,
+        0,
+        6,
+        0,
+        0
+      ],
+      "tags": [
+        "2 зомби",
+        "зомби",
+        "пещера с зомби"
+      ],
+      "img": []
+    },
+    {
+      "id": "скала-над-болотным-лагерем",
+      "name": {
+        "ru": "Скала над Болотным лагерем",
+        "en": "Rock above the Swamp Camp",
+        "de": "Felsen über dem Sumpflager",
+        "uk": "Скеля над Болотним табором"
+      },
+      "cells": 6,
+      "rules": "A:B-;B:A+,F+;C:B+;D:A-,B+,F+;E:A+,B+,D+;F:C-",
+      "pos": [
+        4,
+        1,
+        0,
+        6,
+        0,
+        0
+      ],
+      "tags": [
+        "скала",
+        "зомби",
+        "болотный лагерь"
+      ],
+      "img": []
+    },
+    {
       "id": "свободная-шахта-новый-лагерь-котел-дом-слева-от-хижины-напротив-",
       "name": {
         "ru": "Свободная шахта, новый лагерь, котел, дом слева от хижины напротив подъемника, левый сундук",
@@ -3017,6 +3645,28 @@
         "котел",
         "подъемник",
         "наемник"
+      ],
+      "img": []
+    },
+    {
+      "id": "freie-mine-hütte-mit-zwei-kisten-2",
+      "name": {
+        "de": "Freie Mine, Hütte mit zwei Kisten",
+        "ru": "Свободная шахта, хижина с двумя сундуками",
+        "en": "Free Mine, hut with two chests",
+        "uk": "Вільна шахта, хижа з двома скринями"
+      },
+      "cells": 5,
+      "rules": "B:E-;A:D+;C:A+,E+;D:A-,B+,C+;E:A-,D-",
+      "pos": [
+        6,
+        6,
+        2,
+        4,
+        4
+      ],
+      "tags": [
+        "Freie Mine"
       ],
       "img": []
     },
@@ -3099,6 +3749,29 @@
       "img": []
     },
     {
+      "id": "freie-mine-kiste-in-okyls-hütte",
+      "name": {
+        "de": "Freie Mine, Kiste in Okyls Hütte",
+        "ru": "Свободная шахта, сундук в хижине Окила",
+        "en": "Free Mine, Chest in Okyl's Hut",
+        "uk": "Вільна шахта, скриня в хижі Окіла"
+      },
+      "cells": 5,
+      "rules": "B:A-;A:C-,D+;D:A-;E:A-,D-,B+,C+",
+      "pos": [
+        6,
+        0,
+        6,
+        5,
+        5
+      ],
+      "tags": [
+        "Freie Mine",
+        "Okyl"
+      ],
+      "img": []
+    },
+    {
       "id": "новый-лагерь-свободная-шахта-котел-на-входе-в-котел-ворота-наемн",
       "name": {
         "ru": "Новый лагерь, свободная шахта, котел, на входе в котел ворота наемников",
@@ -3150,6 +3823,29 @@
       "img": []
     },
     {
+      "id": "neues-lager-kiste-im-haus-von-wolf",
+      "name": {
+        "de": "Neues Lager, Kiste im Haus von Wolf",
+        "ru": "Новый лагерь, сундук в доме Вольфа",
+        "en": "New Camp, Chest in Wolf's house",
+        "uk": "Новий табір, скриня в будинку Вольфа"
+      },
+      "cells": 5,
+      "rules": "B:E-;C:B-;D:B+,C-,E+;E:A-,C-,D-",
+      "pos": [
+        0,
+        2,
+        2,
+        6,
+        4
+      ],
+      "tags": [
+        "Neues Lager",
+        "Wolf"
+      ],
+      "img": []
+    },
+    {
       "id": "новый-лагерь-бар-силас-дверь-на-втором-этаже",
       "name": {
         "ru": "Новый лагерь, бар, Силас, дверь на втором этаже",
@@ -3172,6 +3868,29 @@
         "бар",
         "второй этаж",
         "дверь"
+      ],
+      "img": []
+    },
+    {
+      "id": "neues-lager-tür-in-taverne-1-stock",
+      "name": {
+        "de": "Neues Lager, Tür in Taverne 1. Stock",
+        "ru": "Новый лагерь, дверь в таверне на втором этаже",
+        "en": "New Camp, door in the tavern, 1st floor",
+        "uk": "Новий табір, двері в таверні, 1-й поверх"
+      },
+      "cells": 5,
+      "rules": "A:B+,C-;B:A-,C-,D-,E-;E:C-;D:C+,E-",
+      "pos": [
+        6,
+        2,
+        0,
+        0,
+        0
+      ],
+      "tags": [
+        "Neues Lager",
+        "Taverne"
       ],
       "img": []
     },
@@ -3201,6 +3920,29 @@
       "img": []
     },
     {
+      "id": "neues-lager-kiste-in-taverne-2",
+      "name": {
+        "de": "Neues Lager, Kiste in Taverne",
+        "ru": "Новый лагерь, сундук в таверне",
+        "en": "New Camp, chest in the tavern",
+        "uk": "Новий табір, скриня в таверні"
+      },
+      "cells": 5,
+      "rules": "A:B-,C+,E-;B:C-,D+;E:C-;D:A-,E-",
+      "pos": [
+        2,
+        1,
+        5,
+        6,
+        6
+      ],
+      "tags": [
+        "Neues Lager",
+        "Taverne"
+      ],
+      "img": []
+    },
+    {
       "id": "новый-лагерь-бар-силаса-второй-этаж-за-дверь-сундук-напротив-две",
       "name": {
         "ru": "Новый лагерь, бар Силаса второй этаж за дверь, сундук напротив двери",
@@ -3223,56 +3965,6 @@
         "бар",
         "силас",
         "таверна"
-      ],
-      "img": []
-    },
-    {
-      "id": "гнездо-ползунов-комната-с-телом-каина-правый-от-входа-сундук",
-      "name": {
-        "ru": "\"\"Гнездо ползунов\"\" комната с телом Каина правый от входа сундук",
-        "en": "\"Crawler's Nest\", room with Cain's body, right chest from the entrance",
-        "de": "\"Krabblernest\", Raum mit Cains Leiche, rechte Truhe vom Eingang",
-        "uk": "\"Гніздо повзунів\" кімната з тілом Каїна, праворуч від входу скриня"
-      },
-      "cells": 5,
-      "rules": "A:D-;B:A+,C-,E-;C:A-,B+;D:C-,E-;E:B-,A+",
-      "pos": [
-        3,
-        4,
-        5,
-        4,
-        0
-      ],
-      "tags": [
-        "Гнездо ползунов",
-        "Каин"
-      ],
-      "img": []
-    },
-    {
-      "id": "харим-старый-лагерь-глава-1-хижина",
-      "name": {
-        "ru": "харим, старый лагерь, глава 1, хижина",
-        "en": "Harim, Old Camp, chapter 1, hut",
-        "de": "Harim, Altes Lager, Kapitel 1, Hütte",
-        "uk": "харім, старий табір, розділ 1, хижа"
-      },
-      "cells": 7,
-      "rules": "C:B-,F+;E:B-;F:C-,E+;G:A-,D-,F+",
-      "pos": [
-        2,
-        2,
-        3,
-        1,
-        2,
-        6,
-        0
-      ],
-      "tags": [
-        "харим",
-        "старый лагерь",
-        "глава 1",
-        "хижина"
       ],
       "img": []
     },
@@ -3323,6 +4015,55 @@
       "tags": [
         "Alte Mine",
         "Aaron"
+      ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-сундук-арона",
+      "name": {
+        "ru": "Старый лагерь, сундук Арона",
+        "en": "Old Camp, Aron's chest",
+        "de": "Altes Lager, Arons Truhe",
+        "uk": "Старий табір, скриня Арона"
+      },
+      "cells": 6,
+      "rules": "A:F-;C:D+,A+,B-;D:C-;E:F+;F:B+,D+",
+      "pos": [
+        0,
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "tags": [
+        "Арон",
+        "Сундук Арона"
+      ],
+      "img": []
+    },
+    {
+      "id": "шахта-старого-лагеря-возле-снайпса",
+      "name": {
+        "ru": "\"\"Шахта старого лагеря, возле Снайпса",
+        "en": "Old Camp Mine, near Snipes",
+        "de": "Alte Mine, bei Snipes",
+        "uk": "\"\"Шахта старого табору, біля Снайпса"
+      },
+      "cells": 6,
+      "rules": "A:F-;C:A+,D+,B-;D:C-;E:F+;F:B+,D+",
+      "pos": [
+        0,
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "tags": [
+        "Снайпс",
+        "шахта",
+        "сундук"
       ],
       "img": []
     },
@@ -3422,6 +4163,34 @@
       "img": []
     },
     {
+      "id": "руины-башни-около-старого-лагеря-второй-сундук",
+      "name": {
+        "ru": "Руины башни около старого лагеря, второй сундук",
+        "en": "Tower ruins near Old Camp, second chest",
+        "de": "Turmruinen beim Alten Lager, zweite Truhe",
+        "uk": "Руїни башти біля старого табору, друга скриня"
+      },
+      "cells": 6,
+      "rules": "A:C+,F-;C:A+,D-,F+;D:B+,E+,F-;F:C-",
+      "pos": [
+        4,
+        2,
+        5,
+        6,
+        1,
+        6
+      ],
+      "tags": [
+        "Tower",
+        "old camp",
+        "chest",
+        "башня",
+        "старый лагерь",
+        "сундук"
+      ],
+      "img": []
+    },
+    {
       "id": "пещера-квентина-дверь-слева",
       "name": {
         "ru": "Пещера Квентина, дверь слева.",
@@ -3442,31 +4211,6 @@
       "tags": [
         "Пещера Квентина",
         "дверь слева."
-      ],
-      "img": []
-    },
-    {
-      "id": "altes-lager-kharim",
-      "name": {
-        "de": "Altes Lager, Kharim",
-        "ru": "Старый лагерь, Карим",
-        "en": "Old Camp, Kharim",
-        "uk": "Старий табір, Харім"
-      },
-      "cells": 7,
-      "rules": "C:B-,F+;E:B-;F:E+,C-;G:F+,A-,D-",
-      "pos": [
-        2,
-        2,
-        3,
-        1,
-        2,
-        6,
-        0
-      ],
-      "tags": [
-        "Altes Lager",
-        "Kharim"
       ],
       "img": []
     },
@@ -3544,6 +4288,49 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-хижина-навпротив-входа-в-арену",
+      "name": {
+        "ru": "Старый лагерь, хижина навпротив входа в арену",
+        "en": "Old Camp, hut opposite the Arena entrance",
+        "de": "Altes Lager, Hütte gegenüber dem Arenaeingang",
+        "uk": "Старий табір, хижина навпроти входу в арену"
+      },
+      "cells": 5,
+      "rules": "E:D-;D:B-;B:C+,E+;C:B+;A:B-",
+      "pos": [
+        0,
+        0,
+        2,
+        0,
+        6
+      ],
+      "tags": [],
+      "img": []
+    },
+    {
+      "id": "арена-сундук-кирго",
+      "name": {
+        "ru": "Арена, Сундук Кирго",
+        "en": "Arena, Kirgo's chest",
+        "de": "Arena, Kirgos Truhe",
+        "uk": "Арена, скриня Кірго"
+      },
+      "cells": 5,
+      "rules": "C:B+;D:B-;E:D-;A:B-;B:C+;B:E+",
+      "pos": [
+        0,
+        0,
+        2,
+        0,
+        6
+      ],
+      "tags": [
+        "Арена",
+        "Кирго"
+      ],
+      "img": []
+    },
+    {
       "id": "старый-лагерь-сундук-гор-ханис",
       "name": {
         "ru": "Старый лагерь сундук Гор Ханис",
@@ -3564,6 +4351,29 @@
         "арена",
         "гор ханис",
         "сундук"
+      ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-сундук-гор-ханиса",
+      "name": {
+        "ru": "Старый лагерь, сундук Гор Ханиса",
+        "en": "Old Camp, Gor Hanis' chest",
+        "de": "Altes Lager, Gor Hanis' Truhe",
+        "uk": "Старий табір, скриня Гор Ханіса"
+      },
+      "cells": 5,
+      "rules": "A:E-;A:D-;A:B-;B:A+;B:D+;D:C+;E:B+",
+      "pos": [
+        1,
+        3,
+        4,
+        0,
+        1
+      ],
+      "tags": [
+        "Гор Ханис",
+        "Арена"
       ],
       "img": []
     },
@@ -3641,6 +4451,57 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-замок-2-этаж-дверь-справа-1ая",
+      "name": {
+        "ru": "Старый лагерь, замок, 2 этаж, дверь справа 1ая",
+        "en": "Old Camp, Castle, 2nd floor, first door on the right",
+        "de": "Altes Lager, Burg, 2. Stockwerk, 1. Tür rechts",
+        "uk": "Старий табір, замок, 2 поверх, двері справа 1-ші"
+      },
+      "cells": 6,
+      "rules": "A:B-,C-,E-;B:D+,F+;C:B+,F-;E:A-;F:E+,C+",
+      "pos": [
+        0,
+        1,
+        6,
+        6,
+        5,
+        4
+      ],
+      "tags": [
+        "Замок",
+        "гомез",
+        "2 этаж"
+      ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-замок-гомеза-второй-этаж-первая-правая-дверь",
+      "name": {
+        "ru": "Старый лагерь, замок Гомеза, второй этаж, первая правая дверь",
+        "en": "Old Camp, Gomez' Castle, second floor, first door on the right",
+        "de": "Altes Lager, Burg des Gomez, 2. Stockwerk, 1. Tür rechts",
+        "uk": "Старий табір, замок Гомеза, другий поверх, перші праві двері"
+      },
+      "cells": 6,
+      "rules": "A:B-,C-,E-;B:D+,F+;C:B+,F-;E:A-;F:C+,E+",
+      "pos": [
+        0,
+        1,
+        6,
+        6,
+        5,
+        4
+      ],
+      "tags": [
+        "\"\"Старый лагерь",
+        "замок Гомеза",
+        "второй этаж",
+        "первая правая дверь"
+      ],
+      "img": []
+    },
+    {
       "id": "кайл-старый-лагерь-глава-1-хижина",
       "name": {
         "ru": "кайл, старый лагерь, глава 1, хижина",
@@ -3660,31 +4521,6 @@
       ],
       "tags": [
         "кайл",
-        "старый лагерь",
-        "глава 1",
-        "хижина"
-      ],
-      "img": []
-    },
-    {
-      "id": "джесс-старый-лагерь-глава-1-хижина",
-      "name": {
-        "ru": "джесс, старый лагерь, глава 1, хижина",
-        "en": "Jess, Old Camp, chapter 1, hut",
-        "de": "Jess, Altes Lager, Kapitel 1, Hütte",
-        "uk": "Джесс, старий табір, глава 1, хижина"
-      },
-      "cells": 5,
-      "rules": "A:D-;B:A-;C:A+,B-,D+;D:B+,E-;E:A-",
-      "pos": [
-        3,
-        1,
-        5,
-        0,
-        4
-      ],
-      "tags": [
-        "джесс",
         "старый лагерь",
         "глава 1",
         "хижина"
@@ -3713,6 +4549,31 @@
         "castle",
         "first door on right",
         "second chest"
+      ],
+      "img": []
+    },
+    {
+      "id": "второй-этаж-замка-гомеза-сундук-у-дальней-кровати-с-кольцом-рудн",
+      "name": {
+        "ru": "Второй этаж замка Гомеза, сундук у дальней кровати с кольцом рудной кожи",
+        "en": "Second floor of Gomez' Castle, chest by the far bed with the ore hide ring",
+        "de": "Zweites Stockwerk von Gomez' Burg, Truhe beim hinteren Bett mit dem Erzhautring",
+        "uk": "Другий поверх замку Гомеза, скриня біля дальнього ліжка з кільцем рудної шкіри"
+      },
+      "cells": 5,
+      "rules": "A:D-;B:D+,A-,C-;C:D+,B-,E-;D:B-,E-;E:C-",
+      "pos": [
+        3,
+        4,
+        6,
+        6,
+        6
+      ],
+      "tags": [
+        "Гомез",
+        "старый лагерь",
+        "замок",
+        "рудной кожи"
       ],
       "img": []
     },
@@ -3794,6 +4655,30 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-хижина-фиска-левый-сундук-от-входа",
+      "name": {
+        "ru": "старый лагерь, хижина фиска, левый сундук от входа",
+        "en": "Old Camp, Fisk's hut, left chest from the entrance",
+        "de": "Altes Lager, Fisks Hütte, linke Truhe vom Eingang",
+        "uk": "старий табір, хижа Фіска, ліва скриня від входу"
+      },
+      "cells": 5,
+      "rules": "A:D+;B:A+,C+,D+;C:D+,B-;D:E+,C+,B-;E:C+",
+      "pos": [
+        0,
+        6,
+        0,
+        2,
+        1
+      ],
+      "tags": [
+        "старый лагерь",
+        "хижина фиска",
+        "левый сундук от входа"
+      ],
+      "img": []
+    },
+    {
       "id": "altes-lager-haus-mit-2-türen",
       "name": {
         "de": "Altes Lager, Haus mit 2 Türen",
@@ -3861,6 +4746,32 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-дом-рудокопа-в-разрушенной-стене-с-южной-стороны",
+      "name": {
+        "ru": "Старый лагерь, дом рудокопа в разрушенной стене с южной стороны",
+        "en": "Old Camp, miner's house in the ruined wall on the southern side",
+        "de": "Altes Lager, Schürferhaus in der zerstörten Mauer auf der Südseite",
+        "uk": "Старий табір, будинок шахтаря в зруйнованій стіні з південної сторони"
+      },
+      "cells": 5,
+      "rules": "B:A-,C+,D+,E-;C:A-;D:C-;E:A-",
+      "pos": [
+        0,
+        6,
+        0,
+        1,
+        3
+      ],
+      "tags": [
+        "старый лагерю",
+        "глава 1",
+        "стена",
+        "юг",
+        "рудокоп"
+      ],
+      "img": []
+    },
+    {
       "id": "old-camp-castle-second-door-on-left-chest-by-the-bed",
       "name": {
         "en": "Old Camp, castle, second door on left, chest by the bed",
@@ -3886,30 +4797,6 @@
       "img": []
     },
     {
-      "id": "sumpflager;-darrion-schmiede",
-      "name": {
-        "en": "Sumpflager; Darrion Schmiede",
-        "ru": "Болотный лагерь, кузница Дарриона",
-        "de": "Sumpflager, Darrions Schmiede",
-        "uk": "Болотний табір, кузня Дарріона"
-      },
-      "cells": 6,
-      "rules": "B:C+,D-;A:C-;D:C+,E-;E:F-;F:E+,B-",
-      "pos": [
-        0,
-        4,
-        0,
-        6,
-        1,
-        5
-      ],
-      "tags": [
-        "Sumpflager",
-        "Darrion"
-      ],
-      "img": []
-    },
-    {
       "id": "old-camp-castle-last-door-on-right",
       "name": {
         "en": "Old Camp, castle, last door on right",
@@ -3930,34 +4817,6 @@
         "Old Camp",
         "castle",
         "last door on right"
-      ],
-      "img": []
-    },
-    {
-      "id": "руины-башни-около-старого-лагеря-второй-сундук",
-      "name": {
-        "ru": "Руины башни около старого лагеря, второй сундук",
-        "en": "Tower ruins near Old Camp, second chest",
-        "de": "Turmruinen beim Alten Lager, zweite Truhe",
-        "uk": "Руїни башти біля старого табору, друга скриня"
-      },
-      "cells": 6,
-      "rules": "A:C+,F-;C:A+,D-,F+;D:B+,E+,F-;F:C-",
-      "pos": [
-        4,
-        2,
-        5,
-        6,
-        1,
-        6
-      ],
-      "tags": [
-        "Tower",
-        "old camp",
-        "chest",
-        "башня",
-        "старый лагерь",
-        "сундук"
       ],
       "img": []
     },
@@ -4010,6 +4869,32 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-на-внутренней-стене-замка-справа",
+      "name": {
+        "ru": "Старый лагерь, на внутренней стене замка справа",
+        "en": "Old Camp, on the inner castle wall on the right",
+        "de": "Altes Lager, an der Innenwand der Burg rechts",
+        "uk": "Старий табір, на внутрішній стіні замку праворуч"
+      },
+      "cells": 6,
+      "rules": "A:B-;B:F-;C:B+,D-,E-,F-;D:C-;E:A-;F:C-,E-",
+      "pos": [
+        1,
+        1,
+        6,
+        6,
+        4,
+        2
+      ],
+      "tags": [
+        "Замок",
+        "старый лагерь",
+        "глава 1",
+        "стена замка"
+      ],
+      "img": []
+    },
+    {
       "id": "сундук-в-башне-к-западу-от-старого-лагеря",
       "name": {
         "ru": "Сундук в башне к западу от старого лагеря",
@@ -4034,6 +4919,34 @@
         "старый",
         "глава 1",
         "в башне"
+      ],
+      "img": []
+    },
+    {
+      "id": "руины-башни-около-старого-лагеря-первый-сундук",
+      "name": {
+        "ru": "Руины башни около старого лагеря, первый сундук",
+        "en": "Tower ruins near Old Camp, first chest",
+        "de": "Turmruinen nahe dem Alten Lager, erste Truhe",
+        "uk": "Руїни вежі біля старого табору, перша скриня"
+      },
+      "cells": 6,
+      "rules": "A:B-;B:E+;C:D-,E-,F+;F:B-",
+      "pos": [
+        2,
+        0,
+        6,
+        3,
+        2,
+        1
+      ],
+      "tags": [
+        "tower",
+        "башня",
+        "old camp",
+        "старый лагерь",
+        "chest",
+        "сундук"
       ],
       "img": []
     },
@@ -4098,6 +5011,76 @@
       },
       "cells": 6,
       "rules": "B:C-,E+;C:D+;F:A-,B+;E:B+,C-,F-",
+      "pos": [
+        4,
+        5,
+        1,
+        1,
+        0,
+        0
+      ],
+      "tags": [],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-заброшенная-башня-дверь",
+      "name": {
+        "ru": "Старый лагерь, заброшенная башня, дверь",
+        "en": "Old Camp, abandoned tower, door",
+        "de": "Altes Lager, verlassener Turm, Tür",
+        "uk": "Старий табір, занедбана вежа, двері"
+      },
+      "cells": 6,
+      "rules": "B:C-,E+;C:D+;E:B+,C-,F-;F:A-,B+",
+      "pos": [
+        4,
+        5,
+        1,
+        1,
+        0,
+        0
+      ],
+      "tags": [
+        "Старый лагерь",
+        "заброшенная башня",
+        "дверь"
+      ],
+      "img": []
+    },
+    {
+      "id": "дверь-башни-рядом-с-кавалорном",
+      "name": {
+        "ru": "Дверь башни рядом с Кавалорном",
+        "en": "Tower door near Cavalorn",
+        "de": "Turmtür bei Cavalorn",
+        "uk": "Двері башти поруч з Кавалорном"
+      },
+      "cells": 6,
+      "rules": "B:C-,E+;C:D+;E:B+,F-,C-;F:A-,B+",
+      "pos": [
+        4,
+        5,
+        1,
+        1,
+        0,
+        0
+      ],
+      "tags": [
+        "башня",
+        "кавалорн"
+      ],
+      "img": []
+    },
+    {
+      "id": "дверь-в-башню-рядом-с-ковалорном",
+      "name": {
+        "ru": "Дверь в башню рядом с Ковалорном",
+        "en": "Door to the tower near Cavalorn",
+        "de": "Tür zum Turm bei Cavalorn",
+        "uk": "Двері до башти поруч з Кавалорном"
+      },
+      "cells": 6,
+      "rules": "B:C-,E+;C:D+;E:B+,C-,F-;F:B+,A-",
       "pos": [
         4,
         5,
@@ -4659,31 +5642,6 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-заброшенная-башня-дверь",
-      "name": {
-        "ru": "Старый лагерь, заброшенная башня, дверь",
-        "en": "Old Camp, abandoned tower, door",
-        "de": "Altes Lager, verlassener Turm, Tür",
-        "uk": "Старий табір, занедбана вежа, двері"
-      },
-      "cells": 6,
-      "rules": "B:C-,E+;C:D+;E:B+,C-,F-;F:A-,B+",
-      "pos": [
-        4,
-        5,
-        1,
-        1,
-        0,
-        0
-      ],
-      "tags": [
-        "Старый лагерь",
-        "заброшенная башня",
-        "дверь"
-      ],
-      "img": []
-    },
-    {
       "id": "old-camp-castle-gomez-tower-top-chest-замок-вежа-гомеза-скриня-н",
       "name": {
         "uk": "Замок, вежа Гомеза, скриня на горі вежі",
@@ -4876,34 +5834,6 @@
       "img": []
     },
     {
-      "id": "руины-башни-около-старого-лагеря-первый-сундук",
-      "name": {
-        "ru": "Руины башни около старого лагеря, первый сундук",
-        "en": "Tower ruins near Old Camp, first chest",
-        "de": "Turmruinen nahe dem Alten Lager, erste Truhe",
-        "uk": "Руїни вежі біля старого табору, перша скриня"
-      },
-      "cells": 6,
-      "rules": "A:B-;B:E+;C:D-,E-,F+;F:B-",
-      "pos": [
-        2,
-        0,
-        6,
-        3,
-        2,
-        1
-      ],
-      "tags": [
-        "tower",
-        "башня",
-        "old camp",
-        "старый лагерь",
-        "chest",
-        "сундук"
-      ],
-      "img": []
-    },
-    {
       "id": "около-моста-вымогателей-по-пути-в-нл",
       "name": {
         "ru": "Около моста вымогателей по пути в НЛ",
@@ -5049,6 +5979,29 @@
       "img": []
     },
     {
+      "id": "ru-корабль-возле-пещеры-под-башней-с-нежатью",
+      "name": {
+        "ru": "RU Корабль возле пещеры, под башней с нежатью",
+        "en": "Ship near the cave, under the tower with undead",
+        "de": "RU Schiff bei der Höhle, unter dem Turm mit den Untoten",
+        "uk": "RU Корабель біля печери, під вежею з нежиттю"
+      },
+      "cells": 5,
+      "rules": "A:B+;B:D-;D:B-,E-,C-;E:A+,B-,C-",
+      "pos": [
+        5,
+        2,
+        4,
+        0,
+        1
+      ],
+      "tags": [
+        "RU Корабль возле пещеры",
+        "под башней с нежатью"
+      ],
+      "img": []
+    },
+    {
       "id": "сундук-квентина-лагерь-бандитов",
       "name": {
         "ru": "Сундук Квентина Лагерь бандитов",
@@ -5122,6 +6075,33 @@
       "img": []
     },
     {
+      "id": "дверь-от-подвала-гомеза",
+      "name": {
+        "ru": "Дверь от подвала Гомеза",
+        "en": "Door to Gomez' basement",
+        "de": "Tür zum Keller von Gomez",
+        "uk": "Двері від підвалу Гомеза"
+      },
+      "cells": 6,
+      "rules": "A:B-,C-,E-,F-;C:F-;D:E+,F-;E:D+;F:D-",
+      "pos": [
+        6,
+        2,
+        1,
+        5,
+        1,
+        5
+      ],
+      "tags": [
+        "Старый",
+        "Лагерь",
+        "Подвал",
+        "Гомез",
+        "Дверь"
+      ],
+      "img": []
+    },
+    {
       "id": "пещера-квентина-левая-левый-сундук",
       "name": {
         "ru": "Пещера Квентина левая, левый сундук",
@@ -5168,6 +6148,53 @@
         "болотний лагерь",
         "глава 1",
         "хижина на дереве"
+      ],
+      "img": []
+    },
+    {
+      "id": "болотный-лагерь-2-этаж-дом-послушника-1-глава",
+      "name": {
+        "ru": "болотный лагерь, 2 этаж, дом послушника, 1 глава.",
+        "en": "Swamp Camp, 2nd floor, novice's house, chapter 1",
+        "de": "Sumpflager, 2. Etage, Novizenhaus, 1. Kapitel",
+        "uk": "болотний табір, 2 поверх, будинок послушника, 1 глава."
+      },
+      "cells": 5,
+      "rules": "A:B+,E-;B:D-;D:A-,B+,E-;E:C+,D-",
+      "pos": [
+        6,
+        2,
+        1,
+        2,
+        6
+      ],
+      "tags": [
+        "болотный лагерь",
+        "2 этаж",
+        "дом послушника",
+        "1 глава."
+      ],
+      "img": []
+    },
+    {
+      "id": "болотный-лагерь-2",
+      "name": {
+        "ru": "Болотный лагерь",
+        "en": "Swamp Camp",
+        "de": "Sumpflager",
+        "uk": "Болотний табір"
+      },
+      "cells": 5,
+      "rules": "A:E-,B+;B:D-;D:A-,B+,E-;E:C+,D-",
+      "pos": [
+        6,
+        2,
+        1,
+        2,
+        6
+      ],
+      "tags": [
+        "сундук в доме Идол Тондрал"
       ],
       "img": []
     },
@@ -5400,32 +6427,6 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-дверь-торговца-фиска",
-      "name": {
-        "ru": "Старый лагерь, дверь торговца фиска",
-        "en": "Old Camp, Fisk the trader's door",
-        "de": "Altes Lager, Tür des Händlers Fisk",
-        "uk": "Старий табір, двері торговця Фіска"
-      },
-      "cells": 6,
-      "rules": "A:E-;B:C+,D+,A-;C:F+;D:A+,C-;E:C+",
-      "pos": [
-        6,
-        0,
-        1,
-        6,
-        0,
-        6
-      ],
-      "tags": [
-        "фиск",
-        "старый лагерь",
-        "глава 1",
-        "хижина"
-      ],
-      "img": []
-    },
-    {
       "id": "башня-ворона-второй-уровень-второй-сундук",
       "name": {
         "ru": "Башня Ворона, второй уровень, второй сундук",
@@ -5528,26 +6529,30 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-хижина-фиска-левый-сундук-от-входа",
+      "id": "болотный-лагерь-2-этаж-дом-послушника-1-глава-замок-на-7-плит",
       "name": {
-        "ru": "старый лагерь, хижина фиска, левый сундук от входа",
-        "en": "Old Camp, Fisk's hut, left chest from the entrance",
-        "de": "Altes Lager, Fisks Hütte, linke Truhe vom Eingang",
-        "uk": "старий табір, хижа Фіска, ліва скриня від входу"
+        "ru": "болотный лагерь, 2 этаж, дом послушника, 1 глава, замок на 7 плит.",
+        "en": "Swamp Camp, 2nd floor, novice's house, chapter 1, lock with 7 plates",
+        "de": "Sumpflager, 2. Stockwerk, Novizenhaus, Kapitel 1, Schloss mit 7 Platten",
+        "uk": "болотний табір, 2 поверх, будинок послушника, 1 глава, замок на 7 плит."
       },
-      "cells": 5,
-      "rules": "A:D+;B:A+,C+,D+;C:D+,B-;D:E+,C+,B-;E:C+",
+      "cells": 7,
+      "rules": "A:F+;C:A-,D-;D:A-,C+,F+;F:B+;G:C+",
       "pos": [
-        0,
+        6,
+        5,
+        6,
         6,
         0,
-        2,
-        1
+        1,
+        3
       ],
       "tags": [
-        "старый лагерь",
-        "хижина фиска",
-        "левый сундук от входа"
+        "болотный лагерь",
+        "2 этаж",
+        "дом послушника",
+        "1 глава",
+        "замок на 7 плит."
       ],
       "img": []
     },
@@ -5571,6 +6576,26 @@
       "tags": [
         "RU"
       ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерьдом-справа-от-кузницы-хуно",
+      "name": {
+        "ru": "Старый лагерь,дом справа от кузницы хуно",
+        "en": "Old Camp, house to the right of the forge, Huno",
+        "de": "Altes Lager, Haus rechts von der Schmiede, Huno",
+        "uk": "Старий табір, будинок справа від кузні, Хуно"
+      },
+      "cells": 5,
+      "rules": "A:D+;B:A+,D+,E+;C:B-,E-;D:B+;E:D-,C+,B+",
+      "pos": [
+        6,
+        3,
+        0,
+        3,
+        3
+      ],
+      "tags": [],
       "img": []
     },
     {
@@ -5676,51 +6701,6 @@
         "башня Ворона",
         "5 уровень",
         "самый верх"
-      ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерьдом-справа-от-кузницы-хуно",
-      "name": {
-        "ru": "Старый лагерь,дом справа от кузницы хуно",
-        "en": "Old Camp, house to the right of the forge, Huno",
-        "de": "Altes Lager, Haus rechts von der Schmiede, Huno",
-        "uk": "Старий табір, будинок справа від кузні, Хуно"
-      },
-      "cells": 5,
-      "rules": "A:D+;B:A+,D+,E+;C:B-,E-;D:B+;E:D-,C+,B+",
-      "pos": [
-        6,
-        3,
-        0,
-        3,
-        3
-      ],
-      "tags": [],
-      "img": []
-    },
-    {
-      "id": "болотный-лагерь-2-этаж-дом-послушника-1-глава",
-      "name": {
-        "ru": "болотный лагерь, 2 этаж, дом послушника, 1 глава.",
-        "en": "Swamp Camp, 2nd floor, novice's house, chapter 1",
-        "de": "Sumpflager, 2. Etage, Novizenhaus, 1. Kapitel",
-        "uk": "болотний табір, 2 поверх, будинок послушника, 1 глава."
-      },
-      "cells": 5,
-      "rules": "A:B+,E-;B:D-;D:A-,B+,E-;E:C+,D-",
-      "pos": [
-        6,
-        2,
-        1,
-        2,
-        6
-      ],
-      "tags": [
-        "болотный лагерь",
-        "2 этаж",
-        "дом послушника",
-        "1 глава."
       ],
       "img": []
     },
@@ -5903,6 +6883,29 @@
       "img": []
     },
     {
+      "id": "новый-лагерь-рисовое-поле-сундук-1-на-3-этаже",
+      "name": {
+        "ru": "Новый лагерь рисовое поле сундук 1 на 3 этаже",
+        "en": "New Camp, rice field, chest 1 on the 3rd floor",
+        "de": "Neues Lager, Reisfeld, Truhe 1 im 3. Stockwerk",
+        "uk": "Новий табір, рисове поле, скриня 1 на 3 поверсі"
+      },
+      "cells": 6,
+      "rules": "A:C+,D+,E-;B:A+;C:A+,F-;E:A+;F:E+,B-",
+      "pos": [
+        4,
+        3,
+        2,
+        3,
+        3,
+        3
+      ],
+      "tags": [
+        "\"\"Новый лагерь рисовое поле сундук 1 на 3 этаже"
+      ],
+      "img": []
+    },
+    {
       "id": "0020656",
       "name": {
         "en": "0,0,2,0,6,5,6",
@@ -5955,6 +6958,26 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-правый-дом-напротив-арены-и-телеги",
+      "name": {
+        "ru": "Старый лагерь, правый дом напротив арены и телеги",
+        "en": "Old Camp, right house across from the Arena and the cart",
+        "de": "Altes Lager, rechtes Haus gegenüber der Arena und des Karrens",
+        "uk": "Старий табір, правий будинок навпроти арени та воза"
+      },
+      "cells": 5,
+      "rules": "A:B-,D+;C:A+;D:A-,E+;E:B-,D+",
+      "pos": [
+        4,
+        0,
+        6,
+        4,
+        0
+      ],
+      "tags": [],
+      "img": []
+    },
+    {
       "id": "neues-lager-truhe#2-im-haus-hinter-horratio",
       "name": {
         "de": "Neues Lager, Truhe#2 im Haus hinter Horratio",
@@ -5978,30 +7001,24 @@
       "img": []
     },
     {
-      "id": "болотный-лагерь-2-этаж-дом-послушника-1-глава-замок-на-7-плит",
+      "id": "новый-лагерь-рисовое-поле-сундук-2-на-3-этаже",
       "name": {
-        "ru": "болотный лагерь, 2 этаж, дом послушника, 1 глава, замок на 7 плит.",
-        "en": "Swamp Camp, 2nd floor, novice's house, chapter 1, lock with 7 plates",
-        "de": "Sumpflager, 2. Stockwerk, Novizenhaus, Kapitel 1, Schloss mit 7 Platten",
-        "uk": "болотний табір, 2 поверх, будинок послушника, 1 глава, замок на 7 плит."
+        "ru": "Новый лагерь рисовое поле сундук 2 на 3 этаже",
+        "en": "New Camp, rice field, chest 2 on the 3rd floor",
+        "de": "Neues Lager, Reisfeld, Truhe 2 im 3. Stockwerk",
+        "uk": "Новий табір, рисове поле, скриня 2 на 3 поверсі"
       },
-      "cells": 7,
-      "rules": "A:F+;C:A-,D-;D:A-,C+,F+;F:B+;G:C+",
+      "cells": 5,
+      "rules": "A:B+,D+,E+;C:A+;D:A-;E:B-,D+",
       "pos": [
-        6,
-        5,
-        6,
-        6,
-        0,
         1,
-        3
+        6,
+        4,
+        6,
+        0
       ],
       "tags": [
-        "болотный лагерь",
-        "2 этаж",
-        "дом послушника",
-        "1 глава",
-        "замок на 7 плит."
+        "\"\"Новый лагерь рисовое поле сундук 2 на 3 этаже"
       ],
       "img": []
     },
@@ -6024,50 +7041,6 @@
         6
       ],
       "tags": [],
-      "img": []
-    },
-    {
-      "id": "шахта-сундук-за-ульбертом-и-за-помещением-с-сундукомкоторый-он-о",
-      "name": {
-        "ru": "Шахта, сундук за Ульбертом и за помещением с сундуком(который он охраняет)",
-        "en": "Mine, chest behind Ulbert and behind the room with the chest (which he guards)",
-        "de": "Mine, Truhe hinter Ulbert und hinter dem Raum mit der Truhe (die er bewacht)",
-        "uk": "Шахта, скриня за Ульбертом і за приміщенням зі скринею (яку він охороняє)"
-      },
-      "cells": 5,
-      "rules": "A:C-;B:A-,C+,E+;C:A+,B+,D+;E:D+,C-",
-      "pos": [
-        0,
-        5,
-        1,
-        2,
-        2
-      ],
-      "tags": [
-        "RU"
-      ],
-      "img": []
-    },
-    {
-      "id": "болотный-лагерь-2",
-      "name": {
-        "ru": "Болотный лагерь",
-        "en": "Swamp Camp",
-        "de": "Sumpflager",
-        "uk": "Болотний табір"
-      },
-      "cells": 5,
-      "rules": "A:E-,B+;B:D-;D:A-,B+,E-;E:C+,D-",
-      "pos": [
-        6,
-        2,
-        1,
-        2,
-        6
-      ],
-      "tags": [
-        "сундук в доме Идол Тондрал"
-      ],
       "img": []
     },
     {
@@ -6185,33 +7158,6 @@
       "img": []
     },
     {
-      "id": "болотный-лагерь-2-этаж-дом-послушника-1-глава-6-плит",
-      "name": {
-        "ru": "болотный лагерь, 2 этаж, дом послушника, 1 глава, 6 плит.",
-        "en": "Swamp Camp, 2nd floor, novice's house, chapter 1, 6 plates",
-        "de": "Sumpflager, 2. Stockwerk, Novizenhaus, Kapitel 1, 6 Platten",
-        "uk": "болотний табір, 2 поверх, будинок послушника, 1 глава, 6 плит."
-      },
-      "cells": 6,
-      "rules": "A:E+;B:F+,E-;C:E+,F-;D:B+,E-;E:B-;F:C+",
-      "pos": [
-        2,
-        1,
-        1,
-        5,
-        6,
-        6
-      ],
-      "tags": [
-        "болотный лагерь",
-        "2 этаж",
-        "дом послушника",
-        "1 глава",
-        "6 плит."
-      ],
-      "img": []
-    },
-    {
       "id": "01300",
       "name": {
         "en": "0,1,3,0,0",
@@ -6284,29 +7230,6 @@
       "img": []
     },
     {
-      "id": "болотный-лагерь-3",
-      "name": {
-        "ru": "Болотный лагерь",
-        "en": "Swamp Camp",
-        "de": "Sumpflager",
-        "uk": "Болотний табір"
-      },
-      "cells": 6,
-      "rules": "A:E+;B:E-,F+;C:E+,F-;D:E-,B+;E:B-;F:C+",
-      "pos": [
-        2,
-        1,
-        1,
-        5,
-        6,
-        6
-      ],
-      "tags": [
-        "дом Кор Ангар"
-      ],
-      "img": []
-    },
-    {
       "id": "болотный-лагерь-2-этаж-дом-послушника-1-глава-6-плит-проверяйте-",
       "name": {
         "ru": "болотный лагерь, 2 этаж, дом послушника, 1 глава, 6 плит. ПРОВЕРЯЙТЕ НАЧАЛЬНЫЕ ПАЗЫ В ПЛИТАХ.",
@@ -6360,6 +7283,54 @@
       "img": []
     },
     {
+      "id": "рядом-с-новым-лагерем-под-мостом-вымогателей-пещера-с-гоблинами",
+      "name": {
+        "ru": "Рядом с Новым Лагерем, под мостом вымогателей, пещера с гоблинами",
+        "en": "Near New Camp, under the extortionists' bridge, cave with goblins",
+        "de": "In der Nähe des Neuen Lagers, unter der Erpresserbrücke, Goblin-Höhle",
+        "uk": "Поруч з Новим табором, під мостом вимагачів, печера з гоблінами"
+      },
+      "cells": 5,
+      "rules": "A:C-,E+;B:A-;C:E-;D:A-;E:A-,B-",
+      "pos": [
+        2,
+        6,
+        6,
+        6,
+        4
+      ],
+      "tags": [
+        "Рядом с Новым Лагерем",
+        "под мостом вымогателей",
+        "пещера с гоблинами"
+      ],
+      "img": []
+    },
+    {
+      "id": "kiste-in-höhle-mir-schwarzen-goblins-ring-der-magie",
+      "name": {
+        "de": "Kiste in Höhle mir Schwarzen Goblins, Ring der Magie",
+        "ru": "Сундук в пещере с чёрными гоблинами, Кольцо магии",
+        "en": "Chest in the cave with the Black Goblins, Ring of Magic",
+        "uk": "Скриня в печері з чорними гоблінами, Перстень магії"
+      },
+      "cells": 5,
+      "rules": "B:A-;C:E-;D:A-;E:A-,B-;A:C-,E+",
+      "pos": [
+        2,
+        6,
+        6,
+        6,
+        4
+      ],
+      "tags": [
+        "Höhle",
+        "Schwarze Goblins",
+        "Ring der Magie"
+      ],
+      "img": []
+    },
+    {
       "id": "baal-oruns-chest",
       "name": {
         "en": "Baal Orun's Chest",
@@ -6381,6 +7352,30 @@
         "swamp camp",
         "ch 1",
         "Baal Orun"
+      ],
+      "img": []
+    },
+    {
+      "id": "сундук-в-доме-орана-болотный-лагерь-без-навыка",
+      "name": {
+        "ru": "Сундук в доме Орана Болотный лагерь (без навыка)",
+        "en": "Chest in Oran's house, Swamp Camp (no skill)",
+        "de": "Truhe in Orans Haus, Sumpflager (ohne Fertigkeit)",
+        "uk": "Скриня в домі Орана, Болотний табір (без навички)"
+      },
+      "cells": 6,
+      "rules": "A:B+,C+,D-,E-,F+;B:F-;C:E+,F-;D:B+;E:B-",
+      "pos": [
+        6,
+        5,
+        0,
+        3,
+        4,
+        1
+      ],
+      "tags": [
+        "Болотный лагерь",
+        "оран"
       ],
       "img": []
     },
@@ -6435,6 +7430,79 @@
       "img": []
     },
     {
+      "id": "сундук-на-мосту-вымогателей-у-нового-лагеря",
+      "name": {
+        "ru": "Сундук на мосту вымогателей у Нового лагеря",
+        "en": "Chest on the extortionists' bridge near New Camp",
+        "de": "Truhe auf der Erpresserbrücke beim Neuen Lager",
+        "uk": "Скриня на мосту вимагачів біля Нового табору"
+      },
+      "cells": 6,
+      "rules": "A:B+,C-,D-,E+,F+;B:A-,E-;D:E-;E:B+,D-",
+      "pos": [
+        5,
+        4,
+        1,
+        4,
+        6,
+        3
+      ],
+      "tags": [
+        "Новый лагерь",
+        "сундук",
+        "вымогатель",
+        "вымогатели",
+        "мост"
+      ],
+      "img": []
+    },
+    {
+      "id": "сундук-2х-разбойников-на-мосту",
+      "name": {
+        "ru": "Сундук 2х разбойников на мосту",
+        "en": "Chest of 2 bandits on the bridge",
+        "de": "Truhe der 2 Räuber auf der Brücke",
+        "uk": "Скриня 2х розбійників на мосту"
+      },
+      "cells": 6,
+      "rules": "A:B+,C-,D-,E+,F+;B:A-,E-;D:E-;E:D-,B+",
+      "pos": [
+        5,
+        4,
+        1,
+        4,
+        6,
+        3
+      ],
+      "tags": [
+        "Сундук 2х разбойников на мосту"
+      ],
+      "img": []
+    },
+    {
+      "id": "сундук-вымогателей",
+      "name": {
+        "ru": "Сундук вымогателей",
+        "en": "Extortionists' chest",
+        "de": "Truhe der Erpresser",
+        "uk": "Скриня вимагачів"
+      },
+      "cells": 6,
+      "rules": "A:B+,C-,D-,E+,F+;B:A-,E-;E:B+,D-;D:E-;E:D-,B+",
+      "pos": [
+        5,
+        4,
+        1,
+        4,
+        6,
+        3
+      ],
+      "tags": [
+        "Сундук вымогателей"
+      ],
+      "img": []
+    },
+    {
       "id": "исправлено:-дверь-на-пляже-разбитого-корабля",
       "name": {
         "ru": "[Исправлено]: Дверь на пляже разбитого корабля",
@@ -6484,29 +7552,6 @@
       "img": []
     },
     {
-      "id": "болотный-лагерь-5",
-      "name": {
-        "ru": "Болотный лагерь",
-        "en": "Swamp Camp",
-        "de": "Sumpflager",
-        "uk": "Болотний табір"
-      },
-      "cells": 6,
-      "rules": "B:E-,D-;C:D-;D:A+;E:F+;F:A+,D-",
-      "pos": [
-        0,
-        0,
-        4,
-        3,
-        0,
-        2
-      ],
-      "tags": [
-        "дом Нирас"
-      ],
-      "img": []
-    },
-    {
       "id": "старый-лагерь-второй-дом-слева-от-вашей-хижинывозле-арены",
       "name": {
         "ru": "Старый лагерь, второй дом слева от вашей хижины(возле арены)",
@@ -6526,30 +7571,6 @@
       ],
       "tags": [
         "RU"
-      ],
-      "img": []
-    },
-    {
-      "id": "altes-lager-haus-links-neben-schmiede",
-      "name": {
-        "de": "Altes Lager, Haus links neben Schmiede",
-        "ru": "Старый лагерь, дом слева от кузницы",
-        "en": "Old Camp, House left of the Forge",
-        "uk": "Старий табір, будинок зліва біля кузні"
-      },
-      "cells": 6,
-      "rules": "A:C+,E+;B:F+,A-,C-,E-;D:B-;E:C+",
-      "pos": [
-        2,
-        6,
-        3,
-        6,
-        6,
-        3
-      ],
-      "tags": [
-        "Altes Lager",
-        "Schmiede"
       ],
       "img": []
     },
@@ -6647,56 +7668,6 @@
       "img": []
     },
     {
-      "id": "altes-lager-mordrags-hütte",
-      "name": {
-        "de": "Altes Lager, Mordrags Hütte",
-        "ru": "Старый лагерь, хижина Мордрага",
-        "en": "Old Camp, Mordrag's Hut",
-        "uk": "Старий табір, хижа Мордрага"
-      },
-      "cells": 6,
-      "rules": "A:B-,E-;B:A+;E:B+;C:A-,E-;D:E-,F+",
-      "pos": [
-        0,
-        1,
-        0,
-        4,
-        1,
-        0
-      ],
-      "tags": [
-        "Altes Lager",
-        "Mordrag"
-      ],
-      "img": []
-    },
-    {
-      "id": "сундук-в-разбитом-корабле-рядом-с-огненными-ящерицами-на-берегу",
-      "name": {
-        "ru": "Сундук в разбитом корабле, рядом с огненными ящерицами на берегу",
-        "en": "Chest in a wrecked ship, near fire lizards on the shore",
-        "de": "Truhe im Schiffswrack, neben den Feuerleguanen am Ufer",
-        "uk": "Скриня в розбитому кораблі, поряд з вогняними ящірками на березі"
-      },
-      "cells": 6,
-      "rules": "F:B+;A:F+,B-,C-;D:F+,A-;E:D+,F-",
-      "pos": [
-        6,
-        0,
-        5,
-        4,
-        1,
-        0
-      ],
-      "tags": [
-        "сундук",
-        "разбитый корабль",
-        "огненные ящерицы",
-        "на берегу"
-      ],
-      "img": []
-    },
-    {
       "id": "neues-lager-kiste-auf-dem-turm-am-damm",
       "name": {
         "de": "Neues Lager, Kiste auf dem Turm am Damm",
@@ -6717,31 +7688,6 @@
       "tags": [
         "Neues Lager",
         "Turm"
-      ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-замок-2-этаж-дверь-справа-1ая",
-      "name": {
-        "ru": "Старый лагерь, замок, 2 этаж, дверь справа 1ая",
-        "en": "Old Camp, Castle, 2nd floor, first door on the right",
-        "de": "Altes Lager, Burg, 2. Stockwerk, 1. Tür rechts",
-        "uk": "Старий табір, замок, 2 поверх, двері справа 1-ші"
-      },
-      "cells": 6,
-      "rules": "A:B-,C-,E-;B:D+,F+;C:B+,F-;E:A-;F:E+,C+",
-      "pos": [
-        0,
-        1,
-        6,
-        6,
-        5,
-        4
-      ],
-      "tags": [
-        "Замок",
-        "гомез",
-        "2 этаж"
       ],
       "img": []
     },
@@ -6769,6 +7715,79 @@
       "img": []
     },
     {
+      "id": "шахта-сундук-у-сантио",
+      "name": {
+        "ru": "шахта сундук у сантио",
+        "en": "Mine, chest near Santino",
+        "de": "Mine, Truhe bei Santino",
+        "uk": "шахта, скриня у Сантіно"
+      },
+      "cells": 5,
+      "rules": "A:B-,E-,D+;C:A+;D:E-;E:A-,C+",
+      "pos": [
+        0,
+        0,
+        3,
+        3,
+        2
+      ],
+      "tags": [
+        "сантио",
+        "шахта",
+        "глава 1",
+        "хижина"
+      ],
+      "img": []
+    },
+    {
+      "id": "старая-шахта-сундук-сантино-2-этаж",
+      "name": {
+        "ru": "Старая Шахта, сундук Сантино, 2 этаж.",
+        "en": "Old Mine, Santino's chest, 2nd floor",
+        "de": "Alte Mine, Santinos Truhe, 2. Stockwerk",
+        "uk": "Стара шахта, скриня Сантіно, 2 поверх."
+      },
+      "cells": 5,
+      "rules": "A:D+,B-,E-;C:A+;D:E-;E:A-,C+",
+      "pos": [
+        0,
+        0,
+        3,
+        3,
+        2
+      ],
+      "tags": [
+        "Сантино",
+        "старая шахта",
+        "торговец",
+        "2 этаж"
+      ],
+      "img": []
+    },
+    {
+      "id": "шахта-второй-этаж-слева-от-сантино",
+      "name": {
+        "ru": "Шахта, второй этаж слева от Сантино",
+        "en": "Mine, second floor to the left of Santino",
+        "de": "Mine, zweite Etage links von Santino",
+        "uk": "Шахта, другий поверх зліва від Сантіно"
+      },
+      "cells": 5,
+      "rules": "A:B-,D+,E-;C:A+;D:E-;E:C+,A-",
+      "pos": [
+        0,
+        0,
+        3,
+        3,
+        2
+      ],
+      "tags": [
+        "Шахта",
+        "Сантино"
+      ],
+      "img": []
+    },
+    {
       "id": "озеро-рядом-с-пещерой-джако",
       "name": {
         "ru": "Озеро рядом с пещерой Джако",
@@ -6792,28 +7811,53 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-замок-гомеза-второй-этаж-первая-правая-дверь",
+      "id": "kiste-in-hütte-am-see-bauplan-knochenbrecher",
       "name": {
-        "ru": "Старый лагерь, замок Гомеза, второй этаж, первая правая дверь",
-        "en": "Old Camp, Gomez' Castle, second floor, first door on the right",
-        "de": "Altes Lager, Burg des Gomez, 2. Stockwerk, 1. Tür rechts",
-        "uk": "Старий табір, замок Гомеза, другий поверх, перші праві двері"
+        "de": "Kiste in Hütte am See, Bauplan Knochenbrecher",
+        "ru": "Сундук в хижине у озера, чертёж Костолома",
+        "en": "Chest in the hut by the lake, Bonebreaker blueprint",
+        "uk": "Скриня в хижі біля озера, креслення Костолома"
       },
       "cells": 6,
-      "rules": "A:B-,C-,E-;B:D+,F+;C:B+,F-;E:A-;F:C+,E+",
+      "rules": "D:F+;E:C+,D-,F-;B:A+,D-,F+",
       "pos": [
+        4,
         0,
-        1,
         6,
-        6,
-        5,
-        4
+        0,
+        0,
+        2
       ],
       "tags": [
-        "\"\"Старый лагерь",
-        "замок Гомеза",
-        "второй этаж",
-        "первая правая дверь"
+        "See",
+        "Knochenbrecher",
+        "Jan"
+      ],
+      "img": []
+    },
+    {
+      "id": "рыбацкая-деревня-напротив-нового-лагеря-хижина-на-южном-берегу-о",
+      "name": {
+        "ru": "Рыбацкая деревня напротив Нового Лагеря, Хижина на южном берегу озера, у скалы.",
+        "en": "Fishing Village across from the New Camp, hut on the southern shore of the lake by the cliff",
+        "de": "Fischerdorf gegenüber dem Neuen Lager, Hütte am südlichen Seeufer, bei der Klippe.",
+        "uk": "Рибацьке село навпроти Нового табору, хижа на південному березі озера, біля скелі."
+      },
+      "cells": 6,
+      "rules": "B:A+,D-,F+;D:F+;E:C+,D-,F-",
+      "pos": [
+        4,
+        0,
+        6,
+        0,
+        0,
+        2
+      ],
+      "tags": [
+        "новый лагерь",
+        "хижина",
+        "рыбацкая деревня",
+        "озеро"
       ],
       "img": []
     },
@@ -6843,26 +7887,23 @@
       "img": []
     },
     {
-      "id": "тайник-под-таверной-силаса",
+      "id": "замок-ворона-второй-сундук-у-кровати-от-двери",
       "name": {
-        "ru": "Тайник под таверной Силаса",
-        "en": "Stash under Silas' Tavern",
-        "de": "Versteck unter der Taverne von Silas",
-        "uk": "Сховок під тавернею Силаса"
+        "ru": "Замок ворона, второй сундук у кровати от двери",
+        "en": "Raven's Castle, second chest by the bed from the door",
+        "de": "Burg des Raben, zweite Truhe beim Bett von der Tür",
+        "uk": "Замок Ворона, друга скриня біля ліжка від дверей"
       },
       "cells": 5,
-      "rules": "A:B-,C-;B:A+,D-;C:B+,D+,A-;D:E+,A-;E:C-",
+      "rules": "A:D-;B:C-,D+;C:B-,D+,E-;D:B-,E-;E:C-",
       "pos": [
         3,
-        2,
+        4,
         6,
-        1,
-        4
+        6,
+        6
       ],
-      "tags": [
-        "Силас",
-        "тайник"
-      ],
+      "tags": [],
       "img": []
     },
     {
@@ -6916,31 +7957,6 @@
       "img": []
     },
     {
-      "id": "второй-этаж-замка-гомеза-сундук-у-дальней-кровати-с-кольцом-рудн",
-      "name": {
-        "ru": "Второй этаж замка Гомеза, сундук у дальней кровати с кольцом рудной кожи",
-        "en": "Second floor of Gomez' Castle, chest by the far bed with the ore hide ring",
-        "de": "Zweites Stockwerk von Gomez' Burg, Truhe beim hinteren Bett mit dem Erzhautring",
-        "uk": "Другий поверх замку Гомеза, скриня біля дальнього ліжка з кільцем рудної шкіри"
-      },
-      "cells": 5,
-      "rules": "A:D-;B:D+,A-,C-;C:D+,B-,E-;D:B-,E-;E:C-",
-      "pos": [
-        3,
-        4,
-        6,
-        6,
-        6
-      ],
-      "tags": [
-        "Гомез",
-        "старый лагерь",
-        "замок",
-        "рудной кожи"
-      ],
-      "img": []
-    },
-    {
       "id": "сундур-арона-в-старой-шахте",
       "name": {
         "ru": "Сундур Арона в старой шахте",
@@ -6961,28 +7977,6 @@
       "tags": [
         "Арон",
         "Старая шахта"
-      ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-2",
-      "name": {
-        "ru": "Старый лагерь",
-        "en": "Old Camp",
-        "de": "Altes Lager",
-        "uk": "Старий табір"
-      },
-      "cells": 5,
-      "rules": "A:C-,D+;B:C+;C:A-,B+;D:A-,B-;E:B-",
-      "pos": [
-        0,
-        5,
-        0,
-        0,
-        5
-      ],
-      "tags": [
-        "над Фингерсом"
       ],
       "img": []
     },
@@ -7009,6 +8003,28 @@
         "старая",
         "шахта",
         "старая шахта"
+      ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-2",
+      "name": {
+        "ru": "Старый лагерь",
+        "en": "Old Camp",
+        "de": "Altes Lager",
+        "uk": "Старий табір"
+      },
+      "cells": 5,
+      "rules": "A:C-,D+;B:C+;C:A-,B+;D:A-,B-;E:B-",
+      "pos": [
+        0,
+        5,
+        0,
+        0,
+        5
+      ],
+      "tags": [
+        "над Фингерсом"
       ],
       "img": []
     },
@@ -7062,6 +8078,31 @@
         "right room (Болотний табір",
         "храм",
         "права кімната)"
+      ],
+      "img": []
+    },
+    {
+      "id": "болотный-лагерь-храм-спящего-правая-комната",
+      "name": {
+        "ru": "Болотный лагерь, Храм Спящего, правая комната",
+        "en": "Swamp Camp, Temple of the Sleeper, right room",
+        "de": "Sumpflager, Tempel des Schläfers, rechter Raum",
+        "uk": "Болотний табір, Храм Сплячого, права кімната"
+      },
+      "cells": 5,
+      "rules": "A:B+,C+,D-,E-;B:E+,D-;C:D+,E+;D:C+;E:B+",
+      "pos": [
+        5,
+        2,
+        0,
+        5,
+        6
+      ],
+      "tags": [
+        "болотный лагерь",
+        "глава 1",
+        "храм",
+        "комната"
       ],
       "img": []
     },
@@ -7141,30 +8182,6 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-первый-дом-справа-от-северных-ворот",
-      "name": {
-        "ru": "Старый лагерь, первый дом справа от северных ворот",
-        "en": "Old Camp, first house on the right from the northern gate",
-        "de": "Altes Lager, erstes Haus rechts vom Nordtor",
-        "uk": "Старий табір, перший будинок праворуч від північних воріт"
-      },
-      "cells": 5,
-      "rules": "A:D-;C:A+;D:A-,B+,C-;E:B-,D-",
-      "pos": [
-        0,
-        3,
-        6,
-        4,
-        2
-      ],
-      "tags": [
-        "старый лагерь",
-        "северные ворота",
-        "хижина"
-      ],
-      "img": []
-    },
-    {
       "id": "рядом-с-хижиной-коселя-пещера-в-разбитом-лагере",
       "name": {
         "ru": "Рядом с хижиной Коселя, пещера в разбитом лагере",
@@ -7192,6 +8209,56 @@
       "img": []
     },
     {
+      "id": "truhe-in-der-höhle-am-holzfällerlager-mit-den-wölfen-morgenstern",
+      "name": {
+        "de": "Truhe in der Höhle am Holzfällerlager mit den Wölfen, Morgenstern",
+        "ru": "Сундук в пещере у лагеря лесорубов с волками, Моргенштерн",
+        "en": "Chest in the cave at the lumberjack camp with the wolves, Morning Star",
+        "uk": "Скриня в печері біля табору лісорубів з вовками, Моргенштерн"
+      },
+      "cells": 7,
+      "rules": "A:F-;B:A+;C:G+;D:A+,G-;E:D-,G+;F:A+;G:A+,F+",
+      "pos": [
+        6,
+        4,
+        0,
+        6,
+        5,
+        4,
+        5
+      ],
+      "tags": [
+        "Holzfäller",
+        "Morgenstern"
+      ],
+      "img": []
+    },
+    {
+      "id": "волчье-логово-недалеко-от-коселя",
+      "name": {
+        "ru": "Волчье логово, недалеко от Коселя",
+        "en": "Wolf's Den, near Kosel",
+        "de": "Wolfshöhle in der Nähe von Kossel",
+        "uk": "Вовче лігво, неподалік від Коселя"
+      },
+      "cells": 7,
+      "rules": "A:F-;B:A+;C:G+;D:A+,G-;E:G+,D-;F:A+;G:A+,F+",
+      "pos": [
+        6,
+        4,
+        0,
+        6,
+        5,
+        4,
+        5
+      ],
+      "tags": [
+        "Волчье логово",
+        "Коселя"
+      ],
+      "img": []
+    },
+    {
       "id": "болотный-лагерь-сундук-в-храме-комната-ю-бериона",
       "name": {
         "ru": "Болотный лагерь сундук в храме комната Ю-Бериона",
@@ -7212,31 +8279,6 @@
         "болотный лагерь",
         "Ю-Берион",
         "храм"
-      ],
-      "img": []
-    },
-    {
-      "id": "шахта-сундук-у-сантио",
-      "name": {
-        "ru": "шахта сундук у сантио",
-        "en": "Mine, chest near Santino",
-        "de": "Mine, Truhe bei Santino",
-        "uk": "шахта, скриня у Сантіно"
-      },
-      "cells": 5,
-      "rules": "A:B-,E-,D+;C:A+;D:E-;E:A-,C+",
-      "pos": [
-        0,
-        0,
-        3,
-        3,
-        2
-      ],
-      "tags": [
-        "сантио",
-        "шахта",
-        "глава 1",
-        "хижина"
       ],
       "img": []
     },
@@ -7311,6 +8353,29 @@
       "img": []
     },
     {
+      "id": "altes-lager-burg-1etage-linke-tür-1",
+      "name": {
+        "de": "Altes Lager Burg 1.Etage Linke Tür 1",
+        "ru": "Старый лагерь, замок, 1-й этаж, левая дверь 1",
+        "en": "Old Camp Castle, 1st floor, left door 1",
+        "uk": "Старий табір, замок, 1-й поверх, ліві двері 1"
+      },
+      "cells": 6,
+      "rules": "A:D-;B:C+;B:D-,E-;C:B+,F+;D:F-;E:B-",
+      "pos": [
+        1,
+        0,
+        4,
+        3,
+        2,
+        0
+      ],
+      "tags": [
+        "Burg"
+      ],
+      "img": []
+    },
+    {
       "id": "сундук-под-водой-в-заброшенной-шахте-поворот-налево",
       "name": {
         "ru": "Сундук под водой в Заброшенной шахте, поворот налево",
@@ -7358,29 +8423,6 @@
       ],
       "tags": [
         "Дом Волка сундук новый лагерь дом где лежит бестиарий"
-      ],
-      "img": []
-    },
-    {
-      "id": "neues-lager-kiste-im-haus-von-wolf",
-      "name": {
-        "de": "Neues Lager, Kiste im Haus von Wolf",
-        "ru": "Новый лагерь, сундук в доме Вольфа",
-        "en": "New Camp, Chest in Wolf's house",
-        "uk": "Новий табір, скриня в будинку Вольфа"
-      },
-      "cells": 5,
-      "rules": "B:E-;C:B-;D:B+,C-,E+;E:A-,C-,D-",
-      "pos": [
-        0,
-        2,
-        2,
-        6,
-        4
-      ],
-      "tags": [
-        "Neues Lager",
-        "Wolf"
       ],
       "img": []
     },
@@ -7672,29 +8714,6 @@
       "img": []
     },
     {
-      "id": "altes-lager-burg-1etage-linke-tür-1",
-      "name": {
-        "de": "Altes Lager Burg 1.Etage Linke Tür 1",
-        "ru": "Старый лагерь, замок, 1-й этаж, левая дверь 1",
-        "en": "Old Camp Castle, 1st floor, left door 1",
-        "uk": "Старий табір, замок, 1-й поверх, ліві двері 1"
-      },
-      "cells": 6,
-      "rules": "A:D-;B:C+;B:D-,E-;C:B+,F+;D:F-;E:B-",
-      "pos": [
-        1,
-        0,
-        4,
-        3,
-        2,
-        0
-      ],
-      "tags": [
-        "Burg"
-      ],
-      "img": []
-    },
-    {
       "id": "старый-лагерьзамок-второй-этаж-1-дверь-справа",
       "name": {
         "ru": "Старый лагерь,замок второй этаж 1 дверь справа",
@@ -7714,29 +8733,6 @@
       ],
       "tags": [
         "Старый лагерь ЗАмок 2 этаж 1 дверь справа"
-      ],
-      "img": []
-    },
-    {
-      "id": "ru-корабль-возле-пещеры-под-башней-с-нежатью",
-      "name": {
-        "ru": "RU Корабль возле пещеры, под башней с нежатью",
-        "en": "Ship near the cave, under the tower with undead",
-        "de": "RU Schiff bei der Höhle, unter dem Turm mit den Untoten",
-        "uk": "RU Корабель біля печери, під вежею з нежиттю"
-      },
-      "cells": 5,
-      "rules": "A:B+;B:D-;D:B-,E-,C-;E:A+,B-,C-",
-      "pos": [
-        5,
-        2,
-        4,
-        0,
-        1
-      ],
-      "tags": [
-        "RU Корабль возле пещеры",
-        "под башней с нежатью"
       ],
       "img": []
     },
@@ -7787,54 +8783,6 @@
       "img": []
     },
     {
-      "id": "freie-mine-kiste-in-okyls-hütte",
-      "name": {
-        "de": "Freie Mine, Kiste in Okyls Hütte",
-        "ru": "Свободная шахта, сундук в хижине Окила",
-        "en": "Free Mine, Chest in Okyl's Hut",
-        "uk": "Вільна шахта, скриня в хижі Окіла"
-      },
-      "cells": 5,
-      "rules": "B:A-;A:C-,D+;D:A-;E:A-,D-,B+,C+",
-      "pos": [
-        6,
-        0,
-        6,
-        5,
-        5
-      ],
-      "tags": [
-        "Freie Mine",
-        "Okyl"
-      ],
-      "img": []
-    },
-    {
-      "id": "старая-шахта-сундук-сантино-2-этаж",
-      "name": {
-        "ru": "Старая Шахта, сундук Сантино, 2 этаж.",
-        "en": "Old Mine, Santino's chest, 2nd floor",
-        "de": "Alte Mine, Santinos Truhe, 2. Stockwerk",
-        "uk": "Стара шахта, скриня Сантіно, 2 поверх."
-      },
-      "cells": 5,
-      "rules": "A:D+,B-,E-;C:A+;D:E-;E:A-,C+",
-      "pos": [
-        0,
-        0,
-        3,
-        3,
-        2
-      ],
-      "tags": [
-        "Сантино",
-        "старая шахта",
-        "торговец",
-        "2 этаж"
-      ],
-      "img": []
-    },
-    {
       "id": "старый-лагерь-замок-2-дверь-слева-на-2-этаже-после-двери-гомеза",
       "name": {
         "ru": "Старый лагерь Замок 2 дверь слева на 2 этаже (после двери Гомеза)",
@@ -7876,47 +8824,6 @@
       "tags": [
         "Старый Лагерь"
       ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-хижина-навпротив-входа-в-арену",
-      "name": {
-        "ru": "Старый лагерь, хижина навпротив входа в арену",
-        "en": "Old Camp, hut opposite the Arena entrance",
-        "de": "Altes Lager, Hütte gegenüber dem Arenaeingang",
-        "uk": "Старий табір, хижина навпроти входу в арену"
-      },
-      "cells": 5,
-      "rules": "E:D-;D:B-;B:C+,E+;C:B+;A:B-",
-      "pos": [
-        0,
-        0,
-        2,
-        0,
-        6
-      ],
-      "tags": [],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-доб-баронов-второй-этаж-дверь-справа",
-      "name": {
-        "ru": "Старый лагерь, доб баронов, второй этаж дверь справа",
-        "en": "Old Camp, Barons' house, second floor, door on the right",
-        "de": "Altes Lager, Baronenhaus, zweites Stockwerk, Tür rechts",
-        "uk": "Старий табір, дім баронів, другий поверх, двері праворуч"
-      },
-      "cells": 6,
-      "rules": "A:C-,E-;B:D+,F+;C:B+,F-;E:A-;F:E+,C+",
-      "pos": [
-        0,
-        1,
-        6,
-        6,
-        5,
-        4
-      ],
-      "tags": [],
       "img": []
     },
     {
@@ -7996,77 +8903,25 @@
       "img": []
     },
     {
-      "id": "kiste-in-hütte-am-see-bauplan-knochenbrecher",
+      "id": "озеров-перед-новым-лагерем-под-водой",
       "name": {
-        "de": "Kiste in Hütte am See, Bauplan Knochenbrecher",
-        "ru": "Сундук в хижине у озера, чертёж Костолома",
-        "en": "Chest in the hut by the lake, Bonebreaker blueprint",
-        "uk": "Скриня в хижі біля озера, креслення Костолома"
+        "ru": "Озеров перед новым лагерем, под водой",
+        "en": "Lake before the New Camp, underwater",
+        "de": "See vor dem Neuen Lager, unter Wasser",
+        "uk": "Озеро перед Новим табором, під водою"
       },
-      "cells": 6,
-      "rules": "D:F+;E:C+,D-,F-;B:A+,D-,F+",
+      "cells": 5,
+      "rules": "C:A-,B-,D+,E+;D:C-;E:D+,A-",
       "pos": [
-        4,
-        0,
-        6,
-        0,
-        0,
-        2
-      ],
-      "tags": [
-        "See",
-        "Knochenbrecher",
-        "Jan"
-      ],
-      "img": []
-    },
-    {
-      "id": "юнитор-над-болотным-лагерем-пещера-с-зомби-на-скале",
-      "name": {
-        "ru": "Юнитор над болотным лагерем, пещера с зомби на скале",
-        "en": "Unitor above Swamp Camp, cave with zombies on the rock",
-        "de": "Yunitor über dem Sumpflager, Höhle mit Zombies auf dem Felsen",
-        "uk": "Юнітор над Болотним табором, печера з зомбі на скалі"
-      },
-      "cells": 6,
-      "rules": "A:B-;B:A+,F+;C:B+;D:B+,F+,A-;E:D+,B+,A+;F:C-",
-      "pos": [
-        4,
-        1,
-        0,
-        6,
-        0,
-        0
-      ],
-      "tags": [
-        "2 зомби",
-        "зомби",
-        "пещера с зомби"
-      ],
-      "img": []
-    },
-    {
-      "id": "truhe-in-der-höhle-am-holzfällerlager-mit-den-wölfen-morgenstern",
-      "name": {
-        "de": "Truhe in der Höhle am Holzfällerlager mit den Wölfen, Morgenstern",
-        "ru": "Сундук в пещере у лагеря лесорубов с волками, Моргенштерн",
-        "en": "Chest in the cave at the lumberjack camp with the wolves, Morning Star",
-        "uk": "Скриня в печері біля табору лісорубів з вовками, Моргенштерн"
-      },
-      "cells": 7,
-      "rules": "A:F-;B:A+;C:G+;D:A+,G-;E:D-,G+;F:A+;G:A+,F+",
-      "pos": [
-        6,
-        4,
-        0,
+        5,
         6,
         5,
-        4,
-        5
+        6,
+        1
       ],
       "tags": [
-        "Holzfäller",
-        "Morgenstern"
+        "Озеров перед новым лагерем",
+        "под водой"
       ],
       "img": []
     },
@@ -8118,33 +8973,6 @@
       "img": []
     },
     {
-      "id": "сундук-на-мосту-вымогателей-у-нового-лагеря",
-      "name": {
-        "ru": "Сундук на мосту вымогателей у Нового лагеря",
-        "en": "Chest on the extortionists' bridge near New Camp",
-        "de": "Truhe auf der Erpresserbrücke beim Neuen Lager",
-        "uk": "Скриня на мосту вимагачів біля Нового табору"
-      },
-      "cells": 6,
-      "rules": "A:B+,C-,D-,E+,F+;B:A-,E-;D:E-;E:B+,D-",
-      "pos": [
-        5,
-        4,
-        1,
-        4,
-        6,
-        3
-      ],
-      "tags": [
-        "Новый лагерь",
-        "сундук",
-        "вымогатель",
-        "вымогатели",
-        "мост"
-      ],
-      "img": []
-    },
-    {
       "id": "сантино-сундук-справа-снизу",
       "name": {
         "ru": "Сантино, сундук справа снизу",
@@ -8162,30 +8990,6 @@
         0
       ],
       "tags": [],
-      "img": []
-    },
-    {
-      "id": "новый-лагерь-сундук-2",
-      "name": {
-        "ru": "Новый лагерь, сундук",
-        "en": "New Camp, chest",
-        "de": "Neues Lager, Truhe",
-        "uk": "Новий табір, скриня"
-      },
-      "cells": 6,
-      "rules": "A:B-,C-;B:C-;C:B-,E+,F+;D:E+;F:A+,B+,D-",
-      "pos": [
-        4,
-        1,
-        0,
-        0,
-        6,
-        5
-      ],
-      "tags": [
-        "Новый лагерь",
-        "сундук"
-      ],
       "img": []
     },
     {
@@ -8214,26 +9018,49 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-сундук-арона",
+      "id": "alte-mine-kiste-bei-santino",
       "name": {
-        "ru": "Старый лагерь, сундук Арона",
-        "en": "Old Camp, Aron's chest",
-        "de": "Altes Lager, Arons Truhe",
-        "uk": "Старий табір, скриня Арона"
+        "de": "Alte Mine, Kiste bei Santino",
+        "ru": "Старая шахта, сундук у Сантино",
+        "en": "Old Mine, chest near Santino",
+        "uk": "Стара шахта, скриня біля Сантіно"
       },
-      "cells": 6,
-      "rules": "A:F-;C:D+,A+,B-;D:C-;E:F+;F:B+,D+",
+      "cells": 5,
+      "rules": "E:D+,B-;D:A+,C-,E-;C:A+,D-;A:C+",
       "pos": [
         0,
-        4,
-        5,
-        5,
-        5,
-        4
+        1,
+        6,
+        3,
+        0
       ],
       "tags": [
-        "Арон",
-        "Сундук Арона"
+        "Alte Mine",
+        "Santino"
+      ],
+      "img": []
+    },
+    {
+      "id": "новый-лагерь-сундук-2",
+      "name": {
+        "ru": "Новый лагерь, сундук",
+        "en": "New Camp, chest",
+        "de": "Neues Lager, Truhe",
+        "uk": "Новий табір, скриня"
+      },
+      "cells": 6,
+      "rules": "A:B-,C-;B:C-;C:B-,E+,F+;D:E+;F:A+,B+,D-",
+      "pos": [
+        4,
+        1,
+        0,
+        0,
+        6,
+        5
+      ],
+      "tags": [
+        "Новый лагерь",
+        "сундук"
       ],
       "img": []
     },
@@ -8625,26 +9452,6 @@
       "img": []
     },
     {
-      "id": "замок-ворона-второй-сундук-у-кровати-от-двери",
-      "name": {
-        "ru": "Замок ворона, второй сундук у кровати от двери",
-        "en": "Raven's Castle, second chest by the bed from the door",
-        "de": "Burg des Raben, zweite Truhe beim Bett von der Tür",
-        "uk": "Замок Ворона, друга скриня біля ліжка від дверей"
-      },
-      "cells": 5,
-      "rules": "A:D-;B:C-,D+;C:B-,D+,E-;D:B-,E-;E:C-",
-      "pos": [
-        3,
-        4,
-        6,
-        6,
-        6
-      ],
-      "tags": [],
-      "img": []
-    },
-    {
       "id": "старый-лагерь-третий-дом-слева-от-основного-хода-лагерь-внешнее-",
       "name": {
         "ru": "Старый лагерь, третий дом слева от основного хода  лагерь, внешнее кольцо",
@@ -8753,31 +9560,6 @@
         0
       ],
       "tags": [],
-      "img": []
-    },
-    {
-      "id": "болотный-лагерь-храм-спящего-правая-комната",
-      "name": {
-        "ru": "Болотный лагерь, Храм Спящего, правая комната",
-        "en": "Swamp Camp, Temple of the Sleeper, right room",
-        "de": "Sumpflager, Tempel des Schläfers, rechter Raum",
-        "uk": "Болотний табір, Храм Сплячого, права кімната"
-      },
-      "cells": 5,
-      "rules": "A:B+,C+,D-,E-;B:E+,D-;C:D+,E+;D:C+;E:B+",
-      "pos": [
-        5,
-        2,
-        0,
-        5,
-        6
-      ],
-      "tags": [
-        "болотный лагерь",
-        "глава 1",
-        "храм",
-        "комната"
-      ],
       "img": []
     },
     {
@@ -9102,6 +9884,30 @@
       "img": []
     },
     {
+      "id": "старый-лагерь-дом-в-углу-около-арены-сковородка-у-входа-шкура-на",
+      "name": {
+        "ru": "Старый лагерь, дом в углу около арены, сковородка у входа, шкура на стене",
+        "en": "Old Camp, house in the corner near the Arena, frying pan at the entrance, hide on the wall",
+        "de": "Altes Lager, Haus in der Ecke bei der Arena, Pfanne am Eingang, Fell an der Wand",
+        "uk": "Старий табір, дім у кутку біля арени, сковорода біля входу, шкура на стіні"
+      },
+      "cells": 5,
+      "rules": "A:C-,D-;B:A-;C:B+,A-;D:C-;E:A-",
+      "pos": [
+        4,
+        3,
+        5,
+        4,
+        6
+      ],
+      "tags": [
+        "Old Camp",
+        "Старый лагерь",
+        "арена"
+      ],
+      "img": []
+    },
+    {
       "id": "старый-лагерь-левый-дом-напротив-арены-и-телеги",
       "name": {
         "ru": "Старый лагерь, левый дом напротив арены и телеги",
@@ -9119,29 +9925,6 @@
         6
       ],
       "tags": [],
-      "img": []
-    },
-    {
-      "id": "шахта-второй-этаж-слева-от-сантино",
-      "name": {
-        "ru": "Шахта, второй этаж слева от Сантино",
-        "en": "Mine, second floor to the left of Santino",
-        "de": "Mine, zweite Etage links von Santino",
-        "uk": "Шахта, другий поверх зліва від Сантіно"
-      },
-      "cells": 5,
-      "rules": "A:B-,D+,E-;C:A+;D:E-;E:C+,A-",
-      "pos": [
-        0,
-        0,
-        3,
-        3,
-        2
-      ],
-      "tags": [
-        "Шахта",
-        "Сантино"
-      ],
       "img": []
     },
     {
@@ -9255,26 +10038,6 @@
         "Новый лагерь",
         "сундук затопленный за таверной"
       ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-правый-дом-напротив-арены-и-телеги",
-      "name": {
-        "ru": "Старый лагерь, правый дом напротив арены и телеги",
-        "en": "Old Camp, right house across from the Arena and the cart",
-        "de": "Altes Lager, rechtes Haus gegenüber der Arena und des Karrens",
-        "uk": "Старий табір, правий будинок навпроти арени та воза"
-      },
-      "cells": 5,
-      "rules": "A:B-,D+;C:A+;D:A-,E+;E:B-,D+",
-      "pos": [
-        4,
-        0,
-        6,
-        4,
-        0
-      ],
-      "tags": [],
       "img": []
     },
     {
@@ -9462,32 +10225,6 @@
       "img": []
     },
     {
-      "id": "рыбацкая-деревня-напротив-нового-лагеря-хижина-на-южном-берегу-о",
-      "name": {
-        "ru": "Рыбацкая деревня напротив Нового Лагеря, Хижина на южном берегу озера, у скалы.",
-        "en": "Fishing Village across from the New Camp, hut on the southern shore of the lake by the cliff",
-        "de": "Fischerdorf gegenüber dem Neuen Lager, Hütte am südlichen Seeufer, bei der Klippe.",
-        "uk": "Рибацьке село навпроти Нового табору, хижа на південному березі озера, біля скелі."
-      },
-      "cells": 6,
-      "rules": "B:A+,D-,F+;D:F+;E:C+,D-,F-",
-      "pos": [
-        4,
-        0,
-        6,
-        0,
-        0,
-        2
-      ],
-      "tags": [
-        "новый лагерь",
-        "хижина",
-        "рыбацкая деревня",
-        "озеро"
-      ],
-      "img": []
-    },
-    {
       "id": "366422",
       "name": {
         "en": "366422",
@@ -9516,52 +10253,26 @@
       "img": []
     },
     {
-      "id": "дверь-от-подвала-гомеза",
+      "id": "kloster-kiste-in-einer-höhle",
       "name": {
-        "ru": "Дверь от подвала Гомеза",
-        "en": "Door to Gomez' basement",
-        "de": "Tür zum Keller von Gomez",
-        "uk": "Двері від підвалу Гомеза"
+        "de": "Kloster, Kiste in einer Höhle",
+        "ru": "Монастырь, сундук в пещере",
+        "en": "Monastery, chest in a cave",
+        "uk": "Монастир, скриня в печері"
       },
       "cells": 6,
-      "rules": "A:B-,C-,E-,F-;C:F-;D:E+,F-;E:D+;F:D-",
+      "rules": "A:C-;B:C-,D+,F-;C:E-,F-;F:D-",
       "pos": [
+        3,
         6,
+        6,
+        4,
         2,
-        1,
-        5,
-        1,
-        5
+        2
       ],
       "tags": [
-        "Старый",
-        "Лагерь",
-        "Подвал",
-        "Гомез",
-        "Дверь"
-      ],
-      "img": []
-    },
-    {
-      "id": "озеров-перед-новым-лагерем-под-водой",
-      "name": {
-        "ru": "Озеров перед новым лагерем, под водой",
-        "en": "Lake before the New Camp, underwater",
-        "de": "See vor dem Neuen Lager, unter Wasser",
-        "uk": "Озеро перед Новим табором, під водою"
-      },
-      "cells": 5,
-      "rules": "C:A-,B-,D+,E+;D:C-;E:D+,A-",
-      "pos": [
-        5,
-        6,
-        5,
-        6,
-        1
-      ],
-      "tags": [
-        "Озеров перед новым лагерем",
-        "под водой"
+        "Kloster",
+        "Kiste in einer Höhle"
       ],
       "img": []
     },
@@ -9586,77 +10297,6 @@
       "tags": [
         "каюта",
         "сундук"
-      ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-дом-рудокопа-в-разрушенной-стене-с-южной-стороны",
-      "name": {
-        "ru": "Старый лагерь, дом рудокопа в разрушенной стене с южной стороны",
-        "en": "Old Camp, miner's house in the ruined wall on the southern side",
-        "de": "Altes Lager, Schürferhaus in der zerstörten Mauer auf der Südseite",
-        "uk": "Старий табір, будинок шахтаря в зруйнованій стіні з південної сторони"
-      },
-      "cells": 5,
-      "rules": "B:A-,C+,D+,E-;C:A-;D:C-;E:A-",
-      "pos": [
-        0,
-        6,
-        0,
-        1,
-        3
-      ],
-      "tags": [
-        "старый лагерю",
-        "глава 1",
-        "стена",
-        "юг",
-        "рудокоп"
-      ],
-      "img": []
-    },
-    {
-      "id": "новый-лагерь-рисовое-поле-сундук-1-на-3-этаже",
-      "name": {
-        "ru": "Новый лагерь рисовое поле сундук 1 на 3 этаже",
-        "en": "New Camp, rice field, chest 1 on the 3rd floor",
-        "de": "Neues Lager, Reisfeld, Truhe 1 im 3. Stockwerk",
-        "uk": "Новий табір, рисове поле, скриня 1 на 3 поверсі"
-      },
-      "cells": 6,
-      "rules": "A:C+,D+,E-;B:A+;C:A+,F-;E:A+;F:E+,B-",
-      "pos": [
-        4,
-        3,
-        2,
-        3,
-        3,
-        3
-      ],
-      "tags": [
-        "\"\"Новый лагерь рисовое поле сундук 1 на 3 этаже"
-      ],
-      "img": []
-    },
-    {
-      "id": "новый-лагерь-рисовое-поле-сундук-2-на-3-этаже",
-      "name": {
-        "ru": "Новый лагерь рисовое поле сундук 2 на 3 этаже",
-        "en": "New Camp, rice field, chest 2 on the 3rd floor",
-        "de": "Neues Lager, Reisfeld, Truhe 2 im 3. Stockwerk",
-        "uk": "Новий табір, рисове поле, скриня 2 на 3 поверсі"
-      },
-      "cells": 5,
-      "rules": "A:B+,D+,E+;C:A+;D:A-;E:B-,D+",
-      "pos": [
-        1,
-        6,
-        4,
-        6,
-        0
-      ],
-      "tags": [
-        "\"\"Новый лагерь рисовое поле сундук 2 на 3 этаже"
       ],
       "img": []
     },
@@ -9778,52 +10418,6 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-сундук-гор-ханиса",
-      "name": {
-        "ru": "Старый лагерь, сундук Гор Ханиса",
-        "en": "Old Camp, Gor Hanis' chest",
-        "de": "Altes Lager, Gor Hanis' Truhe",
-        "uk": "Старий табір, скриня Гор Ханіса"
-      },
-      "cells": 5,
-      "rules": "A:E-;A:D-;A:B-;B:A+;B:D+;D:C+;E:B+",
-      "pos": [
-        1,
-        3,
-        4,
-        0,
-        1
-      ],
-      "tags": [
-        "Гор Ханис",
-        "Арена"
-      ],
-      "img": []
-    },
-    {
-      "id": "арена-сундук-кирго",
-      "name": {
-        "ru": "Арена, Сундук Кирго",
-        "en": "Arena, Kirgo's chest",
-        "de": "Arena, Kirgos Truhe",
-        "uk": "Арена, скриня Кірго"
-      },
-      "cells": 5,
-      "rules": "C:B+;D:B-;E:D-;A:B-;B:C+;B:E+",
-      "pos": [
-        0,
-        0,
-        2,
-        0,
-        6
-      ],
-      "tags": [
-        "Арена",
-        "Кирго"
-      ],
-      "img": []
-    },
-    {
       "id": "пещера-недалеко-от-юнитора-нираса-рядом-огненный-ящер",
       "name": {
         "ru": "пещера недалеко от юнитора Нираса, рядом огненный ящер",
@@ -9871,6 +10465,27 @@
       "tags": [
         "645516"
       ],
+      "img": []
+    },
+    {
+      "id": "разрушеная-цетадель-сундук-в-башне",
+      "name": {
+        "ru": "Разрушеная цетадель Сундук в башне",
+        "en": "Ruined Citadel, chest in the tower",
+        "de": "Zerstörte Zitadelle, Truhe im Turm",
+        "uk": "Зруйнована цитадель, скриня в башті"
+      },
+      "cells": 6,
+      "rules": "B:C-;C:F-;E:B+;F:B-,D-,E+",
+      "pos": [
+        6,
+        4,
+        5,
+        5,
+        1,
+        6
+      ],
+      "tags": [],
       "img": []
     },
     {
@@ -9975,32 +10590,6 @@
       "img": []
     },
     {
-      "id": "старый-лагерь-внутренний-круг-дверь-после-лестницывниз",
-      "name": {
-        "ru": "\"\"Старый лагерь, внутренний круг, дверь после лестницывниз.",
-        "en": "Old Camp, Inner Ring, door after the staircase down",
-        "de": "Altes Lager, Innerer Ring, Tür nach der Treppe nach unten",
-        "uk": "\"\"Старий табір, внутрішнє коло, двері після сходів вниз."
-      },
-      "cells": 6,
-      "rules": "A:B-,C-,D-,E-,F-;D:E+,F-;E:D+;F:D-;C:F-",
-      "pos": [
-        6,
-        2,
-        1,
-        5,
-        1,
-        5
-      ],
-      "tags": [
-        "старый лагерь",
-        "внутренний круг",
-        "подвал",
-        "глава 1"
-      ],
-      "img": []
-    },
-    {
       "id": "neues-lager-kiste-in-hütte-mit-zwei-banditen",
       "name": {
         "de": "Neues Lager, Kiste in Hütte mit zwei Banditen",
@@ -10021,32 +10610,6 @@
       "tags": [
         "Neues Lager",
         "Banditen"
-      ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-решетка-после-винного-склада",
-      "name": {
-        "ru": "\"\"Старый лагерь, решетка после винного склада",
-        "en": "Old Camp, grate after the wine warehouse",
-        "de": "Altes Lager, Gitter nach dem Weinlager",
-        "uk": "\"\"Старий табір, решітка після винного складу"
-      },
-      "cells": 5,
-      "rules": "A:E+,D-;B:A+,C-,E-;C:A+,B-;D:A+,B-;E:D-",
-      "pos": [
-        6,
-        0,
-        1,
-        1,
-        4
-      ],
-      "tags": [
-        "старый лагерь",
-        "глава 1",
-        "погреб",
-        "решетка",
-        "внутренний круг"
       ],
       "img": []
     },
@@ -10145,31 +10708,6 @@
       "img": []
     },
     {
-      "id": "шахта-старого-лагеря-возле-снайпса",
-      "name": {
-        "ru": "\"\"Шахта старого лагеря, возле Снайпса",
-        "en": "Old Camp Mine, near Snipes",
-        "de": "Alte Mine, bei Snipes",
-        "uk": "\"\"Шахта старого табору, біля Снайпса"
-      },
-      "cells": 6,
-      "rules": "A:F-;C:A+,D+,B-;D:C-;E:F+;F:B+,D+",
-      "pos": [
-        0,
-        4,
-        5,
-        5,
-        5,
-        4
-      ],
-      "tags": [
-        "Снайпс",
-        "шахта",
-        "сундук"
-      ],
-      "img": []
-    },
-    {
       "id": "neues-lager-kiste-im-haus-von-bruce",
       "name": {
         "de": "Neues Lager, Kiste im Haus von Bruce",
@@ -10240,101 +10778,6 @@
       "img": []
     },
     {
-      "id": "neues-lager-kiste-im-haus-von-lares",
-      "name": {
-        "de": "Neues Lager, Kiste im Haus von Lares",
-        "ru": "Новый лагерь, сундук в доме Лареса",
-        "en": "New Camp, chest in Lares' house",
-        "uk": "Новий табір, скриня в будинку Лареса"
-      },
-      "cells": 6,
-      "rules": "E:F+,C-,D-;A:B-,C+,D-,E-;B:F+",
-      "pos": [
-        6,
-        3,
-        5,
-        2,
-        6,
-        4
-      ],
-      "tags": [
-        "Neues Lager",
-        "Lares"
-      ],
-      "img": []
-    },
-    {
-      "id": "neues-lager-kiste-im-haus-im-see",
-      "name": {
-        "de": "Neues Lager, Kiste im Haus im See",
-        "ru": "Новый лагерь, сундук в доме на озере",
-        "en": "New Camp, chest in the house in the lake",
-        "uk": "Новий табір, скриня в будинку на озері"
-      },
-      "cells": 5,
-      "rules": "A:D-,E-;D:C+,B-,E-;E:C+",
-      "pos": [
-        5,
-        3,
-        2,
-        6,
-        1
-      ],
-      "tags": [
-        "Neues Lager",
-        "See",
-        "Wasser"
-      ],
-      "img": []
-    },
-    {
-      "id": "neues-lager-tür-zum-hinterraum-in-der-taverne",
-      "name": {
-        "de": "Neues Lager, Tür zum Hinterraum in der Taverne",
-        "ru": "Новый лагерь, дверь в заднюю комнату таверны",
-        "en": "New Camp, door to the back room in the tavern",
-        "uk": "Новий табір, двері до задньої кімнати в таверні"
-      },
-      "cells": 6,
-      "rules": "B:C+,F-;C:B-,E+,F-;D:A+,C-;F:C-;E:A-,F-",
-      "pos": [
-        4,
-        4,
-        5,
-        1,
-        6,
-        6
-      ],
-      "tags": [
-        "Neues Lager",
-        "Taverne"
-      ],
-      "img": []
-    },
-    {
-      "id": "neues-lager-tür-in-taverne-1-stock",
-      "name": {
-        "de": "Neues Lager, Tür in Taverne 1. Stock",
-        "ru": "Новый лагерь, дверь в таверне на втором этаже",
-        "en": "New Camp, door in the tavern, 1st floor",
-        "uk": "Новий табір, двері в таверні, 1-й поверх"
-      },
-      "cells": 5,
-      "rules": "A:B+,C-;B:A-,C-,D-,E-;E:C-;D:C+,E-",
-      "pos": [
-        6,
-        2,
-        0,
-        0,
-        0
-      ],
-      "tags": [
-        "Neues Lager",
-        "Taverne"
-      ],
-      "img": []
-    },
-    {
       "id": "06360",
       "name": {
         "en": "06360",
@@ -10353,29 +10796,6 @@
       ],
       "tags": [
         "06360"
-      ],
-      "img": []
-    },
-    {
-      "id": "neues-lager-kiste-in-taverne-2",
-      "name": {
-        "de": "Neues Lager, Kiste in Taverne",
-        "ru": "Новый лагерь, сундук в таверне",
-        "en": "New Camp, chest in the tavern",
-        "uk": "Новий табір, скриня в таверні"
-      },
-      "cells": 5,
-      "rules": "A:B-,C+,E-;B:C-,D+;E:C-;D:A-,E-",
-      "pos": [
-        2,
-        1,
-        5,
-        6,
-        6
-      ],
-      "tags": [
-        "Neues Lager",
-        "Taverne"
       ],
       "img": []
     },
@@ -10462,6 +10882,31 @@
       "img": []
     },
     {
+      "id": "новый-лагерь-свободная-шахта-решетка-после-лужи-с-ползунами",
+      "name": {
+        "ru": "Новый лагерь, свободная шахта, решетка после лужи с ползунами",
+        "en": "New Camp, Free Mine, grate after the puddle with crawlers",
+        "de": "Neues Lager, Freie Mine, Gitter nach der Pfütze mit Minenkriechern",
+        "uk": "Новий табір, вільна шахта, решітка після лужі з повзунами"
+      },
+      "cells": 5,
+      "rules": "A:D+,E-;B:A-;C:A+,B-,D-,E+;D:B+,C+;E:D+",
+      "pos": [
+        2,
+        0,
+        4,
+        4,
+        4
+      ],
+      "tags": [
+        "новый лагерь",
+        "свободная шахта",
+        "решетка",
+        "дверь"
+      ],
+      "img": []
+    },
+    {
       "id": "фиск-сундук-в-его-доме-справа",
       "name": {
         "ru": "Фиск - сундук в его доме справа",
@@ -10484,30 +10929,6 @@
         "старый лагерь",
         "глава 1",
         "хижина"
-      ],
-      "img": []
-    },
-    {
-      "id": "рядом-с-новым-лагерем-под-мостом-вымогателей-пещера-с-гоблинами",
-      "name": {
-        "ru": "Рядом с Новым Лагерем, под мостом вымогателей, пещера с гоблинами",
-        "en": "Near New Camp, under the extortionists' bridge, cave with goblins",
-        "de": "In der Nähe des Neuen Lagers, unter der Erpresserbrücke, Goblin-Höhle",
-        "uk": "Поруч з Новим табором, під мостом вимагачів, печера з гоблінами"
-      },
-      "cells": 5,
-      "rules": "A:C-,E+;B:A-;C:E-;D:A-;E:A-,B-",
-      "pos": [
-        2,
-        6,
-        6,
-        6,
-        4
-      ],
-      "tags": [
-        "Рядом с Новым Лагерем",
-        "под мостом вымогателей",
-        "пещера с гоблинами"
       ],
       "img": []
     },
@@ -10677,53 +11098,6 @@
       "img": []
     },
     {
-      "id": "сундук-2х-разбойников-на-мосту",
-      "name": {
-        "ru": "Сундук 2х разбойников на мосту",
-        "en": "Chest of 2 bandits on the bridge",
-        "de": "Truhe der 2 Räuber auf der Brücke",
-        "uk": "Скриня 2х розбійників на мосту"
-      },
-      "cells": 6,
-      "rules": "A:B+,C-,D-,E+,F+;B:A-,E-;D:E-;E:D-,B+",
-      "pos": [
-        5,
-        4,
-        1,
-        4,
-        6,
-        3
-      ],
-      "tags": [
-        "Сундук 2х разбойников на мосту"
-      ],
-      "img": []
-    },
-    {
-      "id": "дверь-башни-рядом-с-кавалорном",
-      "name": {
-        "ru": "Дверь башни рядом с Кавалорном",
-        "en": "Tower door near Cavalorn",
-        "de": "Turmtür bei Cavalorn",
-        "uk": "Двері башти поруч з Кавалорном"
-      },
-      "cells": 6,
-      "rules": "B:C-,E+;C:D+;E:B+,F-,C-;F:A-,B+",
-      "pos": [
-        4,
-        5,
-        1,
-        1,
-        0,
-        0
-      ],
-      "tags": [
-        "башня",
-        "кавалорн"
-      ],
-      "img": []
-    },
-    {
       "id": "старый-лагерь-внутреннее-кольцо-дверь-в-кузнице",
       "name": {
         "ru": "Старый лагерь, внутреннее кольцо, дверь в кузнице",
@@ -10746,6 +11120,27 @@
         "кузница",
         "Скип"
       ],
+      "img": []
+    },
+    {
+      "id": "дверь-стоуна-в-кузнице-замка-старого-лагеря",
+      "name": {
+        "ru": "Дверь Стоуна в кузнице замка Старого лагеря",
+        "en": "Stone's door in the Forge of Old Camp's Castle",
+        "de": "Stones Tür in der Burgschmiede des Alten Lagers",
+        "uk": "Двері Стоуна в кузні замку Старого табору"
+      },
+      "cells": 6,
+      "rules": "A:E+;B:C-;C:E-;D:A-,B+,F-;E:B+,D+,F+;F:A-",
+      "pos": [
+        6,
+        5,
+        6,
+        2,
+        5,
+        4
+      ],
+      "tags": [],
       "img": []
     },
     {
@@ -10775,55 +11170,6 @@
       "img": []
     },
     {
-      "id": "kiste-in-höhle-mir-schwarzen-goblins-ring-der-magie",
-      "name": {
-        "de": "Kiste in Höhle mir Schwarzen Goblins, Ring der Magie",
-        "ru": "Сундук в пещере с чёрными гоблинами, Кольцо магии",
-        "en": "Chest in the cave with the Black Goblins, Ring of Magic",
-        "uk": "Скриня в печері з чорними гоблінами, Перстень магії"
-      },
-      "cells": 5,
-      "rules": "B:A-;C:E-;D:A-;E:A-,B-;A:C-,E+",
-      "pos": [
-        2,
-        6,
-        6,
-        6,
-        4
-      ],
-      "tags": [
-        "Höhle",
-        "Schwarze Goblins",
-        "Ring der Magie"
-      ],
-      "img": []
-    },
-    {
-      "id": "schiffswrack-am-strand-kiste-harnischamulett",
-      "name": {
-        "en": "Schiffswrack am Strand, Kiste, Harnischamulett",
-        "ru": "Обломки корабля на берегу, сундук, амулет доспехов",
-        "de": "Schiffswrack am Strand, Kiste, Harnischamulett",
-        "uk": "Уламки корабля на березі, скриня, амулет обладунків"
-      },
-      "cells": 6,
-      "rules": "F:B+;A:B-,C-,F+;D:A-,F+;E:D+,F-",
-      "pos": [
-        6,
-        0,
-        5,
-        4,
-        1,
-        0
-      ],
-      "tags": [
-        "Schiffswrack",
-        "Amulett",
-        "Strand"
-      ],
-      "img": []
-    },
-    {
       "id": "62626",
       "name": {
         "en": "62626",
@@ -10842,6 +11188,30 @@
       ],
       "tags": [
         "62626"
+      ],
+      "img": []
+    },
+    {
+      "id": "подвал-магов-огня-сундук-в-1-комнате-без-навыка",
+      "name": {
+        "ru": "Подвал магов огня, сундук в 1 комнате (без навыка)",
+        "en": "Fire Mages' basement, chest in room 1 (no skill)",
+        "de": "Keller der Feuermagier, Truhe im 1. Zimmer (ohne Fertigkeit)",
+        "uk": "Підвал магів вогню, скриня в 1 кімнаті (без навички)"
+      },
+      "cells": 5,
+      "rules": "A:C-;B:C-,D-;C:B-;D:A-,B+,C+,E-",
+      "pos": [
+        6,
+        2,
+        6,
+        2,
+        6
+      ],
+      "tags": [
+        "Старый лагерь",
+        "маги огня",
+        "комната"
       ],
       "img": []
     },
@@ -10891,6 +11261,30 @@
       "img": []
     },
     {
+      "id": "подвал-магов-огня-3-сундук-в-2-комнате-без-навыка",
+      "name": {
+        "ru": "Подвал магов огня, 3 сундук в 2 комнате (без навыка)",
+        "en": "Fire Mages' basement, 3rd chest in room 2 (no skill)",
+        "de": "Keller der Feuermagier, 3. Truhe im 2. Zimmer (ohne Fertigkeit)",
+        "uk": "Підвал магів вогню, 3 скриня в 2 кімнаті (без навички)"
+      },
+      "cells": 6,
+      "rules": "A:F-;B:D+,F-;C:B+;D:C-,E+;F:B+",
+      "pos": [
+        6,
+        2,
+        1,
+        5,
+        0,
+        6
+      ],
+      "tags": [
+        "Подвал магов огня",
+        "3 сундук в 2 комнате (без навыка)"
+      ],
+      "img": []
+    },
+    {
       "id": "3650",
       "name": {
         "en": "3650",
@@ -10908,6 +11302,30 @@
       ],
       "tags": [
         "3650"
+      ],
+      "img": []
+    },
+    {
+      "id": "старый-лагерь-правая-спальня-магов-сундук-в-центре",
+      "name": {
+        "ru": "Старый лагерь, правая спальня магов, сундук в центре",
+        "en": "Old Camp, right mages' bedroom, chest in the center",
+        "de": "Altes Lager, rechtes Schlafzimmer der Magier, Truhe in der Mitte",
+        "uk": "Старий табір, права спальня магів, скриня в центрі"
+      },
+      "cells": 4,
+      "rules": "A:C-,D-;B:A+;D:A-,B+,C-",
+      "pos": [
+        3,
+        6,
+        5,
+        0
+      ],
+      "tags": [
+        "старый лагерь",
+        "маги",
+        "сундук",
+        "спальня"
       ],
       "img": []
     },
@@ -10938,47 +11356,23 @@
       "img": []
     },
     {
-      "id": "freie-mine-hütte-mit-zwei-kisten-2",
+      "id": "решетка-под-замком-старого-лагеря-2",
       "name": {
-        "de": "Freie Mine, Hütte mit zwei Kisten",
-        "ru": "Свободная шахта, хижина с двумя сундуками",
-        "en": "Free Mine, hut with two chests",
-        "uk": "Вільна шахта, хижа з двома скринями"
+        "ru": "решетка под замком старого лагеря",
+        "en": "Grate under Old Camp's Castle",
+        "de": "Gitter unter der Burg des Alten Lagers",
+        "uk": "решітка під замком Старого табору"
       },
       "cells": 5,
-      "rules": "B:E-;A:D+;C:A+,E+;D:A-,B+,C+;E:A-,D-",
+      "rules": "A:B-;B:E-;C:A+,B+,D-;D:A-,C+;E:A-,B+,D-",
       "pos": [
-        6,
-        6,
-        2,
-        4,
-        4
-      ],
-      "tags": [
-        "Freie Mine"
-      ],
-      "img": []
-    },
-    {
-      "id": "freie-mine-kiste-in-hütte",
-      "name": {
-        "de": "Freie Mine, Kiste in Hütte",
-        "ru": "Свободная шахта, сундук в хижине",
-        "en": "Free Mine, chest in the hut",
-        "uk": "Вільна шахта, скриня в хижі"
-      },
-      "cells": 5,
-      "rules": "E:C+;D:E-;B:C+,E+,A-;A:E+,D-",
-      "pos": [
-        2,
-        6,
-        6,
+        5,
         3,
-        0
+        0,
+        5,
+        6
       ],
-      "tags": [
-        "Freie Mine"
-      ],
+      "tags": [],
       "img": []
     },
     {
@@ -10997,27 +11391,6 @@
         0,
         2,
         3
-      ],
-      "tags": [],
-      "img": []
-    },
-    {
-      "id": "дверь-стоуна-в-кузнице-замка-старого-лагеря",
-      "name": {
-        "ru": "Дверь Стоуна в кузнице замка Старого лагеря",
-        "en": "Stone's door in the Forge of Old Camp's Castle",
-        "de": "Stones Tür in der Burgschmiede des Alten Lagers",
-        "uk": "Двері Стоуна в кузні замку Старого табору"
-      },
-      "cells": 6,
-      "rules": "A:E+;B:C-;C:E-;D:A-,B+,F-;E:B+,D+,F+;F:A-",
-      "pos": [
-        6,
-        5,
-        6,
-        2,
-        5,
-        4
       ],
       "tags": [],
       "img": []
@@ -11326,29 +11699,6 @@
       "img": []
     },
     {
-      "id": "сундук-вымогателей",
-      "name": {
-        "ru": "Сундук вымогателей",
-        "en": "Extortionists' chest",
-        "de": "Truhe der Erpresser",
-        "uk": "Скриня вимагачів"
-      },
-      "cells": 6,
-      "rules": "A:B+,C-,D-,E+,F+;B:A-,E-;E:B+,D-;D:E-;E:D-,B+",
-      "pos": [
-        5,
-        4,
-        1,
-        4,
-        6,
-        3
-      ],
-      "tags": [
-        "Сундук вымогателей"
-      ],
-      "img": []
-    },
-    {
       "id": "решетка-под-замком-старого-лагеря",
       "name": {
         "ru": "решетка под замком старого лагеря",
@@ -11363,26 +11713,6 @@
         4,
         2,
         6,
-        6
-      ],
-      "tags": [],
-      "img": []
-    },
-    {
-      "id": "решетка-под-замком-старого-лагеря-2",
-      "name": {
-        "ru": "решетка под замком старого лагеря",
-        "en": "Grate under Old Camp's Castle",
-        "de": "Gitter unter der Burg des Alten Lagers",
-        "uk": "решітка під замком Старого табору"
-      },
-      "cells": 5,
-      "rules": "A:B-;B:E-;C:A+,B+,D-;D:A-,C+;E:A-,B+,D-",
-      "pos": [
-        5,
-        3,
-        0,
-        5,
         6
       ],
       "tags": [],
@@ -11603,27 +11933,6 @@
       "img": []
     },
     {
-      "id": "дверь-в-башню-рядом-с-ковалорном",
-      "name": {
-        "ru": "Дверь в башню рядом с Ковалорном",
-        "en": "Door to the tower near Cavalorn",
-        "de": "Tür zum Turm bei Cavalorn",
-        "uk": "Двері до башти поруч з Кавалорном"
-      },
-      "cells": 6,
-      "rules": "B:C-,E+;C:D+;E:B+,C-,F-;F:B+,A-",
-      "pos": [
-        4,
-        5,
-        1,
-        1,
-        0,
-        0
-      ],
-      "tags": [],
-      "img": []
-    },
-    {
       "id": "пещера-с-двумя-зомби-недалеко-от-юнитора-нираса-мастер-взлом",
       "name": {
         "ru": "Пещера с двумя зомби недалеко от юнитора Нираса мастер взлом",
@@ -11642,51 +11951,6 @@
         0
       ],
       "tags": [],
-      "img": []
-    },
-    {
-      "id": "разрушеная-цетадель-сундук-в-башне",
-      "name": {
-        "ru": "Разрушеная цетадель Сундук в башне",
-        "en": "Ruined Citadel, chest in the tower",
-        "de": "Zerstörte Zitadelle, Truhe im Turm",
-        "uk": "Зруйнована цитадель, скриня в башті"
-      },
-      "cells": 6,
-      "rules": "B:C-;C:F-;E:B+;F:B-,D-,E+",
-      "pos": [
-        6,
-        4,
-        5,
-        5,
-        1,
-        6
-      ],
-      "tags": [],
-      "img": []
-    },
-    {
-      "id": "kloster-kiste-in-einer-höhle",
-      "name": {
-        "de": "Kloster, Kiste in einer Höhle",
-        "ru": "Монастырь, сундук в пещере",
-        "en": "Monastery, chest in a cave",
-        "uk": "Монастир, скриня в печері"
-      },
-      "cells": 6,
-      "rules": "A:C-;B:C-,D+,F-;C:E-,F-;F:D-",
-      "pos": [
-        3,
-        6,
-        6,
-        4,
-        2,
-        2
-      ],
-      "tags": [
-        "Kloster",
-        "Kiste in einer Höhle"
-      ],
       "img": []
     },
     {
@@ -11712,98 +11976,6 @@
       "img": []
     },
     {
-      "id": "alte-mine-kiste-bei-santino",
-      "name": {
-        "de": "Alte Mine, Kiste bei Santino",
-        "ru": "Старая шахта, сундук у Сантино",
-        "en": "Old Mine, chest near Santino",
-        "uk": "Стара шахта, скриня біля Сантіно"
-      },
-      "cells": 5,
-      "rules": "E:D+,B-;D:A+,C-,E-;C:A+,D-;A:C+",
-      "pos": [
-        0,
-        1,
-        6,
-        3,
-        0
-      ],
-      "tags": [
-        "Alte Mine",
-        "Santino"
-      ],
-      "img": []
-    },
-    {
-      "id": "сундук-в-доме-орана-болотный-лагерь-без-навыка",
-      "name": {
-        "ru": "Сундук в доме Орана Болотный лагерь (без навыка)",
-        "en": "Chest in Oran's house, Swamp Camp (no skill)",
-        "de": "Truhe in Orans Haus, Sumpflager (ohne Fertigkeit)",
-        "uk": "Скриня в домі Орана, Болотний табір (без навички)"
-      },
-      "cells": 6,
-      "rules": "A:B+,C+,D-,E-,F+;B:F-;C:E+,F-;D:B+;E:B-",
-      "pos": [
-        6,
-        5,
-        0,
-        3,
-        4,
-        1
-      ],
-      "tags": [
-        "Болотный лагерь",
-        "оран"
-      ],
-      "img": []
-    },
-    {
-      "id": "новый-лагерь-свободная-шахта-решетка-после-лужи-с-ползунами",
-      "name": {
-        "ru": "Новый лагерь, свободная шахта, решетка после лужи с ползунами",
-        "en": "New Camp, Free Mine, grate after the puddle with crawlers",
-        "de": "Neues Lager, Freie Mine, Gitter nach der Pfütze mit Minenkriechern",
-        "uk": "Новий табір, вільна шахта, решітка після лужі з повзунами"
-      },
-      "cells": 5,
-      "rules": "A:D+,E-;B:A-;C:A+,B-,D-,E+;D:B+,C+;E:D+",
-      "pos": [
-        2,
-        0,
-        4,
-        4,
-        4
-      ],
-      "tags": [
-        "новый лагерь",
-        "свободная шахта",
-        "решетка",
-        "дверь"
-      ],
-      "img": []
-    },
-    {
-      "id": "свободная-шахта-в-ответвлении-справа-по-спуску",
-      "name": {
-        "ru": "Свободная шахта, в ответвлении справа по спуску",
-        "en": "Free Mine, in the right branch going down",
-        "de": "Freie Mine, Abzweigung rechts am Abstieg",
-        "uk": "Вільна шахта, у відгалуженні праворуч по спуску"
-      },
-      "cells": 5,
-      "rules": "A:D-;B:A+,C-,E-;C:A-,B+;D:C-,E-;E:A+,B-",
-      "pos": [
-        3,
-        4,
-        5,
-        4,
-        0
-      ],
-      "tags": [],
-      "img": []
-    },
-    {
       "id": "новый-лагерь-сундук-в-хижине-бандита",
       "name": {
         "ru": "Новый лагерь, сундук в хижине бандита",
@@ -11822,30 +11994,6 @@
         3
       ],
       "tags": [],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-дом-в-углу-около-арены-сковородка-у-входа-шкура-на",
-      "name": {
-        "ru": "Старый лагерь, дом в углу около арены, сковородка у входа, шкура на стене",
-        "en": "Old Camp, house in the corner near the Arena, frying pan at the entrance, hide on the wall",
-        "de": "Altes Lager, Haus in der Ecke bei der Arena, Pfanne am Eingang, Fell an der Wand",
-        "uk": "Старий табір, дім у кутку біля арени, сковорода біля входу, шкура на стіні"
-      },
-      "cells": 5,
-      "rules": "A:C-,D-;B:A-;C:B+,A-;D:C-;E:A-",
-      "pos": [
-        4,
-        3,
-        5,
-        4,
-        6
-      ],
-      "tags": [
-        "Old Camp",
-        "Старый лагерь",
-        "арена"
-      ],
       "img": []
     },
     {
@@ -11868,32 +12016,6 @@
       ],
       "tags": [
         "163605"
-      ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-на-внутренней-стене-замка-справа",
-      "name": {
-        "ru": "Старый лагерь, на внутренней стене замка справа",
-        "en": "Old Camp, on the inner castle wall on the right",
-        "de": "Altes Lager, an der Innenwand der Burg rechts",
-        "uk": "Старий табір, на внутрішній стіні замку праворуч"
-      },
-      "cells": 6,
-      "rules": "A:B-;B:F-;C:B+,D-,E-,F-;D:C-;E:A-;F:C-,E-",
-      "pos": [
-        1,
-        1,
-        6,
-        6,
-        4,
-        2
-      ],
-      "tags": [
-        "Замок",
-        "старый лагерь",
-        "глава 1",
-        "стена замка"
       ],
       "img": []
     },
@@ -11943,128 +12065,6 @@
         "решетка",
         "затопленная башня ксардаса",
         "зомби"
-      ],
-      "img": []
-    },
-    {
-      "id": "скала-над-болотным-лагерем",
-      "name": {
-        "ru": "Скала над Болотным лагерем",
-        "en": "Rock above the Swamp Camp",
-        "de": "Felsen über dem Sumpflager",
-        "uk": "Скеля над Болотним табором"
-      },
-      "cells": 6,
-      "rules": "A:B-;B:A+,F+;C:B+;D:A-,B+,F+;E:A+,B+,D+;F:C-",
-      "pos": [
-        4,
-        1,
-        0,
-        6,
-        0,
-        0
-      ],
-      "tags": [
-        "скала",
-        "зомби",
-        "болотный лагерь"
-      ],
-      "img": []
-    },
-    {
-      "id": "подвал-магов-огня-сундук-в-1-комнате-без-навыка",
-      "name": {
-        "ru": "Подвал магов огня, сундук в 1 комнате (без навыка)",
-        "en": "Fire Mages' basement, chest in room 1 (no skill)",
-        "de": "Keller der Feuermagier, Truhe im 1. Zimmer (ohne Fertigkeit)",
-        "uk": "Підвал магів вогню, скриня в 1 кімнаті (без навички)"
-      },
-      "cells": 5,
-      "rules": "A:C-;B:C-,D-;C:B-;D:A-,B+,C+,E-",
-      "pos": [
-        6,
-        2,
-        6,
-        2,
-        6
-      ],
-      "tags": [
-        "Старый лагерь",
-        "маги огня",
-        "комната"
-      ],
-      "img": []
-    },
-    {
-      "id": "старый-лагерь-правая-спальня-магов-сундук-в-центре",
-      "name": {
-        "ru": "Старый лагерь, правая спальня магов, сундук в центре",
-        "en": "Old Camp, right mages' bedroom, chest in the center",
-        "de": "Altes Lager, rechtes Schlafzimmer der Magier, Truhe in der Mitte",
-        "uk": "Старий табір, права спальня магів, скриня в центрі"
-      },
-      "cells": 4,
-      "rules": "A:C-,D-;B:A+;D:A-,B+,C-",
-      "pos": [
-        3,
-        6,
-        5,
-        0
-      ],
-      "tags": [
-        "старый лагерь",
-        "маги",
-        "сундук",
-        "спальня"
-      ],
-      "img": []
-    },
-    {
-      "id": "подвал-магов-огня-3-сундук-в-2-комнате-без-навыка",
-      "name": {
-        "ru": "Подвал магов огня, 3 сундук в 2 комнате (без навыка)",
-        "en": "Fire Mages' basement, 3rd chest in room 2 (no skill)",
-        "de": "Keller der Feuermagier, 3. Truhe im 2. Zimmer (ohne Fertigkeit)",
-        "uk": "Підвал магів вогню, 3 скриня в 2 кімнаті (без навички)"
-      },
-      "cells": 6,
-      "rules": "A:F-;B:D+,F-;C:B+;D:C-,E+;F:B+",
-      "pos": [
-        6,
-        2,
-        1,
-        5,
-        0,
-        6
-      ],
-      "tags": [
-        "Подвал магов огня",
-        "3 сундук в 2 комнате (без навыка)"
-      ],
-      "img": []
-    },
-    {
-      "id": "волчье-логово-недалеко-от-коселя",
-      "name": {
-        "ru": "Волчье логово, недалеко от Коселя",
-        "en": "Wolf's Den, near Kosel",
-        "de": "Wolfshöhle in der Nähe von Kossel",
-        "uk": "Вовче лігво, неподалік від Коселя"
-      },
-      "cells": 7,
-      "rules": "A:F-;B:A+;C:G+;D:A+,G-;E:G+,D-;F:A+;G:A+,F+",
-      "pos": [
-        6,
-        4,
-        0,
-        6,
-        5,
-        4,
-        5
-      ],
-      "tags": [
-        "Волчье логово",
-        "Коселя"
       ],
       "img": []
     },
