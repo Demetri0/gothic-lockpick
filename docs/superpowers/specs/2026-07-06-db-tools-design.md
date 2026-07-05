@@ -80,7 +80,15 @@ re-asked.
   (parallel array of `{key, field, srcLang}`). The txt goes through Google
   Translate by hand.
 - `--import gaps-<lang>.translated.txt`: zip translated lines back via the map
-  into `db-decisions.translations`.
+  into a staging section (`translationsPending`), NOT straight into
+  `translations`.
+- **AI verification pass (before finalizing):** the assistant reviews every
+  imported translation in-session against `tools/gothic-glossary.json` and its
+  knowledge of Gothic 1 Remake naming (camps, NPCs, locations — e.g. Old Camp /
+  Altes Lager, Cor Kalom, Buddler), produces a numbered list of suspected
+  mistranslations with proposed fixes, and asks the owner what to do with each.
+  Only after the verdicts does staging move into `translations`
+  (`--finalize`, applying any approved fixes).
 
 ### Review web tool
 
@@ -120,4 +128,6 @@ imported blindly.
 4. translate-gaps export/import (+tests); hand gap files to the owner.
 5. Review server + page (+Playwright tests).
 6. sync-uml (+tests on cached fixtures); enrichment/conflict proposals.
-7. Live run: translations round-trip, review session, rebuild, commit DB.
+7. Live run: translations round-trip, AI verification pass over imported
+   translations (numbered discrepancy list → owner verdicts → finalize),
+   review session, rebuild, commit DB.
