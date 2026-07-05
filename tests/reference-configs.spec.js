@@ -31,7 +31,9 @@ async function expectMatrix(page, plateCount, deps) {
 
 test.describe('reference: 3055665 A:C+,D+;B:A-,E-,G+;D:B-;E:D-;F:B-;G:A+,B-', () => {
   const CONFIG = '3055665 A:C+,D+;B:A-,E-,G+;D:B-;E:D-;F:B-;G:A+,B-';
-  const EXPECTED_SOLUTION = [
+  // A known-valid 23-keypress solution for this lock (game-verified reference
+  // data) — used to cross-check the engine physics, not tied to solver output.
+  const KNOWN_SOLUTION = [
     '1D3', '3A2', '4D2', '5D', '2D', '1D', '5D', '2D',
     '4D', '5D', '2D', '4D', '5D3', '6D3', '7A',
   ];
@@ -58,8 +60,8 @@ test.describe('reference: 3055665 A:C+,D+;B:A-,E-,G+;D:B-;E:D-;F:B-;G:A+,B-', ()
     await expect(page.getByTestId('pos-input-8')).toHaveCount(0); // exactly 7 plates
   });
 
-  test('the expected sequence replays to all-centered without blocking', async ({ page }) => {
-    // Validates the reference solution itself, independent of the solver
+  test('the known solution replays to all-centered without blocking', async ({ page }) => {
+    // Validates the reference data itself, independent of the solver
     const result = await page.evaluate(({ cfg, steps }) => {
       const plates = parseImportConfig(cfg);
       for (const step of steps) {
@@ -69,15 +71,10 @@ test.describe('reference: 3055665 A:C+,D+;B:A-,E-,G+;D:B-;E:D-;F:B-;G:A+,B-', ()
         }
       }
       return { final: plates.map(p => p.currentPos) };
-    }, { cfg: CONFIG, steps: EXPECTED_SOLUTION });
+    }, { cfg: CONFIG, steps: KNOWN_SOLUTION });
 
     expect(result.blocked).toBeUndefined();
     expect(result.final).toEqual([4, 4, 4, 4, 4, 4, 4]);
-  });
-
-  test('bfsSolve produces exactly the expected move sequence', async ({ page }) => {
-    const solution = await page.evaluate((cfg) => bfsSolve(parseImportConfig(cfg)).solution, CONFIG);
-    expect(solution).toEqual(EXPECTED_SOLUTION);
   });
 
   test('the solve stage shows the group-optimized sequence step by step', async ({ page }) => {

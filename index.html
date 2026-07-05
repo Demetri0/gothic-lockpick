@@ -1208,70 +1208,8 @@ function computeMove(plates, plateId, dir) {
   }));
 }
 
-/** Walk parent pointers back from queue[idx] to the root, returning the move list. */
-function reconstructPath(queue, idx) {
-  const path = [];
-  while (queue[idx].move !== null) {
-    path.push(queue[idx].move);
-    idx = queue[idx].parentIdx;
-  }
-  return path.reverse();
-}
-
 /**
- * Breadth-first search over position states — guarantees a minimal solution.
- * Head-index queue (O(1) dequeue) + parent pointers (linear memory).
- * @returns {{solution: string[]|null, iters: number}} compressed notation or null
- */
-function bfsSolve(plates, onProgress) {
-  const startPos = plates.map(p => p.currentPos);
-  const goalPos  = plates.map(p => center(p.positions));
-
-  if (startPos.every((p, i) => p === goalPos[i])) return { solution: [], iters: 0 };
-
-  const startKey = startPos.join(',');
-  const visited  = new Set([startKey]);
-  const queue    = [{ positions: startPos, parentIdx: -1, move: null }];
-  let head = 0;
-  let iter = 0;
-
-  while (head < queue.length) {
-    const { positions } = queue[head];
-    const currentIdx = head;
-    head++;
-
-    const snap = plates.map((p, i) => ({ ...p, currentPos: positions[i] }));
-
-    for (const plate of snap) {
-      for (const dir of ['left', 'right']) {
-        const effects = computeMove(snap, plate.id, dir);
-        if (!effects) continue;
-
-        const newPos = [...positions];
-        for (const { plateId, newPos: np } of effects) newPos[plateId - 1] = np;
-
-        const key = newPos.join(',');
-        if (visited.has(key)) continue;
-        visited.add(key);
-        iter++;
-
-        if (onProgress && iter % 2000 === 0) onProgress(2000);
-
-        const newIdx = queue.length;
-        queue.push({ positions: newPos, parentIdx: currentIdx, move: toNotation(plate.id, dir, 1) });
-
-        if (newPos.every((p, i) => p === goalPos[i])) {
-          return { solution: compressPath(reconstructPath(queue, newIdx)), iters: iter };
-        }
-      }
-    }
-  }
-
-  return { solution: null, iters: iter };
-}
-
-/**
- * Group-optimized solver: same minimal keypress count as bfsSolve, but among
+ * The solver. Guarantees the minimal keypress count (BFS depth), and among
  * ALL minimal-move solutions picks one with the fewest switches between plates
  * — i.e. the shortest compressed step list a human has to follow.
  *
@@ -1289,7 +1227,7 @@ function bfsSolve(plates, onProgress) {
  *      suffices: on a shortest path a plate can never move twice in a row in
  *      opposite directions — that would revisit the previous state.
  *
- * Returns the same shape as bfsSolve: { solution: string[]|null, iters }.
+ * @returns {{solution: string[]|null, iters: number}} compressed notation or null
  */
 function bfsSolveGrouped(plates, onProgress) {
   const startArr = plates.map(p => p.currentPos);
@@ -3031,13 +2969,10 @@ init();
   <!-- Worker source — not executed by the browser, read as text by Script #9 -->
   <script type="text/x-worker" id="worker-src">
 // Worker entry — message protocol only. All solver logic (center, computeMove,
-// bfsSolve, compressPath, ...) comes from Script #0 (solver-src), which
+// bfsSolveGrouped, compressPath, ...) comes from Script #0 (solver-src), which
 // createWorker() prepends to this source when building the worker Blob.
 self.onmessage = ({ data }) => {
   if (data.type === 'solve') {
-    // User-facing solve: group-optimized (fewest plate switches among all
-    // minimal-move solutions). The randomizer below keeps plain bfsSolve —
-    // it only needs solution length and runs hundreds of attempts.
     const { solution } = bfsSolveGrouped(data.plates, (n) => {
       self.postMessage({ type: 'progress', itersDelta: n });
     });
@@ -3076,7 +3011,10 @@ self.onmessage = ({ data }) => {
         continue;
       }
 
-      const { solution, iters } = bfsSolve(plates);
+      // Same single solver as the SOLVE path: the cached solution shown to the
+      // user is identical to what solving the config by hand would produce.
+      // Difficulty bounds are therefore measured on the grouped step count.
+      const { solution, iters } = bfsSolveGrouped(plates);
       self.postMessage({ type: 'progress', workerId, attemptsDelta: 1, itersDelta: iters });
 
       if (solution !== null && solution.length >= minSteps && solution.length <= maxSteps) {
