@@ -200,3 +200,55 @@ test.describe('reference: 252666 B:A+,E-,F-;C:B+;D:A+,B-;E:A+,F- (unlockmyloot.c
     expect(res.sol).toEqual(['1A4', '3A', '6D6', '5D6', '1A6', '6D6', '2D6', '1A3', '4D3', '1A6', '6D6', '5D3']);
   });
 });
+
+test.describe('reference: 32614 A:B-,C-;B:A+,D-;C:A-,B+,D+;D:A-,E+;E:C- (unlockmyloot.com)', () => {
+  const CONFIG = '32614 A:B-,C-;B:A+,D-;C:A-,B+,D+;D:A-,E+;E:C-';
+  // The sequence unlockmyloot.com shows for this lock (9 groups, 30 keypresses)
+  const SITE_SOLUTION = ['5A2', '1A2', '3A4', '2D', '4D6', '5A6', '3A3', '4D3', '2D3'];
+
+  test('parses into the expected dependency matrix', async ({ page }) => {
+    await importConfig(page, CONFIG);
+    await expectMatrix(page, 5, {
+      1: { 2: 'opposite', 3: 'opposite' },
+      2: { 1: 'same', 4: 'opposite' },
+      3: { 1: 'opposite', 2: 'same', 4: 'same' },
+      4: { 1: 'opposite', 5: 'same' },
+      5: { 3: 'opposite' },
+    });
+  });
+
+  test('sets the expected start positions', async ({ page }) => {
+    await importConfig(page, CONFIG);
+    const digits = [4, 3, 7, 2, 5]; // "32614" is 0-based
+    for (let i = 0; i < digits.length; i++) {
+      await expectPosDigit(page, i + 1, digits[i]);
+    }
+    await expect(page.getByTestId('pos-input-6')).toHaveCount(0);
+  });
+
+  test("the site's published solution replays to all-centered in our engine", async ({ page }) => {
+    const result = await page.evaluate(({ cfg, steps }) => {
+      const plates = parseImportConfig(cfg);
+      for (const step of steps) {
+        const { plateId, dir, steps: n } = parseNotation(step);
+        for (let i = 0; i < n; i++) {
+          if (!applyMove(plates, plateId, dir)) return { blocked: step };
+        }
+      }
+      return { final: plates.map(p => p.currentPos) };
+    }, { cfg: CONFIG, steps: SITE_SOLUTION });
+    expect(result.blocked).toBeUndefined();
+    expect(result.final).toEqual([4, 4, 4, 4, 4]);
+  });
+
+  test('our solver matches the site optimum: 30 keypresses in 9 groups', async ({ page }) => {
+    const res = await page.evaluate((cfg) => {
+      const sol = bfsSolveGrouped(parseImportConfig(cfg)).solution;
+      return { sol, groups: sol.length, raw: sol.reduce((a, s) => a + parseNotation(s).steps, 0) };
+    }, CONFIG);
+    expect(res.raw).toBe(30);
+    expect(res.groups).toBe(9);
+    // Characterization: a different but equally-optimal sequence than the site's
+    expect(res.sol).toEqual(['1A2', '5A2', '3A4', '4D5', '2D4', '5A3', '4D4', '3A3', '5A3']);
+  });
+});
