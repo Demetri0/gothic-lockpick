@@ -95,7 +95,10 @@ tags=""замок"""
     proc = spawn('node', ['tools/review-server.cjs',
       '--port', String(PORT),
       '--ini', path.join(dir, 'chests.ini'),
-      '--decisions', path.join(dir, 'dec.json')]);
+      '--decisions', path.join(dir, 'dec.json'),
+      // Hermetic: without an explicit --queue the server falls back to the
+      // repo's live tools/review-queue.json and its items leak into the test.
+      '--queue', path.join(dir, 'queue.json')]);
     // wait for the server to accept connections
     for (let i = 0; i < 50; i++) {
       try { const r = await fetch(url('/api/queue')); if (r.ok) break; } catch { /* not up yet */ }
