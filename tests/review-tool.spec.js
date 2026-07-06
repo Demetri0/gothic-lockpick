@@ -38,15 +38,25 @@ test.describe('review queue + merge proposal', () => {
     expect(queue).toEqual([]);
   });
 
-  test('external proposals (sync) are appended unless their key is already overridden', () => {
-    const key1 = 'k1', key2 = 'k2';
+  test('external proposals are excluded only once THEIR review type was decided', () => {
     const extra = { items: [
-      { type: 'enrich', key: key1, candidates: [], proposed: {} },
-      { type: 'conflict', key: key2, candidates: [], proposed: {} },
+      { type: 'enrich', key: 'k1', candidates: [], proposed: {} },   // decided as enrich → hidden
+      { type: 'enrich', key: 'k2', candidates: [], proposed: {} },   // k2 merged as dedup → still pending!
+      { type: 'conflict', key: 'k3', candidates: [], proposed: {} }, // decided as conflict → hidden
     ] };
-    const decisions = { v: 1, overrides: [{ key: key2, entries: [{}] }] };
+    const decisions = { v: 1, overrides: [
+      { key: 'k1', note: 'review: enrich', entries: [{}] },
+      { key: 'k2', note: 'review: dedup', entries: [{}] },
+      { key: 'k3', note: 'review: conflict', entries: [{}] },
+    ] };
     const queue = review.buildQueue([], decisions, extra);
-    expect(queue.map(i => i.key)).toEqual([key1]);
+    expect(queue.map(i => i.key)).toEqual(['k2']);
+  });
+
+  test('accepted add proposals are excluded from the queue', () => {
+    const extra = { items: [{ type: 'add', key: 'ka', candidates: [], proposed: { id: 'new-1' } }] };
+    const decisions = { v: 1, overrides: [], additions: [{ id: 'new-1' }] };
+    expect(review.buildQueue([], decisions, extra)).toEqual([]);
   });
 
   test('applyMergeDecision upserts an override for the key', () => {

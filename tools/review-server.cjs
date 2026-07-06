@@ -60,8 +60,6 @@ function proposeMerge(candidates) {
 
 /** Pending review items: canonical dup groups + external (sync) proposals. */
 function buildQueue(entries, decisions, extraQueue) {
-  const overridden = new Set((decisions.overrides || []).map(o => o.key));
-
   const groups = new Map();
   for (const e of entries) {
     const key = canonicalKey(e.pos, e.rules);
@@ -75,10 +73,15 @@ function buildQueue(entries, decisions, extraQueue) {
     items.push({ type: 'dedup', key, candidates: grp, proposed: proposeMerge(grp) });
   }
 
+  // An external proposal is settled only when ITS OWN review type was decided
+  // for that key — a dedup merge on the same key must not swallow a pending
+  // enrichment (the desc it carries would be silently lost otherwise).
+  const decidedAs = new Map((decisions.overrides || [])
+    .map(o => [o.key, ((o.note || '').match(/^review: (\w+)/) || [])[1]]));
   const addedIds = new Set((decisions.additions || []).map(a => a.id));
   for (const item of (extraQueue && extraQueue.items) || []) {
-    if (overridden.has(item.key)) continue;                              // decided via override
     if (item.type === 'add' && addedIds.has(item.proposed.id)) continue; // already accepted
+    if (item.type !== 'add' && decidedAs.get(item.key) === item.type) continue;
     items.push(item);
   }
   return items;
