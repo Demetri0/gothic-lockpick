@@ -133,7 +133,10 @@ $('btn-merge').addEventListener('click', async () => {
   const it = items[idx];
   const res = await fetch('/api/decision', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ key: it.key, entries: [collectEntry()], note: `review: ${it.type}` }),
+    body: JSON.stringify({
+      key: it.key, entries: [collectEntry()], note: `review: ${it.type}`,
+      kind: it.type === 'add' ? 'addition' : 'override',
+    }),
   });
   if (!(await res.json()).ok) { alert('Не сохранилось — смотри консоль сервера'); return; }
   idx++;

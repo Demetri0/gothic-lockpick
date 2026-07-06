@@ -5,3 +5,4 @@ chests.ini
 .claude/*.lock
 chests-report.txt
 tools/gaps/
+tools/review-queue.json

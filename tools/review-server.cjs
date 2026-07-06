@@ -75,8 +75,11 @@ function buildQueue(entries, decisions, extraQueue) {
     items.push({ type: 'dedup', key, candidates: grp, proposed: proposeMerge(grp) });
   }
 
+  const addedIds = new Set((decisions.additions || []).map(a => a.id));
   for (const item of (extraQueue && extraQueue.items) || []) {
-    if (!overridden.has(item.key)) items.push(item);
+    if (overridden.has(item.key)) continue;                              // decided via override
+    if (item.type === 'add' && addedIds.has(item.proposed.id)) continue; // already accepted
+    items.push(item);
   }
   return items;
 }
@@ -91,7 +94,16 @@ function applyMergeDecision(decisions, key, entries, note) {
   return decisions;
 }
 
-module.exports = { buildQueue, proposeMerge, applyMergeDecision };
+/** Record an accepted "add" proposal: upsert into decisions.additions by id. */
+function applyAddDecision(decisions, entry) {
+  decisions.additions = decisions.additions || [];
+  const i = decisions.additions.findIndex(a => a.id === entry.id);
+  if (i >= 0) decisions.additions[i] = entry;
+  else decisions.additions.push(entry);
+  return decisions;
+}
+
+module.exports = { buildQueue, proposeMerge, applyMergeDecision, applyAddDecision };
 
 // ── server ────────────────────────────────────────────────────────────────────
 
@@ -122,9 +134,10 @@ function createServer(opts) {
       req.on('data', c => { body += c; });
       req.on('end', () => {
         try {
-          const { key, entries, note } = JSON.parse(body);
+          const { key, entries, note, kind } = JSON.parse(body);
           const decisions = readJson(opts.decisions, { v: 1, overrides: [], additions: [], translations: {} });
-          applyMergeDecision(decisions, key, entries, note);
+          if (kind === 'addition') applyAddDecision(decisions, entries[0]);
+          else applyMergeDecision(decisions, key, entries, note);
           fs.writeFileSync(opts.decisions, JSON.stringify(decisions, null, 2), 'utf8');
           done(200, { ok: true });
         } catch (e) {
