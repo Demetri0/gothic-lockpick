@@ -35,14 +35,14 @@
     },
     {
       "key": "1,3,4,6,4,4|1>2-;1>3+;3>1+;3>5-;4>2-;4>3-;4>6+;5>4-;5>6+;6>1+",
-      "note": "review: dedup",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "кавалорн-лучник-колония-хранилище-в-пещере",
           "name": {
-            "ru": "КАВАЛОРН Лучник, Колония, Хранилище в пещере",
-            "en": "CAVALORN Archer, Colony, Storage in the cave",
-            "de": "CAVALORN Bogenschütze, Kolonie, Lager in der Höhle",
+            "ru": "Кавалорн Лучник, Колония, Хранилище в пещере",
+            "en": "Cavalorn Archer, Colony, Storage in the cave",
+            "de": "Cavalorn Bogenschütze, Kolonie, Lager in der Höhle",
             "uk": "двері. всередині печери за будинком Кавалорна"
           },
           "cells": 6,
@@ -160,14 +160,14 @@
     },
     {
       "key": "1,0,5,4,3,6|2>3+;2>5-;4>2+;4>5-;5>2-;5>3+;5>6-;6>5+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "altes-lager-kiste-in-diegos-hütte",
           "name": {
-            "de": "Altes Lager, Kiste in DIegos Hütte",
             "ru": "Старый лагерь, сундук в хижине Диего",
             "en": "Old Camp, Chest in Diego's Hut",
+            "de": "Altes Lager, Kiste in DIegos Hütte",
             "uk": "Старий табір, скриня в хижі Дієго"
           },
           "cells": 6,
@@ -184,7 +184,11 @@
             "Altes Lager",
             "Diego"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Хижина Диего юго-восточнее ворот замка Старого лагеря, с красной тканью и шкурами у входа. 5 эссенций исцеления, 3 отмычки, 22 руды и припасы.",
+            "en": "Diego's shack southeast of the Old Camp castle gate, marked by red draping and hides. 5 Essences of Healing, 3 lockpicks, 22 ore and supplies."
+          }
         }
       ]
     },
@@ -289,7 +293,7 @@
     },
     {
       "key": "6,1,1,5,0,2|1>5+;3>1+;3>5-;3>6+;4>5+;5>2-;6>2+;6>4-",
-      "note": "review: dedup",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "старый-лагерь-дом-рядом-с-большим-котелком-для-еды-на-стенах-дом",
@@ -321,7 +325,11 @@
             "котелок",
             "картограф"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Хижина картографа Грэхэма слева от Северных ворот Старого лагеря (перед первым котлом). Запас старателя-картографа.",
+            "en": "Cartographer Graham's hut left of the Old Camp North Gate (before the first cauldron). The cartographer's personal stash."
+          }
         }
       ]
     },
@@ -398,7 +406,7 @@
     },
     {
       "key": "5,2,1,0,6|1>4+;2>5+;3>5-;4>2+;4>3-;4>5-",
-      "note": "review: dedup",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "старий-табір-хатина-скатті-завдання-фінгерса",
@@ -429,7 +437,11 @@
             "Дом Скатти",
             "слева от Фингерса"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук Скатти находится в Старом лагере. Внутри кольцо, которое нужно отдать Фингерсу по одноимённому квесту.",
+            "en": "Scatty's chest is in the Old Camp. Inside is the ring you hand to Fingers for that quest."
+          }
         }
       ]
     },
@@ -593,7 +605,7 @@
     },
     {
       "key": "6,6,5,0|1>4+;2>1+;2>4+;3>1+;3>2-",
-      "note": "review: dedup",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "1-глава-болотный-лагерь-хижина-кор-галома-рецепт",
@@ -618,13 +630,17 @@
             "рецепт",
             "кор галом"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук Кор Галома. Внутри рецепт сектантов, нужный для квеста.",
+            "en": "Cor Galom's chest is in the Swamp Camp lab. Inside is the cultists' recipe needed for the quest."
+          }
         }
       ]
     },
     {
       "key": "4,5,1,1,0,0|2>3-;2>4+;2>5+;3>4+;5>1-;5>2+;5>3-;5>6-;6>1-;6>2+",
-      "note": "review: dedup",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "дверь-в-разрушеную-башню-с-двумя-сундуками-возле-старого-лагеря",
@@ -648,7 +664,11 @@
             "Развалины башни",
             "дверь"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Дверь стоит у основания Разрушенной башни недалеко от Старого лагеря. За дверью - склеп с трупом и сундуком: добротное снаряжение для раннего этапа.",
+            "en": "The door is at the base of the Ruined Tower near the Old Camp. Behind it lies a crypt with a body and a chest holding solid early-game gear."
+          }
         }
       ]
     },
@@ -850,7 +870,7 @@
     },
     {
       "key": "0,4,0,6,1,5|1>3-;2>3+;2>4-;4>3+;4>5-;5>6-;6>2-;6>5+",
-      "note": "review: dedup",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "болотный-лагерь-кузница-2",
@@ -877,7 +897,11 @@
             "Sumpflager",
             "Darrion"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук в кузнице Болотного лагеря. Внутри одноручный топор на 29 урона и кузнечные материалы.",
+            "en": "Chest in the Swamp Camp forge. One-handed axe with 29 slash damage and smith materials inside."
+          }
         }
       ]
     },
@@ -1170,7 +1194,7 @@
     },
     {
       "key": "2,6,1,5,4|1>2-;1>3-;1>4-;1>5-;2>1-;3>1-;3>2-;4>3+;5>1+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "новый-лагерь-рисовое-поле-решётка-на-третьем-этаже",
@@ -1197,7 +1221,11 @@
             "рисовое",
             "склад"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Дверь на 3-м этаже склада над рисовыми полями Нового лагеря. За дверью - склад с припасами и лутом.",
+            "en": "Door on the 3rd floor of the storeroom above the New Camp rice fields. Behind it is a storeroom with supplies and loot."
+          }
         }
       ]
     },
@@ -1342,12 +1370,12 @@
     },
     {
       "key": "3,2,6,1,4|1>2-;1>3-;2>1+;2>4-;3>1-;3>2+;3>4+;4>1-;4>5+;5>3-",
-      "note": "review: dedup",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "новый-лагерь-под-таверной-под-водой-по-пути-в-подвал-силаса",
           "name": {
-            "ru": "Новый лагерь, в воде в подвале под таверной Силоса",
+            "ru": "Новый лагерь, в воде в подвале под таверной Силаса",
             "en": "New Camp, under the Tavern (underwater) on the way to Silas' basement",
             "de": "Neues Lager, unter der Taverne (unter Wasser), auf dem Weg in Silas' Keller",
             "uk": "Новий табір, під тавернею (під водою) на шляху до підвалу Силаса"
@@ -1371,7 +1399,11 @@
             "Силас",
             "тайник"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Подводный сундук в подвале под таверной Силаса (Новый лагерь). Внутри топор Брана.",
+            "en": "Underwater chest in the basement beneath Silas's tavern (New Camp). Inside is Bran's axe."
+          }
         }
       ]
     },
@@ -1654,42 +1686,15 @@
     },
     {
       "key": "6,2,1,5,1,5|1>2-;1>3-;1>4-;1>5-;1>6-;3>6-;4>5+;4>6-;5>4+;6>4-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
-          "id": "старый-лагерь-вход-в-подвал-напротив-дома-сиры",
+          "id": "старый-лагерь-внутренний-круг-дверь-после-лестницы-вниз",
           "name": {
-            "ru": "Старый лагерь, вход в подвал напротив дома Сиры",
-            "en": "Old Camp, basement entrance opposite Sira's house",
-            "de": "Altes Lager, Kellereingang gegenüber dem Haus von Sira",
-            "uk": "Старий табір, вхід до підвалу навпроти будинку Сіри"
-          },
-          "cells": 6,
-          "rules": "A:B-,C-,D-,E-,F-;C:F-;D:E+,F-;E:D+;F:D-",
-          "pos": [
-            6,
-            2,
-            1,
-            5,
-            1,
-            5
-          ],
-          "tags": [
-            "Старый лагерь",
-            "замок",
-            "глава 2",
-            "подвал",
-            "Сира"
-          ],
-          "img": []
-        },
-        {
-          "id": "старый-лагерь-внутренний-круг-дверь-после-лестницывниз",
-          "name": {
-            "ru": "\"\"Старый лагерь, внутренний круг, дверь после лестницывниз.",
+            "ru": "Старый лагерь, внутренний круг, дверь после лестницы вниз.",
             "en": "Old Camp, Inner Ring, door after the staircase down",
             "de": "Altes Lager, Innerer Ring, Tür nach der Treppe nach unten",
-            "uk": "\"\"Старий табір, внутрішнє коло, двері після сходів вниз."
+            "uk": "Старий табір, внутрішнє коло, двері після сходів вниз."
           },
           "cells": 6,
           "rules": "A:B-,C-,D-,E-,F-;D:E+,F-;E:D+;F:D-;C:F-",
@@ -1702,12 +1707,17 @@
             5
           ],
           "tags": [
-            "старый лагерь",
-            "внутренний круг",
+            "Старый лагерь",
+            "замок",
             "подвал",
-            "глава 1"
+            "Сира",
+            "внутренний круг"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Склад под Гомезом в замке Старого лагеря - винный погреб за дверью внизу вертикальной лестницы.",
+            "en": "Storage under Gomez in the Old Camp castle - wine cellar behind the door at the bottom of a vertical ladder."
+          }
         }
       ]
     },
@@ -1776,18 +1786,18 @@
     },
     {
       "key": "6,0,1,1,4|1>4-;1>5+;2>1+;2>3-;2>5-;3>1+;3>2-;4>1+;4>2-;5>4-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
-          "id": "ruвторая-дверь-в-подвале-перед-сирой-enthe-second-door-in-the-ba",
+          "id": "старый-лагерь-решетка-после-винного-склада",
           "name": {
-            "ru": "Вторая дверь в подвале перед Сирой",
+            "ru": "Старый лагерь, решетка после винного склада",
             "en": "The second door in the basement in front of Sira",
-            "de": "Zweite Tür im Keller vor Sira",
-            "uk": "Другі двері в підвалі перед Сірою"
+            "de": "Altes Lager, Gitter nach dem Weinlager",
+            "uk": "Старий табір, решітка після винного складу"
           },
           "cells": 5,
-          "rules": "A:D-,E+;B:A+,C-,E-;C:A+,B-;D:A+,B-;E:D-",
+          "rules": "A:E+,D-;B:A+,C-,E-;C:A+,B-;D:A+,B-;E:D-",
           "pos": [
             6,
             0,
@@ -1801,28 +1811,7 @@
             "Door",
             "basement",
             "дверь",
-            "подвал"
-          ],
-          "img": []
-        },
-        {
-          "id": "старый-лагерь-решетка-после-винного-склада",
-          "name": {
-            "ru": "\"\"Старый лагерь, решетка после винного склада",
-            "en": "Old Camp, grate after the wine warehouse",
-            "de": "Altes Lager, Gitter nach dem Weinlager",
-            "uk": "\"\"Старий табір, решітка після винного складу"
-          },
-          "cells": 5,
-          "rules": "A:E+,D-;B:A+,C-,E-;C:A+,B-;D:A+,B-;E:D-",
-          "pos": [
-            6,
-            0,
-            1,
-            1,
-            4
-          ],
-          "tags": [
+            "подвал",
             "старый лагерь",
             "глава 1",
             "погреб",
@@ -1835,36 +1824,10 @@
     },
     {
       "key": "0,5,1,2,2|1>3-;2>1-;2>3+;2>5+;3>1+;3>2+;3>4+;5>3-;5>4+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: dedup",
       "entries": [
         {
-          "id": "stara-kopalnia-za-ulbertem",
-          "name": {
-            "pl": "Stara Kopalnia, za Ulbertem",
-            "ru": "Старая шахта, за Улбертом",
-            "en": "Old Mine, behind Ulbert",
-            "de": "Alte Mine, hinter Ulbert",
-            "uk": "Стара шахта, за Ульбертом"
-          },
-          "cells": 5,
-          "rules": "A:C-;B:A-,C+,E+;C:A+,B+,D+;E:C-,D+",
-          "pos": [
-            0,
-            5,
-            1,
-            2,
-            2
-          ],
-          "tags": [
-            "ulbert",
-            "stara kopalnia",
-            "rozdzial 1",
-            "magazyn"
-          ],
-          "img": []
-        },
-        {
-          "id": "шахта-сундук-за-ульбертом-и-за-помещением-с-сундукомкоторый-он-о",
+          "id": "шахта-сундук-за-ульбертом-и-за-помещением-с-сундукомкоторый-он-охраняет",
           "name": {
             "ru": "Шахта, сундук за Ульбертом и за помещением с сундуком(который он охраняет)",
             "en": "Mine, chest behind Ulbert and behind the room with the chest (which he guards)",
@@ -1881,7 +1844,10 @@
             2
           ],
           "tags": [
-            "RU"
+            "ulbert",
+            "stara kopalnia",
+            "rozdzial 1",
+            "magazyn"
           ],
           "img": []
         }
@@ -2560,13 +2526,13 @@
     },
     {
       "key": "0,3,4,1,0,3|1>3+;1>5-;2>3-;2>4-;3>4+;3>6+;4>1-;4>3-;4>6+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "пещера-разбойников-силаса-рядом",
           "name": {
-            "ru": "Пещера разбойников Силаса, рядом",
-            "en": "Silas' bandit cave, nearby",
+            "ru": "Сундук у разбойников на пути в Новый лагерь",
+            "en": "Chest by bandits on the path to the New Camp",
             "de": "Räuberhöhle von Silas, daneben",
             "uk": "Печера розбійників Силаса, поруч"
           },
@@ -2586,7 +2552,11 @@
             "глава 1",
             "новый лагерь"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук у двоих разбойников на тропе из Старого лагеря в Новый.",
+            "en": "Chest by two bandits on the trail from the Old Camp to the New Camp."
+          }
         }
       ]
     },
@@ -3641,12 +3611,12 @@
     },
     {
       "key": "0,2,6,5,4|1>4-;2>4-;3>1+;3>5-;4>5+;5>1+;5>2+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "старая-шахта-сундук-альберто-внизу",
           "name": {
-            "ru": "Старая Шахта, сундук Альберто внизу",
+            "ru": "Сундук в хижине шахты Альберто",
             "en": "Old Mine, Alberto's chest below",
             "de": "Alte Mine, Truhe von Alberto (unten)",
             "uk": "Стара шахта, скриня Альберто внизу"
@@ -3666,7 +3636,11 @@
             "глава 1",
             "склад"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук на 1-м этаже в хижине у шахты Альберто.",
+            "en": "Chest on the 1st floor in the hut by Alberto's mine."
+          }
         }
       ]
     },
@@ -3701,7 +3675,7 @@
     },
     {
       "key": "0,1,6,6,5,4|1>2-;1>3-;1>5-;2>4+;2>6+;3>2+;3>6-;5>1-;6>3+;6>5+",
-      "note": "review: dedup",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "старый-лагерь-замок-гомеза-второй-этаж-первая-правая-дверь",
@@ -3733,7 +3707,11 @@
             "второй этаж",
             "первая правая дверь"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Первая дверь на этаже спален покоев Гомеза - комнаты Ворона, Гомеза и Арто.",
+            "en": "First door on the bedrooms floor in Gomez's chambers - Voran, Gomez, and Arto rooms."
+          }
         }
       ]
     },
@@ -3771,12 +3749,12 @@
     },
     {
       "key": "3,4,6,6,6|1>4-;2>1-;2>3-;2>4+;3>2-;3>4+;3>5-;4>2-;4>5-;5>3-",
-      "note": "review: dedup",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "второй-этаж-замка-гомеза-сундук-у-дальней-кровати-с-кольцом-рудной-кожи",
           "name": {
-            "ru": "Второй этаж замка Гомеза, сундук у дальней кровати с кольцом рудной кожи",
+            "ru": "Второй этаж замка Гомеза, сундук у дальней кровати (этаж спален)",
             "en": "Second floor of Gomez' Castle, chest by the far bed with the ore hide ring",
             "de": "Zweites Stockwerk von Gomez' Burg, Truhe beim hinteren Bett mit dem Erzhautring",
             "uk": "Другий поверх замку Гомеза, скриня біля дальнього ліжка з кільцем рудної шкіри"
@@ -3800,19 +3778,23 @@
             "замок",
             "рудной кожи"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Дальний сундук в ногах кровати в спальне этажа спален. Кольцо рудной кожи, экстракты, алкоголь.",
+            "en": "Far chest at the foot of the bed in the bedrooms-floor room. Ore skin ring, extracts, alcohol."
+          }
         }
       ]
     },
     {
       "key": "2,5,2,6,6,6|2>1+;2>5-;2>6-;3>2+;4>1+;4>2-;5>1+;5>6-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-first-door-on-right-first-chest",
           "name": {
-            "en": "Old Camp, castle, first door on right, first chest",
-            "ru": "Старый лагерь, замок, первая дверь справа, первый сундук",
+            "ru": "Старый лагерь, замок, этаж спален, первая дверь справа, у ближней кровати, первый сундук",
+            "en": "Old Camp, castle, bedrooms floor, first door on right, first chest",
             "de": "Altes Lager, Burg, erste Tür rechts, erste Truhe",
             "uk": "Старий табір, замок, перші двері праворуч, перша скриня"
           },
@@ -3832,13 +3814,17 @@
             "first door on right",
             "first chest"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Ближний сундук в ногах кровати в спальне этажа спален. Кольцо великой жизненной силы, экстракты.",
+            "en": "Near chest at the foot of the bed in the bedrooms-floor room. Ring of great vitality, extracts."
+          }
         }
       ]
     },
     {
       "key": "1,0,4,3,2,0|1>4-;2>1-;2>3+;2>4-;2>5-;2>6+;3>2+;3>6+;4>6-;5>2-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "замок-гомеза-второй-этаж-первая-дверь-слева-его-покои",
@@ -3861,9 +3847,14 @@
           "tags": [
             "Замок Гомеза",
             "второй этаж",
-            "первая дверь слева (Его покои)"
+            "первая дверь слева",
+            "покои Гомеза"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Дверь в покои Гомеза в замке Старого лагеря.",
+            "en": "Door to Gomez's chambers in the Old Camp castle."
+          }
         }
       ]
     },
@@ -3993,13 +3984,13 @@
     },
     {
       "key": "5,0,1,0,6|1>2-;1>5-;2>5+;3>1-;3>2-;3>4-;3>5+;5>1+;5>3+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-second-door-on-left-chest-by-the-bed",
           "name": {
-            "en": "Old Camp, castle, second door on left, chest by the bed",
             "ru": "Старый лагерь, замок, вторая дверь слева, сундук у кровати",
+            "en": "Old Camp, castle, second door on left, chest by the bed",
             "de": "Altes Lager, Burg, zweite Tür links, Truhe am Bett",
             "uk": "Старий табір, замок, другі двері зліва, скриня біля ліжка"
           },
@@ -4018,19 +4009,23 @@
             "second door on left",
             "chest by the bed"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук у кровати в ногах Гомеза, в замке Старого лагеря. Личный тайник босса Старого лагеря.",
+            "en": "Chest at the foot of Gomez's bed in the Old Camp castle. The personal stash of the Old Camp's boss."
+          }
         }
       ]
     },
     {
       "key": "6,6,6,6,1|1>2-;3>1-;3>2-;3>4+;3>5+;4>1-;4>2+;5>2-;5>4+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-last-door-on-right",
           "name": {
-            "en": "Old Camp, castle, last door on right",
-            "ru": "Старый лагерь, замок, последняя дверь справа",
+            "ru": "Старый лагерь, замок, последняя дверь справа, Дверь в комнату Арто",
+            "en": "Old Camp, castle, last door on right, Door to Arto's room",
             "de": "Altes Lager, Burg, letzte Tür rechts",
             "uk": "Старий табір, замок, останні двері праворуч"
           },
@@ -4046,9 +4041,14 @@
           "tags": [
             "Old Camp",
             "castle",
-            "last door on right"
+            "last door on right",
+            "Арто"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Дверь в комнату Арто в покоях Гомеза - напротив комнаты Ворона.",
+            "en": "Door to Arto's room in Gomez's chambers - opposite Voran's room."
+          }
         }
       ]
     },
@@ -4085,7 +4085,7 @@
     },
     {
       "key": "1,1,6,6,4,2|1>2-;2>6-;3>2+;3>4-;3>5-;3>6-;4>3-;5>1-;6>3-;6>5-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: dedup",
       "entries": [
         {
           "id": "старый-лагерь-место-тренировки-справа-на-разрушенной-постройке",
@@ -4106,29 +4106,7 @@
             2
           ],
           "tags": [
-            "старый лагерь место тренировки стражи"
-          ],
-          "img": []
-        },
-        {
-          "id": "старый-лагерь-на-внутренней-стене-замка-справа",
-          "name": {
-            "ru": "Старый лагерь, на внутренней стене замка справа",
-            "en": "Old Camp, on the inner castle wall on the right",
-            "de": "Altes Lager, an der Innenwand der Burg rechts",
-            "uk": "Старий табір, на внутрішній стіні замку праворуч"
-          },
-          "cells": 6,
-          "rules": "A:B-;B:F-;C:B+,D-,E-,F-;D:C-;E:A-;F:C-,E-",
-          "pos": [
-            1,
-            1,
-            6,
-            6,
-            4,
-            2
-          ],
-          "tags": [
+            "место тренировки стражи",
             "Замок",
             "старый лагерь",
             "глава 1",
@@ -4209,7 +4187,7 @@
     },
     {
       "key": "1,5,4,5,4,6|2>1+;2>5+;2>6-;4>3-;5>1+;5>2-;5>4+;6>4+;6>5-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "старый-лагерь-замок-2-этаж-последняя-дверь-справа-сундук-арто",
@@ -4235,7 +4213,11 @@
             "замок",
             "2 этаж"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук у ближней кровати в комнате Арто. Кольцо мощи, руда.",
+            "en": "Chest at the near bed in Arto's room. Ring of power, ore."
+          }
         }
       ]
     },
@@ -4306,7 +4288,7 @@
     },
     {
       "key": "2,0,6,0,1,1|1>4-;1>5-;1>6-;2>1-;2>3-;3>4-;3>5+;4>3+;5>2-;5>3+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "старый-лагерь-замок-гомеза-2-й-этаж-последняя-дверь-слевагде-ноч",
@@ -4328,16 +4310,21 @@
           ],
           "tags": [
             "Замок Гомеза",
-            "дверь Ворона EN: Gomez Castle",
+            "дверь Ворона",
+            "Gomez Castle",
             "Raven Door"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук у стены в комнате Гомеза. Со стороны комнаты Ворона.",
+            "en": "Wall chest in Gomez's room. From Voran's side."
+          }
         }
       ]
     },
     {
       "key": "6,5,3,6,1,6,4|1>4-;1>6-;3>1+;5>1+;5>3-;5>4+;5>6+;5>7-;6>4-;6>5+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-last-door-on-left-chest-замок",
@@ -4364,21 +4351,25 @@
             "last door on left",
             "chest (Замок)"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук у кровати Ворона - Ключ от башни, кольцо от огня.",
+            "en": "Chest at Voran's bed - Raven Tower key, fire protection ring."
+          }
         }
       ]
     },
     {
       "key": "6,5,3,4,4,3|1>4-;1>5-;1>6+;3>6+;4>1-;4>2+;6>1+;6>2+;6>3-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-gomez-tower-left-chest-вежа-гомеза-скриня-ліва",
           "name": {
-            "uk": "Вежа Гомеза, скриня ліва",
-            "en": "Old Camp, castle, Gomez tower, left chest",
             "ru": "Старый лагерь, замок, башня Гомеза, левый сундук",
-            "de": "Altes Lager, Burg, Gomez-Turm, linke Truhe"
+            "en": "Old Camp, castle, Gomez tower, left chest",
+            "de": "Altes Lager, Burg, Gomez-Turm, linke Truhe",
+            "uk": "Вежа Гомеза, скриня ліва"
           },
           "cells": 6,
           "rules": "A:D-,E-,F+;C:F+;D:A-,B+;F:A+,B+,C-",
@@ -4397,7 +4388,11 @@
             "left chest (Вежа Гомеза",
             "скриня ліва)"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Первый сундук слева в башне Ворона после входа из покоев. 6 кубков, 2500 монет, руда.",
+            "en": "First chest on the left in Raven Tower after entering from the chambers. 6 cups, 2500 coins, ore."
+          }
         }
       ]
     },
@@ -4434,7 +4429,7 @@
     },
     {
       "key": "6,1,1,0,2,6|1>3-;1>5-;1>6-;3>2+;3>5+;3>6+;4>1+;4>5-;4>6+;5>4+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-gomez-tower-second-floor-right-chest-замок-вежа-",
@@ -4459,22 +4454,27 @@
             "castle",
             "Gomez tower",
             "second floor",
-            "right chest (Замок",
+            "right chest",
+            "Замок",
             "вежа Гомеза",
-            "2й поверх права скриня)"
+            "2й поверх права скриня"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук справа в башне Ворона. Иззубренные топоры и ржавые мечи.",
+            "en": "Chest on the right in Raven Tower. Serrated axes and rusty swords."
+          }
         }
       ]
     },
     {
       "key": "1,2,4,6,5,0|1>2+;1>3+;1>4+;2>1-;2>3-;4>5-;5>1-;5>4-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-gomez-tower-second-floor-right-chest-замок-вежа--2",
           "name": {
-            "ru": "Old Camp, castle, Gomez tower, second floor, right chest (Замок, вежа Гомеза, другий поверх, права скриня)",
+            "ru": "Сундук у лестницы на 2-м этаже башни Ворона",
             "en": "Old Camp, castle, Gomez' tower, second floor, right chest",
             "de": "Altes Lager, Burg, Gomez-Turm, zweites Stockwerk, rechte Truhe (Burg, Gomez-Turm, 2. Stockwerk, rechte Truhe)",
             "uk": "Старий табір, замок, вежа Гомеза, другий поверх, права скриня"
@@ -4494,12 +4494,18 @@
             "castle",
             "Gomez tower",
             "second floor",
-            "right chest (Замок",
+            "right chest",
+            "Замок",
             "вежа Гомеза",
             "другий поверх",
-            "права скриня)"
+            "права скриня",
+            "Старый лагерь"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук сразу после лестницы на 2-м этаже башни Ворона. Вино, крепкое вино, пиво.",
+            "en": "Chest right after the stairs on Raven Tower floor 2. Wine, strong wine, beer."
+          }
         }
       ]
     },
@@ -4536,15 +4542,15 @@
     },
     {
       "key": "1,6,4,5,6|1>3+;2>3+;3>1-;3>5+;4>3+;5>1-;5>2-;5>3+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-gomez-tower-second-floor-left-chest-замок-вежа-г",
           "name": {
-            "uk": "Замок, вежа Гомеза, другий поверх, ліва скриня",
-            "en": "Old Camp, castle, Gomez tower, second floor, left chest",
             "ru": "Старый лагерь, замок, башня Гомеза, второй этаж, левый сундук",
-            "de": "Altes Lager, Burg, Gomez-Turm, 2. Stock, linke Truhe"
+            "en": "Old Camp, castle, Gomez tower, second floor, left chest",
+            "de": "Altes Lager, Burg, Gomez-Turm, 2. Stock, linke Truhe",
+            "uk": "Замок, вежа Гомеза, другий поверх, ліва скриня"
           },
           "cells": 5,
           "rules": "A:C+;B:C+;C:A-,E+;D:C+;E:A-,B-,C+",
@@ -4560,12 +4566,19 @@
             "castle",
             "Gomez tower",
             "second floor",
-            "left chest (Замок",
+            "left chest",
+            "Замок",
             "вежа Гомеза",
             "другий поверх",
-            "ліва скриня)"
+            "ліва скриня",
+            "старый лагерь",
+            "сундук"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Второй сундук на 2-м этаже башни Ворона. 12 столовых приборов и 8897 монет.",
+            "en": "Second chest on Raven Tower floor 2. 12 cutlery and 8897 coins."
+          }
         }
       ]
     },
@@ -4600,12 +4613,12 @@
     },
     {
       "key": "1,1,5,4,6|1>2-;1>3+;1>5-;2>1+;2>3+;2>4+;3>5-;5>2+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-gomez-tower-3rd-floor-front-chest-замок-вежа-гом",
           "name": {
-            "ru": "Old Camp, castle, Gomez tower, 3rd floor, front chest (Замок, вежа Гомеза, 3й поверх, скриня по переду)",
+            "ru": "Сундук у входа на 3-м этаже башни Ворона",
             "en": "Old Camp, castle, Gomez' tower, 3rd floor, front chest",
             "de": "Altes Lager, Burg, Gomez-Turm, 3. Stockwerk, vordere Truhe (Burg, Gomez-Turm, 3. Stockwerk, vordere Truhe)",
             "uk": "Старий табір, замок, вежа Гомеза, 3-й поверх, скриня спереду"
@@ -4629,7 +4642,11 @@
             "3й поверх",
             "скриня по переду)"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук сразу перед вами на 3-м этаже башни Ворона. Волчьи когти, зубы, приборы.",
+            "en": "Chest right in front of you on Raven Tower floor 3. Wolf claws, teeth, cutlery."
+          }
         }
       ]
     },
@@ -4692,15 +4709,15 @@
     },
     {
       "key": "2,6,0,2,0|1>4-;2>1-;2>3+;2>4-;2>5+;3>1+;3>4-;3>5-;4>5+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-gomez-tower-3rd-floor-right-chest-замок-вежа-гом",
           "name": {
-            "uk": "Замок, вежа Гомеза, 3й поверх, ліва скриня",
-            "en": "Old Camp, castle, Gomez tower, 3rd floor, right chest",
             "ru": "Старый лагерь, замок, башня Гомеза, 3 этаж, правый сундук",
-            "de": "Altes Lager, Burg, Gomez-Turm, 3. Stock, rechte Truhe"
+            "en": "Old Camp, castle, Gomez tower, 3rd floor, right chest",
+            "de": "Altes Lager, Burg, Gomez-Turm, 3. Stock, rechte Truhe",
+            "uk": "Замок, вежа Гомеза, 3й поверх, ліва скриня"
           },
           "cells": 5,
           "rules": "A:D-;B:A-,C+,D-,E+;C:A+,D-,E-;D:E+",
@@ -4716,12 +4733,18 @@
             "castle",
             "Gomez tower",
             "3rd floor",
-            "right chest (Замок",
+            "right chest",
+            "Замок",
             "вежа Гомеза",
             "3й поверх",
-            "ліва скриня)"
+            "ліва скриня",
+            "старый лагерь"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Следующий сундук на 3-м этаже башни Ворона. Пустой.",
+            "en": "Next chest on Raven Tower floor 3. Empty."
+          }
         }
       ]
     },
@@ -4883,15 +4906,15 @@
     },
     {
       "key": "4,6,1,2,4,6|1>3-;1>5-;2>4+;3>1-;4>1-;5>2-;6>3+",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-gomez-tower-4th-floor-left-chest-замок-вежа-гоме",
           "name": {
-            "uk": "Замок, вежа Гомеза, 4й поверх, ліва скриня",
-            "en": "Old Camp, castle, Gomez tower, 4th floor, left chest",
             "ru": "Старый лагерь, замок, башня Гомеза, 4 этаж, левый сундук",
-            "de": "Altes Lager, Burg, Gomez-Turm, 4. Stock, linke Truhe"
+            "en": "Old Camp, castle, Gomez tower, 4th floor, left chest",
+            "de": "Altes Lager, Burg, Gomez-Turm, 4. Stock, linke Truhe",
+            "uk": "Замок, вежа Гомеза, 4й поверх, ліва скриня"
           },
           "cells": 6,
           "rules": "A:C-,E-;B:D+;C:A-;D:A-;E:B-;F:C+",
@@ -4908,12 +4931,19 @@
             "castle",
             "Gomez tower",
             "4th floor",
-            "left chest (Замок",
+            "left chest",
+            "Замок",
             "вежа Гомеза",
             "4й поверх",
-            "ліва скриня)"
+            "ліва скриня",
+            "старый лагерь",
+            "башня ворона"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук слева от эликсиров на 4-м этаже башни Ворона. Вино, пиво, мясо.",
+            "en": "Chest to the left of the elixir chest on Raven Tower floor 4. Wine, beer, meat."
+          }
         }
       ]
     },
@@ -4949,15 +4979,15 @@
     },
     {
       "key": "4,3,0,0,5,1|1>2-;1>3-;1>4+;3>2+;3>4-;4>1+;4>5+;4>6+;5>1-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "old-camp-castle-gomez-tower-top-chest-замок-вежа-гомеза-скриня-н",
           "name": {
-            "uk": "Замок, вежа Гомеза, скриня на горі вежі",
-            "en": "Old Camp, castle, Gomez tower, top chest",
             "ru": "Старый лагерь, замок, башня Гомеза, верхний сундук",
-            "de": "Altes Lager, Burg, Gomez-Turm, oberste Truhe"
+            "en": "Old Camp, castle, Gomez tower, top chest",
+            "de": "Altes Lager, Burg, Gomez-Turm, oberste Truhe",
+            "uk": "Замок, вежа Гомеза, скриня на горі вежі"
           },
           "cells": 6,
           "rules": "A:B-,C-,D+;C:B+,D-;D:A+,E+,F+;E:A-",
@@ -4973,11 +5003,16 @@
             "Old Camp",
             "castle",
             "Gomez tower",
-            "top chest (Замок",
+            "top chest",
+            "Замок",
             "вежа Гомеза",
-            "скриня на горі вежі)"
+            "скриня на горі вежі"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Единственный сундук на вершине башни Ворона. Кольцо ловкости, зов сна, велайис.",
+            "en": "The only chest at the top of Raven Tower. Agility ring, sleep call, velaiis herb."
+          }
         }
       ]
     },
@@ -6334,15 +6369,15 @@
     },
     {
       "key": "0,0,2,0,6,5,6|1>6-;2>3+;2>5-;2>7+;3>4-;4>5-;5>4-;6>4+;7>1-;7>3-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
-          "id": "0020656",
+          "id": "uml:arlin-dungeon-key",
           "name": {
-            "en": "0,0,2,0,6,5,6",
-            "ru": "0,0,2,0,6,5,6",
-            "de": "0,0,2,0,6,5,6",
-            "uk": "0,0,2,0,6,5,6"
+            "ru": "Ключ от темницы Арлина",
+            "en": "Arlin's dungeon key",
+            "de": "Schlüssel zu Arlins Kerker",
+            "uk": "Ключ від в'язниці Арліна"
           },
           "cells": 7,
           "rules": "A:F-;B:C+,G+,E-;C:D-;D:E-;E:D-;F:D+;G:A-,C-",
@@ -6356,15 +6391,18 @@
             6
           ],
           "tags": [
-            "0",
-            "0",
-            "2",
-            "0",
-            "6",
-            "5",
-            "6"
+            "Арлин",
+            "старый лагерь",
+            "подземелье",
+            "квест «Перекрыть правду»"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Ключ от темницы Арлина в замке Старого лагеря - камера в подземелье, квест «Перекрыть правду».",
+            "en": "Arlin's dungeon key in the Old Camp castle - cell in the dungeon, Bar the Truth quest.",
+            "de": "Schlüssel zu Arlins Verlies in der Alten Lagerburg – eine Zelle im Verlies, die Quest „Die Wahrheit blockieren“.",
+            "uk": "Ключ від в'язниці Арліна у замку Старого табору – камера у підземеллі, квест «Перекрити правду»."
+          }
         }
       ]
     },
@@ -6509,15 +6547,15 @@
     },
     {
       "key": "0,3,0,4,6,0|1>2-;2>1-;2>3-;2>5-;3>1-;3>6-;4>3+;5>2+;5>3-;5>6-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
-          "id": "030460",
+          "id": "old-camp-dungeon-door",
           "name": {
-            "en": "0,3,0,4,6,0",
-            "ru": "0,3,0,4,6,0",
-            "de": "0,3,0,4,6,0",
-            "uk": "0,3,0,4,6,0"
+            "ru": "Дверь в темнице с расстрелянным призраком",
+            "en": "Dungeon door by the executed ghost",
+            "de": "Die Tür im Verlies mit dem erschossenen Geist",
+            "uk": "Двері в темниці з розстріляною примарою"
           },
           "cells": 6,
           "rules": "A:B-;B:E-,A-,C-;C:A-,F-;D:C+;E:B+,C-,F-",
@@ -6530,14 +6568,20 @@
             0
           ],
           "tags": [
-            "0",
-            "3",
-            "0",
-            "4",
-            "6",
-            "0"
+            "призрак",
+            "темница",
+            "дверь",
+            "старый лагерь",
+            "замок",
+            "Арлин"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Дверь в темнице под замком Старого лагеря - у расстрелянного призрака. Квест «Перекрыть правду», Арлин.",
+            "en": "Dungeon door under the Old Camp castle - by the executed ghost. Bar the Truth quest, Arlin.",
+            "de": "Die Tür im Verlies unterhalb der Burg des Alten Lagers – in der Nähe des hingerichteten Geistes. Quest „Die Wahrheit blockieren“, Arlene.",
+            "uk": "Двері в темниці під замком Старого табору - біля розстріляної примари. Квест \"Перекрити правду\", Арлін."
+          }
         }
       ]
     },
@@ -6572,7 +6616,7 @@
     },
     {
       "key": "0,2,0,0|1>4-;2>1-;2>3+;2>4+;3>1-;3>2-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "старый-лагерь-замок-гомеза-сундук-у-трона-en:-old-camp-gomez-cas",
@@ -6592,10 +6636,15 @@
           ],
           "tags": [
             "Сундук у трона",
-            "замок гомеза EN: Chest nearby the throne",
+            "замок гомеза",
+            "Chest nearby the throne",
             "Gomez Castle"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук справа от Гомеза в тронном зале замка. Чертёж королевского оружия, рубины.",
+            "en": "Chest to Gomez's right in the castle throne hall. Royal Weapon blueprint, rubies."
+          }
         }
       ]
     },
@@ -10233,13 +10282,13 @@
     },
     {
       "key": "3,5,5,6,0,6,3|1>5-;1>6-;3>2-;4>1-;4>3+;5>3+;5>4-;6>4+;6>5+;7>1-",
-      "note": "bootstrap: frozen from chests.json",
+      "note": "review: enrich",
       "entries": [
         {
           "id": "старый-лагерь-башня-замка-4-этаж-первый-сундук",
           "name": {
-            "ru": "Старый лагерь, башня замка, 4 этаж, первый сундук",
-            "en": "Old Camp, Castle Tower, 4th floor, first chest",
+            "ru": "Старый лагерь, башня Ворона, 4 этаж, первый сундук",
+            "en": "Old Camp, Raven Tower, 4th floor, first chest",
             "de": "Altes Lager, Burgturm, 4. Etage, erste Truhe",
             "uk": "Старий табір, башта замку, 4 поверх, перша скриня"
           },
@@ -10261,7 +10310,11 @@
             "4 этаж",
             "сундук"
           ],
-          "img": []
+          "img": [],
+          "desc": {
+            "ru": "Сундук за лестницей на 4-м этаже башни Ворона. Эликсиры и экстракты.",
+            "en": "Chest past the stairs on Raven Tower floor 4. Elixirs and extracts."
+          }
         }
       ]
     },
