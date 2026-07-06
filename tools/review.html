@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DB review — Gothic Lockpick</title>
+<style>
+  :root { --bg:#14100c; --panel:#1d1812; --inset:#241e16; --border:#3a3226; --text:#d8cdb8;
+          --muted:#8a7a5f; --accent:#e8c87a; --green:#5cb85c; --red:#d86a6a; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:14px/1.5 system-ui, sans-serif; padding:20px; }
+  h1 { font-size:1.1em; letter-spacing:.08em; color:var(--accent); }
+  .meta { color:var(--muted); margin-bottom:14px; }
+  .type-badge { display:inline-block; padding:1px 8px; border:1px solid var(--border); border-radius:10px;
+                font-size:.8em; color:var(--accent); margin-left:8px; }
+  .note { color:var(--red); margin:6px 0; }
+  .cols { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+  .card { flex:1 1 280px; min-width:260px; background:var(--panel); border:1px solid var(--border);
+          border-radius:6px; padding:10px; }
+  .card h3 { margin:0 0 6px; font-size:.85em; color:var(--muted); font-weight:normal; }
+  pre { margin:0; white-space:pre-wrap; word-break:break-word; font-size:.82em; color:var(--text); }
+  .merged { background:var(--inset); border-color:var(--accent); }
+  label { display:block; font-size:.75em; color:var(--muted); margin:8px 0 2px; }
+  input, textarea { width:100%; background:var(--bg); color:var(--text); border:1px solid var(--border);
+                    border-radius:4px; padding:6px 8px; font:inherit; }
+  textarea { min-height:48px; resize:vertical; }
+  .ro { color:var(--muted); font-size:.8em; margin-top:8px; }
+  .actions { margin-top:16px; display:flex; gap:10px; }
+  button { padding:8px 22px; border-radius:4px; border:1px solid var(--border); background:var(--panel);
+           color:var(--text); font:inherit; cursor:pointer; }
+  #btn-merge { border-color:var(--green); color:var(--green); }
+  #btn-merge:hover { background:rgba(92,184,92,.12); }
+  #btn-skip:hover { background:rgba(216,106,106,.08); }
+  #review-empty { color:var(--green); font-size:1.1em; margin-top:30px; }
+  .hidden { display:none; }
+</style>
+</head>
+<body>
+<h1>РЕВЬЮ БАЗЫ ЗАМКОВ</h1>
+<div class="meta">
+  <span data-test-id="review-progress" id="progress"></span>
+  <span class="type-badge hidden" data-test-id="review-type" id="type-badge"></span>
+</div>
+<div id="item" class="hidden">
+  <div class="note hidden" data-test-id="review-note" id="note"></div>
+  <div class="cols" id="candidates"></div>
+  <div class="card merged">
+    <h3>Итоговая запись (правь свободно)</h3>
+    <label>id</label><input data-test-id="merged-id" id="f-id">
+    <div class="cols" style="gap:8px">
+      <div style="flex:1"><label>name.ru</label><input data-test-id="merged-name-ru" id="f-name-ru"></div>
+      <div style="flex:1"><label>name.en</label><input data-test-id="merged-name-en" id="f-name-en"></div>
+      <div style="flex:1"><label>name.de</label><input data-test-id="merged-name-de" id="f-name-de"></div>
+      <div style="flex:1"><label>name.uk</label><input data-test-id="merged-name-uk" id="f-name-uk"></div>
+    </div>
+    <label>tags (через запятую)</label><input data-test-id="merged-tags" id="f-tags">
+    <div class="cols" style="gap:8px">
+      <div style="flex:1"><label>desc.ru</label><textarea data-test-id="merged-desc-ru" id="f-desc-ru"></textarea></div>
+      <div style="flex:1"><label>desc.en</label><textarea data-test-id="merged-desc-en" id="f-desc-en"></textarea></div>
+      <div style="flex:1"><label>desc.de</label><textarea data-test-id="merged-desc-de" id="f-desc-de"></textarea></div>
+      <div style="flex:1"><label>desc.uk</label><textarea data-test-id="merged-desc-uk" id="f-desc-uk"></textarea></div>
+    </div>
+    <div class="ro" data-test-id="merged-config" id="f-config"></div>
+  </div>
+  <div class="actions">
+    <button id="btn-merge" data-test-id="btn-merge">Принять</button>
+    <button id="btn-skip" data-test-id="btn-skip">Пропустить</button>
+  </div>
+</div>
+<div id="review-empty" data-test-id="review-empty" class="hidden">Очередь пуста — всё отревьюено ✓</div>
+
+<script>
+const LANGS = ['ru', 'en', 'de', 'uk'];
+let items = [], idx = 0;
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+
+function render() {
+  if (idx >= items.length) {
+    $('item').classList.add('hidden');
+    $('review-empty').classList.remove('hidden');
+    $('progress').textContent = items.length ? `${items.length} / ${items.length}` : '0 / 0';
+    $('type-badge').classList.add('hidden');
+    return;
+  }
+  const it = items[idx];
+  $('item').classList.remove('hidden');
+  $('review-empty').classList.add('hidden');
+  $('progress').textContent = `${idx + 1} / ${items.length}`;
+  $('type-badge').textContent = it.type;
+  $('type-badge').classList.remove('hidden');
+  $('note').textContent = it.note || '';
+  $('note').classList.toggle('hidden', !it.note);
+
+  $('candidates').innerHTML = it.candidates.map((c, i) =>
+    `<div class="card"><h3>Кандидат ${i + 1}</h3>
+       <pre data-test-id="candidate-${i}">${esc(JSON.stringify(c, null, 2))}</pre></div>`).join('');
+
+  const p = it.proposed;
+  $('f-id').value = p.id || '';
+  for (const l of LANGS) {
+    $(`f-name-${l}`).value = (p.name && p.name[l]) || '';
+    $(`f-desc-${l}`).value = (p.desc && p.desc[l]) || '';
+  }
+  $('f-tags').value = (p.tags || []).join(', ');
+  $('f-config').textContent = `pos=[${p.pos}]  rules=${p.rules}  cells=${p.cells}`;
+}
+
+function collectEntry() {
+  const p = items[idx].proposed;
+  const langObj = (prefix) => {
+    const o = {};
+    for (const l of LANGS) {
+      const v = $(`${prefix}-${l}`).value.trim();
+      if (v) o[l] = v;
+    }
+    return o;
+  };
+  const entry = {
+    id: $('f-id').value.trim() || p.id,
+    name: langObj('f-name'),
+    cells: p.cells, rules: p.rules, pos: p.pos,
+    tags: $('f-tags').value.split(',').map(t => t.trim()).filter(Boolean),
+    img: p.img || [],
+  };
+  const desc = langObj('f-desc');
+  if (Object.keys(desc).length) entry.desc = desc;
+  return entry;
+}
+
+$('btn-merge').addEventListener('click', async () => {
+  const it = items[idx];
+  const res = await fetch('/api/decision', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ key: it.key, entries: [collectEntry()], note: `review: ${it.type}` }),
+  });
+  if (!(await res.json()).ok) { alert('Не сохранилось — смотри консоль сервера'); return; }
+  idx++;
+  render();
+});
+
+$('btn-skip').addEventListener('click', () => { idx++; render(); });
+
+fetch('/api/queue').then(r => r.json()).then(d => { items = d.items; render(); });
+</script>
+</body>
+</html>
