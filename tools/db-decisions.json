@@ -12229,5 +12229,306 @@
     }
   ],
   "additions": [],
-  "translations": {}
+  "translations": {
+    "1,0,5,4,3,6|2>3+;2>5-;4>2+;4>5-;5>2-;5>3+;5>6-;6>5+": {
+      "byId": {
+        "altes-lager-kiste-in-diegos-hütte": {
+          "desc": {
+            "de": "Diegos Hütte befindet sich südöstlich des Burgtors des Alten Lagers. Am Eingang liegen rote Tücher und Felle. Sie enthält 5 Heilessenzen, 3 Dietriche, 22 Erz und Vorräte.",
+            "uk": "Хата Дієго на південний схід від воріт замку Старого табору, з червоною тканиною і шкурами біля входу. 5 есенцій лікування, 3 відмички, 22 руди та запаси."
+          }
+        }
+      }
+    },
+    "6,1,1,5,0,2|1>5+;3>1+;3>5-;3>6+;4>5+;5>2-;6>2+;6>4-": {
+      "byId": {
+        "старый-лагерь-дом-рядом-с-большим-котелком-для-еды-на-стенах-дом": {
+          "desc": {
+            "de": "Kartograf Grahams Hütte befindet sich links vom Nordtor des Alten Lagers (vor dem ersten Kessel). Vorrat des Kartografen.",
+            "uk": "Хатина картографа Грехема ліворуч від Північної брами Старого табору (перед першим котлом). Запас старателя картографа."
+          }
+        }
+      }
+    },
+    "5,2,1,0,6|1>4+;2>5+;3>5-;4>2+;4>3-;4>5-": {
+      "byId": {
+        "старий-табір-хатина-скатті-завдання-фінгерса": {
+          "desc": {
+            "de": "Scattys Truhe befindet sich im Alten Lager. Darin befindet sich ein Ring, der Fingers für die gleichnamige Quest gegeben werden muss.",
+            "uk": "Скриня Скатті знаходиться в Старому таборі. Усередині кільце, яке потрібно віддати Фінгерсу за однойменним квестом."
+          }
+        }
+      }
+    },
+    "6,6,5,0|1>4+;2>1+;2>4+;3>1+;3>2-": {
+      "byId": {
+        "1-глава-болотный-лагерь-хижина-кор-галома-рецепт": {
+          "desc": {
+            "de": "Cor Kaloms Truhe. Darin befindet sich ein Sektiererrezept, das für die Quest benötigt wird.",
+            "uk": "Скриня Кор Калома. Усередині рецепт сектантів, необхідний квесту."
+          }
+        }
+      }
+    },
+    "4,5,1,1,0,0|2>3-;2>4+;2>5+;3>4+;5>1-;5>2+;5>3-;5>6-;6>1-;6>2+": {
+      "byId": {
+        "дверь-в-разрушеную-башню-с-двумя-сундуками-возле-старого-лагеря": {
+          "desc": {
+            "de": "Die Tür befindet sich am Fuße des zerstörten Turms in der Nähe des Alten Lagers. Dahinter befindet sich eine Krypta mit einer Leiche und einer Truhe: gute Ausrüstung für den Spielbeginn.",
+            "uk": "Двері стоять біля основи Зруйнованої вежі неподалік Старого табору. За дверима – склеп із трупом та скринею: добротне спорядження для раннього етапу."
+          }
+        }
+      }
+    },
+    "0,4,0,6,1,5|1>3-;2>3+;2>4-;4>3+;4>5-;5>6-;6>2-;6>5+": {
+      "byId": {
+        "болотный-лагерь-кузница-2": {
+          "desc": {
+            "de": "Truhe in der Schmiede des Sumpflagers. Darin befindet sich eine Einhandaxt (29 Schaden) und Schmiedematerialien.",
+            "uk": "Скриня в кузні Болотного табору. Всередині одноручна сокира на 29 шкоди та ковальські матеріали."
+          }
+        }
+      }
+    },
+    "2,6,1,5,4|1>2-;1>3-;1>4-;1>5-;2>1-;3>1-;3>2-;4>3+;5>1+": {
+      "byId": {
+        "новый-лагерь-рисовое-поле-решётка-на-третьем-этаже": {
+          "desc": {
+            "de": "Tür im 3. Stock des Lagerhauses über den Reisfeldern im Neuen Lager. Hinter der Tür befindet sich ein Lagerhaus mit Vorräten und Beute.",
+            "uk": "Двері на 3-му поверсі складу над рисовими полями Нового табору. За дверима - склад із запасами та лутом."
+          }
+        }
+      }
+    },
+    "3,2,6,1,4|1>2-;1>3-;2>1+;2>4-;3>1-;3>2+;3>4+;4>1-;4>5+;5>3-": {
+      "byId": {
+        "новый-лагерь-под-таверной-под-водой-по-пути-в-подвал-силаса": {
+          "desc": {
+            "de": "Eine Unterwassertruhe im Keller unter Silas' Taverne (Neues Lager). Darin befindet sich Brans Axt.",
+            "uk": "Підводна скриня у підвалі під таверною Сіласа (Новий табір). Всередині сокира Брана."
+          }
+        }
+      }
+    },
+    "6,2,1,5,1,5|1>2-;1>3-;1>4-;1>5-;1>6-;3>6-;4>5+;4>6-;5>4+;6>4-": {
+      "byId": {
+        "старый-лагерь-внутренний-круг-дверь-после-лестницы-вниз": {
+          "desc": {
+            "de": "Ein Lagerhaus unter Gomez in der Burg des Alten Lagers – ein Weinkeller hinter einer Tür am Fuße der vertikalen Leiter.",
+            "uk": "Склад під Гомезом у замку Старого табору – винний льох за дверима внизу вертикальної драбини."
+          }
+        }
+      }
+    },
+    "0,3,4,1,0,3|1>3+;1>5-;2>3-;2>4-;3>4+;3>6+;4>1-;4>3-;4>6+": {
+      "byId": {
+        "пещера-разбойников-силаса-рядом": {
+          "desc": {
+            "de": "Eine Truhe bei zwei Banditen auf dem Weg vom Alten zum Neuen Lager.",
+            "uk": "Скриня у двох розбійників на стежці зі Старого табору до Нового."
+          }
+        }
+      }
+    },
+    "0,2,6,5,4|1>4-;2>4-;3>1+;3>5-;4>5+;5>1+;5>2+": {
+      "byId": {
+        "старая-шахта-сундук-альберто-внизу": {
+          "desc": {
+            "de": "Eine Truhe im ersten Stock der Hütte nahe Albertos Mine.",
+            "uk": "Скриня на 1-му поверсі в хатині біля шахти Альберто."
+          }
+        }
+      }
+    },
+    "0,1,6,6,5,4|1>2-;1>3-;1>5-;2>4+;2>6+;3>2+;3>6-;5>1-;6>3+;6>5+": {
+      "byId": {
+        "старый-лагерь-замок-гомеза-второй-этаж-первая-правая-дверь": {
+          "desc": {
+            "de": "Die erste Tür im Schlafsaal von Gomez' Gemächern – den Zimmern von Raven, Gomez und Arto.",
+            "uk": "Перші двері на поверсі спалень покоїв Гомеза – кімнати Ворона, Гомеза та Арто."
+          }
+        }
+      }
+    },
+    "3,4,6,6,6|1>4-;2>1-;2>3-;2>4+;3>2-;3>4+;3>5-;4>2-;4>5-;5>3-": {
+      "byId": {
+        "второй-этаж-замка-гомеза-сундук-у-дальней-кровати-с-кольцом-рудной-кожи": {
+          "desc": {
+            "de": "Die hintere Truhe am Fußende des Bettes im Schlafsaal enthält einen Ring aus Erzleder, Extrakte und Alkohol.",
+            "uk": "Далека скриня в ногах ліжка у спальні на поверсі спалень. Кільце рудної шкіри, екстракти, алкоголь."
+          }
+        }
+      }
+    },
+    "2,5,2,6,6,6|2>1+;2>5-;2>6-;3>2+;4>1+;4>2-;5>1+;5>6-": {
+      "byId": {
+        "old-camp-castle-first-door-on-right-first-chest": {
+          "desc": {
+            "de": "Die vordere Truhe am Fußende des Bettes im Schlafsaal enthält einen Ring der Großen Vitalität und Extrakte.",
+            "uk": "Близька скриня в ногах ліжка у спальні на поверсі спалень. Кільце великої життєвої сили, екстракти."
+          }
+        }
+      }
+    },
+    "1,0,4,3,2,0|1>4-;2>1-;2>3+;2>4-;2>5-;2>6+;3>2+;3>6+;4>6-;5>2-": {
+      "byId": {
+        "замок-гомеза-второй-этаж-первая-дверь-слева-его-покои": {
+          "desc": {
+            "de": "Die Tür zu Gomez' Gemächern in der Burg des Alten Lagers.",
+            "uk": "Двері в покої Гомеза в замку Старого табору."
+          }
+        }
+      }
+    },
+    "5,0,1,0,6|1>2-;1>5-;2>5+;3>1-;3>2-;3>4-;3>5+;5>1+;5>3+": {
+      "byId": {
+        "old-camp-castle-second-door-on-left-chest-by-the-bed": {
+          "desc": {
+            "de": "Eine Truhe am Fußende von Gomez' Bett in der Burg des Alten Lagers. Der persönliche Vorrat des Bosses des Alten Lagers.",
+            "uk": "Скриня біля ліжка в ногах Гомеза, у замку Старого табору. Особиста схованка боса Старого табору."
+          }
+        }
+      }
+    },
+    "6,6,6,6,1|1>2-;3>1-;3>2-;3>4+;3>5+;4>1-;4>2+;5>2-;5>4+": {
+      "byId": {
+        "old-camp-castle-last-door-on-right": {
+          "desc": {
+            "de": "Die Tür zu Artos Zimmer in Gomez' Quartier befindet sich gegenüber von Ravens Zimmer.",
+            "uk": "Двері в кімнату Арто у покоях Гомеза – навпроти кімнати Ворона."
+          }
+        }
+      }
+    },
+    "1,5,4,5,4,6|2>1+;2>5+;2>6-;4>3-;5>1+;5>2-;5>4+;6>4+;6>5-": {
+      "byId": {
+        "старый-лагерь-замок-2-этаж-последняя-дверь-справа-сундук-арто": {
+          "desc": {
+            "de": "Truhe neben dem nächsten Bett in Artos Zimmer. Ring der Macht, Erz.",
+            "uk": "Скриня біля ближнього ліжка в кімнаті Арто. Кільце мощі, руда."
+          }
+        }
+      }
+    },
+    "2,0,6,0,1,1|1>4-;1>5-;1>6-;2>1-;2>3-;3>4-;3>5+;4>3+;5>2-;5>3+": {
+      "byId": {
+        "старый-лагерь-замок-гомеза-2-й-этаж-последняя-дверь-слевагде-ноч": {
+          "desc": {
+            "de": "Truhe an der Wand in Gomez' Zimmer. Auf der Seite, die zu Ravens Zimmer zeigt.",
+            "uk": "Скриня біля стіни в кімнаті Гомеза. З боку кімнати Ворона."
+          }
+        }
+      }
+    },
+    "6,5,3,6,1,6,4|1>4-;1>6-;3>1+;5>1+;5>3-;5>4+;5>6+;5>7-;6>4-;6>5+": {
+      "byId": {
+        "old-camp-castle-last-door-on-left-chest-замок": {
+          "desc": {
+            "de": "Truhe neben Ravens Bett – Turmschlüssel, Feuerschutzring.",
+            "uk": "Скриня біля ліжка Ворона - Ключ від вежі, кільце від вогню."
+          }
+        }
+      }
+    },
+    "6,5,3,4,4,3|1>4-;1>5-;1>6+;3>6+;4>1-;4>2+;6>1+;6>2+;6>3-": {
+      "byId": {
+        "old-camp-castle-gomez-tower-left-chest-вежа-гомеза-скриня-ліва": {
+          "desc": {
+            "de": "Erste Truhe links in Ravens Turm, nachdem man ihn von seinem Quartier aus betreten hat. 6 Becher, 2500 Münzen, Erz.",
+            "uk": "Перша скриня ліворуч у вежі Ворона після входу з покоїв. 6 кубків, 2500 монет, руда."
+          }
+        }
+      }
+    },
+    "6,1,1,0,2,6|1>3-;1>5-;1>6-;3>2+;3>5+;3>6+;4>1+;4>5-;4>6+;5>4+": {
+      "byId": {
+        "old-camp-castle-gomez-tower-second-floor-right-chest-замок-вежа-": {
+          "desc": {
+            "de": "Truhe rechts in Ravens Turm. Gezackte Äxte und rostige Schwerter.",
+            "uk": "Скриня праворуч у вежі Ворона. Зазубрені сокири та іржаві мечі."
+          }
+        }
+      }
+    },
+    "1,2,4,6,5,0|1>2+;1>3+;1>4+;2>1-;2>3-;4>5-;5>1-;5>4-": {
+      "byId": {
+        "old-camp-castle-gomez-tower-second-floor-right-chest-замок-вежа--2": {
+          "desc": {
+            "de": "Truhe direkt hinter der Treppe im 2. Stock von Ravens Turm. Wein, starker Wein, Bier.",
+            "uk": "Скриня відразу після сходів на 2-му поверсі вежі Ворона. Вино, міцне вино, пиво."
+          }
+        }
+      }
+    },
+    "1,6,4,5,6|1>3+;2>3+;3>1-;3>5+;4>3+;5>1-;5>2-;5>3+": {
+      "byId": {
+        "old-camp-castle-gomez-tower-second-floor-left-chest-замок-вежа-г": {
+          "desc": {
+            "de": "Zweite Truhe im 2. Stock von Ravens Turm. 12 Besteckteile und 8897 Münzen.",
+            "uk": "Друга скриня на 2-му поверсі вежі Ворона. 12 столових приборів та 8897 монет."
+          }
+        }
+      }
+    },
+    "1,1,5,4,6|1>2-;1>3+;1>5-;2>1+;2>3+;2>4+;3>5-;5>2+": {
+      "byId": {
+        "old-camp-castle-gomez-tower-3rd-floor-front-chest-замок-вежа-гом": {
+          "desc": {
+            "de": "Truhe direkt vorn im 3. Stock von Ravens Turm. Wolfsklauen, Zähne, Utensilien.",
+            "uk": "Скриня одразу перед вами на 3-му поверсі вежі Ворона. Вовчі пазурі, зуби, прилади."
+          }
+        }
+      }
+    },
+    "2,6,0,2,0|1>4-;2>1-;2>3+;2>4-;2>5+;3>1+;3>4-;3>5-;4>5+": {
+      "byId": {
+        "old-camp-castle-gomez-tower-3rd-floor-right-chest-замок-вежа-гом": {
+          "desc": {
+            "de": "Die nächste Truhe befindet sich im 3. Stock von Ravens Turm. Leer.",
+            "uk": "Наступна скриня на 3-му поверсі вежі Ворона. Порожня."
+          }
+        }
+      }
+    },
+    "4,6,1,2,4,6|1>3-;1>5-;2>4+;3>1-;4>1-;5>2-;6>3+": {
+      "byId": {
+        "old-camp-castle-gomez-tower-4th-floor-left-chest-замок-вежа-гоме": {
+          "desc": {
+            "de": "Truhe links von den Elixieren im 4. Stock von Ravens Turm. Wein, Bier, Fleisch.",
+            "uk": "Скриня ліворуч від еліксирів на 4-му поверсі вежі Ворона. Вино, пиво, м'ясо."
+          }
+        }
+      }
+    },
+    "4,3,0,0,5,1|1>2-;1>3-;1>4+;3>2+;3>4-;4>1+;4>5+;4>6+;5>1-": {
+      "byId": {
+        "old-camp-castle-gomez-tower-top-chest-замок-вежа-гомеза-скриня-н": {
+          "desc": {
+            "de": "Die einzige Truhe ganz oben in Ravens Turm. Ring der Beweglichkeit, Ruf des Schlafs, Velais.",
+            "uk": "Єдина скриня на вершині вежі Ворона. Кільце спритності, поклик сну, велаїс."
+          }
+        }
+      }
+    },
+    "0,2,0,0|1>4-;2>1-;2>3+;2>4+;3>1-;3>2-": {
+      "byId": {
+        "старый-лагерь-замок-гомеза-сундук-у-трона-en:-old-camp-gomez-cas": {
+          "desc": {
+            "de": "Truhe rechts von Gomez im Thronsaal der Burg. Bauplan der Königlichen Waffe, Rubine.",
+            "uk": "Скриня праворуч від Гомеза у тронному залі замку. Креслення королівської зброї, рубіни."
+          }
+        }
+      }
+    },
+    "3,5,5,6,0,6,3|1>5-;1>6-;3>2-;4>1-;4>3+;5>3+;5>4-;6>4+;6>5+;7>1-": {
+      "byId": {
+        "старый-лагерь-башня-замка-4-этаж-первый-сундук": {
+          "desc": {
+            "de": "Truhe hinter der Treppe im 4. Stock von Ravens Turm. Elixiere und Extrakte.",
+            "uk": "Скриня за сходами на 4-му поверсі вежі Ворона. Еліксири та екстракти."
+          }
+        }
+      }
+    }
+  }
 }

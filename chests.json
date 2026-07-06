@@ -1,6 +1,6 @@
 {
   "v": 1,
-  "updated": "2026-07-06T11:53:20.748Z",
+  "updated": "2026-07-06T12:03:04.755Z",
   "entries": [
     {
       "id": "старый-лагерь-внутри-ворот-старого-лагеря",
@@ -154,7 +154,9 @@
       "img": [],
       "desc": {
         "ru": "Хижина Диего юго-восточнее ворот замка Старого лагеря, с красной тканью и шкурами у входа. 5 эссенций исцеления, 3 отмычки, 22 руды и припасы.",
-        "en": "Diego's shack southeast of the Old Camp castle gate, marked by red draping and hides. 5 Essences of Healing, 3 lockpicks, 22 ore and supplies."
+        "en": "Diego's shack southeast of the Old Camp castle gate, marked by red draping and hides. 5 Essences of Healing, 3 lockpicks, 22 ore and supplies.",
+        "de": "Diegos Hütte befindet sich südöstlich des Burgtors des Alten Lagers. Am Eingang liegen rote Tücher und Felle. Sie enthält 5 Heilessenzen, 3 Dietriche, 22 Erz und Vorräte.",
+        "uk": "Хата Дієго на південний схід від воріт замку Старого табору, з червоною тканиною і шкурами біля входу. 5 есенцій лікування, 3 відмички, 22 руди та запаси."
       }
     },
     {
@@ -271,7 +273,9 @@
       "img": [],
       "desc": {
         "ru": "Хижина картографа Грэхэма слева от Северных ворот Старого лагеря (перед первым котлом). Запас старателя-картографа.",
-        "en": "Cartographer Graham's hut left of the Old Camp North Gate (before the first cauldron). The cartographer's personal stash."
+        "en": "Cartographer Graham's hut left of the Old Camp North Gate (before the first cauldron). The cartographer's personal stash.",
+        "de": "Kartograf Grahams Hütte befindet sich links vom Nordtor des Alten Lagers (vor dem ersten Kessel). Vorrat des Kartografen.",
+        "uk": "Хатина картографа Грехема ліворуч від Північної брами Старого табору (перед першим котлом). Запас старателя картографа."
       }
     },
     {
@@ -365,7 +369,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук Скатти находится в Старом лагере. Внутри кольцо, которое нужно отдать Фингерсу по одноимённому квесту.",
-        "en": "Scatty's chest is in the Old Camp. Inside is the ring you hand to Fingers for that quest."
+        "en": "Scatty's chest is in the Old Camp. Inside is the ring you hand to Fingers for that quest.",
+        "de": "Scattys Truhe befindet sich im Alten Lager. Darin befindet sich ein Ring, der Fingers für die gleichnamige Quest gegeben werden muss.",
+        "uk": "Скриня Скатті знаходиться в Старому таборі. Усередині кільце, яке потрібно віддати Фінгерсу за однойменним квестом."
       }
     },
     {
@@ -522,7 +528,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук Кор Галома. Внутри рецепт сектантов, нужный для квеста.",
-        "en": "Cor Galom's chest is in the Swamp Camp lab. Inside is the cultists' recipe needed for the quest."
+        "en": "Cor Galom's chest is in the Swamp Camp lab. Inside is the cultists' recipe needed for the quest.",
+        "de": "Cor Kaloms Truhe. Darin befindet sich ein Sektiererrezept, das für die Quest benötigt wird.",
+        "uk": "Скриня Кор Калома. Усередині рецепт сектантів, необхідний квесту."
       }
     },
     {
@@ -550,7 +558,9 @@
       "img": [],
       "desc": {
         "ru": "Дверь стоит у основания Разрушенной башни недалеко от Старого лагеря. За дверью - склеп с трупом и сундуком: добротное снаряжение для раннего этапа.",
-        "en": "The door is at the base of the Ruined Tower near the Old Camp. Behind it lies a crypt with a body and a chest holding solid early-game gear."
+        "en": "The door is at the base of the Ruined Tower near the Old Camp. Behind it lies a crypt with a body and a chest holding solid early-game gear.",
+        "de": "Die Tür befindet sich am Fuße des zerstörten Turms in der Nähe des Alten Lagers. Dahinter befindet sich eine Krypta mit einer Leiche und einer Truhe: gute Ausrüstung für den Spielbeginn.",
+        "uk": "Двері стоять біля основи Зруйнованої вежі неподалік Старого табору. За дверима – склеп із трупом та скринею: добротне спорядження для раннього етапу."
       }
     },
     {
@@ -741,7 +751,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук в кузнице Болотного лагеря. Внутри одноручный топор на 29 урона и кузнечные материалы.",
-        "en": "Chest in the Swamp Camp forge. One-handed axe with 29 slash damage and smith materials inside."
+        "en": "Chest in the Swamp Camp forge. One-handed axe with 29 slash damage and smith materials inside.",
+        "de": "Truhe in der Schmiede des Sumpflagers. Darin befindet sich eine Einhandaxt (29 Schaden) und Schmiedematerialien.",
+        "uk": "Скриня в кузні Болотного табору. Всередині одноручна сокира на 29 шкоди та ковальські матеріали."
       }
     },
     {
@@ -1005,7 +1017,9 @@
       "img": [],
       "desc": {
         "ru": "Дверь на 3-м этаже склада над рисовыми полями Нового лагеря. За дверью - склад с припасами и лутом.",
-        "en": "Door on the 3rd floor of the storeroom above the New Camp rice fields. Behind it is a storeroom with supplies and loot."
+        "en": "Door on the 3rd floor of the storeroom above the New Camp rice fields. Behind it is a storeroom with supplies and loot.",
+        "de": "Tür im 3. Stock des Lagerhauses über den Reisfeldern im Neuen Lager. Hinter der Tür befindet sich ein Lagerhaus mit Vorräten und Beute.",
+        "uk": "Двері на 3-му поверсі складу над рисовими полями Нового табору. За дверима - склад із запасами та лутом."
       }
     },
     {
@@ -1153,7 +1167,9 @@
       "img": [],
       "desc": {
         "ru": "Подводный сундук в подвале под таверной Силаса (Новый лагерь). Внутри топор Брана.",
-        "en": "Underwater chest in the basement beneath Silas's tavern (New Camp). Inside is Bran's axe."
+        "en": "Underwater chest in the basement beneath Silas's tavern (New Camp). Inside is Bran's axe.",
+        "de": "Eine Unterwassertruhe im Keller unter Silas' Taverne (Neues Lager). Darin befindet sich Brans Axt.",
+        "uk": "Підводна скриня у підвалі під таверною Сіласа (Новий табір). Всередині сокира Брана."
       }
     },
     {
@@ -1407,7 +1423,9 @@
       "img": [],
       "desc": {
         "ru": "Склад под Гомезом в замке Старого лагеря - винный погреб за дверью внизу вертикальной лестницы.",
-        "en": "Storage under Gomez in the Old Camp castle - wine cellar behind the door at the bottom of a vertical ladder."
+        "en": "Storage under Gomez in the Old Camp castle - wine cellar behind the door at the bottom of a vertical ladder.",
+        "de": "Ein Lagerhaus unter Gomez in der Burg des Alten Lagers – ein Weinkeller hinter einer Tür am Fuße der vertikalen Leiter.",
+        "uk": "Склад під Гомезом у замку Старого табору – винний льох за дверима внизу вертикальної драбини."
       }
     },
     {
@@ -2090,7 +2108,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук у двоих разбойников на тропе из Старого лагеря в Новый.",
-        "en": "Chest by two bandits on the trail from the Old Camp to the New Camp."
+        "en": "Chest by two bandits on the trail from the Old Camp to the New Camp.",
+        "de": "Eine Truhe bei zwei Banditen auf dem Weg vom Alten zum Neuen Lager.",
+        "uk": "Скриня у двох розбійників на стежці зі Старого табору до Нового."
       }
     },
     {
@@ -2970,7 +2990,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук на 1-м этаже в хижине у шахты Альберто.",
-        "en": "Chest on the 1st floor in the hut by Alberto's mine."
+        "en": "Chest on the 1st floor in the hut by Alberto's mine.",
+        "de": "Eine Truhe im ersten Stock der Hütte nahe Albertos Mine.",
+        "uk": "Скриня на 1-му поверсі в хатині біля шахти Альберто."
       }
     },
     {
@@ -3029,7 +3051,9 @@
       "img": [],
       "desc": {
         "ru": "Первая дверь на этаже спален покоев Гомеза - комнаты Ворона, Гомеза и Арто.",
-        "en": "First door on the bedrooms floor in Gomez's chambers - Voran, Gomez, and Arto rooms."
+        "en": "First door on the bedrooms floor in Gomez's chambers - Voran, Gomez, and Arto rooms.",
+        "de": "Die erste Tür im Schlafsaal von Gomez' Gemächern – den Zimmern von Raven, Gomez und Arto.",
+        "uk": "Перші двері на поверсі спалень покоїв Гомеза – кімнати Ворона, Гомеза та Арто."
       }
     },
     {
@@ -3088,7 +3112,9 @@
       "img": [],
       "desc": {
         "ru": "Дальний сундук в ногах кровати в спальне этажа спален. Кольцо рудной кожи, экстракты, алкоголь.",
-        "en": "Far chest at the foot of the bed in the bedrooms-floor room. Ore skin ring, extracts, alcohol."
+        "en": "Far chest at the foot of the bed in the bedrooms-floor room. Ore skin ring, extracts, alcohol.",
+        "de": "Die hintere Truhe am Fußende des Bettes im Schlafsaal enthält einen Ring aus Erzleder, Extrakte und Alkohol.",
+        "uk": "Далека скриня в ногах ліжка у спальні на поверсі спалень. Кільце рудної шкіри, екстракти, алкоголь."
       }
     },
     {
@@ -3118,7 +3144,9 @@
       "img": [],
       "desc": {
         "ru": "Ближний сундук в ногах кровати в спальне этажа спален. Кольцо великой жизненной силы, экстракты.",
-        "en": "Near chest at the foot of the bed in the bedrooms-floor room. Ring of great vitality, extracts."
+        "en": "Near chest at the foot of the bed in the bedrooms-floor room. Ring of great vitality, extracts.",
+        "de": "Die vordere Truhe am Fußende des Bettes im Schlafsaal enthält einen Ring der Großen Vitalität und Extrakte.",
+        "uk": "Близька скриня в ногах ліжка у спальні на поверсі спалень. Кільце великої життєвої сили, екстракти."
       }
     },
     {
@@ -3148,7 +3176,9 @@
       "img": [],
       "desc": {
         "ru": "Дверь в покои Гомеза в замке Старого лагеря.",
-        "en": "Door to Gomez's chambers in the Old Camp castle."
+        "en": "Door to Gomez's chambers in the Old Camp castle.",
+        "de": "Die Tür zu Gomez' Gemächern in der Burg des Alten Lagers.",
+        "uk": "Двері в покої Гомеза в замку Старого табору."
       }
     },
     {
@@ -3277,7 +3307,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук у кровати в ногах Гомеза, в замке Старого лагеря. Личный тайник босса Старого лагеря.",
-        "en": "Chest at the foot of Gomez's bed in the Old Camp castle. The personal stash of the Old Camp's boss."
+        "en": "Chest at the foot of Gomez's bed in the Old Camp castle. The personal stash of the Old Camp's boss.",
+        "de": "Eine Truhe am Fußende von Gomez' Bett in der Burg des Alten Lagers. Der persönliche Vorrat des Bosses des Alten Lagers.",
+        "uk": "Скриня біля ліжка в ногах Гомеза, у замку Старого табору. Особиста схованка боса Старого табору."
       }
     },
     {
@@ -3306,7 +3338,9 @@
       "img": [],
       "desc": {
         "ru": "Дверь в комнату Арто в покоях Гомеза - напротив комнаты Ворона.",
-        "en": "Door to Arto's room in Gomez's chambers - opposite Voran's room."
+        "en": "Door to Arto's room in Gomez's chambers - opposite Voran's room.",
+        "de": "Die Tür zu Artos Zimmer in Gomez' Quartier befindet sich gegenüber von Ravens Zimmer.",
+        "uk": "Двері в кімнату Арто у покоях Гомеза – навпроти кімнати Ворона."
       }
     },
     {
@@ -3445,7 +3479,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук у ближней кровати в комнате Арто. Кольцо мощи, руда.",
-        "en": "Chest at the near bed in Arto's room. Ring of power, ore."
+        "en": "Chest at the near bed in Arto's room. Ring of power, ore.",
+        "de": "Truhe neben dem nächsten Bett in Artos Zimmer. Ring der Macht, Erz.",
+        "uk": "Скриня біля ближнього ліжка в кімнаті Арто. Кільце мощі, руда."
       }
     },
     {
@@ -3528,7 +3564,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук у стены в комнате Гомеза. Со стороны комнаты Ворона.",
-        "en": "Wall chest in Gomez's room. From Voran's side."
+        "en": "Wall chest in Gomez's room. From Voran's side.",
+        "de": "Truhe an der Wand in Gomez' Zimmer. Auf der Seite, die zu Ravens Zimmer zeigt.",
+        "uk": "Скриня біля стіни в кімнаті Гомеза. З боку кімнати Ворона."
       }
     },
     {
@@ -3559,7 +3597,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук у кровати Ворона - Ключ от башни, кольцо от огня.",
-        "en": "Chest at Voran's bed - Raven Tower key, fire protection ring."
+        "en": "Chest at Voran's bed - Raven Tower key, fire protection ring.",
+        "de": "Truhe neben Ravens Bett – Turmschlüssel, Feuerschutzring.",
+        "uk": "Скриня біля ліжка Ворона - Ключ від вежі, кільце від вогню."
       }
     },
     {
@@ -3590,7 +3630,9 @@
       "img": [],
       "desc": {
         "ru": "Первый сундук слева в башне Ворона после входа из покоев. 6 кубков, 2500 монет, руда.",
-        "en": "First chest on the left in Raven Tower after entering from the chambers. 6 cups, 2500 coins, ore."
+        "en": "First chest on the left in Raven Tower after entering from the chambers. 6 cups, 2500 coins, ore.",
+        "de": "Erste Truhe links in Ravens Turm, nachdem man ihn von seinem Quartier aus betreten hat. 6 Becher, 2500 Münzen, Erz.",
+        "uk": "Перша скриня ліворуч у вежі Ворона після входу з покоїв. 6 кубків, 2500 монет, руда."
       }
     },
     {
@@ -3649,7 +3691,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук справа в башне Ворона. Иззубренные топоры и ржавые мечи.",
-        "en": "Chest on the right in Raven Tower. Serrated axes and rusty swords."
+        "en": "Chest on the right in Raven Tower. Serrated axes and rusty swords.",
+        "de": "Truhe rechts in Ravens Turm. Gezackte Äxte und rostige Schwerter.",
+        "uk": "Скриня праворуч у вежі Ворона. Зазубрені сокири та іржаві мечі."
       }
     },
     {
@@ -3685,7 +3729,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук сразу после лестницы на 2-м этаже башни Ворона. Вино, крепкое вино, пиво.",
-        "en": "Chest right after the stairs on Raven Tower floor 2. Wine, strong wine, beer."
+        "en": "Chest right after the stairs on Raven Tower floor 2. Wine, strong wine, beer.",
+        "de": "Truhe direkt hinter der Treppe im 2. Stock von Ravens Turm. Wein, starker Wein, Bier.",
+        "uk": "Скриня відразу після сходів на 2-му поверсі вежі Ворона. Вино, міцне вино, пиво."
       }
     },
     {
@@ -3746,7 +3792,9 @@
       "img": [],
       "desc": {
         "ru": "Второй сундук на 2-м этаже башни Ворона. 12 столовых приборов и 8897 монет.",
-        "en": "Second chest on Raven Tower floor 2. 12 cutlery and 8897 coins."
+        "en": "Second chest on Raven Tower floor 2. 12 cutlery and 8897 coins.",
+        "de": "Zweite Truhe im 2. Stock von Ravens Turm. 12 Besteckteile und 8897 Münzen.",
+        "uk": "Друга скриня на 2-му поверсі вежі Ворона. 12 столових приборів та 8897 монет."
       }
     },
     {
@@ -3802,7 +3850,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук сразу перед вами на 3-м этаже башни Ворона. Волчьи когти, зубы, приборы.",
-        "en": "Chest right in front of you on Raven Tower floor 3. Wolf claws, teeth, cutlery."
+        "en": "Chest right in front of you on Raven Tower floor 3. Wolf claws, teeth, cutlery.",
+        "de": "Truhe direkt vorn im 3. Stock von Ravens Turm. Wolfsklauen, Zähne, Utensilien.",
+        "uk": "Скриня одразу перед вами на 3-му поверсі вежі Ворона. Вовчі пазурі, зуби, прилади."
       }
     },
     {
@@ -3882,7 +3932,9 @@
       "img": [],
       "desc": {
         "ru": "Следующий сундук на 3-м этаже башни Ворона. Пустой.",
-        "en": "Next chest on Raven Tower floor 3. Empty."
+        "en": "Next chest on Raven Tower floor 3. Empty.",
+        "de": "Die nächste Truhe befindet sich im 3. Stock von Ravens Turm. Leer.",
+        "uk": "Наступна скриня на 3-му поверсі вежі Ворона. Порожня."
       }
     },
     {
@@ -4045,7 +4097,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук слева от эликсиров на 4-м этаже башни Ворона. Вино, пиво, мясо.",
-        "en": "Chest to the left of the elixir chest on Raven Tower floor 4. Wine, beer, meat."
+        "en": "Chest to the left of the elixir chest on Raven Tower floor 4. Wine, beer, meat.",
+        "de": "Truhe links von den Elixieren im 4. Stock von Ravens Turm. Wein, Bier, Fleisch.",
+        "uk": "Скриня ліворуч від еліксирів на 4-му поверсі вежі Ворона. Вино, пиво, м'ясо."
       }
     },
     {
@@ -4102,7 +4156,9 @@
       "img": [],
       "desc": {
         "ru": "Единственный сундук на вершине башни Ворона. Кольцо ловкости, зов сна, велайис.",
-        "en": "The only chest at the top of Raven Tower. Agility ring, sleep call, velaiis herb."
+        "en": "The only chest at the top of Raven Tower. Agility ring, sleep call, velaiis herb.",
+        "de": "Die einzige Truhe ganz oben in Ravens Turm. Ring der Beweglichkeit, Ruf des Schlafs, Velais.",
+        "uk": "Єдина скриня на вершині вежі Ворона. Кільце спритності, поклик сну, велаїс."
       }
     },
     {
@@ -5416,7 +5472,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук справа от Гомеза в тронном зале замка. Чертёж королевского оружия, рубины.",
-        "en": "Chest to Gomez's right in the castle throne hall. Royal Weapon blueprint, rubies."
+        "en": "Chest to Gomez's right in the castle throne hall. Royal Weapon blueprint, rubies.",
+        "de": "Truhe rechts von Gomez im Thronsaal der Burg. Bauplan der Königlichen Waffe, Rubine.",
+        "uk": "Скриня праворуч від Гомеза у тронному залі замку. Креслення королівської зброї, рубіни."
       }
     },
     {
@@ -8354,7 +8412,9 @@
       "img": [],
       "desc": {
         "ru": "Сундук за лестницей на 4-м этаже башни Ворона. Эликсиры и экстракты.",
-        "en": "Chest past the stairs on Raven Tower floor 4. Elixirs and extracts."
+        "en": "Chest past the stairs on Raven Tower floor 4. Elixirs and extracts.",
+        "de": "Truhe hinter der Treppe im 4. Stock von Ravens Turm. Elixiere und Extrakte.",
+        "uk": "Скриня за сходами на 4-му поверсі вежі Ворона. Еліксири та екстракти."
       }
     },
     {
