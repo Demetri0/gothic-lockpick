@@ -294,13 +294,27 @@ function applyDecisions(entries, decisions, rep) {
     rep.push(`ADDITION     [${add.id}]`);
   }
 
-  // Translations fill/overwrite name/desc languages by canonical key
+  // Translations FILL missing name/desc languages by canonical key — they never
+  // overwrite an explicit value (ini names, override merges, AI-fixed texts all
+  // rank above a machine translation). `byId` addresses one entry of an unmerged
+  // duplicate group; the plain form applies to every entry with the key.
   const tr = d.translations || {};
+  const fill = (target, add) => {
+    if (!add) return target;
+    const out2 = { ...target };
+    for (const [lang, text] of Object.entries(add)) {
+      if (!out2[lang]) out2[lang] = text;
+    }
+    return out2;
+  };
   for (const e of out) {
     const t = tr[canonicalKey(e.pos, e.rules)];
     if (!t) continue;
-    if (t.name) e.name = { ...e.name, ...t.name };
-    if (t.desc) e.desc = { ...(e.desc || {}), ...t.desc };
+    const parts = [t.byId && t.byId[e.id], t].filter(Boolean); // specific first
+    for (const p of parts) {
+      if (p.name) e.name = fill(e.name, p.name);
+      if (p.desc) e.desc = fill(e.desc || {}, p.desc);
+    }
   }
 
   return out;

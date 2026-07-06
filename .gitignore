@@ -4,3 +4,4 @@ test-results/
 chests.ini
 .claude/*.lock
 chests-report.txt
+tools/gaps/

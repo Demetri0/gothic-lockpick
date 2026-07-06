@@ -117,20 +117,34 @@ tags=""два"""
     expect(added.desc).toEqual({ ru: 'Описание' });
   });
 
-  test('translations fill and overwrite name/desc languages by canonical key', () => {
+  test('translations fill missing name/desc languages but never overwrite existing ones', () => {
     const key = pipeline.canonicalKey([1, 2], 'A:B-');
     const decisions = {
       v: 1, overrides: [], additions: [],
       translations: { [key]: {
-        name: { en: 'Test chest', de: 'Testkiste' },
+        name: { ru: 'ЗАТОПТАНО?', en: 'Test chest', de: 'Testkiste' },
         desc: { ru: 'Описание из переводов' },
       } },
     };
     const { entries } = pipeline.buildEntries(BASIC, decisions);
-    expect(entries[0].name.ru).toBe('Тестовый сундук'); // untouched
+    expect(entries[0].name.ru).toBe('Тестовый сундук'); // existing lang wins (fill-only)
     expect(entries[0].name.en).toBe('Test chest');
     expect(entries[0].name.de).toBe('Testkiste');
     expect(entries[0].desc).toEqual({ ru: 'Описание из переводов' });
+  });
+
+  test('per-entry byId translations address one entry of an unmerged dup group', () => {
+    const key = pipeline.canonicalKey([1, 2], 'A:B-;B:A+');
+    const decisions = {
+      v: 1, overrides: [], additions: [],
+      translations: { [key]: { byId: {
+        'dup-a': { name: { en: 'Chest A' } },
+        'dup-b': { name: { en: 'Chest B' } },
+      } } },
+    };
+    const { entries } = pipeline.buildEntries(DUPES, decisions);
+    expect(entries.find(e => e.id === 'dup-a').name.en).toBe('Chest A');
+    expect(entries.find(e => e.id === 'dup-b').name.en).toBe('Chest B');
   });
 });
 
