@@ -4,6 +4,61 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-07-06
+
+### Added
+- **Group-optimized solver.** The solver now guarantees not only the minimal
+  keypress count (BFS) but, among all minimal solutions, the fewest switches
+  between plates: bidirectional BFS builds the shortest-path corridor, then an
+  exact DP over `(state, last plate)` minimizes groups (greedy fallback for
+  corridors over 200k states). Verified against unlockmyloot.com's exact solver
+  on shared reference locks (41 presses: 30 steps → 11; 23: 15 → 8; 56: 12; 30: 9).
+  One solver everywhere — the randomizer uses it too, so a generated config
+  caches exactly what solving it by hand would show.
+- **Solver core extracted to a shared script** (`Script #0`, `id="solver-src"`):
+  executes in the page (unit-testable globals) and is injected verbatim into the
+  worker Blob — the tested code is byte-for-byte the code the worker runs
+  (plus a runtime worker-equivalence test).
+- **Reference lock suite**: four real locks (one in-game, three from
+  unlockmyloot) pinned end-to-end — gothic-string parsing → dependency matrix →
+  start positions → exact solver output, with the site's published solutions
+  replayed through our engine as independent physics validation.
+- **Chest DB curation pipeline** (`tools/`): reproducible builds via a committed
+  decisions layer (`db-decisions.json` — overrides/additions/translations keyed
+  by a canonical lock key, git-rerere style); `bootstrap-decisions.cjs` froze the
+  previously diverged `chests.json` (393 groups) so `build:db` reproduces it 1:1;
+  duplicate groups are never merged silently (`REVIEW-NEEDED`).
+- **Merge review web tool** (`npm run review:db`): candidates side by side plus
+  an editable merged record; decisions land in `db-decisions.json` immediately.
+- **unlockmyloot sync** (`tools/sync-uml.cjs`): decodes their `?lock=` bitstream
+  catalog and proposes enrichments/conflicts/additions through the review queue.
+- **Translation round-trip** (`tools/translate-gaps.cjs`): per-language gap files
+  for Google Translate, staged import, mandatory AI verification pass against
+  the Gothic glossary/canon, then finalize (fill-only: machine translations
+  never overwrite explicit names).
+- **Mouse wheel** over a position digit acts as +1/−1, like its buttons.
+- Localized "Unknown lock" placeholder for nameless DB entries (ru/en/uk).
+
+### Changed
+- **Database curated**: 78 duplicate groups merged (508 → 398 entries); 34 locks
+  enriched with location/loot descriptions from unlockmyloot; 32 locks now carry
+  `desc` in all four languages (de/uk via Google Translate + AI verification —
+  16 canon/grammar fixes caught before finalizing).
+- All single-plate position edits route through one `posSetPlateValue` entry
+  point (typing, ±, arrows, wheel, 3D hole clicks).
+- README difficulty table matches the actual generator bounds (7–13 / 14–20 /
+  ≥21 grouped steps); difficulty is now measured on the same step list the user
+  sees.
+
+### Fixed
+- 8-plate Gothic export round-trip: the parser accepted only `[A-G]`, silently
+  dropping any dependency touching plate 8.
+- Config-stage `A`/`D` keyboard moves refresh the chest hints.
+- A dedup merge no longer hides a pending enrichment for the same lock in the
+  review queue.
+- Unavailable Clipboard API fails with a toast instead of an uncaught throw;
+  returning from solve repaints the active-plate highlight.
+
 ## [1.1.0] - 2026-07-04
 
 ### Added
