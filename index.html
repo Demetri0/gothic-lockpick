@@ -567,6 +567,8 @@ input[type=number] {
 .solution-str .cur-step { color: var(--accent); font-weight: bold; }
 
 
+.btn-step-nav { display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
+.btn-chevron { display: block; flex: none; }
 .solution-list {
   list-style: none;
   counter-reset: step;
@@ -918,9 +920,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   transform: rotateY(90deg);
 }
 
-.plate.active .face.top   { border-color: var(--metal-top-edge-active); background: var(--metal-top-active); }
-.plate.active .face.front { border-color: var(--metal-front-edge-active); background: var(--metal-front-active); }
-.plate.active .face.right { border-color: var(--metal-side-edge-active); background: var(--metal-side-active); }
+.plate.active .face.top   { border-color: var(--accent); background: var(--metal-top-active); }
+.plate.active .face.front { border-color: var(--accent); background: var(--metal-front-active); box-shadow: 0 0 14px 3px rgba(232, 200, 122, 0.55); }
+.plate.active .face.right { border-color: var(--accent); background: var(--metal-side-active); }
 
 .plate-num {
   position: absolute;
@@ -1144,9 +1146,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
       <ol id="solution-steps" class="solution-list" data-test-id="solution-steps"></ol>
       <div class="solve-buttons">
         <button id="btn-back" class="btn-primary btn-return" data-test-id="btn-back" data-i18n="btn-back">Вернуться</button>
-        <button id="btn-prev" class="btn-primary" data-test-id="btn-prev" data-i18n="btn-prev">← Шаг</button>
+        <button id="btn-prev" class="btn-primary btn-step-nav" data-test-id="btn-prev"><svg class="btn-chevron" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg><span data-i18n="btn-prev">Шаг</span></button>
         <button id="btn-auto" class="btn-primary" data-test-id="btn-auto">▶ Авто</button>
-        <button id="btn-step" class="btn-primary" data-test-id="btn-step" data-i18n="btn-step">Шаг →</button>
+        <button id="btn-step" class="btn-primary btn-step-nav" data-test-id="btn-step"><span data-i18n="btn-step">Шаг</span><svg class="btn-chevron" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
       </div>
     </div>
     <div class="panel panel-right">
@@ -1433,7 +1435,7 @@ const TRANSLATIONS = {
     'config-title': 'Настройки',   'solve-title': 'Решение',
     'label-random': 'Рандом:',
     'btn-start': 'РЕШЕНИЕ',        'btn-back': 'Вернуться',
-    'btn-prev': '← Шаг',          'btn-step': 'Шаг →',
+    'btn-prev': 'Шаг',            'btn-step': 'Шаг',
     'btn-auto': '▶ Авто',          'btn-stop': '■ Стоп',
     'legend-move': 'Смещение элемента', 'legend-select': 'Выбор элемента',
     'pos-inc': 'Позиция +1',       'pos-dec': 'Позиция −1',
@@ -1443,7 +1445,7 @@ const TRANSLATIONS = {
     'dialog-import-body': 'Применить конфигурацию из буфера обмена?',
     'dialog-cancel': 'Отмена',     'dialog-ok': 'Применить',
     'overlay-cancel': 'Отмена',
-    'plate': 'Плашка',            'dir-left': 'Влево',       'dir-right': 'Вправо',
+    'plate': 'Элемент',           'dir-left': 'Влево',       'dir-right': 'Вправо',
     'step-start': 'Начало',        'step-end': 'Конец',
     'explore-no-moves': 'нет ходов',
     'explore-return': '↩ вернуться к шагу {step}',
@@ -1479,7 +1481,7 @@ const TRANSLATIONS = {
     'config-title': 'Settings',    'solve-title': 'Solution',
     'label-random': 'Random:',
     'btn-start': 'SOLVE',          'btn-back': 'Back',
-    'btn-prev': '← Step',          'btn-step': 'Step →',
+    'btn-prev': 'Step',            'btn-step': 'Step',
     'btn-auto': '▶ Auto',           'btn-stop': '■ Stop',
     'legend-move': 'Move plate',   'legend-select': 'Select plate',
     'pos-inc': 'Position +1',      'pos-dec': 'Position −1',
@@ -1525,7 +1527,7 @@ const TRANSLATIONS = {
     'config-title': 'Налаштування', 'solve-title': 'Рішення',
     'label-random': 'Рандом:',
     'btn-start': 'ВИРІШИТИ',       'btn-back': 'Повернутись',
-    'btn-prev': '← Крок',          'btn-step': 'Крок →',
+    'btn-prev': 'Крок',            'btn-step': 'Крок',
     'btn-auto': '▶ Авто',           'btn-stop': '■ Стоп',
     'legend-move': 'Зсув елемента', 'legend-select': 'Вибір елемента',
     'pos-inc': 'Позиція +1',       'pos-dec': 'Позиція −1',
@@ -1535,7 +1537,7 @@ const TRANSLATIONS = {
     'dialog-import-body': 'Застосувати конфіг з буфера обміну?',
     'dialog-cancel': 'Скасувати',  'dialog-ok': 'Застосувати',
     'overlay-cancel': 'Скасувати',
-    'plate': 'Плашка',            'dir-left': 'Ліворуч',     'dir-right': 'Праворуч',
+    'plate': 'Елемент',           'dir-left': 'Ліворуч',     'dir-right': 'Праворуч',
     'step-start': 'Початок',       'step-end': 'Кінець',
     'explore-no-moves': 'немає ходів',
     'explore-return': '↩ повернутись до кроку {step}',

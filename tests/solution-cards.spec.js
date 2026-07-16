@@ -10,8 +10,8 @@ test.describe('solution step cards (following mode)', () => {
   test('a step renders as a card: plate label, colored direction pill, notation', async ({ page }) => {
     await startSolve(page, CONFIG);
     const card = page.getByTestId('step-1');
-    // Human-readable plate label (localized ru default)
-    await expect(card.getByTestId('step-plate')).toHaveText('Плашка 4');
+    // Human-readable plate label — ru default uses "Элемент" (consistent with the rest of the UI)
+    await expect(card.getByTestId('step-plate')).toHaveText('Элемент 4');
     // Direction pill: right → data-dir=right, contains localized word + ×N
     const dir = card.getByTestId('step-dir');
     await expect(dir).toHaveAttribute('data-dir', 'right');
@@ -77,5 +77,48 @@ test.describe('3D highlight follows playback', () => {
     await page.getByTestId('btn-prev').click();    // solveStepBack → jumpToStep(0), guard skips reset
     const active = await page.evaluate(() => state.activePlate);
     expect(active).toBe(4);
+  });
+
+  test('stepping back mid-solution highlights the reverted step\'s plate', async ({ page }) => {
+    await startSolve(page, CONFIG);
+    await page.getByTestId('btn-step').click();   // → plate 4 (solution[0] '4D4')
+    await page.getByTestId('btn-step').click();   // → plate 5 (solution[1] '5D3')
+    expect(await page.evaluate(() => state.activePlate)).toBe(5);
+    await page.getByTestId('btn-prev').click();    // jumpToStep(1) → plate 4
+    expect(await page.evaluate(() => state.activePlate)).toBe(4);
+    await expect(page.getByTestId('scene-solve-inner-plate-4')).toHaveClass(/active/);
+    await expect(page.getByTestId('scene-solve-inner-plate-5')).not.toHaveClass(/active/);
+  });
+});
+
+test.describe('solution card localization + edge cases', () => {
+  test('plate label + direction word localize to English (uses "Plate")', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('lang', 'en'));
+    await page.goto('/');
+    await startSolve(page, CONFIG);
+    await expect(page.getByTestId('step-1').getByTestId('step-plate')).toHaveText('Plate 4');
+    await expect(page.getByTestId('step-1').getByTestId('step-dir')).toContainText('Right');
+  });
+
+  test('plate label localizes to Ukrainian "Елемент" (consistent with UI term)', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('lang', 'uk'));
+    await page.goto('/');
+    await startSolve(page, CONFIG);
+    await expect(page.getByTestId('step-1').getByTestId('step-plate')).toHaveText('Елемент 4');
+    await expect(page.getByTestId('step-1').getByTestId('step-dir')).toContainText('Праворуч');
+  });
+
+  test('a single-move step shows ×1 and the bare notation', async ({ page }) => {
+    await startSolve(page, CONFIG);
+    // solution[7] === '7A' — plate 7, left, one move
+    const card = page.getByTestId('step-8');
+    await expect(card.getByTestId('step-dir')).toContainText('×1');
+    await expect(card.getByTestId('step-notation')).toHaveText('7A');
+  });
+
+  test('endpoints (Start/End) stay plain labels, not cards', async ({ page }) => {
+    await startSolve(page, CONFIG);
+    await expect(page.getByTestId('step-start').getByTestId('step-plate')).toHaveCount(0);
+    await expect(page.getByTestId('step-end').getByTestId('step-plate')).toHaveCount(0);
   });
 });
