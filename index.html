@@ -2627,12 +2627,11 @@ function renderSolvePanel() {
     list.appendChild(startLi);
 
     for (let i = 0; i < state.detachStep; i++) {
-      const li = document.createElement('li');
-      li.textContent = state.solution[i];
-      li.style.opacity = '0.35';
-      li.dataset.testId = `step-done-${i + 1}`;
-      li.addEventListener('click', () => returnToSolution(i + 1));
-      list.appendChild(li);
+      list.appendChild(buildStepLi(parseNotation(state.solution[i]), {
+        testId: `step-done-${i + 1}`,
+        opacity: 0.35,
+        onClick: () => returnToSolution(i + 1),
+      }));
     }
 
     // Separator — click to return to detach point
@@ -2645,11 +2644,10 @@ function renderSolvePanel() {
 
     // Explore history
     state.exploreHistory.forEach((m, i) => {
-      const li = document.createElement('li');
-      li.textContent = toNotation(m.plateId, m.dir, m.steps);
-      li.dataset.testId = `explore-step-${i + 1}`;
-      if (i === state.exploreHistory.length - 1) li.classList.add('active');
-      list.appendChild(li);
+      list.appendChild(buildStepLi(m, {
+        testId: `explore-step-${i + 1}`,
+        active: i === state.exploreHistory.length - 1,
+      }));
     });
 
     const active = list.querySelector('.active');
