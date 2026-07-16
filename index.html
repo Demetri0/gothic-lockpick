@@ -66,9 +66,10 @@ body {
 }
 
 .dep-short { display: none; }
+.dep-icon { display: block; }
 @container (max-width: 360px) {
   .dep-full { display: none; }
-  .dep-short { display: inline; }
+  .dep-short { display: inline-flex; align-items: center; justify-content: center; }
 }
 
 h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
@@ -1630,9 +1631,20 @@ function depCellTitle(s, from, to) {
   return t(key, { from, to });
 }
 
+/** Directed-dependency glyph (same = both arrows one way, opposite = arrows apart). */
+function depDirIcon(s) {
+  const path = s === 'same'
+    ? 'M1 3h9m0 0L7 .5M10 3 7 5.5M4 8h9m0 0-3-2.5M13 8l-3 2.5'
+    : 'M14 3H5m0 0 3-2.5M5 3l3 2.5M1 8h9m0 0L7 5.5M10 8l-3 2.5';
+  return `<svg class="dep-icon" data-test-id="dep-icon" data-dep="${s}" width="17" height="13" viewBox="0 0 15 11" `
+       + `fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" `
+       + `aria-hidden="true"><path d="${path}"></path></svg>`;
+}
+
 function depCellHTML(s) {
-  const full  = s === 'same' ? t('dep-same')   : s === 'opposite' ? t('dep-opposite')   : '·';
-  const short = s === 'same' ? t('dep-same-s') : s === 'opposite' ? t('dep-opposite-s') : '·';
+  const full  = s === 'same' ? t('dep-same') : s === 'opposite' ? t('dep-opposite') : '·';
+  // Mobile (narrow container) shows a direction icon instead of the abbreviated letter.
+  const short = s === 'same' || s === 'opposite' ? depDirIcon(s) : '·';
   return `<span class="dep-full" data-test-id="dep-full">${full}</span><span class="dep-short" data-test-id="dep-short">${short}</span>`;
 }
 

@@ -26,15 +26,23 @@ test('dep cell: shows full text when container is wide', async ({ page }) => {
   await expect(cell.getByTestId('dep-short')).toBeHidden();
 });
 
-test('dep cell: shows abbreviated text when container is narrow', async ({ page }) => {
+test('dep cell: shows a direction icon when container is narrow', async ({ page }) => {
   // Narrow the container below the threshold (@container max-width: 360px)
   await page.evaluate(() => { document.getElementById('plates-matrix').style.width = '280px'; });
-  await page.getByTestId('dep-1-2').click(); // none → same
-
   const cell = page.getByTestId('dep-1-2');
+  const short = cell.getByTestId('dep-short');
+
+  await cell.click(); // none → same
   await expect(cell.getByTestId('dep-full')).toBeHidden();
-  await expect(cell.getByTestId('dep-short')).toBeVisible();
-  await expect(cell.getByTestId('dep-short')).toHaveText('В');
+  await expect(short).toBeVisible();
+  await expect(short.getByTestId('dep-icon')).toHaveAttribute('data-dep', 'same');
+
+  await cell.click(); // same → opposite
+  await expect(short.getByTestId('dep-icon')).toHaveAttribute('data-dep', 'opposite');
+
+  await cell.click(); // opposite → none — falls back to the · dot, no icon
+  await expect(short.getByTestId('dep-icon')).toHaveCount(0);
+  await expect(short).toHaveText('·');
 });
 
 // ── Position lock ────────────────────────────────────────────────────────────
