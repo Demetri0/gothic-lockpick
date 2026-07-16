@@ -602,6 +602,22 @@ input[type=number] {
   cursor: pointer;
 }
 .solution-list li.endpoint.active { background: var(--bg-inset); color: var(--text-soft); }
+.solution-list li.step-card { display: flex; align-items: center; gap: 8px; }
+.step-plate { min-width: 5.2em; color: var(--text); }
+.step-dir {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 1px 7px; border: 1px solid; border-radius: 10px;
+  font-size: 0.92em; white-space: nowrap;
+}
+.step-dir svg { display: block; }
+.step-dir[data-dir="right"] { color: #78b078; border-color: #456845; background: #1c2e1e; }
+.step-dir[data-dir="left"]  { color: #b07878; border-color: #684545; background: #2e1c1c; }
+.step-notation {
+  margin-left: auto;
+  font-family: 'Courier New', monospace; font-size: 0.92em;
+  color: var(--text-soft); background: var(--bg-inset);
+  border: 1px solid var(--border-control); border-radius: 3px; padding: 1px 6px;
+}
 .explore-separator {
   list-style: none;
   padding: 3px 8px;
@@ -1426,6 +1442,7 @@ const TRANSLATIONS = {
     'dialog-import-body': 'Применить конфигурацию из буфера обмена?',
     'dialog-cancel': 'Отмена',     'dialog-ok': 'Применить',
     'overlay-cancel': 'Отмена',
+    'plate': 'Плашка',            'dir-left': 'Влево',       'dir-right': 'Вправо',
     'step-start': 'Начало',        'step-end': 'Конец',
     'explore-no-moves': 'нет ходов',
     'explore-return': '↩ вернуться к шагу {step}',
@@ -1471,6 +1488,7 @@ const TRANSLATIONS = {
     'dialog-import-body': 'Apply config from clipboard?',
     'dialog-cancel': 'Cancel',     'dialog-ok': 'Apply',
     'overlay-cancel': 'Cancel',
+    'plate': 'Plate',            'dir-left': 'Left',        'dir-right': 'Right',
     'step-start': 'Start',         'step-end': 'End',
     'explore-no-moves': 'no moves',
     'explore-return': '↩ return to step {step}',
@@ -1516,6 +1534,7 @@ const TRANSLATIONS = {
     'dialog-import-body': 'Застосувати конфіг з буфера обміну?',
     'dialog-cancel': 'Скасувати',  'dialog-ok': 'Застосувати',
     'overlay-cancel': 'Скасувати',
+    'plate': 'Плашка',            'dir-left': 'Ліворуч',     'dir-right': 'Праворуч',
     'step-start': 'Початок',       'step-end': 'Кінець',
     'explore-no-moves': 'немає ходів',
     'explore-return': '↩ повернутись до кроку {step}',
@@ -2550,6 +2569,31 @@ function switchToConfig() {
   updateScene('scene-config-inner', state.plates, state.activePlate);
 }
 
+function stepDirIcon(dir) {
+  const path = dir === 'left' ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6';
+  return `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" `
+       + `stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">`
+       + `<path d="${path}"></path></svg>`;
+}
+
+/** Build one solution-step <li> card from a move object. */
+function buildStepLi(move, opts = {}) {
+  const { plateId, dir, steps } = move;
+  const li = document.createElement('li');
+  li.className = 'step-card';
+  li.dataset.testId = opts.testId;
+  if (opts.active) li.classList.add('active');
+  if (opts.opacity != null) li.style.opacity = String(opts.opacity);
+  const dirKey = dir === 'left' ? 'dir-left' : 'dir-right';
+  li.innerHTML =
+    `<span class="step-plate">${t('plate')} ${plateId}</span>`
+  + `<span class="step-dir" data-dir="${dir}">${stepDirIcon(dir)}`
+  +   `<span>${t(dirKey)}</span> ×${steps}</span>`
+  + `<span class="step-notation">${toNotation(plateId, dir, steps)}</span>`;
+  if (opts.onClick) li.addEventListener('click', opts.onClick);
+  return li;
+}
+
 function renderSolvePanel() {
   const list = document.getElementById('solution-steps');
   list.innerHTML = '';
@@ -2639,12 +2683,11 @@ function renderSolvePanel() {
 
     list.appendChild(makeEndpoint(t('step-start'), 0, 'step-start'));
     state.solution.forEach((s, i) => {
-      const li = document.createElement('li');
-      li.textContent = s;
-      li.dataset.testId = `step-${i + 1}`;
-      if (i + 1 === state.solverStep) li.classList.add('active');
-      li.addEventListener('click', () => jumpToStep(i + 1));
-      list.appendChild(li);
+      list.appendChild(buildStepLi(parseNotation(s), {
+        testId: `step-${i + 1}`,
+        active: i + 1 === state.solverStep,
+        onClick: () => jumpToStep(i + 1),
+      }));
     });
     list.appendChild(makeEndpoint(t('step-end'), state.solution.length, 'step-end'));
 
