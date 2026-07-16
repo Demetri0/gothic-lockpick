@@ -1721,6 +1721,7 @@ function buildScene(sceneId, plates) {
     const el = document.createElement('div');
     el.className = 'plate';
     el.dataset.id = plate.id;
+    el.dataset.testId = `${sceneId}-plate-${plate.id}`;
     el.style.transform = `translateZ(${z}px) translateX(${offsetX}px)`;
     el.innerHTML = `
       <div class="face top">${holesHTML}</div>
@@ -2726,7 +2727,7 @@ function solveStepForward() {
   const { plateId, dir, steps } = parseNotation(state.solution[state.solverStep]);
   for (let s = 0; s < steps; s++) applyMove(state.plates, plateId, dir);
   state.solverStep++;
-  state.activePlate = parseNotation(state.solution[state.solverStep - 1]).plateId;
+  state.activePlate = plateId;
   updateScene('scene-solve-inner', state.plates, state.activePlate);
   renderSolvePanel();
 }

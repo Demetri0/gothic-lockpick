@@ -61,7 +61,7 @@ test.describe('3D highlight follows playback', () => {
     await page.getByTestId('btn-step').click(); // plays solution[0] === '4D4' → plate 4
     const active = await page.evaluate(() => state.activePlate);
     expect(active).toBe(4);
-    await expect(page.locator('#scene-solve-inner .plate[data-id="4"]')).toHaveClass(/active/);
+    await expect(page.getByTestId('scene-solve-inner-plate-4')).toHaveClass(/active/);
   });
 
   test('jumping to a later step highlights that step\'s plate', async ({ page }) => {
@@ -69,5 +69,13 @@ test.describe('3D highlight follows playback', () => {
     await page.getByTestId('step-5').click(); // solution[4] === '3A2' → plate 3
     const active = await page.evaluate(() => state.activePlate);
     expect(active).toBe(3);
+  });
+
+  test('stepping back to start leaves the last-played plate active (step-0 guard)', async ({ page }) => {
+    await startSolve(page, CONFIG);
+    await page.getByTestId('btn-step').click();   // play solution[0] '4D4' → plate 4
+    await page.getByTestId('btn-prev').click();    // solveStepBack → jumpToStep(0), guard skips reset
+    const active = await page.evaluate(() => state.activePlate);
+    expect(active).toBe(4);
   });
 });
