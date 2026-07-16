@@ -52,3 +52,22 @@ test.describe('solution step cards (exploring mode)', () => {
     await expect(page.getByTestId('step-done-1').getByTestId('step-notation')).toHaveCount(1);
   });
 });
+
+test.describe('3D highlight follows playback', () => {
+  const CONFIG = '3055665 A:C+,D+;B:A-,E-,G+;D:B-;E:D-;F:B-;G:A+,B-';
+
+  test('stepping forward makes the moved plate the active one in the scene', async ({ page }) => {
+    await startSolve(page, CONFIG);
+    await page.getByTestId('btn-step').click(); // plays solution[0] === '4D4' → plate 4
+    const active = await page.evaluate(() => state.activePlate);
+    expect(active).toBe(4);
+    await expect(page.locator('#scene-solve-inner .plate[data-id="4"]')).toHaveClass(/active/);
+  });
+
+  test('jumping to a later step highlights that step\'s plate', async ({ page }) => {
+    await startSolve(page, CONFIG);
+    await page.getByTestId('step-5').click(); // solution[4] === '3A2' → plate 3
+    const active = await page.evaluate(() => state.activePlate);
+    expect(active).toBe(3);
+  });
+});

@@ -2714,6 +2714,7 @@ function jumpToStep(targetStep) {
     state.solverStep = i + 1;
   }
 
+  if (targetStep > 0) state.activePlate = parseNotation(state.solution[targetStep - 1]).plateId;
   buildScene('scene-solve-inner', state.plates);
   renderSolvePanel();
   updateScene('scene-solve-inner', state.plates, state.activePlate);
@@ -2725,6 +2726,7 @@ function solveStepForward() {
   const { plateId, dir, steps } = parseNotation(state.solution[state.solverStep]);
   for (let s = 0; s < steps; s++) applyMove(state.plates, plateId, dir);
   state.solverStep++;
+  state.activePlate = parseNotation(state.solution[state.solverStep - 1]).plateId;
   updateScene('scene-solve-inner', state.plates, state.activePlate);
   renderSolvePanel();
 }
