@@ -33,14 +33,14 @@ test.describe('solution step cards (following mode)', () => {
 
 test.describe('solution step cards (exploring mode)', () => {
   const SIMPLE = JSON.stringify([
-    { positions: [0, 1, 2], currentPos: 0, deps: [] },
-    { positions: [0, 1, 2], currentPos: 0, deps: [] },
+    { positions: 2, currentPos: 1, deps: [] },
+    { positions: 2, currentPos: 0, deps: [] },
   ]);
 
   test('a free-solo move renders as a direction-pill card', async ({ page }) => {
     await startSolve(page, SIMPLE);
     await page.keyboard.press('d'); // enter explore, move active plate right
-    const dir = page.getByTestId('explore-step-1').locator('.step-dir');
+    const dir = page.getByTestId('explore-step-1').getByTestId('step-dir');
     await expect(dir).toHaveAttribute('data-dir', 'right');
     await expect(dir).toContainText('Вправо');
   });
@@ -49,6 +49,6 @@ test.describe('solution step cards (exploring mode)', () => {
     await startSolve(page, CONFIG);
     await page.getByTestId('btn-step').click(); // advance one BFS step
     await page.keyboard.press('d');             // detach into explore
-    await expect(page.getByTestId('step-done-1').locator('.step-notation')).toHaveCount(1);
+    await expect(page.getByTestId('step-done-1').getByTestId('step-notation')).toHaveCount(1);
   });
 });
