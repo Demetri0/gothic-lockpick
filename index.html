@@ -603,11 +603,12 @@ input[type=number] {
 }
 .solution-list li.endpoint.active { background: var(--bg-inset); color: var(--text-soft); }
 .solution-list li.step-card { display: flex; align-items: center; gap: 8px; }
-.step-plate { min-width: 5.2em; color: var(--text); }
+.step-plate { min-width: 5.2em; color: var(--text); font-family: system-ui, sans-serif; }
 .step-dir {
   display: inline-flex; align-items: center; gap: 4px;
   padding: 1px 7px; border: 1px solid; border-radius: 10px;
   font-size: 0.92em; white-space: nowrap;
+  font-family: system-ui, sans-serif;
 }
 .step-dir svg { display: block; }
 .step-dir[data-dir="right"] { color: #78b078; border-color: #456845; background: #1c2e1e; }
@@ -2572,7 +2573,7 @@ function switchToConfig() {
 function stepDirIcon(dir) {
   const path = dir === 'left' ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6';
   return `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" `
-       + `stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">`
+       + `stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-test-id="step-dir-icon">`
        + `<path d="${path}"></path></svg>`;
 }
 
@@ -2586,10 +2587,10 @@ function buildStepLi(move, opts = {}) {
   if (opts.opacity != null) li.style.opacity = String(opts.opacity);
   const dirKey = dir === 'left' ? 'dir-left' : 'dir-right';
   li.innerHTML =
-    `<span class="step-plate">${t('plate')} ${plateId}</span>`
-  + `<span class="step-dir" data-dir="${dir}">${stepDirIcon(dir)}`
+    `<span class="step-plate" data-test-id="step-plate">${t('plate')} ${plateId}</span>`
+  + `<span class="step-dir" data-dir="${dir}" data-test-id="step-dir">${stepDirIcon(dir)}`
   +   `<span>${t(dirKey)}</span> ×${steps}</span>`
-  + `<span class="step-notation">${toNotation(plateId, dir, steps)}</span>`;
+  + `<span class="step-notation" data-test-id="step-notation">${toNotation(plateId, dir, steps)}</span>`;
   if (opts.onClick) li.addEventListener('click', opts.onClick);
   return li;
 }

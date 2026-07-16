@@ -6,3 +6,5 @@ chests.ini
 chests-report.txt
 tools/gaps/
 tools/review-queue.json
+.superpowers/
+gothic-lockpick/
