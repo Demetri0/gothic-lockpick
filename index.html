@@ -2310,6 +2310,7 @@ function validatePlates(plates) {
         !Array.isArray(p.deps)) {
       return null;
     }
+    const seenTargets = new Set();
     for (const d of p.deps) {
       if (!d || typeof d !== 'object' ||
           typeof d.targetId !== 'number' ||
@@ -2321,6 +2322,8 @@ function validatePlates(plates) {
           !Number.isInteger(d.steps) || d.steps < 1) {
         return null;
       }
+      if (seenTargets.has(d.targetId)) return null;   // duplicate/conflicting dep to same target
+      seenTargets.add(d.targetId);
     }
   }
   return plates;
@@ -2376,6 +2379,8 @@ const gothic = {
     if (!dM) return null;
     const rawPos = [...dM[1]].map(Number);
     const depMap = gothic.parseRules(text.replace(dM[0], ''));
+    // Reject (don't silently drop) a rule whose SOURCE plate is beyond the position count.
+    for (const src of Object.keys(depMap)) if (src.charCodeAt(0) - 65 >= rawPos.length) return null;
     const POSITIONS = 7;
     return Array.from({ length: rawPos.length }, (_, i) => ({
       id: i + 1,
@@ -2405,10 +2410,11 @@ const gothic = {
 const dotted = {
   id: 'dotted',
   parse(str) {
-    const m = str.trim().match(/^(\d+)\.(\d+)\.([sao]+)$/i);
+    const m = str.trim().match(/^(\d+)\.(\d+)\.([sao]+)$/);   // canonical: lowercase pairs only
     if (!m) return null;
     const n = parseInt(m[1], 10);
-    const pos = m[2], pairs = m[3].toLowerCase();
+    if (String(n) !== m[1]) return null;                       // no leading-zero plate count
+    const pos = m[2], pairs = m[3];                            // positions keep per-digit zeros (position 0 is real)
     if (pos.length !== n || pairs.length !== n * (n - 1)) return null;
     const POSITIONS = 7;
     const plates = Array.from({ length: n }, (_, i) => ({
@@ -2458,6 +2464,7 @@ const bytearray = (() => {
       if (read(1) === null) return null;               // flip bit (ignored)
       const POSITIONS = 7;
       const plates = [];
+      // pin is 0–7 (3 bits); the app is 7-hole, so pin 7 → currentPos 8 → validatePlates rejects (deliberate).
       for (let i = 0; i < n; i++) { const pin = read(3); if (pin === null) return null; plates.push({ id: i + 1, positions: POSITIONS, currentPos: pin + 1, deps: [] }); }
       for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
         if (i === j) continue;

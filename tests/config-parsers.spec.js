@@ -283,3 +283,24 @@ test.describe('drum paste policy (I2)', () => {
     expect(await page.evaluate(() => state.plates[0].deps.length > 0)).toBe(true);
   });
 });
+
+test.describe('parser strictness (M4/M5/M6)', () => {
+  test('dotted rejects non-canonical spellings', async ({ page }) => {
+    const r = await page.evaluate(() => [dotted.parse('03.531.saaoaa'), dotted.parse('3.531.SAAOAA')]);
+    expect(r).toEqual([null, null]);
+  });
+  test('dotted still accepts leading-zero POSITIONS (position 0 is real)', async ({ page }) => {
+    const p = await page.evaluate(() => dotted.parse('3.031.saaoaa'));
+    expect(p && p.map(x => x.currentPos)).toEqual([1, 4, 2]);
+  });
+  test('gothic rejects a rule whose source plate does not exist', async ({ page }) => {
+    expect(await page.evaluate(() => gothic.parse('01 C:A-'))).toBeNull();
+  });
+  test('validatePlates rejects duplicate/conflicting deps to one target', async ({ page }) => {
+    expect(await page.evaluate(() => validatePlates([
+      { id: 1, positions: 7, currentPos: 4, deps: [
+        { targetId: 2, direction: 'opposite', steps: 1 }, { targetId: 2, direction: 'same', steps: 1 }] },
+      { id: 2, positions: 7, currentPos: 4, deps: [] },
+    ]))).toBeNull();
+  });
+});
