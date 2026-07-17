@@ -2523,6 +2523,25 @@ function applyImportedConfig(rawText) {
   showToast(t('toast-applied'));
 }
 
+/** Build a plates array directly from a DB entry (pos is 0-based; rules may be empty). */
+function entryToPlates(entry) {
+  const depMap = parseRules(entry.rules || '');
+  return entry.pos.map((p, i) => ({
+    id: i + 1,
+    positions: 7,
+    currentPos: Math.max(1, Math.min(7, p + 1)),
+    deps: depMap[String.fromCharCode(65 + i)] || [],
+  }));
+}
+
+/** Apply a DB entry (chest hint / search result) to state, with the same toast as import. */
+function applyEntry(entry) {
+  const plates = validatePlates(entryToPlates(entry));
+  if (!plates) { showToast(t('toast-invalid'), 'error'); return; }
+  applyPlates(plates);
+  showToast(t('toast-applied'));
+}
+
 let _importPending = null;
 
 document.getElementById('import-dialog-ok').addEventListener('click', () => {
@@ -3684,15 +3703,15 @@ document.getElementById('chest-hints').addEventListener('click', (e) => {
   const card = e.target.closest('.chest-hint');
   if (!card) return;
   const entry = hintResults[parseInt(card.dataset.idx, 10)];
-  if (entry) applyImportedConfig(`start_pos="${entry.pos.join(',')}" rules="${entry.rules}"`);
+  if (entry) applyEntry(entry);
 });
 
 // Show hints once the DB finishes loading, in case the user is already on config.
 chestSearchReady.then(() => renderChestHints());
 
 function applySearchResult(entry) {
-  // applyImportedConfig() already shows its own success toast — don't double up
-  applyImportedConfig(`start_pos="${entry.pos.join(',')}" rules="${entry.rules}"`);
+  // applyEntry() shows its own success toast — don't double up
+  applyEntry(entry);
   document.getElementById('search-dialog').close();
   if (state.stage !== 'config') switchToConfig();
 }

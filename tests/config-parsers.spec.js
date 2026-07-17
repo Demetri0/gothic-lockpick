@@ -213,3 +213,40 @@ test.describe('bytearray parser', () => {
     expect(rejected).toBeNull();
   });
 });
+
+test.describe('cross-format routing + disjointness', () => {
+  const vectors = {
+    json:      '[{"id":1,"positions":7,"currentPos":4,"deps":[]},{"id":2,"positions":7,"currentPos":4,"deps":[]}]',
+    dotted:    '3.531.saaoaa',
+    gothic:    '040615 A:B-,C+;D:E-',
+    bytearray: 'gBDXAECQhAAQAQAIRAA',
+  };
+  for (const [owner, s] of Object.entries(vectors)) {
+    test(`${owner} vector: only ${owner} claims it, and parseConfig accepts it`, async ({ page }) => {
+      const res = await page.evaluate(({ s }) => ({
+        claims: ['json', 'dotted', 'gothic', 'bytearray'].filter(id => ({ json, dotted, gothic, bytearray })[id].parse(s) !== null),
+        routed: parseConfig(s) !== null,
+      }), { s });
+      expect(res.claims).toEqual([owner]);   // disjoint: exactly one parser claims each vector
+      expect(res.routed).toBe(true);
+    });
+  }
+});
+
+test.describe('near-miss non-routing (must end at parseConfig -> null)', () => {
+  for (const [name, s] of Object.entries({
+    'broken dotted':          '3.531.saax',
+    'bare positions':         '040615',
+    'bare rules':             'A:B-;D:E-',
+    'bytearray wrong length':  'gBDXAECQhAAQAQAIRA',   // len 18
+    'valid JSON invalid cfg': '[1,2,3]',
+    'random word':            'hello',
+    'another word':           'config',
+  })) {
+    test(`no parser silently claims: ${name}`, async ({ page }) => {
+      const r = await page.evaluate((x) => ({ pc: parseConfig(x), like: looksLikeImportConfig(x) }), s);
+      expect(r.pc).toBeNull();
+      expect(r.like).toBe(false);
+    });
+  }
+});
