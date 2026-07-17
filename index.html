@@ -1107,7 +1107,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
           <button id="btn-search-db" class="search-box" data-test-id="btn-search-db" disabled data-i18n-title="search-title" title="Поиск по базе (Ctrl+K)">
             <span class="search-box-icon">🔍</span>
             <span class="search-box-label" data-i18n="search-box">Поиск</span>
-            <kbd>Ctrl K</kbd>
+            <kbd id="search-kbd" data-test-id="search-kbd">Ctrl+K</kbd>
           </button>
         </span>
         <!-- plate count is driven by the position lock now; kept hidden as the count store -->
@@ -3802,6 +3802,14 @@ document.getElementById('search-results').addEventListener('click', (e) => {
   const idx = parseInt(card.dataset.idx, 10);
   if (searchResults[idx]) applySearchResult(searchResults[idx]);
 });
+
+// On Mac the canonical shortcut hint is the ⌘ glyph with no "+"; elsewhere it's Ctrl+K.
+// The HTML ships "Ctrl+K" as the non-Mac default (and pre-JS fallback); swap it on Mac.
+const isMac = /Mac|iP(hone|ad|od)/.test(navigator.platform || navigator.userAgent || '');
+if (isMac) {
+  const searchKbd = document.getElementById('search-kbd');
+  if (searchKbd) searchKbd.textContent = '⌘K';
+}
 
 // Global Ctrl/Cmd+K — not gated on focused element, unlike the WASD listener
 document.addEventListener('keydown', async (e) => {
