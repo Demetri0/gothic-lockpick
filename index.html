@@ -2503,11 +2503,9 @@ function wireConfigHandlers() {
   });
 }
 document.getElementById('btn-export').addEventListener('click', (e) => {
-  const json = e.shiftKey;
-  const data = json
-    ? JSON.stringify(state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps })))
-    : gothic.serialize(state.plates);
-  copyToClipboard(data, json ? 'toast-copied-json' : 'toast-copied');
+  const asJson = e.shiftKey;   // (don't shadow the `json` parser)
+  const data = asJson ? json.serialize(state.plates) : gothic.serialize(state.plates);
+  copyToClipboard(data, asJson ? 'toast-copied-json' : 'toast-copied');
 });
 
 /** Apply a validated plates array to state + UI (no toast). */
