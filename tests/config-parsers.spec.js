@@ -124,3 +124,42 @@ test.describe('parseConfig routing (json + gothic)', () => {
     expect(r).toEqual([true, false, false]);
   });
 });
+
+test.describe('dotted parser', () => {
+  test('decodes the 3-plate example exactly', async ({ page }) => {
+    const p = await page.evaluate(() => dotted.parse('3.531.saaoaa'));
+    expect(p.map(x => x.currentPos)).toEqual([6, 4, 2]);
+    expect(p[0].deps).toEqual([{ targetId: 2, direction: 'same', steps: 1 }]);      // A:B+
+    expect(p[1].deps).toEqual([{ targetId: 3, direction: 'opposite', steps: 1 }]);  // B:C-
+    expect(p[2].deps).toEqual([]);
+  });
+  test('decodes the 7-plate example (positions)', async ({ page }) => {
+    const p = await page.evaluate(() => dotted.parse('7.5313505.ssossaossosasossoaasossasasosassasoasssaso'));
+    expect(p.map(x => x.currentPos)).toEqual([6, 4, 2, 4, 6, 1, 6]);
+  });
+  test('round-trips (parse->serialize->parse) and emits the canonical string', async ({ page }) => {
+    const ok = await page.evaluate(() => {
+      for (const s of ['3.531.saaoaa', '7.5313505.ssossaossosasossoaasossasasosassasoasssaso']) {
+        const a = dotted.parse(s);
+        if (JSON.stringify(dotted.parse(dotted.serialize(a))) !== JSON.stringify(a)) return false;
+        if (dotted.serialize(a) !== s) return false;
+      }
+      return true;
+    });
+    expect(ok).toBe(true);
+  });
+  for (const [name, s] of Object.entries({
+    'wrong dot count':       '3.531',
+    'extra dot':             '3.531.saa.oo',
+    'N != positions length': '3.5313.saaoaa',
+    'pairs too short':       '3.531.saaoa',
+    'pairs too long':        '3.531.saaoaaa',
+    'illegal pair char':     '3.531.saaoax',
+    'non-digit N':           'x.531.saaoaa',
+    'empty pairs':           '3.531.',
+  })) {
+    test(`returns null: ${name}`, async ({ page }) => {
+      expect(await page.evaluate((x) => dotted.parse(x), s)).toBeNull();
+    });
+  }
+});

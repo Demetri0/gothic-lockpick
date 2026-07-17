@@ -2401,8 +2401,42 @@ const json = {
 
 const gothic = { id: 'gothic', parse: parseGothicFormat, serialize: serializeGothicFormat };
 
-// dotted + bytearray parsers are inserted here (Tasks 3 & 4).
-const PARSERS = [json, gothic];
+// "N.positions.pairs", e.g. 3.531.saaoaa — positions 0-based; one char per ordered
+// pair (from-major, self skipped): s=same, o=opposite, a=absent.
+const dotted = {
+  id: 'dotted',
+  parse(str) {
+    const m = str.trim().match(/^(\d+)\.(\d+)\.([sao]+)$/i);
+    if (!m) return null;
+    const n = parseInt(m[1], 10);
+    const pos = m[2], pairs = m[3].toLowerCase();
+    if (pos.length !== n || pairs.length !== n * (n - 1)) return null;
+    const POSITIONS = 7;
+    const plates = Array.from({ length: n }, (_, i) => ({
+      id: i + 1, positions: POSITIONS, currentPos: Number(pos[i]) + 1, deps: [],
+    }));
+    let k = 0;
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+      if (i === j) continue;
+      const c = pairs[k++];
+      if (c === 's' || c === 'o') plates[i].deps.push({ targetId: j + 1, direction: c === 's' ? 'same' : 'opposite', steps: 1 });
+    }
+    return plates;
+  },
+  serialize(plates) {
+    const n = plates.length;
+    const pos = plates.map(p => p.currentPos - 1).join('');
+    let pairs = '';
+    for (let i = 0; i < n; i++) {
+      const by = {}; for (const d of plates[i].deps) by[d.targetId] = d.direction;
+      for (let j = 0; j < n; j++) { if (i === j) continue; const dir = by[j + 1]; pairs += dir === 'same' ? 's' : dir === 'opposite' ? 'o' : 'a'; }
+    }
+    return `${n}.${pos}.${pairs}`;
+  },
+};
+
+// bytearray parser is inserted here (Task 4).
+const PARSERS = [json, dotted, gothic];
 
 /** Try each parser in order; return the first output that passes validatePlates, else null. */
 function parseConfig(str) {
