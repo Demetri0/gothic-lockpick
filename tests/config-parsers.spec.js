@@ -163,3 +163,53 @@ test.describe('dotted parser', () => {
     });
   }
 });
+
+test.describe('bytearray parser', () => {
+  // Verified vector (tests/sync-uml.spec.js): pins 0-based [0,0,2,0,6,5,6],
+  // rules A:F-;B:C+,E-,G+;C:D-;D:E-;E:D-;F:D+;G:A-,C-
+  test('decodes the verified unlockmyloot v2 code', async ({ page }) => {
+    const p = await page.evaluate(() => bytearray.parse('gBDXAECQhAAQAQAIRAA'));
+    expect(p.length).toBe(7);
+    expect(p.map(x => x.currentPos)).toEqual([1, 1, 3, 1, 7, 6, 7]);
+    expect(p[0].deps).toEqual([{ targetId: 6, direction: 'opposite', steps: 1 }]); // A:F-
+    expect(p[6].deps).toEqual([                                                     // G:A-,C-
+      { targetId: 1, direction: 'opposite', steps: 1 },
+      { targetId: 3, direction: 'opposite', steps: 1 },
+    ]);
+  });
+  test('round-trips state and emits a canonical length', async ({ page }) => {
+    const ok = await page.evaluate(() => {
+      const a = bytearray.parse('gBDXAECQhAAQAQAIRAA');
+      const s = bytearray.serialize(a);
+      return [5,7,10,14,19,24].includes(s.length) && JSON.stringify(bytearray.parse(s)) === JSON.stringify(a);
+    });
+    expect(ok).toBe(true);
+  });
+  test('serialize refuses a 2-plate config (null)', async ({ page }) => {
+    const r = await page.evaluate(() => bytearray.serialize([
+      { id: 1, positions: 7, currentPos: 4, deps: [] },
+      { id: 2, positions: 7, currentPos: 4, deps: [] },
+    ]));
+    expect(r).toBeNull();
+  });
+  for (const [name, s] of Object.entries({
+    'invalid length (8)':  'gBDXAECQ',
+    'one char short (18)': 'gBDXAECQhAAQAQAIRA',
+    'contains ":"':        'gB:DXAECQhAAQAQAIRAA',
+    'pure digits':         '3055665',
+  })) {
+    test(`returns null: ${name}`, async ({ page }) => {
+      expect(await page.evaluate((x) => bytearray.parse(x), s)).toBeNull();
+    });
+  }
+  test('non-zero pad bits are rejected (canonicity)', async ({ page }) => {
+    const rejected = await page.evaluate(() => {
+      const ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+      const code = bytearray.serialize(bytearray.parse('gBDXAECQhAAQAQAIRAA'));
+      const last = code[code.length - 1];
+      const tampered = code.slice(0, -1) + ABC[(ABC.indexOf(last) | 1)]; // set lowest pad bit
+      return tampered !== code ? bytearray.parse(tampered) : 'nochange';
+    });
+    expect(rejected).toBeNull();
+  });
+});
