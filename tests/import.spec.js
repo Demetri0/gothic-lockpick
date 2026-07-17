@@ -199,6 +199,20 @@ test('gothic format: applied via import dialog', async ({ page }) => {
   await expect(page.getByTestId('val-plates')).toHaveText('5');
 });
 
+test('dotted format: applied via import dialog', async ({ page }) => {
+  await page.evaluate(() => openImportDialog('3.531.saaoaa'));
+  await page.getByTestId('import-dialog-ok').click();
+  await expect(page.getByTestId('toast')).toContainText('Конфиг применён');
+  await expect(page.getByTestId('val-plates')).toHaveText('3');
+});
+
+test('bytearray (unlockmyloot v2) code applied via import dialog', async ({ page }) => {
+  await page.evaluate(() => openImportDialog('gBDXAECQhAAQAQAIRAA'));
+  await page.getByTestId('import-dialog-ok').click();
+  await expect(page.getByTestId('toast')).toContainText('Конфиг применён');
+  await expect(page.getByTestId('val-plates')).toHaveText('7');
+});
+
 // ── Gothic export (serializeGothicFormat) ────────────────────────────────────
 
 test('export: gothic format contains position digits and rules', async ({ page }) => {
