@@ -4,6 +4,27 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Pluggable config-format parsers.** Import auto-detects four formats — `json`,
+  `gothic` (`040615 A:B-,C+;D:E-`), `dotted` (`3.531.saaoaa`), and `bytearray`
+  (unlockmyloot `?lock=` v2 base64url; their share codes import directly). Each is a
+  self-contained `{ parse, serialize }` unit behind a registry.
+- **Solution steps as cards.** Each step renders as `Элемент N · [значок] Вправо ×4 · 4D4`
+  (green = right / red = left) instead of bare notation, in both following and free-explore mode.
+- **3D playback highlight.** The 3D scene highlights whichever plate the just-played step moved.
+- **Direction icons in the dependency matrix** on narrow containers (arrows same-way / apart),
+  replacing the single-letter abbreviation.
+
+### Changed
+- Unified the ru/uk plate term to «Элемент»/«Елемент» (matches legend/tooltip wording);
+  solve-stage step buttons use chevron icons instead of text arrows; brighter active-plate
+  highlight in 3D.
+- The app no longer parses `chests.ini` entries for import (INI is DB-pipeline only); the
+  gothic format requires both positions and rules.
+- `index.html` `<script>` blocks now carry semantic ids (`parsers`, `config`, `ui-utils`, …).
+
 ## [1.2.0] - 2026-07-06
 
 ### Added
