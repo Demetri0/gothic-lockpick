@@ -227,28 +227,30 @@ BFS и генерация выполняются в Web Workers через Blob 
 
 ### Структура скриптов
 
+Блоки `<script>` имеют семантические `id` — вытащить нужный: `grep 'id="<имя>"' index.html`.
+
 ```
-Script #0 — Solver core       center(), computeMove(), нотация,
-  (id="solver-src")            bfsSolveGrouped(), compressPath(). Исполняется
-                               страницей И инъектится в Blob воркера —
-                               один исходник, два потребителя
-<script type="text/x-worker">  Точка входа воркера: только onmessage
-  (id="worker-src")            (solve + рандомизатор); логика — из Script #0
-Script #1 — State             Константы, state, makePlate()
-Script #2 — Game logic        applyMove(), depCellHTML(),
-                               getBlockingPlateId(), flashBlockedPlate()
-Script #4 — Render            buildScene(), updateScene(), posToOffsetX()
-Script #5 — Config UI         Барабан позиций (posSetPlateValue — единая точка
-                               смены позиции: ввод/±/стрелки/колесо/клик по дырке),
-                               матрица, импорт/экспорт, рандомизация
-Script #6 — Solve UI          Список шагов, навигация, авто-воспроизведение,
-                               addExploreMove(), returnToSolution()
-Script #7 — WASD              Обработчик клавиатуры (config + solve + explore)
-Script #8 — Init              init()
-Script #9 — Worker bootstrap  createWorker(), пул, прогресс, отмена
-Script #10 — Chest DB Search  loadChestDb(), Fuse.js поиск, поиск по позициям,
-                               рендер карточек результата; computeChestHints() +
-                               renderChestHints() — живые подсказки-совпадения
+solver-src    Ядро решателя: center(), computeMove(), нотация,
+              bfsSolveGrouped(), compressPath(). Исполняется страницей
+              И инъектится в Blob воркера — один исходник, два потребителя
+state         Константы, state, makePlate(), TRANSLATIONS, t(), setLanguage()
+ui-utils      showToast(), copyToClipboard() — общие UI-утилиты
+game-logic    applyMove(), getBlockingPlateId(), flashBlockedPlate()
+render         buildScene(), updateScene(), posToOffsetX() (3D-сцена)
+parsers       Реестр форматов: validatePlates(), json/gothic/dotted/bytearray,
+              PARSERS, parseConfig(), entryToPlates()
+config        Барабан позиций (posSetPlateValue — единая точка смены позиции:
+              ввод/±/стрелки/колесо/клик по дырке), матрица (renderMatrix,
+              depCellHTML), импорт/экспорт, рандомизация
+solve-ui      Список шагов-карточек, навигация, авто-воспроизведение,
+              addExploreMove(), returnToSolution()
+keyboard      Обработчик клавиатуры (config + solve + explore)
+init          init()
+worker-src    Точка входа воркера: только onmessage (solve + рандомизатор);
+  (text/x-worker)  логика — из solver-src
+worker-host   createWorker(), пул, прогресс, отмена
+db-search     loadChestDb(), Fuse.js поиск, поиск по позициям, рендер карточек;
+              computeChestHints() + renderChestHints() — живые подсказки
 ```
 
 ---
