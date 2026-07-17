@@ -1795,9 +1795,11 @@ function updateScene(sceneId, plates, activePlateId) {
   }
 }
   </script>
-  <script id="parsers">
-// ── parsers — Config format parser registry ────────────────────────────────
-/** Universal config invariants — one place, shared by every parser via the registry. */
+  <script id="codecs">
+// ── codecs — Config format parse/serialize registry ────────────────────────
+// `Codecs` groups the four format codecs; the registry + facade (validatePlates,
+// parseConfig, looksLikeImportConfig, PARSERS) live as module-level globals.
+/** Universal config invariants — one place, shared by every codec via the registry. */
 function validatePlates(plates) {
   if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) return null;
   if (plates.some(p => !p || typeof p !== 'object')) return null;
@@ -1833,10 +1835,10 @@ function validatePlates(plates) {
   return plates;
 }
 
-// ── Format parser registry ────────────────────────────────────────────────
-// Each parser is a stateless unit { id, parse(str)->plates|null, serialize(plates)->string|null }.
+// ── The four format codecs — Codecs.{json,gothic,dotted,bytearray} ─────────
+// Each codec is a stateless unit { id, parse(str)->plates|null, serialize(plates)->string|null }.
 // Neither method throws (contract): null = "not my format" / "not representable".
-
+const Codecs = (() => {
 const json = {
   id: 'json',
   parse(str) {
@@ -1997,7 +1999,10 @@ const bytearray = (() => {
   };
 })();
 
-const PARSERS = [json, dotted, gothic, bytearray];
+return { json, gothic, dotted, bytearray };
+})();
+
+const PARSERS = [Codecs.json, Codecs.dotted, Codecs.gothic, Codecs.bytearray];
 
 /** Try each parser in order; return the first output that passes validatePlates, else null. */
 function parseConfig(str) {
@@ -2435,7 +2440,7 @@ function wireConfigHandlers() {
     // Anything else (incl. base64url byte-array tokens) falls through to digits —
     // a whole-config import must go through the confirmation dialog (global paste).
     if (state.plates.every(p => p.deps.length === 0)) {
-      const plates = validatePlates(gothic.parse(text));
+      const plates = validatePlates(Codecs.gothic.parse(text));
       if (plates) { applyPlates(plates); showToast(t('toast-applied')); return; }
     }
     const digits = text.replace(/\D/g, '');
@@ -2512,7 +2517,7 @@ function wireConfigHandlers() {
 }
 document.getElementById('btn-export').addEventListener('click', (e) => {
   const asJson = e.shiftKey;   // (don't shadow the `json` parser)
-  const data = asJson ? json.serialize(state.plates) : gothic.serialize(state.plates);
+  const data = asJson ? Codecs.json.serialize(state.plates) : Codecs.gothic.serialize(state.plates);
   copyToClipboard(data, asJson ? 'toast-copied-json' : 'toast-copied');
 });
 
@@ -2536,7 +2541,7 @@ function applyImportedConfig(rawText) {
 
 /** Build a plates array directly from a DB entry (pos is 0-based; rules may be empty). */
 function entryToPlates(entry) {
-  const depMap = gothic.parseRules(entry.rules || '');
+  const depMap = Codecs.gothic.parseRules(entry.rules || '');
   return entry.pos.map((p, i) => ({
     id: i + 1,
     positions: 7,
@@ -2581,7 +2586,7 @@ document.addEventListener('copy', (e) => {
   if (e.target.matches('input, textarea, select')) return;
   if (window.getSelection().toString()) return; // let browser handle normal text copy
   e.preventDefault();
-  e.clipboardData.setData('text/plain', gothic.serialize(state.plates));
+  e.clipboardData.setData('text/plain', Codecs.gothic.serialize(state.plates));
   showToast(t('toast-copied'));
 });
 
@@ -3455,7 +3460,7 @@ function searchByPosition(nums, entries) {
 /** Ordered rule groups for hint rendering — thin adapter over the gothic parser's
  *  rule parser (one rule regex in the app, not two). */
 function parseRuleGroups(rulesStr) {
-  return Object.entries(gothic.parseRules(rulesStr || ''))
+  return Object.entries(Codecs.gothic.parseRules(rulesStr || ''))
     .filter(([, deps]) => deps.length)
     .map(([src, deps]) => ({
       from: src.charCodeAt(0) - 64,

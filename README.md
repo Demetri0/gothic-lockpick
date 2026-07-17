@@ -130,7 +130,7 @@ https://github.com/user-attachments/assets/154eaeb2-4bf9-4c56-b6bb-d996facdf326
 
 ## Форматы конфигурации
 
-Импорт распознаёт **четыре формата** автоматически (вставка / `Ctrl+V` → диалог подтверждения; каждый парсер — самодостаточный юнит в блоке `parsers`). Экспорт/копирование выдают gothic или JSON (JSON — по `Shift`).
+Импорт распознаёт **четыре формата** автоматически (вставка / `Ctrl+V` → диалог подтверждения; каждый кодек — самодостаточный юнит в namespace `Codecs`, блок `codecs`). Экспорт/копирование выдают gothic или JSON (JSON — по `Shift`).
 
 ### JSON
 
@@ -239,8 +239,8 @@ state         Константы, state, makePlate(), TRANSLATIONS, t(), setLang
 ui-utils      showToast(), copyToClipboard() — общие UI-утилиты
 game-logic    applyMove(), getBlockingPlateId(), flashBlockedPlate()
 render         buildScene(), updateScene(), posToOffsetX() (3D-сцена)
-parsers       Реестр форматов: validatePlates(), json/gothic/dotted/bytearray,
-              PARSERS, parseConfig(), entryToPlates()
+codecs        Codecs = {json,gothic,dotted,bytearray}; глобали-фасад:
+              validatePlates(), PARSERS, parseConfig(), looksLikeImportConfig()
 config        Барабан позиций (posSetPlateValue — единая точка смены позиции:
               ввод/±/стрелки/колесо/клик по дырке), матрица (renderMatrix,
               depCellHTML), импорт/экспорт, рандомизация

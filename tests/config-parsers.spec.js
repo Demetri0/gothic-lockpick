@@ -46,7 +46,7 @@ test.describe('validatePlates', () => {
 
 test.describe('gothic.parseRules', () => {
   test('parses per-source directed deps', async ({ page }) => {
-    const r = await page.evaluate(() => gothic.parseRules('A:B-,C+;D:E-'));
+    const r = await page.evaluate(() => Codecs.gothic.parseRules('A:B-,C+;D:E-'));
     expect(r.A).toEqual([
       { targetId: 2, direction: 'opposite', steps: 1 },
       { targetId: 3, direction: 'same', steps: 1 },
@@ -54,20 +54,20 @@ test.describe('gothic.parseRules', () => {
     expect(r.D).toEqual([{ targetId: 5, direction: 'opposite', steps: 1 }]);
   });
   test('is case-insensitive and whitespace-tolerant', async ({ page }) => {
-    const r = await page.evaluate(() => gothic.parseRules('a: b- , c+'));
+    const r = await page.evaluate(() => Codecs.gothic.parseRules('a: b- , c+'));
     expect(r.A).toEqual([
       { targetId: 2, direction: 'opposite', steps: 1 },
       { targetId: 3, direction: 'same', steps: 1 },
     ]);
   });
   test('ignores non-rule tokens', async ({ page }) => {
-    expect(await page.evaluate(() => gothic.parseRules('040615'))).toEqual({});
+    expect(await page.evaluate(() => Codecs.gothic.parseRules('040615'))).toEqual({});
   });
 });
 
 test.describe('gothic parser', () => {
   test('parses positions + rules (digits first)', async ({ page }) => {
-    const p = await page.evaluate(() => gothic.parse('040615 A:B-,C+;D:E-'));
+    const p = await page.evaluate(() => Codecs.gothic.parse('040615 A:B-,C+;D:E-'));
     expect(p.map(x => x.currentPos)).toEqual([1, 5, 1, 7, 2, 6]);
     expect(p[0].deps).toEqual([
       { targetId: 2, direction: 'opposite', steps: 1 },
@@ -76,7 +76,7 @@ test.describe('gothic parser', () => {
     expect(p[3].deps).toEqual([{ targetId: 5, direction: 'opposite', steps: 1 }]);
   });
   test('parses rules-first, digits-at-end (order lenient)', async ({ page }) => {
-    const p = await page.evaluate(() => gothic.parse('A:B-,C+;D:E- 040615'));
+    const p = await page.evaluate(() => Codecs.gothic.parse('A:B-,C+;D:E- 040615'));
     expect(p.map(x => x.currentPos)).toEqual([1, 5, 1, 7, 2, 6]);
   });
   for (const [name, s] of Object.entries({
@@ -87,13 +87,13 @@ test.describe('gothic parser', () => {
     'empty':              '   ',
   })) {
     test(`returns null: ${name}`, async ({ page }) => {
-      expect(await page.evaluate((x) => gothic.parse(x), s)).toBeNull();
+      expect(await page.evaluate((x) => Codecs.gothic.parse(x), s)).toBeNull();
     });
   }
   test('round-trips a deps config through serialize', async ({ page }) => {
     const eq = await page.evaluate(() => {
-      const orig = gothic.parse('040615 A:B-,C+;D:E-');
-      return JSON.stringify(gothic.parse(gothic.serialize(orig))) === JSON.stringify(orig);
+      const orig = Codecs.gothic.parse('040615 A:B-,C+;D:E-');
+      return JSON.stringify(Codecs.gothic.parse(Codecs.gothic.serialize(orig))) === JSON.stringify(orig);
     });
     expect(eq).toBe(true);
   });
@@ -102,7 +102,7 @@ test.describe('gothic parser', () => {
 test.describe('json parser', () => {
   test('parses the export array shape', async ({ page }) => {
     const p = await page.evaluate(() =>
-      json.parse('[{"id":1,"positions":7,"currentPos":4,"deps":[]},{"id":2,"positions":7,"currentPos":4,"deps":[]}]'));
+      Codecs.json.parse('[{"id":1,"positions":7,"currentPos":4,"deps":[]},{"id":2,"positions":7,"currentPos":4,"deps":[]}]'));
     expect(p.length).toBe(2);
   });
   for (const [name, s] of Object.entries({
@@ -110,11 +110,11 @@ test.describe('json parser', () => {
     'broken JSON':       '[{"id":1,',
   })) {
     test(`returns null: ${name}`, async ({ page }) => {
-      expect(await page.evaluate((x) => json.parse(x), s)).toBeNull();
+      expect(await page.evaluate((x) => Codecs.json.parse(x), s)).toBeNull();
     });
   }
   test('serialize omits view-only fields', async ({ page }) => {
-    const s = await page.evaluate(() => json.serialize([
+    const s = await page.evaluate(() => Codecs.json.serialize([
       { id: 1, positions: 7, currentPos: 4, deps: [], _x: 1 },
       { id: 2, positions: 7, currentPos: 4, deps: [] },
     ]));
@@ -139,22 +139,22 @@ test.describe('parseConfig routing (json + gothic)', () => {
 
 test.describe('dotted parser', () => {
   test('decodes the 3-plate example exactly', async ({ page }) => {
-    const p = await page.evaluate(() => dotted.parse('3.531.saaoaa'));
+    const p = await page.evaluate(() => Codecs.dotted.parse('3.531.saaoaa'));
     expect(p.map(x => x.currentPos)).toEqual([6, 4, 2]);
     expect(p[0].deps).toEqual([{ targetId: 2, direction: 'same', steps: 1 }]);      // A:B+
     expect(p[1].deps).toEqual([{ targetId: 3, direction: 'opposite', steps: 1 }]);  // B:C-
     expect(p[2].deps).toEqual([]);
   });
   test('decodes the 7-plate example (positions)', async ({ page }) => {
-    const p = await page.evaluate(() => dotted.parse('7.5313505.ssossaossosasossoaasossasasosassasoasssaso'));
+    const p = await page.evaluate(() => Codecs.dotted.parse('7.5313505.ssossaossosasossoaasossasasosassasoasssaso'));
     expect(p.map(x => x.currentPos)).toEqual([6, 4, 2, 4, 6, 1, 6]);
   });
   test('round-trips (parse->serialize->parse) and emits the canonical string', async ({ page }) => {
     const ok = await page.evaluate(() => {
       for (const s of ['3.531.saaoaa', '7.5313505.ssossaossosasossoaasossasasosassasoasssaso']) {
-        const a = dotted.parse(s);
-        if (JSON.stringify(dotted.parse(dotted.serialize(a))) !== JSON.stringify(a)) return false;
-        if (dotted.serialize(a) !== s) return false;
+        const a = Codecs.dotted.parse(s);
+        if (JSON.stringify(Codecs.dotted.parse(Codecs.dotted.serialize(a))) !== JSON.stringify(a)) return false;
+        if (Codecs.dotted.serialize(a) !== s) return false;
       }
       return true;
     });
@@ -171,7 +171,7 @@ test.describe('dotted parser', () => {
     'empty pairs':           '3.531.',
   })) {
     test(`returns null: ${name}`, async ({ page }) => {
-      expect(await page.evaluate((x) => dotted.parse(x), s)).toBeNull();
+      expect(await page.evaluate((x) => Codecs.dotted.parse(x), s)).toBeNull();
     });
   }
 });
@@ -180,7 +180,7 @@ test.describe('bytearray parser', () => {
   // Verified vector (tests/sync-uml.spec.js): pins 0-based [0,0,2,0,6,5,6],
   // rules A:F-;B:C+,E-,G+;C:D-;D:E-;E:D-;F:D+;G:A-,C-
   test('decodes the verified unlockmyloot v2 code', async ({ page }) => {
-    const p = await page.evaluate(() => bytearray.parse('gBDXAECQhAAQAQAIRAA'));
+    const p = await page.evaluate(() => Codecs.bytearray.parse('gBDXAECQhAAQAQAIRAA'));
     expect(p.length).toBe(7);
     expect(p.map(x => x.currentPos)).toEqual([1, 1, 3, 1, 7, 6, 7]);
     expect(p[0].deps).toEqual([{ targetId: 6, direction: 'opposite', steps: 1 }]); // A:F-
@@ -191,14 +191,14 @@ test.describe('bytearray parser', () => {
   });
   test('round-trips state and emits a canonical length', async ({ page }) => {
     const ok = await page.evaluate(() => {
-      const a = bytearray.parse('gBDXAECQhAAQAQAIRAA');
-      const s = bytearray.serialize(a);
-      return [5,7,10,14,19,24].includes(s.length) && JSON.stringify(bytearray.parse(s)) === JSON.stringify(a);
+      const a = Codecs.bytearray.parse('gBDXAECQhAAQAQAIRAA');
+      const s = Codecs.bytearray.serialize(a);
+      return [5,7,10,14,19,24].includes(s.length) && JSON.stringify(Codecs.bytearray.parse(s)) === JSON.stringify(a);
     });
     expect(ok).toBe(true);
   });
   test('serialize refuses a 2-plate config (null)', async ({ page }) => {
-    const r = await page.evaluate(() => bytearray.serialize([
+    const r = await page.evaluate(() => Codecs.bytearray.serialize([
       { id: 1, positions: 7, currentPos: 4, deps: [] },
       { id: 2, positions: 7, currentPos: 4, deps: [] },
     ]));
@@ -211,16 +211,16 @@ test.describe('bytearray parser', () => {
     'pure digits':         '3055665',
   })) {
     test(`returns null: ${name}`, async ({ page }) => {
-      expect(await page.evaluate((x) => bytearray.parse(x), s)).toBeNull();
+      expect(await page.evaluate((x) => Codecs.bytearray.parse(x), s)).toBeNull();
     });
   }
   test('non-zero pad bits are rejected (canonicity)', async ({ page }) => {
     const rejected = await page.evaluate(() => {
       const ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-      const code = bytearray.serialize(bytearray.parse('gBDXAECQhAAQAQAIRAA'));
+      const code = Codecs.bytearray.serialize(Codecs.bytearray.parse('gBDXAECQhAAQAQAIRAA'));
       const last = code[code.length - 1];
       const tampered = code.slice(0, -1) + ABC[(ABC.indexOf(last) | 1)]; // set lowest pad bit
-      return tampered !== code ? bytearray.parse(tampered) : 'nochange';
+      return tampered !== code ? Codecs.bytearray.parse(tampered) : 'nochange';
     });
     expect(rejected).toBeNull();
   });
@@ -236,7 +236,7 @@ test.describe('cross-format routing + disjointness', () => {
   for (const [owner, s] of Object.entries(vectors)) {
     test(`${owner} vector: only ${owner} claims it, and parseConfig accepts it`, async ({ page }) => {
       const res = await page.evaluate(({ s }) => ({
-        claims: ['json', 'dotted', 'gothic', 'bytearray'].filter(id => ({ json, dotted, gothic, bytearray })[id].parse(s) !== null),
+        claims: ['json', 'dotted', 'gothic', 'bytearray'].filter(id => Codecs[id].parse(s) !== null),
         routed: parseConfig(s) !== null,
       }), { s });
       expect(res.claims).toEqual([owner]);   // disjoint: exactly one parser claims each vector
@@ -286,15 +286,15 @@ test.describe('drum paste policy (I2)', () => {
 
 test.describe('parser strictness (M4/M5/M6)', () => {
   test('dotted rejects non-canonical spellings', async ({ page }) => {
-    const r = await page.evaluate(() => [dotted.parse('03.531.saaoaa'), dotted.parse('3.531.SAAOAA')]);
+    const r = await page.evaluate(() => [Codecs.dotted.parse('03.531.saaoaa'), Codecs.dotted.parse('3.531.SAAOAA')]);
     expect(r).toEqual([null, null]);
   });
   test('dotted still accepts leading-zero POSITIONS (position 0 is real)', async ({ page }) => {
-    const p = await page.evaluate(() => dotted.parse('3.031.saaoaa'));
+    const p = await page.evaluate(() => Codecs.dotted.parse('3.031.saaoaa'));
     expect(p && p.map(x => x.currentPos)).toEqual([1, 4, 2]);
   });
   test('gothic rejects a rule whose source plate does not exist', async ({ page }) => {
-    expect(await page.evaluate(() => gothic.parse('01 C:A-'))).toBeNull();
+    expect(await page.evaluate(() => Codecs.gothic.parse('01 C:A-'))).toBeNull();
   });
   test('validatePlates rejects duplicate/conflicting deps to one target', async ({ page }) => {
     expect(await page.evaluate(() => validatePlates([
