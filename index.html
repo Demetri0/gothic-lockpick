@@ -3444,20 +3444,15 @@ function searchByPosition(nums, entries) {
 
 // Parse a Gothic rules string ("A:B-,C+;D:E-") into ordered groups of directed
 // edges. Letters map to 1-based plate ids; "+" = same, "-" = opposite.
+/** Ordered rule groups for hint rendering — thin adapter over the gothic parser's
+ *  rule parser (one rule regex in the app, not two). */
 function parseRuleGroups(rulesStr) {
-  const groups = [];
-  for (const part of (rulesStr || '').split(';')) {
-    const m = part.trim().match(/^([A-H])\s*:\s*(.+)$/i);
-    if (!m) continue;
-    const from = m[1].toUpperCase().charCodeAt(0) - 64;
-    const tokens = [];
-    for (const tok of m[2].split(',')) {
-      const tm = tok.trim().match(/^([A-H])\s*([+-])$/i);
-      if (tm) tokens.push({ to: tm[1].toUpperCase().charCodeAt(0) - 64, dir: tm[2] === '+' ? 'same' : 'opposite' });
-    }
-    if (tokens.length) groups.push({ from, tokens });
-  }
-  return groups;
+  return Object.entries(gothic.parseRules(rulesStr || ''))
+    .filter(([, deps]) => deps.length)
+    .map(([src, deps]) => ({
+      from: src.charCodeAt(0) - 64,
+      tokens: deps.map(d => ({ to: d.targetId, dir: d.direction })),
+    }));
 }
 
 // Cached `${from}>${to}` → dir map per DB entry (rules never change at runtime).
