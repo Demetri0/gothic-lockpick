@@ -2281,76 +2281,13 @@ function copyToClipboard(text, successKey = 'toast-copied') {
   }
 }
 
-function serializeGothicFormat(plates) {
-  const pos = plates.map(p => p.currentPos - 1).join('');
-  const rules = plates
-    .filter(p => p.deps.length > 0)
-    .map(p => {
-      const src = String.fromCharCode(64 + p.id);
-      const targets = p.deps
-        .map(d => String.fromCharCode(64 + d.targetId) + (d.direction === 'same' ? '+' : '-'))
-        .join(',');
-      return `${src}:${targets}`;
-    })
-    .join(';');
-  return rules ? `${pos} ${rules}` : pos;
-}
-
 document.getElementById('btn-export').addEventListener('click', (e) => {
   const json = e.shiftKey;
   const data = json
     ? JSON.stringify(state.plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps })))
-    : serializeGothicFormat(state.plates);
+    : gothic.serialize(state.plates);
   copyToClipboard(data, json ? 'toast-copied-json' : 'toast-copied');
 });
-
-/** Parse only the rule half of the notation, e.g. "A:B-,C+;D:E-", into
- *  a { [SRC letter]: [{targetId, direction, steps}] } map. Case/space tolerant. */
-function parseRules(str) {
-  const depMap = {};
-  for (const token of str.split(';')) {
-    const m = token.trim().match(/([A-H])\s*:\s*(.+)$/i);
-    if (!m) continue;
-    const src = m[1].toUpperCase();
-    if (!depMap[src]) depMap[src] = [];
-    for (const part of m[2].split(',')) {
-      const pm = part.trim().match(/^([A-H])\s*([+\-])$/i);
-      if (!pm) continue;
-      depMap[src].push({
-        targetId: pm[1].toUpperCase().charCodeAt(0) - 64,
-        direction: pm[2] === '+' ? 'same' : 'opposite',
-        steps: 1,
-      });
-    }
-  }
-  return depMap;
-}
-
-/**
- * Parse the compact "positions + rules" notation, e.g. "040615 A:B-,C+;D:E-".
- *
- * Requires BOTH a positions digit-run and at least one rule token — bare
- * positions and rules-only are not this format. Lenient about order,
- * whitespace and letter case. Knows nothing about chests.ini (no rules= /
- * start_pos= / cells= / name= / tags= keys — that is the DB pipeline's job).
- * Positions are 0-based (0–6 → our currentPos 1–7); letters A–H → ids 1–8.
- * Returns null if the string is not this format (never throws).
- */
-function parseGothicFormat(raw) {
-  const text = String(raw).trim();
-  if (!/[A-H]\s*:\s*[A-H]\s*[+\-]/i.test(text)) return null;   // need a rule token
-  const dM = text.match(/(?<![,\d])(\d{2,8})(?![,\d])/);        // need a positions digit-run
-  if (!dM) return null;
-  const rawPos = [...dM[1]].map(Number);
-  const depMap = parseRules(text.replace(dM[0], ''));
-  const POSITIONS = 7;
-  return Array.from({ length: rawPos.length }, (_, i) => ({
-    id: i + 1,
-    positions: POSITIONS,
-    currentPos: Math.max(1, Math.min(POSITIONS, rawPos[i] + 1)),
-    deps: depMap[String.fromCharCode(65 + i)] || [],
-  }));
-}
 
 /** Universal config invariants — one place, shared by every parser via the registry. */
 function validatePlates(plates) {
@@ -2399,7 +2336,63 @@ const json = {
   },
 };
 
-const gothic = { id: 'gothic', parse: parseGothicFormat, serialize: serializeGothicFormat };
+// Compact "positions + rules" notation, e.g. "040615 A:B-,C+;D:E-". Requires BOTH
+// a positions digit-run and a rule token (bare positions / rules-only are not this
+// format); lenient about order, whitespace and case. Positions 0-based (0–6 →
+// currentPos 1–7); letters A–H → ids 1–8. Knows nothing about chests.ini.
+const gothic = {
+  id: 'gothic',
+  /** Parse only the rule half, e.g. "A:B-,C+;D:E-", into
+   *  { [SRC letter]: [{targetId, direction, steps}] }. Case/space tolerant. */
+  parseRules(str) {
+    const depMap = {};
+    for (const token of str.split(';')) {
+      const m = token.trim().match(/([A-H])\s*:\s*(.+)$/i);
+      if (!m) continue;
+      const src = m[1].toUpperCase();
+      if (!depMap[src]) depMap[src] = [];
+      for (const part of m[2].split(',')) {
+        const pm = part.trim().match(/^([A-H])\s*([+\-])$/i);
+        if (!pm) continue;
+        depMap[src].push({
+          targetId: pm[1].toUpperCase().charCodeAt(0) - 64,
+          direction: pm[2] === '+' ? 'same' : 'opposite',
+          steps: 1,
+        });
+      }
+    }
+    return depMap;
+  },
+  parse(str) {
+    const text = String(str).trim();
+    if (!/[A-H]\s*:\s*[A-H]\s*[+\-]/i.test(text)) return null;   // need a rule token
+    const dM = text.match(/(?<![,\d])(\d{2,8})(?![,\d])/);        // need a positions digit-run
+    if (!dM) return null;
+    const rawPos = [...dM[1]].map(Number);
+    const depMap = gothic.parseRules(text.replace(dM[0], ''));
+    const POSITIONS = 7;
+    return Array.from({ length: rawPos.length }, (_, i) => ({
+      id: i + 1,
+      positions: POSITIONS,
+      currentPos: Math.max(1, Math.min(POSITIONS, rawPos[i] + 1)),
+      deps: depMap[String.fromCharCode(65 + i)] || [],
+    }));
+  },
+  serialize(plates) {
+    const pos = plates.map(p => p.currentPos - 1).join('');
+    const rules = plates
+      .filter(p => p.deps.length > 0)
+      .map(p => {
+        const src = String.fromCharCode(64 + p.id);
+        const targets = p.deps
+          .map(d => String.fromCharCode(64 + d.targetId) + (d.direction === 'same' ? '+' : '-'))
+          .join(',');
+        return `${src}:${targets}`;
+      })
+      .join(';');
+    return rules ? `${pos} ${rules}` : pos;
+  },
+};
 
 // "N.positions.pairs", e.g. 3.531.saaoaa — positions 0-based; one char per ordered
 // pair (from-major, self skipped): s=same, o=opposite, a=absent.
@@ -2525,7 +2518,7 @@ function applyImportedConfig(rawText) {
 
 /** Build a plates array directly from a DB entry (pos is 0-based; rules may be empty). */
 function entryToPlates(entry) {
-  const depMap = parseRules(entry.rules || '');
+  const depMap = gothic.parseRules(entry.rules || '');
   return entry.pos.map((p, i) => ({
     id: i + 1,
     positions: 7,
@@ -2570,7 +2563,7 @@ document.addEventListener('copy', (e) => {
   if (e.target.matches('input, textarea, select')) return;
   if (window.getSelection().toString()) return; // let browser handle normal text copy
   e.preventDefault();
-  e.clipboardData.setData('text/plain', serializeGothicFormat(state.plates));
+  e.clipboardData.setData('text/plain', gothic.serialize(state.plates));
   showToast(t('toast-copied'));
 });
 

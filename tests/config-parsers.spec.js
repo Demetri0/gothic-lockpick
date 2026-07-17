@@ -32,9 +32,9 @@ test.describe('validatePlates', () => {
   }
 });
 
-test.describe('parseRules', () => {
+test.describe('gothic.parseRules', () => {
   test('parses per-source directed deps', async ({ page }) => {
-    const r = await page.evaluate(() => parseRules('A:B-,C+;D:E-'));
+    const r = await page.evaluate(() => gothic.parseRules('A:B-,C+;D:E-'));
     expect(r.A).toEqual([
       { targetId: 2, direction: 'opposite', steps: 1 },
       { targetId: 3, direction: 'same', steps: 1 },
@@ -42,14 +42,14 @@ test.describe('parseRules', () => {
     expect(r.D).toEqual([{ targetId: 5, direction: 'opposite', steps: 1 }]);
   });
   test('is case-insensitive and whitespace-tolerant', async ({ page }) => {
-    const r = await page.evaluate(() => parseRules('a: b- , c+'));
+    const r = await page.evaluate(() => gothic.parseRules('a: b- , c+'));
     expect(r.A).toEqual([
       { targetId: 2, direction: 'opposite', steps: 1 },
       { targetId: 3, direction: 'same', steps: 1 },
     ]);
   });
   test('ignores non-rule tokens', async ({ page }) => {
-    expect(await page.evaluate(() => parseRules('040615'))).toEqual({});
+    expect(await page.evaluate(() => gothic.parseRules('040615'))).toEqual({});
   });
 });
 

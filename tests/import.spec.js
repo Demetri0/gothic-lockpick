@@ -148,7 +148,7 @@ test('dependency with steps below 1 is rejected', async ({ page }) => {
 test('gothic format: compact digits + rules (digits first)', async ({ page }) => {
   // "02556 , A:D-; C:A-,D-; D:C-; E:C+"  → 5 plates, pos 1,3,6,6,7
   const result = await page.evaluate(() =>
-    parseGothicFormat('02556 , A:D-; C:A-,D-; D:C-; E:C+')
+    gothic.parse('02556 , A:D-; C:A-,D-; D:C-; E:C+')
   );
   expect(result).toHaveLength(5);
   expect(result[0].currentPos).toBe(1); // 0+1
@@ -165,7 +165,7 @@ test('gothic format: compact digits + rules (digits first)', async ({ page }) =>
 test('gothic format: compact digits + rules (digits first, no comma)', async ({ page }) => {
   // "605410 A:B-,C-,F+;D:A-,F+;E:D+,F-;F:B+"  → 6 plates
   const result = await page.evaluate(() =>
-    parseGothicFormat('605410 A:B-,C-,F+;D:A-,F+;E:D+,F-;F:B+')
+    gothic.parse('605410 A:B-,C-,F+;D:A-,F+;E:D+,F-;F:B+')
   );
   expect(result).toHaveLength(6);
   expect(result[0].currentPos).toBe(7); // 6+1
@@ -178,7 +178,7 @@ test('gothic format: compact digits + rules (digits first, no comma)', async ({ 
 test('gothic format: rules first, digits at end', async ({ page }) => {
   // "A:B+;B:C-,D-;D:A-,B-,C-,E-;E:A+,B-,C- 52401"
   const result = await page.evaluate(() =>
-    parseGothicFormat('A:B+;B:C-,D-;D:A-,B-,C-,E-;E:A+,B-,C- 52401')
+    gothic.parse('A:B+;B:C-,D-;D:A-,B-,C-,E-;E:A+,B-,C- 52401')
   );
   expect(result).toHaveLength(5);
   expect(result[0].currentPos).toBe(6); // 5+1
@@ -189,7 +189,7 @@ test('gothic format: rules first, digits at end', async ({ page }) => {
 
 // INI-entry / rules-only / positions-defaulting parsing was removed from the app
 // (the parser now requires both positions and rules and knows nothing about
-// chests.ini). Those cases are covered by parseRules unit tests in
+// chests.ini). Those cases are covered by gothic.parseRules unit tests in
 // tests/config-parsers.spec.js and by the DB pipeline's own parser.
 
 test('gothic format: applied via import dialog', async ({ page }) => {
@@ -213,7 +213,7 @@ test('bytearray (unlockmyloot v2) code applied via import dialog', async ({ page
   await expect(page.getByTestId('val-plates')).toHaveText('7');
 });
 
-// ── Gothic export (serializeGothicFormat) ────────────────────────────────────
+// ── Gothic export (gothic.serialize) ────────────────────────────────────
 
 test('export: gothic format contains position digits and rules', async ({ page }) => {
   const result = await page.evaluate(() => {
@@ -222,7 +222,7 @@ test('export: gothic format contains position digits and rules', async ({ page }
       { id: 2, positions: 7, currentPos: 5, deps: [{ targetId: 3, direction: 'same',     steps: 1 }] },
       { id: 3, positions: 7, currentPos: 1, deps: [] },
     ];
-    return serializeGothicFormat(plates);
+    return gothic.serialize(plates);
   });
   // positions: currentPos-1 → 0,4,0 → "040"
   expect(result).toMatch(/^040 /);
@@ -238,8 +238,8 @@ test('export: gothic format round-trips through parser', async ({ page }) => {
     { id: 3, positions: 7, currentPos: 4, deps: [] },
   ];
   const reparsed = await page.evaluate((plates) => {
-    const gothic = serializeGothicFormat(plates);
-    return parseGothicFormat(gothic);
+    const str = gothic.serialize(plates);
+    return gothic.parse(str);
   }, original);
   expect(reparsed).toHaveLength(3);
   expect(reparsed[0].currentPos).toBe(2);
@@ -253,7 +253,7 @@ test('export: gothic format round-trips through parser', async ({ page }) => {
 test('gothic format: real example (040615 multiline)', async ({ page }) => {
   // The actual puzzle shared by user: 040615 / e:f-;f:b-,e+;d:c+,e-;b:c+,d-;a:c-
   const result = await page.evaluate(() =>
-    parseGothicFormat('040615\ne:f-;f:b-,e+;d:c+,e-;b:c+,d-;a:c-;')
+    gothic.parse('040615\ne:f-;f:b-,e+;d:c+,e-;b:c+,d-;a:c-;')
   );
   expect(result).toHaveLength(6);
   // positions: 0,4,0,6,1,5 → +1 → 1,5,1,7,2,6
@@ -283,7 +283,7 @@ test('gothic format: real example (040615 multiline)', async ({ page }) => {
 test('gothic format: plate with many deps (D has 4 targets)', async ({ page }) => {
   // D:A-,B-,C-,E- — one plate driving 4 others
   const result = await page.evaluate(() =>
-    parseGothicFormat('A:B+;B:C-,D-;D:A-,B-,C-,E-;E:A+,B-,C- 52401')
+    gothic.parse('A:B+;B:C-,D-;D:A-,B-,C-,E-;E:A+,B-,C- 52401')
   );
   expect(result[3].deps).toHaveLength(4);
   expect(result[3].deps).toContainEqual({ targetId: 1, direction: 'opposite', steps: 1 });
@@ -294,7 +294,7 @@ test('gothic format: plate with many deps (D has 4 targets)', async ({ page }) =
 
 test('gothic format: tabs as separators between digits and rules', async ({ page }) => {
   const result = await page.evaluate(() =>
-    parseGothicFormat('33241\tA:B-,C+;D:E+')
+    gothic.parse('33241\tA:B-,C+;D:E+')
   );
   expect(result).toHaveLength(5);
   expect(result[0].deps).toContainEqual({ targetId: 2, direction: 'opposite', steps: 1 });
@@ -303,7 +303,7 @@ test('gothic format: tabs as separators between digits and rules', async ({ page
 
 test('gothic format: multiple spaces between tokens', async ({ page }) => {
   const result = await page.evaluate(() =>
-    parseGothicFormat('33241   A:B-,  C+;  D:E+')
+    gothic.parse('33241   A:B-,  C+;  D:E+')
   );
   expect(result).toHaveLength(5);
   expect(result[0].deps).toContainEqual({ targetId: 2, direction: 'opposite', steps: 1 });
@@ -312,7 +312,7 @@ test('gothic format: multiple spaces between tokens', async ({ page }) => {
 
 test('gothic format: tabs inside rules around colon and comma', async ({ page }) => {
   const result = await page.evaluate(() =>
-    parseGothicFormat('33241 A:\tB-,\tC+;\tD:E+')
+    gothic.parse('33241 A:\tB-,\tC+;\tD:E+')
   );
   expect(result).toHaveLength(5);
   expect(result[0].deps).toContainEqual({ targetId: 2, direction: 'opposite', steps: 1 });
@@ -321,7 +321,7 @@ test('gothic format: tabs inside rules around colon and comma', async ({ page })
 
 test('gothic format: leading/trailing whitespace and newlines around rules', async ({ page }) => {
   const result = await page.evaluate(() =>
-    parseGothicFormat('  \n  33241  \n  A:B-,C+;D:E+  \n  ')
+    gothic.parse('  \n  33241  \n  A:B-,C+;D:E+  \n  ')
   );
   expect(result).toHaveLength(5);
   expect(result[0].currentPos).toBe(4); // 3+1
@@ -329,15 +329,15 @@ test('gothic format: leading/trailing whitespace and newlines around rules', asy
 });
 
 test('gothic format: all-lowercase rules parse identically to uppercase', async ({ page }) => {
-  const upper = await page.evaluate(() => parseGothicFormat('33241 A:B-,C+;D:E+'));
-  const lower = await page.evaluate(() => parseGothicFormat('33241 a:b-,c+;d:e+'));
+  const upper = await page.evaluate(() => gothic.parse('33241 A:B-,C+;D:E+'));
+  const lower = await page.evaluate(() => gothic.parse('33241 a:b-,c+;d:e+'));
   expect(lower).toEqual(upper);
 });
 
 test('gothic format: mixed-case rules are normalised correctly', async ({ page }) => {
   // a:B- and A:b- and a:b- should all produce the same dep
   const result = await page.evaluate(() =>
-    parseGothicFormat('3333 a:B-;C:d+')
+    gothic.parse('3333 a:B-;C:d+')
   );
   expect(result[0].deps).toContainEqual({ targetId: 2, direction: 'opposite', steps: 1 }); // a→B
   expect(result[2].deps).toContainEqual({ targetId: 4, direction: 'same',     steps: 1 }); // C→d
@@ -346,7 +346,7 @@ test('gothic format: mixed-case rules are normalised correctly', async ({ page }
 test('gothic format: plates with no rules produce empty deps', async ({ page }) => {
   // Only A and C have rules; B, D, E have none
   const result = await page.evaluate(() =>
-    parseGothicFormat('33333 A:B+;C:D-')
+    gothic.parse('33333 A:B+;C:D-')
   );
   expect(result[1].deps).toHaveLength(0); // B
   expect(result[3].deps).toHaveLength(0); // D
@@ -374,7 +374,7 @@ test('export: no-deps config serializes to digits only', async ({ page }) => {
       { id: 2, positions: 7, currentPos: 5, deps: [] },
       { id: 3, positions: 7, currentPos: 7, deps: [] },
     ];
-    return serializeGothicFormat(plates);
+    return gothic.serialize(plates);
   });
   expect(result).toBe('246'); // currentPos-1: 2,4,6
 });
@@ -382,11 +382,11 @@ test('export: no-deps config serializes to digits only', async ({ page }) => {
 test('export: round-trip preserves complex 6-plate config', async ({ page }) => {
   // Use the 040615 example and verify full round-trip
   const original = await page.evaluate(() =>
-    parseGothicFormat('040615\ne:f-;f:b-,e+;d:c+,e-;b:c+,d-;a:c-;')
+    gothic.parse('040615\ne:f-;f:b-,e+;d:c+,e-;b:c+,d-;a:c-;')
   );
   const reparsed = await page.evaluate((plates) => {
-    const gothic = serializeGothicFormat(plates);
-    return parseGothicFormat(gothic);
+    const str = gothic.serialize(plates);
+    return gothic.parse(str);
   }, original);
   expect(reparsed).toHaveLength(6);
   for (let i = 0; i < 6; i++) {
@@ -423,7 +423,7 @@ test('8-plate Gothic export round-trips a dependency on plate H', async ({ page 
   const ok = await page.evaluate(() => {
     const plates = Array.from({ length: 8 }, (_, i) => ({ id: i + 1, positions: 7, currentPos: 4, deps: [] }));
     plates[0].deps.push({ targetId: 8, direction: 'opposite', steps: 1 }); // A -> H opposite
-    const parsed = parseImportConfig(serializeGothicFormat(plates));
+    const parsed = parseImportConfig(gothic.serialize(plates));
     const p1 = parsed && parsed.find(p => p.id === 1);
     return !!p1 && p1.deps.some(d => d.targetId === 8 && d.direction === 'opposite');
   });
