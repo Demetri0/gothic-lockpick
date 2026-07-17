@@ -2292,6 +2292,7 @@ document.getElementById('btn-export').addEventListener('click', (e) => {
 /** Universal config invariants — one place, shared by every parser via the registry. */
 function validatePlates(plates) {
   if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) return null;
+  if (plates.some(p => !p || typeof p !== 'object')) return null;
 
   const positions0 = plates[0]?.positions;
   const sortedIds = plates.map(p => p.id).slice().sort((a, b) => a - b);
@@ -2306,7 +2307,8 @@ function validatePlates(plates) {
       return null;
     }
     for (const d of p.deps) {
-      if (typeof d.targetId !== 'number' ||
+      if (!d || typeof d !== 'object' ||
+          typeof d.targetId !== 'number' ||
           !Number.isInteger(d.targetId) ||
           d.targetId < 1 || d.targetId > plates.length ||
           d.targetId === p.id ||

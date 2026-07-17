@@ -11,6 +11,18 @@ test.describe('validatePlates', () => {
   test('accepts a well-formed config', async ({ page }) => {
     expect(await page.evaluate((p) => validatePlates(p) !== null, good())).toBe(true);
   });
+  test('does not throw on non-object array elements (contract)', async ({ page }) => {
+    const r = await page.evaluate(() => ({
+      a: parseConfig('[null,null]'),
+      b: parseConfig('[1,2,3]'),
+      c: parseConfig('[{"id":1,"positions":7,"currentPos":4,"deps":[null]},{"id":2,"positions":7,"currentPos":4,"deps":[]}]'),
+      like: looksLikeImportConfig('[null,null]'),
+    }));
+    expect(r.a).toBeNull();
+    expect(r.b).toBeNull();
+    expect(r.c).toBeNull();
+    expect(r.like).toBe(false);
+  });
   const bad = {
     'ids not 1..N':      (p) => { p[1].id = 3; return p; },
     'even positions':    (p) => { p.forEach(x => x.positions = 6); return p; },
