@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "playwright test",
+    "record:demo": "node tools/record-demo.mjs screenshots/demo.mp4",
     "build:db": "node tools/ini2json.cjs chests.ini chests.json",
     "review:db": "node tools/review-server.cjs",
     "translate:db": "bash tools/translate.sh ru en && bash tools/translate.sh en ru && bash tools/translate.sh ru de && bash tools/translate.sh ru uk"

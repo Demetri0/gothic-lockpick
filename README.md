@@ -4,11 +4,9 @@
 
 **Запуск:** открыть `index.html` в браузере. Зависимостей нет, сборки нет.
 
-![Экран настроек](screenshots/config.png)
+https://github.com/user-attachments/assets/154eaeb2-4bf9-4c56-b6bb-d996facdf326
 
-![Экран решения](screenshots/solve.png)
-
-![Поиск по базе сундуков](screenshots/search.png)
+Скриншоты: [Настройки](screenshots/config.png) · [Решение](screenshots/solve.png) · [Поиск](screenshots/search.png)
 
 ![Мобильная версия](screenshots/mobile/composed.png)
 
