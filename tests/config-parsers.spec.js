@@ -262,3 +262,24 @@ test.describe('near-miss non-routing (must end at parseConfig -> null)', () => {
     });
   }
 });
+
+test.describe('drum paste policy (I2)', () => {
+  const pasteIntoDrum = (page, s) => page.evaluate((text) => {
+    const inp = document.querySelector('[data-test-id="pos-input-1"]');
+    inp.focus();
+    const dt = new DataTransfer(); dt.setData('text', text);
+    inp.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }));
+  }, s);
+
+  test('a random alnum token pasted in the drum does not replace the config', async ({ page }) => {
+    const before = await page.getByTestId('val-plates').textContent();
+    await pasteIntoDrum(page, 'AAAAA'); // pre-fix: byte-array decodes this to a 3-plate config
+    await expect(page.getByTestId('val-plates')).toHaveText(before);
+  });
+
+  test('valid gothic pasted in the drum applies whole when no deps are set', async ({ page }) => {
+    await pasteIntoDrum(page, '040615 A:B-,C+;D:E-');
+    await expect(page.getByTestId('val-plates')).toHaveText('6');
+    expect(await page.evaluate(() => state.plates[0].deps.length > 0)).toBe(true);
+  });
+});

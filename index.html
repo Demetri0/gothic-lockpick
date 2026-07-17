@@ -2177,8 +2177,12 @@ function wireConfigHandlers() {
     if (!e.target.closest('.poslock-digit, .poslock-ghost-add')) return;
     e.preventDefault();
     const text = (e.clipboardData || window.clipboardData).getData('text') || '';
-    if (looksLikeImportConfig(text)) {
-      const plates = parseImportConfig(text);
+    // Full-config apply from the drum is deliberately narrow: only an unambiguous
+    // gothic paste, and only when nothing would be clobbered (no deps set yet).
+    // Anything else (incl. base64url byte-array tokens) falls through to digits —
+    // a whole-config import must go through the confirmation dialog (global paste).
+    if (state.plates.every(p => p.deps.length === 0)) {
+      const plates = validatePlates(gothic.parse(text));
       if (plates) { applyPlates(plates); showToast(t('toast-applied')); return; }
     }
     const digits = text.replace(/\D/g, '');
