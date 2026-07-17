@@ -1606,6 +1606,36 @@ const state = {
   lang: localStorage.getItem('lang') || 'ru',
 };
 </script>
+  <script id="ui-utils">
+// ── ui-utils — shared toast + clipboard helpers ─────────────────────────────
+
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.dataset.testId = 'toast';
+  toast.dataset.testType = type;
+  toast.textContent = message;
+  document.getElementById('toast-container').appendChild(toast);
+  requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('visible')));
+  setTimeout(() => {
+    toast.classList.remove('visible');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  }, 2500);
+}
+
+// Copy with a success/failure toast. Wrapped in try/catch because reading
+// navigator.clipboard.writeText throws synchronously (not a rejection) when the
+// Clipboard API is unavailable (insecure context / older browser).
+function copyToClipboard(text, successKey = 'toast-copied') {
+  try {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast(t(successKey)))
+      .catch(() => showToast(t('toast-copy-fail'), 'error'));
+  } catch {
+    showToast(t('toast-copy-fail'), 'error');
+  }
+}
+  </script>
   <script id="game-logic">
 // ── game-logic — Game logic ────────────────────────────────────────────────
 // computeMove / toNotation / parseNotation live in the solver-src block,
@@ -2471,34 +2501,6 @@ function wireConfigHandlers() {
     worker.postMessage({ type: 'solve', plates: state.plates, solveId: ++solveId });
   });
 }
-
-function showToast(message, type = 'success') {
-  const toast = document.createElement('div');
-  toast.className = `toast toast-${type}`;
-  toast.dataset.testId = 'toast';
-  toast.dataset.testType = type;
-  toast.textContent = message;
-  document.getElementById('toast-container').appendChild(toast);
-  requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('visible')));
-  setTimeout(() => {
-    toast.classList.remove('visible');
-    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
-  }, 2500);
-}
-
-// Copy with a success/failure toast. Wrapped in try/catch because reading
-// navigator.clipboard.writeText throws synchronously (not a rejection) when the
-// Clipboard API is unavailable (insecure context / older browser).
-function copyToClipboard(text, successKey = 'toast-copied') {
-  try {
-    navigator.clipboard.writeText(text)
-      .then(() => showToast(t(successKey)))
-      .catch(() => showToast(t('toast-copy-fail'), 'error'));
-  } catch {
-    showToast(t('toast-copy-fail'), 'error');
-  }
-}
-
 document.getElementById('btn-export').addEventListener('click', (e) => {
   const json = e.shiftKey;
   const data = json
