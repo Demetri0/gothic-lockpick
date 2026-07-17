@@ -2314,6 +2314,7 @@ function wireConfigHandlers() {
       document.getElementById('computing-overlay').classList.add('active');
 
       randomPoolId++;
+      // createRandomPool / terminateRandomPool + the result handling live in the worker-host block.
       terminateRandomPool();
 
       _poolSize = createRandomPool();
