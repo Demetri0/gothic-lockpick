@@ -1163,11 +1163,11 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
     </div>
   </div>
 
-  <!-- Script #0 — Solver core. Executes as a normal script (page globals, unit-testable)
+  <!-- Solver core (id="solver-src"). Executes as a normal script (page globals, unit-testable)
        AND its textContent is injected verbatim into the Web Worker Blob by createWorker()
        — one source, two consumers, so the tested code IS the code the worker runs. -->
   <script id="solver-src">
-// ── Script #0 — Solver core (shared with the worker) ─────────────────────────
+// ── solver-src — Solver core (shared with the worker) ─────────────────────────
 
 /** Center position index (1-based) for a given positions count */
 function center(positions) {
@@ -1400,9 +1400,8 @@ function compressPath(path) {
   return result;
 }
   </script>
-  <!-- Script #1 — State & constants -->
-  <script>
-// ── Script #1 — State & constants ─────────────────────────────────────────
+  <script id="state">
+// ── state — State, constants, i18n ─────────────────────────────────────────
 
 const PLATE_W       = 286;   // px — must match --plate-w
 const PLATE_T       = 180;   // px — must match --plate-t
@@ -1607,10 +1606,9 @@ const state = {
   lang: localStorage.getItem('lang') || 'ru',
 };
 </script>
-  <!-- Script #2 — Game logic -->
-  <script>
-// ── Script #2 — Game logic ────────────────────────────────────────────────
-// computeMove / toNotation / parseNotation live in Script #0 (solver core),
+  <script id="game-logic">
+// ── game-logic — Game logic ────────────────────────────────────────────────
+// computeMove / toNotation / parseNotation live in the solver-src block,
 // shared verbatim with the Web Worker.
 
 /**
@@ -1677,9 +1675,8 @@ function flashBlockedPlate(plateId, sceneId) {
   setTimeout(() => el.classList.remove('plate-blocked'), 250);
 }
 </script>
-  <!-- Script #4 — Render -->
-  <script>
-// ── Script #4 — Render ────────────────────────────────────────────────────
+  <script id="render">
+// ── render — 3D scene render ────────────────────────────────────────────────────
 
 /** Pixel offset per position step on a plate */
 function holeStep(positions) {
@@ -1783,9 +1780,8 @@ function updateScene(sceneId, plates, activePlateId) {
   }
 }
   </script>
-  <!-- Script #5 — Config UI -->
-  <script>
-// ── Script #5 — Config UI ─────────────────────────────────────────────────
+  <script id="config">
+// ── config — Config screen UI + parsers ─────────────────────────────────────────────────
 
 
 function renderMatrix() {
@@ -1879,7 +1875,7 @@ function renderMatrix() {
   table.appendChild(tbody);
   container.appendChild(table);
 
-  // Defined later (Script #10); init()'s first renderMatrix runs before that script.
+  // Defined later (db-search block); init()'s first renderMatrix runs before that script.
   if (typeof renderChestHints === 'function') renderChestHints();
 }
 
@@ -2618,9 +2614,8 @@ document.getElementById('btn-import').addEventListener('click', async () => {
   }
 });
   </script>
-  <!-- Script #6 — Solve UI -->
-  <script>
-// ── Script #6 — Solve UI ──────────────────────────────────────────────────
+  <script id="solve-ui">
+// ── solve-ui — Solve screen UI ──────────────────────────────────────────────────
 
 /** Snapshot of plate positions at the start of the solve stage */
 let solveStartPositions = [];
@@ -2934,9 +2929,8 @@ function wireSolveHandlers() {
   });
 }
   </script>
-  <!-- Script #7 — WASD -->
-  <script>
-// ── Script #7 — WASD ──────────────────────────────────────────────────────
+  <script id="keyboard">
+// ── keyboard — Keyboard (WASD) ──────────────────────────────────────────────────────
 
 // e.code = physical key position, locale-independent (KeyW is always where W sits on QWERTY)
 const KEY_MAP = {
@@ -3073,9 +3067,8 @@ document.addEventListener('keydown', (e) => {
   }
 });
   </script>
-  <!-- Script #8 — Init -->
-  <script>
-// ── Script #8 — Init ──────────────────────────────────────────────────────
+  <script id="init">
+// ── init — Bootstrap ──────────────────────────────────────────────────────
 
 function init() {
   // Bootstrap default plates
@@ -3105,10 +3098,10 @@ function init() {
 init();
   </script>
 
-  <!-- Worker source — not executed by the browser, read as text by Script #9 -->
+  <!-- Worker source — not executed by the browser, read as text by worker-host -->
   <script type="text/x-worker" id="worker-src">
 // Worker entry — message protocol only. All solver logic (center, computeMove,
-// bfsSolveGrouped, compressPath, ...) comes from Script #0 (solver-src), which
+// bfsSolveGrouped, compressPath, ...) comes from solver-src, which
 // createWorker() prepends to this source when building the worker Blob.
 self.onmessage = ({ data }) => {
   if (data.type === 'solve') {
@@ -3167,12 +3160,11 @@ self.onmessage = ({ data }) => {
 };
   </script>
 
-  <!-- Script #9 — Web Worker bootstrap -->
-  <script>
-// ── Script #9 — Web Worker bootstrap ─────────────────────────────────────────
+  <script id="worker-host">
+// ── worker-host — Web Worker host ─────────────────────────────────────────
 
 function createWorker() {
-  // Solver core (Script #0) + worker entry, concatenated verbatim. The core also
+  // Solver core (solver-src) + worker entry, concatenated verbatim. The core also
   // runs in the page, so unit tests exercise the exact source the worker executes.
   const url = URL.createObjectURL(new Blob(
     [document.getElementById('solver-src').textContent,
@@ -3365,9 +3357,8 @@ document.querySelector('#computing-overlay .btn-cancel').addEventListener('click
 });
   </script>
 
-  <!-- Script #10 — Chest DB Search -->
-  <script>
-// ── Script #10 — Chest DB Search ─────────────────────────────────────────
+  <script id="db-search">
+// ── db-search — Chest DB search + hints ─────────────────────────────────────────
 
 let chestDb = null;        // { v, updated, entries }
 let chestFuse = null;      // Fuse instance over chestDb.entries
