@@ -8,6 +8,10 @@
 
 ![Экран решения](screenshots/solve.png)
 
+![Поиск по базе сундуков](screenshots/search.png)
+
+![Мобильная версия](screenshots/mobile/composed.png)
+
 ---
 
 ## Что это такое
