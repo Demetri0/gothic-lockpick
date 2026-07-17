@@ -2327,85 +2327,29 @@ function parseRules(str) {
 }
 
 /**
- * Parse Gothic INI entry or informal share format into a plates array.
+ * Parse the compact "positions + rules" notation, e.g. "040615 A:B-,C+;D:E-".
  *
- * Handles all of:
- *   Full INI entry  — rules="A:B-;..." / start_pos="1,2,3,4,5,6"
- *   Compact share   — "02556 , A:D-; C:A-,D-; D:C-; E:C+"
- *                     "605410 A:B-,C-,F+;D:A-,F+;E:D+,F-;F:B+"
- *                     "A:B+;B:C-,D-;D:A-,B-,C-,E-;E:A+,B-,C- 52401"
- *                     "A:B-;...\nstart_pos=134644"
- *
- * Positions are 0-indexed in both formats (0–6 → our 1–7).
- * Letters A–G map to plate IDs 1–7.
+ * Requires BOTH a positions digit-run and at least one rule token — bare
+ * positions and rules-only are not this format. Lenient about order,
+ * whitespace and letter case. Knows nothing about chests.ini (no rules= /
+ * start_pos= / cells= / name= / tags= keys — that is the DB pipeline's job).
+ * Positions are 0-based (0–6 → our currentPos 1–7); letters A–H → ids 1–8.
+ * Returns null if the string is not this format (never throws).
  */
 function parseGothicFormat(raw) {
-  const text = raw.trim();
-
-  // ── 1. Extract rules string ──────────────────────────────────────────────
-  const rulesKeyM = text.match(/rules\s*=\s*"{0,2}([^"\n]+)"{0,2}/i);
-  let rulesStr = rulesKeyM ? rulesKeyM[1] : text;
-
-  // ── 2. Extract start_pos ─────────────────────────────────────────────────
-  let rawPos = null;
-  const spKeyM = text.match(/start_pos\s*=\s*"{0,2}([\d,]+)"{0,2}/i);
-  if (spKeyM) {
-    const v = spKeyM[1];
-    rawPos = v.includes(',')
-      ? v.split(',').map(s => parseInt(s.trim(), 10))
-      : [...v].map(Number);
-    rulesStr = rulesStr.replace(spKeyM[0], '');
-  } else {
-    // Standalone block of 2–8 consecutive digits (compact format)
-    const dM = text.match(/(?<![,\d])(\d{2,8})(?![,\d])/);
-    if (dM) {
-      rawPos = [...dM[1]].map(Number);
-      rulesStr = rulesStr.replace(dM[0], '');
-    }
-  }
-
-  // ── 3. Pull cells= count if present (INI) ────────────────────────────────
-  const cellsIniM = text.match(/(?:^|[\n;])\s*cells\s*=\s*(\d+)/i);
-  const cellsIni = cellsIniM ? parseInt(cellsIniM[1], 10) : 0;
-
-  // ── 4. Strip INI-only keys from rulesStr ─────────────────────────────────
-  rulesStr = rulesStr
-    .replace(/\[.*?\]/g, '')
-    .replace(/name\s*=\s*"{0,2}[^"\n]*"{0,2}/gi, '')
-    .replace(/cells\s*=\s*\d+/gi, '')
-    .replace(/tags\s*=\s*"{0,2}[^"\n]*"{0,2}/gi, '')
-    .replace(/"/g, '');
-
-  // ── 5. Parse dependency rules ────────────────────────────────────────────
-  const depMap = parseRules(rulesStr);
-
-  // ── 6. Determine cell count ───────────────────────────────────────────────
-  const allLetters = new Set(Object.keys(depMap));
-  for (const ds of Object.values(depMap))
-    for (const d of ds) allLetters.add(String.fromCharCode(64 + d.targetId));
-  const maxFromRules = allLetters.size
-    ? Math.max(...[...allLetters].map(l => l.charCodeAt(0) - 64))
-    : 0;
-  const cellsFromPos = rawPos?.length ?? 0;
-  const cells = cellsFromPos || cellsIni || maxFromRules;
-
-  if (cells < 2 || cells > 8) throw new Error('invalid cell count: ' + cells);
-  if (cellsFromPos && maxFromRules && cellsFromPos < maxFromRules)
-    throw new Error('position count less than letters in rules');
-
-  // ── 7. Build plates ───────────────────────────────────────────────────────
+  const text = String(raw).trim();
+  if (!/[A-H]\s*:\s*[A-H]\s*[+\-]/i.test(text)) return null;   // need a rule token
+  const dM = text.match(/(?<![,\d])(\d{2,8})(?![,\d])/);        // need a positions digit-run
+  if (!dM) return null;
+  const rawPos = [...dM[1]].map(Number);
+  const depMap = parseRules(text.replace(dM[0], ''));
   const POSITIONS = 7;
-  const center = Math.floor(POSITIONS / 2) + 1;
-  return Array.from({ length: cells }, (_, i) => {
-    const letter = String.fromCharCode(65 + i);
-    const p0 = rawPos ? rawPos[i] : (center - 1);
-    return {
-      id: i + 1,
-      positions: POSITIONS,
-      currentPos: Math.max(1, Math.min(POSITIONS, p0 + 1)),
-      deps: depMap[letter] || [],
-    };
-  });
+  return Array.from({ length: rawPos.length }, (_, i) => ({
+    id: i + 1,
+    positions: POSITIONS,
+    currentPos: Math.max(1, Math.min(POSITIONS, rawPos[i] + 1)),
+    deps: depMap[String.fromCharCode(65 + i)] || [],
+  }));
 }
 
 /** Universal config invariants — one place, shared by every parser via the registry. */
@@ -2439,30 +2383,41 @@ function validatePlates(plates) {
   return plates;
 }
 
-/** Parse JSON or gothic-format text into a validated plates array, or null if invalid. */
-function parseImportConfig(rawText) {
-  const text = rawText.trim();
-  let plates;
-  try {
-    plates = JSON.parse(text);
-  } catch {
-    try {
-      plates = parseGothicFormat(text);
-    } catch {
-      return null;
-    }
-  }
-  return validatePlates(plates);
-}
+// ── Format parser registry ────────────────────────────────────────────────
+// Each parser is a stateless unit { id, parse(str)->plates|null, serialize(plates)->string|null }.
+// Neither method throws (contract): null = "not my format" / "not representable".
 
-/** Does the text look like a full importable config (rules / keys / JSON) vs. bare digits? */
+const json = {
+  id: 'json',
+  parse(str) {
+    const t = str.trim();
+    if (t[0] !== '[' && t[0] !== '{') return null;
+    try { return JSON.parse(t); } catch { return null; }
+  },
+  serialize(plates) {
+    return JSON.stringify(plates.map(({ id, positions, currentPos, deps }) => ({ id, positions, currentPos, deps })));
+  },
+};
+
+const gothic = { id: 'gothic', parse: parseGothicFormat, serialize: serializeGothicFormat };
+
+// dotted + bytearray parsers are inserted here (Tasks 3 & 4).
+const PARSERS = [json, gothic];
+
+/** Try each parser in order; return the first output that passes validatePlates, else null. */
+function parseConfig(str) {
+  const text = String(str).trim();
+  for (const p of PARSERS) {
+    const plates = p.parse(text);          // never throws (contract): null if not this format
+    if (plates) { const v = validatePlates(plates); if (v) return v; }
+  }
+  return null;
+}
+const parseImportConfig = parseConfig;      // keep the existing public name for callers/tests
+
+/** A paste auto-imports iff it parses to a fully valid config. */
 function looksLikeImportConfig(text) {
-  const t = text.trim();
-  if (!t) return false;
-  if (t[0] === '[' || t[0] === '{') return true;                          // JSON
-  if (/\b(?:rules|start_pos|cells|name|tags)\s*=/i.test(t)) return true;  // INI/keyed format
-  if (/[A-H]\s*:\s*[A-H]\s*[+\-]/i.test(t)) return true;                  // a dependency rule token
-  return false;
+  return parseConfig(text) !== null;
 }
 
 /** Apply a validated plates array to state + UI (no toast). */

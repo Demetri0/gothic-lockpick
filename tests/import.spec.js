@@ -187,42 +187,10 @@ test('gothic format: rules first, digits at end', async ({ page }) => {
   expect(result[3].deps).toContainEqual({ targetId: 5, direction: 'opposite', steps: 1 });
 });
 
-test('gothic format: rules with explicit start_pos= key', async ({ page }) => {
-  // "A:B-,C+;C:A+,E-;D:B-,C-,F+;E:D-,F+;F:A+;\nstart_pos=134644"
-  const result = await page.evaluate(() =>
-    parseGothicFormat('A:B-,C+;C:A+,E-;D:B-,C-,F+;E:D-,F+;F:A+;\nstart_pos=134644')
-  );
-  expect(result).toHaveLength(6);
-  expect(result[0].currentPos).toBe(2); // 1+1
-  expect(result[2].currentPos).toBe(5); // 4+1
-  expect(result[5].currentPos).toBe(5); // 4+1
-  expect(result[2].deps).toContainEqual({ targetId: 1, direction: 'same', steps: 1 });
-});
-
-test('gothic format: full INI entry', async ({ page }) => {
-  const ini = `[старый_лагерь]
-name="Старый лагерь, сундук"
-cells=6
-rules="B:D-;C:B-,D-,E-;D:E-;E:A+,B-,D-;F:D-"
-start_pos="1,2,3,5,5,6"
-tags="старый лагерь"`;
-  const result = await page.evaluate((s) => parseGothicFormat(s), ini);
-  expect(result).toHaveLength(6);
-  expect(result[0].currentPos).toBe(2); // 1+1
-  expect(result[5].currentPos).toBe(7); // 6+1
-  // B → D opposite
-  expect(result[1].deps).toContainEqual({ targetId: 4, direction: 'opposite', steps: 1 });
-  // E → A same
-  expect(result[4].deps).toContainEqual({ targetId: 1, direction: 'same', steps: 1 });
-});
-
-test('gothic format: no positions defaults to center (4)', async ({ page }) => {
-  const result = await page.evaluate(() =>
-    parseGothicFormat('A:B+;B:C-')
-  );
-  expect(result).toHaveLength(3);
-  expect(result.every(p => p.currentPos === 4)).toBe(true);
-});
+// INI-entry / rules-only / positions-defaulting parsing was removed from the app
+// (the parser now requires both positions and rules and knows nothing about
+// chests.ini). Those cases are covered by parseRules unit tests in
+// tests/config-parsers.spec.js and by the DB pipeline's own parser.
 
 test('gothic format: applied via import dialog', async ({ page }) => {
   await page.evaluate(() => openImportDialog('02556 , A:D-; C:A-,D-; D:C-; E:C+'));
@@ -298,27 +266,6 @@ test('gothic format: real example (040615 multiline)', async ({ page }) => {
   expect(result[2].deps).toHaveLength(0);
 });
 
-test('gothic format: INI with double-quote CSV escaping', async ({ page }) => {
-  // Raw format as it appears in chests.ini (outer quote + "" escaping inside)
-  const ini = `"[старый_лагерь,_сундук_в_воротах_замка]
-name=""Старый лагерь, сундук в воротах замка""
-cells=6
-rules=""B:D-;C:B-,D-,E-;D:E-;E:A+,B-,D-;F:D-""
-start_pos=""1,2,3,5,5,6""
-tags=""старый лагерь, ворота"""`;
-  const result = await page.evaluate((s) => parseGothicFormat(s), ini);
-  expect(result).toHaveLength(6);
-  expect(result[0].currentPos).toBe(2); // 1+1
-  expect(result[1].currentPos).toBe(3); // 2+1
-  expect(result[5].currentPos).toBe(7); // 6+1
-  expect(result[1].deps).toContainEqual({ targetId: 4, direction: 'opposite', steps: 1 }); // B:D-
-  expect(result[4].deps).toContainEqual({ targetId: 1, direction: 'same',     steps: 1 }); // E:A+
-  expect(result[4].deps).toContainEqual({ targetId: 2, direction: 'opposite', steps: 1 }); // E:B-
-  expect(result[4].deps).toContainEqual({ targetId: 4, direction: 'opposite', steps: 1 }); // E:D-
-  expect(result[0].deps).toHaveLength(0); // A has no deps
-  expect(result[2].deps).toHaveLength(3); // C:B-,D-,E-
-});
-
 test('gothic format: plate with many deps (D has 4 targets)', async ({ page }) => {
   // D:A-,B-,C-,E- — one plate driving 4 others
   const result = await page.evaluate(() =>
@@ -392,19 +339,16 @@ test('gothic format: plates with no rules produce empty deps', async ({ page }) 
   expect(result[4].deps).toHaveLength(0); // E
 });
 
-test('gothic format: fewer positions than rule letters throws', async ({ page }) => {
-  // 2 positions but rules mention A, B, C → inconsistent
-  const threw = await page.evaluate(() => {
-    try { parseGothicFormat('04 A:B-,C+'); return false; } catch { return true; }
-  });
-  expect(threw).toBe(true);
+test('gothic format: fewer positions than rule letters is rejected', async ({ page }) => {
+  // 2 positions but rules mention A, B, C → dep targetId out of range → validatePlates rejects
+  const r = await page.evaluate(() => parseImportConfig('04 A:B-,C+'));
+  expect(r).toBeNull();
 });
 
-test('gothic format: more than 8 positions throws', async ({ page }) => {
-  const threw = await page.evaluate(() => {
-    try { parseGothicFormat('start_pos="1,2,3,4,5,6,7,8,9"'); return false; } catch { return true; }
-  });
-  expect(threw).toBe(true);
+test('gothic format: more than 8 positions is rejected', async ({ page }) => {
+  // a 9-digit run cannot be a valid positions field → no config recognised
+  const r = await page.evaluate(() => parseImportConfig('123456789 A:B-'));
+  expect(r).toBeNull();
 });
 
 // ── Complex export / round-trip scenarios ─────────────────────────────────────
