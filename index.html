@@ -2304,6 +2304,28 @@ document.getElementById('btn-export').addEventListener('click', (e) => {
   copyToClipboard(data, json ? 'toast-copied-json' : 'toast-copied');
 });
 
+/** Parse only the rule half of the notation, e.g. "A:B-,C+;D:E-", into
+ *  a { [SRC letter]: [{targetId, direction, steps}] } map. Case/space tolerant. */
+function parseRules(str) {
+  const depMap = {};
+  for (const token of str.split(';')) {
+    const m = token.trim().match(/([A-H])\s*:\s*(.+)$/i);
+    if (!m) continue;
+    const src = m[1].toUpperCase();
+    if (!depMap[src]) depMap[src] = [];
+    for (const part of m[2].split(',')) {
+      const pm = part.trim().match(/^([A-H])\s*([+\-])$/i);
+      if (!pm) continue;
+      depMap[src].push({
+        targetId: pm[1].toUpperCase().charCodeAt(0) - 64,
+        direction: pm[2] === '+' ? 'same' : 'opposite',
+        steps: 1,
+      });
+    }
+  }
+  return depMap;
+}
+
 /**
  * Parse Gothic INI entry or informal share format into a plates array.
  *
@@ -2355,22 +2377,7 @@ function parseGothicFormat(raw) {
     .replace(/"/g, '');
 
   // ── 5. Parse dependency rules ────────────────────────────────────────────
-  const depMap = {};
-  for (const token of rulesStr.split(';')) {
-    const m = token.trim().match(/([A-H])\s*:\s*(.+)$/i);
-    if (!m) continue;
-    const src = m[1].toUpperCase();
-    if (!depMap[src]) depMap[src] = [];
-    for (const part of m[2].split(',')) {
-      const pm = part.trim().match(/^([A-H])\s*([+\-])$/i);
-      if (!pm) continue;
-      depMap[src].push({
-        targetId: pm[1].toUpperCase().charCodeAt(0) - 64,
-        direction: pm[2] === '+' ? 'same' : 'opposite',
-        steps: 1,
-      });
-    }
-  }
+  const depMap = parseRules(rulesStr);
 
   // ── 6. Determine cell count ───────────────────────────────────────────────
   const allLetters = new Set(Object.keys(depMap));
@@ -2401,19 +2408,8 @@ function parseGothicFormat(raw) {
   });
 }
 
-/** Parse JSON or gothic-format text into a validated plates array, or null if invalid. */
-function parseImportConfig(rawText) {
-  const text = rawText.trim();
-  let plates;
-  try {
-    plates = JSON.parse(text);
-  } catch {
-    try {
-      plates = parseGothicFormat(text);
-    } catch {
-      return null;
-    }
-  }
+/** Universal config invariants — one place, shared by every parser via the registry. */
+function validatePlates(plates) {
   if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) return null;
 
   const positions0 = plates[0]?.positions;
@@ -2441,6 +2437,22 @@ function parseImportConfig(rawText) {
     }
   }
   return plates;
+}
+
+/** Parse JSON or gothic-format text into a validated plates array, or null if invalid. */
+function parseImportConfig(rawText) {
+  const text = rawText.trim();
+  let plates;
+  try {
+    plates = JSON.parse(text);
+  } catch {
+    try {
+      plates = parseGothicFormat(text);
+    } catch {
+      return null;
+    }
+  }
+  return validatePlates(plates);
 }
 
 /** Does the text look like a full importable config (rules / keys / JSON) vs. bare digits? */
