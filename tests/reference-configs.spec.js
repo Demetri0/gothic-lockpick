@@ -64,7 +64,7 @@ test.describe('reference: 3055665 A:C+,D+;B:A-,E-,G+;D:B-;E:D-;F:B-;G:A+,B-', ()
   test('the known solution replays to all-centered without blocking', async ({ page }) => {
     // Validates the reference data itself, independent of the solver
     const result = await page.evaluate(({ cfg, steps }) => {
-      const plates = parseImportConfig(cfg);
+      const plates = parseConfig(cfg);
       for (const step of steps) {
         const { plateId, dir, steps: n } = parseNotation(step);
         for (let i = 0; i < n; i++) {
@@ -125,7 +125,7 @@ test.describe('reference: 040615 A:C-;B:C+,D-;D:E-,C+;E:F-;F:E+,B- (unlockmyloot
   test("the site's published solution replays to all-centered in our engine", async ({ page }) => {
     // Independent cross-validation: two solvers agree on the physics of this lock
     const result = await page.evaluate(({ cfg, steps }) => {
-      const plates = parseImportConfig(cfg);
+      const plates = parseConfig(cfg);
       for (const step of steps) {
         const { plateId, dir, steps: n } = parseNotation(step);
         for (let i = 0; i < n; i++) {
@@ -140,7 +140,7 @@ test.describe('reference: 040615 A:C-;B:C+,D-;D:E-,C+;E:F-;F:E+,B- (unlockmyloot
 
   test('our grouped solver matches the site: 41 keypresses in 11 groups', async ({ page }) => {
     const res = await page.evaluate((cfg) => {
-      const sol = bfsSolveGrouped(parseImportConfig(cfg)).solution;
+      const sol = bfsSolveGrouped(parseConfig(cfg)).solution;
       return { sol, groups: sol.length, raw: sol.reduce((a, s) => a + parseNotation(s).steps, 0) };
     }, CONFIG);
     expect(res.raw).toBe(41);
@@ -176,7 +176,7 @@ test.describe('reference: 252666 B:A+,E-,F-;C:B+;D:A+,B-;E:A+,F- (unlockmyloot.c
 
   test("the site's published solution replays to all-centered in our engine", async ({ page }) => {
     const result = await page.evaluate(({ cfg, steps }) => {
-      const plates = parseImportConfig(cfg);
+      const plates = parseConfig(cfg);
       for (const step of steps) {
         const { plateId, dir, steps: n } = parseNotation(step);
         for (let i = 0; i < n; i++) {
@@ -191,7 +191,7 @@ test.describe('reference: 252666 B:A+,E-,F-;C:B+;D:A+,B-;E:A+,F- (unlockmyloot.c
 
   test('our solver matches the site optimum: 56 keypresses in 12 groups', async ({ page }) => {
     const res = await page.evaluate((cfg) => {
-      const sol = bfsSolveGrouped(parseImportConfig(cfg)).solution;
+      const sol = bfsSolveGrouped(parseConfig(cfg)).solution;
       return { sol, groups: sol.length, raw: sol.reduce((a, s) => a + parseNotation(s).steps, 0) };
     }, CONFIG);
     expect(res.raw).toBe(56);
@@ -228,7 +228,7 @@ test.describe('reference: 32614 A:B-,C-;B:A+,D-;C:A-,B+,D+;D:A-,E+;E:C- (unlockm
 
   test("the site's published solution replays to all-centered in our engine", async ({ page }) => {
     const result = await page.evaluate(({ cfg, steps }) => {
-      const plates = parseImportConfig(cfg);
+      const plates = parseConfig(cfg);
       for (const step of steps) {
         const { plateId, dir, steps: n } = parseNotation(step);
         for (let i = 0; i < n; i++) {
@@ -243,7 +243,7 @@ test.describe('reference: 32614 A:B-,C-;B:A+,D-;C:A-,B+,D+;D:A-,E+;E:C- (unlockm
 
   test('our solver matches the site optimum: 30 keypresses in 9 groups', async ({ page }) => {
     const res = await page.evaluate((cfg) => {
-      const sol = bfsSolveGrouped(parseImportConfig(cfg)).solution;
+      const sol = bfsSolveGrouped(parseConfig(cfg)).solution;
       return { sol, groups: sol.length, raw: sol.reduce((a, s) => a + parseNotation(s).steps, 0) };
     }, CONFIG);
     expect(res.raw).toBe(30);

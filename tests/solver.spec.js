@@ -98,7 +98,7 @@ test.describe('bfsSolveGrouped', () => {
 
   test('site config: minimal 41 keypresses in the optimal 11 groups', async ({ page }) => {
     const res = await page.evaluate((cfg) => {
-      const sol = bfsSolveGrouped(parseImportConfig(cfg)).solution;
+      const sol = bfsSolveGrouped(parseConfig(cfg)).solution;
       return { groups: sol.length, raw: sol.reduce((a, s) => a + parseNotation(s).steps, 0) };
     }, SITE_CFG);
     // 41 keypresses and 11 groups are both externally verified optima
@@ -108,7 +108,7 @@ test.describe('bfsSolveGrouped', () => {
 
   test('in-game reference: minimal 23 keypresses in the optimal 8 groups', async ({ page }) => {
     const res = await page.evaluate((cfg) => {
-      const sol = bfsSolveGrouped(parseImportConfig(cfg)).solution;
+      const sol = bfsSolveGrouped(parseConfig(cfg)).solution;
       return { groups: sol.length, raw: sol.reduce((a, s) => a + parseNotation(s).steps, 0) };
     }, REF1_CFG);
     expect(res.raw).toBe(23);

@@ -1970,7 +1970,6 @@ function parseConfig(str) {
   }
   return null;
 }
-const parseImportConfig = parseConfig;      // keep the existing public name for callers/tests
 
 /** A paste auto-imports iff it parses to a fully valid config. */
 function looksLikeImportConfig(text) {
@@ -2520,7 +2519,7 @@ function applyPlates(plates) {
 }
 
 function applyImportedConfig(rawText) {
-  const plates = parseImportConfig(rawText);
+  const plates = parseConfig(rawText);
   if (!plates) { showToast(t('toast-invalid'), 'error'); return; }
   applyPlates(plates);
   showToast(t('toast-applied'));

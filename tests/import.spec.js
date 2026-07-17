@@ -355,13 +355,13 @@ test('gothic format: plates with no rules produce empty deps', async ({ page }) 
 
 test('gothic format: fewer positions than rule letters is rejected', async ({ page }) => {
   // 2 positions but rules mention A, B, C → dep targetId out of range → validatePlates rejects
-  const r = await page.evaluate(() => parseImportConfig('04 A:B-,C+'));
+  const r = await page.evaluate(() => parseConfig('04 A:B-,C+'));
   expect(r).toBeNull();
 });
 
 test('gothic format: more than 8 positions is rejected', async ({ page }) => {
   // a 9-digit run cannot be a valid positions field → no config recognised
-  const r = await page.evaluate(() => parseImportConfig('123456789 A:B-'));
+  const r = await page.evaluate(() => parseConfig('123456789 A:B-'));
   expect(r).toBeNull();
 });
 
@@ -423,7 +423,7 @@ test('8-plate Gothic export round-trips a dependency on plate H', async ({ page 
   const ok = await page.evaluate(() => {
     const plates = Array.from({ length: 8 }, (_, i) => ({ id: i + 1, positions: 7, currentPos: 4, deps: [] }));
     plates[0].deps.push({ targetId: 8, direction: 'opposite', steps: 1 }); // A -> H opposite
-    const parsed = parseImportConfig(gothic.serialize(plates));
+    const parsed = parseConfig(gothic.serialize(plates));
     const p1 = parsed && parsed.find(p => p.id === 1);
     return !!p1 && p1.deps.some(d => d.targetId === 8 && d.direction === 'opposite');
   });
