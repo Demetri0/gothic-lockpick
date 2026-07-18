@@ -3621,6 +3621,20 @@ function buildUserEdges(plates) {
   return edges;
 }
 
+/** Exact structural match against the DB: same plate count, positions and edges. */
+function findIdenticalChest(plates) {
+  if (!chestDb) return null;
+  const userEdges = buildUserEdges(plates);
+  return chestDb.entries.find(entry => {
+    if (entry.pos.length !== plates.length) return false;
+    if (!entry.pos.every((p, i) => p === plates[i].currentPos - 1)) return false;
+    const e = entryEdges(entry);
+    if (e.size !== userEdges.size) return false;
+    for (const [k, v] of userEdges) if (e.get(k) !== v) return false;
+    return true;
+  }) || null;
+}
+
 /** Count consecutive leading positions where entry.pos matches user0 (0-based). */
 function leadingMatchLength(entryPos, user0) {
   const n = Math.min(entryPos.length, user0.length);

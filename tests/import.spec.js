@@ -315,3 +315,18 @@ test('8-plate Gothic export round-trips a dependency on plate H', async ({ page 
   });
   expect(ok).toBe(true);
 });
+
+// ── Import preview: identical-lock lookup ────────────────────────────────────
+
+test('findIdenticalChest returns the entry whose positions and edges match exactly', async ({ page }) => {
+  const res = await page.evaluate(async () => {
+    await chestSearchReady;
+    const entry = chestDb.entries[0];
+    const plates = entryToPlates(entry);
+    const hit = findIdenticalChest(plates);
+    const bumped = plates.map((p, i) => i === 0 ? { ...p, currentPos: (p.currentPos % 7) + 1 } : p);
+    return { sameEntry: hit === entry, missIsNull: findIdenticalChest(bumped) === null };
+  });
+  expect(res.sameEntry).toBe(true);
+  expect(res.missIsNull).toBe(true);
+});
