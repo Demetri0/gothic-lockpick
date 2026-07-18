@@ -83,6 +83,7 @@ body {
 .mini-cell[data-dep="opposite"] { background: #7a3a3a; }
 .mini-cell[data-dep="none"] { background: var(--bg-inset); }
 .mini-cell .dep-icon { width: 10px; height: 8px; }
+.import-card { display: flex; gap: 12px; align-items: flex-start; justify-content: center; margin: 6px 0 14px; }
 @container (max-width: 360px) {
   .dep-full { display: none; }
   .dep-short { display: inline-flex; align-items: center; justify-content: center; }
@@ -1461,8 +1462,6 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Импорт',
     'dialog-import-body': 'Применить конфигурацию из буфера обмена?',
     'import-found-in-db': 'Найдено в базе:',
-    'import-variant-icons': 'Иконки',
-    'import-variant-color': 'Цвет',
     'dialog-cancel': 'Отмена',     'dialog-ok': 'Применить',
     'overlay-cancel': 'Отмена',
     'plate': 'Элемент',           'dir-left': 'Влево',       'dir-right': 'Вправо',
@@ -1510,8 +1509,6 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Import',
     'dialog-import-body': 'Apply config from clipboard?',
     'import-found-in-db': 'Found in database:',
-    'import-variant-icons': 'Icons',
-    'import-variant-color': 'Colour',
     'dialog-cancel': 'Cancel',     'dialog-ok': 'Apply',
     'overlay-cancel': 'Cancel',
     'plate': 'Plate',            'dir-left': 'Left',        'dir-right': 'Right',
@@ -1559,8 +1556,6 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Імпорт',
     'dialog-import-body': 'Застосувати конфіг з буфера обміну?',
     'import-found-in-db': 'Знайдено в базі:',
-    'import-variant-icons': 'Іконки',
-    'import-variant-color': 'Колір',
     'dialog-cancel': 'Скасувати',  'dialog-ok': 'Застосувати',
     'overlay-cancel': 'Скасувати',
     'plate': 'Елемент',           'dir-left': 'Ліворуч',     'dir-right': 'Праворуч',
@@ -1852,10 +1847,7 @@ function depMatrixHTML(plates, renderCell) {
   return `<div class="mini-matrix" data-test-id="mini-matrix" style="--n:${plates.length}">${rows}</div>`;
 }
 
-/** Colour variant: the look is CSS on [data-dep]; no inner content. */
-function depCellColorHTML() { return ''; }
-
-/** Icon variant: reuse the directed-dependency glyph for linked cells. */
+/** Cell renderer: the directed-dependency glyph for linked cells, nothing otherwise. */
 function depCellIconHTML(dir) { return dir === 'same' || dir === 'opposite' ? depDirIcon(dir) : ''; }
   </script>
   <script id="codecs">
@@ -2688,20 +2680,15 @@ document.getElementById('import-dialog').addEventListener('close', () => {
   clearImportPreview();
 });
 
-function importVariantCard(labelKey, plates, renderCell) {
-  return `<div class="import-variant" data-test-id="${labelKey}">`
-    + `<div class="import-variant-label">${t(labelKey)}</div>`
-    + `<div class="sr-preview">${posStripHTML(plates.map(p => p.currentPos - 1), labelKey)}</div>`
-    + depMatrixHTML(plates, renderCell)
-    + `</div>`;
-}
-
-/** Fill #import-preview with the pending config (both matrix variants) + an identical-lock card. */
+/** Fill #import-preview with the pending config (positions + dep matrix, side by side)
+ *  and, when the DB has it, an identical-lock card. */
 function renderImportPreview(plates) {
   const box = document.getElementById('import-preview');
   if (!plates) { box.innerHTML = ''; return; }
-  let html = importVariantCard('import-variant-icons', plates, depCellIconHTML)
-           + importVariantCard('import-variant-color', plates, depCellColorHTML);
+  let html = `<div id="import-card" data-test-id="import-card" class="import-card">`
+    + `<div class="sr-preview">${posStripHTML(plates.map(p => p.currentPos - 1), 'import')}</div>`
+    + depMatrixHTML(plates, depCellIconHTML)
+    + `</div>`;
   const hit = findIdenticalChest(plates);
   if (hit) html += `<div class="import-found-label">${t('import-found-in-db')}</div>`
                  + `<div id="import-found" data-test-id="import-found">${buildResultCard(hit, 'found')}</div>`;

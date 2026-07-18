@@ -29,10 +29,10 @@ const cfg = () => ([
   { id: 3, positions: 7, currentPos: 2, deps: [] },
 ]);
 
-test('depMatrixHTML marks self/same/opposite/none per cell (colour variant)', async ({ page }) => {
+test('depMatrixHTML marks self/same/opposite/none per cell', async ({ page }) => {
   const cells = await page.evaluate((p) => {
     const el = document.createElement('div');
-    el.innerHTML = depMatrixHTML(p, depCellColorHTML);
+    el.innerHTML = depMatrixHTML(p, depCellIconHTML);
     const dep = (r, c) => el.querySelector(`[data-test-id="mini-cell-${r}-${c}"]`).dataset.dep;
     return { c00: dep(0, 0), c01: dep(0, 1), c12: dep(1, 2), c02: dep(0, 2) };
   }, cfg());

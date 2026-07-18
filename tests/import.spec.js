@@ -331,12 +331,12 @@ test('findIdenticalChest returns the entry whose positions and edges match exact
   expect(res.missIsNull).toBe(true);
 });
 
-test('the import dialog previews the pending config (both matrix variants)', async ({ page }) => {
+test('the import dialog previews the pending config (positions + dep matrix)', async ({ page }) => {
   await page.evaluate(() => openImportDialog('040615 A:B-,C+;D:E-'));
   await expect(page.getByTestId('import-preview')).toBeVisible();
-  await expect(page.getByTestId('import-variant-icons')).toBeVisible();
-  await expect(page.getByTestId('import-variant-color')).toBeVisible();
-  await expect(page.getByTestId('import-variant-color').locator('[data-test-id="mini-matrix"]')).toBeVisible();
+  await expect(page.getByTestId('import-card')).toBeVisible();
+  await expect(page.getByTestId('import-card').getByTestId('mini-matrix')).toBeVisible();
+  await expect(page.getByTestId('import-card').getByTestId('import-plate-0')).toBeVisible();
 });
 
 test('the import dialog shows a found-in-DB card for an identical lock', async ({ page }) => {
