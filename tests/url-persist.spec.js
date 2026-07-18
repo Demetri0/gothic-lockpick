@@ -126,3 +126,35 @@ test('opening ?lock=..&solve lands on the solve stage and keeps the flag', async
   await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
   await expect(page).toHaveURL(/&solve/);   // load must not clobber the flag
 });
+
+test('the in-app Back button returns to config and drops &solve from the URL', async ({ page }) => {
+  await page.goto('/');
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await page.getByTestId('btn-back').click();
+  await expect(page.getByTestId('stage-config')).toBeVisible();
+  await expect(page).toHaveURL(/\?lock=/);
+  expect(new URL(page.url()).searchParams.has('solve')).toBe(false);
+});
+
+test('stepping through the solution does not change the URL', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() => openImportDialog('040615 A:B-,C+;D:E-'));   // has a real solution
+  await page.getByTestId('import-dialog-ok').click();
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  const atSolve = page.url();
+  await page.getByTestId('btn-step').click();
+  await page.getByTestId('btn-step').click();
+  expect(page.url()).toBe(atSolve);   // playback moves plates but must not touch the URL
+});
+
+test('browser Forward after Back re-enters the solve stage', async ({ page }) => {
+  await page.goto('/');
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await page.goBack();
+  await expect(page.getByTestId('stage-config')).toBeVisible();
+  await page.goForward();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+});

@@ -2073,8 +2073,18 @@ function urlApplyOnLoad() {
 /** Sync the view to the current URL after a browser Back/Forward (popstate). */
 function urlReconcile() {
   const r = urlReadConfig();
-  const wantSolve = !!(r && r.wantSolve);
-  if (!wantSolve && state.stage !== 'config') switchToConfig();
+  syncingFromUrl = true;
+  try {
+    if (!r) { if (state.stage !== 'config') switchToConfig(); return; }
+    // If we landed on an entry carrying a different lock, swap the config in first.
+    const base = state.stage === 'solve' ? solveStartPositions : state.plates;
+    if (Codecs.dotted.serialize(r.plates) !== Codecs.dotted.serialize(base)) {
+      if (state.stage !== 'config') switchToConfig();
+      applyPlates(r.plates);
+    }
+    if (r.wantSolve) { if (state.stage !== 'solve') startSolve(false); }
+    else if (state.stage !== 'config') switchToConfig();
+  } finally { syncingFromUrl = false; }
 }
   </script>
   <script id="config">
@@ -2937,7 +2947,10 @@ function addExploreMove(plateId, dir) {
 function wireSolveHandlers() {
   wire3dButtons('btn-expand-3d-solve', 'btn-toggle-3d-solve', '#stage-solve .panel-right');
 
-  document.getElementById('btn-back').addEventListener('click', switchToConfig);
+  document.getElementById('btn-back').addEventListener('click', () => {
+    switchToConfig();
+    urlPush(state.plates, 'config');   // solve→config navigation: new entry, drops &solve
+  });
   document.getElementById('btn-prev').addEventListener('click', solveStepBack);
   document.getElementById('btn-step').addEventListener('click', solveStepForward);
 
