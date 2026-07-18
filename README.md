@@ -241,6 +241,8 @@ game-logic    applyMove(), getBlockingPlateId(), flashBlockedPlate()
 render         buildScene(), updateScene(), posToOffsetX() (3D-сцена)
 codecs        Codecs = {json,gothic,dotted,bytearray}; глобали-фасад:
               validatePlates(), PARSERS, parseConfig(), looksLikeImportConfig()
+url           Шаримый ?lock=<dotted>[&solve]: urlQueryFor/urlReadConfig (чистые),
+              urlReplace/urlPush, urlApplyOnLoad, urlReconcile (popstate)
 config        Барабан позиций (posSetPlateValue — единая точка смены позиции:
               ввод/±/стрелки/колесо/клик по дырке), матрица (renderMatrix,
               depCellHTML), импорт/экспорт, рандомизация

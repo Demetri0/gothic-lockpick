@@ -2019,6 +2019,74 @@ function looksLikeImportConfig(text) {
   return parseConfig(text) !== null;
 }
   </script>
+  <script id="url">
+// ── url — Shareable config in the query string (?lock=<dotted>[&solve]) ──────
+// URL is the single source of truth; history.state stays null. urlQueryFor /
+// urlReadConfig are pure (config passed in) so they test without the DOM.
+const LOCK_PARAM = 'lock', SOLVE_PARAM = 'solve';
+
+/** Build the query string for a config + stage, or null if not representable. */
+function urlQueryFor(plates, stage) {
+  const s = Codecs.dotted.serialize(plates);
+  if (!s) return null;
+  return '?' + LOCK_PARAM + '=' + encodeURIComponent(s) + (stage === 'solve' ? '&' + SOLVE_PARAM : '');
+}
+
+/** Parse a query string into { plates, wantSolve }, or null if there's no valid lock. */
+function urlReadConfig(search = location.search) {
+  const q = new URLSearchParams(search);
+  const raw = q.get(LOCK_PARAM);
+  if (!raw) return null;
+  const plates = validatePlates(Codecs.dotted.parse(raw));
+  return plates ? { plates, wantSolve: q.has(SOLVE_PARAM) } : null;
+}
+
+// True while applying the URL (load / popstate) so the mutation hooks below
+// don't write the history back and loop.
+let syncingFromUrl = false;
+
+/** Persist a config + stage into the URL in place (no new history entry). */
+function urlReplace(plates, stage) {
+  if (syncingFromUrl) return;
+  const q = urlQueryFor(plates, stage);
+  if (q) history.replaceState(null, '', q);
+}
+
+/** Persist a config + stage as a NEW history entry (config↔solve navigation). */
+function urlPush(plates, stage) {
+  if (syncingFromUrl) return;
+  const q = urlQueryFor(plates, stage);
+  if (q) history.pushState(null, '', q);
+}
+
+/** Apply the config from the URL (if any) on startup. Silent — no import dialog. */
+function urlApplyOnLoad() {
+  const r = urlReadConfig();
+  if (!r) return;              // no/invalid lock → keep the default config
+  syncingFromUrl = true;
+  try { applyPlates(r.plates); } finally { syncingFromUrl = false; }
+  // The solver worker (and resetProgress) live in a later block; wait for `load`
+  // so every block has executed before we kick off the solve.
+  if (r.wantSolve) addEventListener('load', () => startSolve(false), { once: true });
+}
+
+/** Sync the view to the current URL after a browser Back/Forward (popstate). */
+function urlReconcile() {
+  const r = urlReadConfig();
+  syncingFromUrl = true;
+  try {
+    if (!r) { if (state.stage !== 'config') switchToConfig(); return; }
+    // If we landed on an entry carrying a different lock, swap the config in first.
+    const base = state.stage === 'solve' ? solveStartPositions : state.plates;
+    if (Codecs.dotted.serialize(r.plates) !== Codecs.dotted.serialize(base)) {
+      if (state.stage !== 'config') switchToConfig();
+      applyPlates(r.plates);
+    }
+    if (r.wantSolve) { if (state.stage !== 'solve') startSolve(false); }
+    else if (state.stage !== 'config') switchToConfig();
+  } finally { syncingFromUrl = false; }
+}
+  </script>
   <script id="config">
 // ── config — Config screen UI ─────────────────────────────────────────────────
 
@@ -2223,6 +2291,7 @@ function posSetPlateValue(id, d) {
   if (inc) inc.disabled = plate.currentPos >= plate.positions;
   updateScene('scene-config-inner', state.plates, state.activePlate);
   renderChestHints();
+  urlReplace(state.plates, 'config');
 }
 
 /** Rebuild after a structural change (N changed), then run an optional focus callback. */
@@ -2235,6 +2304,7 @@ function posStructuralUpdate(afterFocus) {
   if (afterFocus) afterFocus();
   updateMatrixActive();
   updateScene('scene-config-inner', state.plates, state.activePlate);
+  urlReplace(state.plates, 'config');
 }
 
 /** Append a plate (value d), keep typing-focus on the ghost (or the new last plate at max). */
@@ -2480,6 +2550,7 @@ function wireConfigHandlers() {
     }
     state.cachedSolution = null;
     renderChestHints();   // deps affect hint ranking + rule-line colors
+    urlReplace(state.plates, 'config');
   }
 
   // Delegated: dep cells (LMB — forward, RMB — reverse)
@@ -2500,20 +2571,7 @@ function wireConfigHandlers() {
     cycleDepCell(btn, plate, parseInt(btn.dataset.to), true);
   });
 
-  document.getElementById('btn-start').addEventListener('click', () => {
-    if (state.cachedSolution !== null) {
-      state.solution = state.cachedSolution;
-      state.solverStep = 0;
-      switchToSolve();
-      return;
-    }
-    const btn = document.getElementById('btn-start');
-    btn.disabled = true;
-    btn.textContent = '...';
-    resetProgress();
-    document.getElementById('computing-overlay').classList.add('active');
-    worker.postMessage({ type: 'solve', plates: state.plates, solveId: ++solveId });
-  });
+  document.getElementById('btn-start').addEventListener('click', () => startSolve(true));
 }
 document.getElementById('btn-export').addEventListener('click', (e) => {
   const asJson = e.shiftKey;   // (don't shadow the `json` parser)
@@ -2530,6 +2588,7 @@ function applyPlates(plates) {
   renderMatrix();
   buildScene('scene-config-inner', state.plates);
   updateScene('scene-config-inner', state.plates, state.activePlate);
+  urlReplace(state.plates, 'config');
 }
 
 function applyImportedConfig(rawText) {
@@ -2634,7 +2693,27 @@ document.getElementById('btn-import').addEventListener('click', async () => {
 /** Snapshot of plate positions at the start of the solve stage */
 let solveStartPositions = [];
 
-function switchToSolve() {
+// Enter the solve stage (async via the worker unless the solution is cached).
+// `push` controls whether the config→solve navigation adds a history entry:
+// true for the Solve button, false when arriving from the URL / Back-Forward.
+let solvePush = true;
+function startSolve(push) {
+  solvePush = push;
+  if (state.cachedSolution !== null) {
+    state.solution = state.cachedSolution;
+    state.solverStep = 0;
+    switchToSolve(push);
+    return;
+  }
+  const btn = document.getElementById('btn-start');
+  btn.disabled = true;
+  btn.textContent = '...';
+  resetProgress();
+  document.getElementById('computing-overlay').classList.add('active');
+  worker.postMessage({ type: 'solve', plates: state.plates, solveId: ++solveId });
+}
+
+function switchToSolve(push = true) {
   if (state.autoInterval) { clearInterval(state.autoInterval); state.autoInterval = null; }
   solveStartPositions = state.plates.map(p => ({ ...p, deps: p.deps.slice() }));
 
@@ -2654,6 +2733,9 @@ function switchToSolve() {
   buildScene('scene-solve-inner', state.plates);
   renderSolvePanel();
   updateScene('scene-solve-inner', state.plates, state.activePlate);
+  // Push a new history entry for the config→solve navigation; lock stays the
+  // initial config (solveStartPositions), never the mutated playback positions.
+  if (push) urlPush(solveStartPositions, 'solve');
 }
 
 function switchToConfig() {
@@ -2865,7 +2947,10 @@ function addExploreMove(plateId, dir) {
 function wireSolveHandlers() {
   wire3dButtons('btn-expand-3d-solve', 'btn-toggle-3d-solve', '#stage-solve .panel-right');
 
-  document.getElementById('btn-back').addEventListener('click', switchToConfig);
+  document.getElementById('btn-back').addEventListener('click', () => {
+    switchToConfig();
+    urlPush(state.plates, 'config');   // solve→config navigation: new entry, drops &solve
+  });
   document.getElementById('btn-prev').addEventListener('click', solveStepBack);
   document.getElementById('btn-step').addEventListener('click', solveStepForward);
 
@@ -3107,6 +3192,10 @@ function init() {
   renderMatrix();
   buildScene('scene-config-inner', state.plates);
   updateScene('scene-config-inner', state.plates, state.activePlate);
+
+  // A ?lock=<dotted> in the URL overrides the default config (silent apply).
+  urlApplyOnLoad();
+  window.addEventListener('popstate', urlReconcile);
 }
 
 init();
@@ -3249,7 +3338,7 @@ function onWorkerMessage({ data }) {
     state.solution = data.solution;
     state.cachedSolution = data.solution;
     state.solverStep = 0;
-    switchToSolve();
+    switchToSolve(solvePush);
   }
 }
 
