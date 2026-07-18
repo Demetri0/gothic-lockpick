@@ -2040,6 +2040,19 @@ function urlReadConfig(search = location.search) {
   const plates = validatePlates(Codecs.dotted.parse(raw));
   return plates ? { plates, wantSolve: q.has(SOLVE_PARAM) } : null;
 }
+
+/** Persist a config + stage into the URL in place (no new history entry). */
+function urlReplace(plates, stage) {
+  const q = urlQueryFor(plates, stage);
+  if (q) history.replaceState(null, '', q);
+}
+
+/** Apply the config from the URL (if any) on startup. Silent — no import dialog. */
+function urlApplyOnLoad() {
+  const r = urlReadConfig();
+  if (!r) return;              // no/invalid lock → keep the default config
+  applyPlates(r.plates);
+}
   </script>
   <script id="config">
 // ── config — Config screen UI ─────────────────────────────────────────────────
@@ -2245,6 +2258,7 @@ function posSetPlateValue(id, d) {
   if (inc) inc.disabled = plate.currentPos >= plate.positions;
   updateScene('scene-config-inner', state.plates, state.activePlate);
   renderChestHints();
+  urlReplace(state.plates, 'config');
 }
 
 /** Rebuild after a structural change (N changed), then run an optional focus callback. */
@@ -2257,6 +2271,7 @@ function posStructuralUpdate(afterFocus) {
   if (afterFocus) afterFocus();
   updateMatrixActive();
   updateScene('scene-config-inner', state.plates, state.activePlate);
+  urlReplace(state.plates, 'config');
 }
 
 /** Append a plate (value d), keep typing-focus on the ghost (or the new last plate at max). */
@@ -2502,6 +2517,7 @@ function wireConfigHandlers() {
     }
     state.cachedSolution = null;
     renderChestHints();   // deps affect hint ranking + rule-line colors
+    urlReplace(state.plates, 'config');
   }
 
   // Delegated: dep cells (LMB — forward, RMB — reverse)
@@ -2552,6 +2568,7 @@ function applyPlates(plates) {
   renderMatrix();
   buildScene('scene-config-inner', state.plates);
   updateScene('scene-config-inner', state.plates, state.activePlate);
+  urlReplace(state.plates, 'config');
 }
 
 function applyImportedConfig(rawText) {
@@ -3129,6 +3146,9 @@ function init() {
   renderMatrix();
   buildScene('scene-config-inner', state.plates);
   updateScene('scene-config-inner', state.plates, state.activePlate);
+
+  // A ?lock=<dotted> in the URL overrides the default config (silent apply).
+  urlApplyOnLoad();
 }
 
 init();

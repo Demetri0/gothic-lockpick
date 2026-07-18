@@ -38,3 +38,64 @@ test('urlReadConfig returns null for a malformed lock and for an absent one', as
   expect(r.empty).toBeNull();
   expect(r.none).toBeNull();
 });
+
+// ── Applying the URL on load ─────────────────────────────────────────────────
+
+test('opening ?lock=<dotted> applies that config on load', async ({ page }) => {
+  await page.goto('/?lock=3.531.saaoaa');   // 3 plates, positions 6/4/2
+  await expect(page.getByTestId('stage-config')).toBeVisible();
+  await expect(page.getByTestId('val-plates')).toHaveText('3');
+  await expect(page.getByTestId('pos-input-1')).toHaveValue('6');
+  await expect(page.getByTestId('pos-input-2')).toHaveValue('4');
+  await expect(page.getByTestId('pos-input-3')).toHaveValue('2');
+});
+
+test('a malformed ?lock is ignored, keeping the default config', async ({ page }) => {
+  await page.goto('/?lock=not-a-real-lock');
+  await expect(page.getByTestId('stage-config')).toBeVisible();
+  await expect(page.getByTestId('val-plates')).toHaveText('4');   // default plate count
+});
+
+// ── Live persistence of config edits ─────────────────────────────────────────
+
+test('a bare visit stays / until the first edit, which writes ?lock', async ({ page }) => {
+  await page.goto('/');
+  expect(new URL(page.url()).search).toBe('');   // default config does not touch the URL
+  await page.getByTestId('pos-inc-1').click();
+  await expect(page).toHaveURL(/\?lock=/);
+  // the written URL round-trips to the current live config
+  const matches = await page.evaluate(() => {
+    const r = urlReadConfig();
+    return !!r && r.plates.length === state.plates.length
+      && r.plates.every((p, i) => p.currentPos === state.plates[i].currentPos);
+  });
+  expect(matches).toBe(true);
+});
+
+test('toggling a dependency persists it into ?lock', async ({ page }) => {
+  await page.goto('/');
+  await page.getByTestId('dep-1-2').click();   // none → same
+  await expect(page).toHaveURL(/\?lock=/);
+  const hasDep = await page.evaluate(() =>
+    urlReadConfig().plates[0].deps.some(d => d.targetId === 2 && d.direction === 'same'));
+  expect(hasDep).toBe(true);
+});
+
+test('adding a plate persists the new count into ?lock', async ({ page }) => {
+  await page.goto('/');
+  await page.getByTestId('poslock-ghost-add').click();   // append a centred plate: 4 → 5
+  await expect(page.getByTestId('val-plates')).toHaveText('5');
+  await expect(page).toHaveURL(/\?lock=/);
+  const urlCount = await page.evaluate(() => urlReadConfig().plates.length);
+  expect(urlCount).toBe(5);
+});
+
+test('importing a config persists it into ?lock', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() => openImportDialog('040615 A:B-,C+;D:E-'));   // 6 plates
+  await page.getByTestId('import-dialog-ok').click();
+  await expect(page.getByTestId('val-plates')).toHaveText('6');
+  await expect(page).toHaveURL(/\?lock=/);
+  const urlCount = await page.evaluate(() => urlReadConfig().plates.length);
+  expect(urlCount).toBe(6);
+});
