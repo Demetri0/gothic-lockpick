@@ -3284,6 +3284,15 @@ function init() {
   // A ?lock=<dotted> in the URL overrides the default config (silent apply).
   urlApplyOnLoad();
   window.addEventListener('popstate', urlReconcile);
+
+  // Click on the ::backdrop (outside the content box) closes any modal dialog.
+  document.querySelectorAll('dialog').forEach(dlg => {
+    dlg.addEventListener('click', (e) => {
+      if (e.target !== dlg) return;   // clicks on content carry a descendant target
+      const r = dlg.getBoundingClientRect();
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dlg.close();
+    });
+  });
 }
 
 init();
@@ -3924,12 +3933,6 @@ function openSearchDialog() {
 document.getElementById('btn-search-db').addEventListener('click', openSearchDialog);
 document.getElementById('btn-search-close').addEventListener('click', () =>
   document.getElementById('search-dialog').close());
-
-// .search-dialog-inner covers the dialog's entire content box (dialog itself has
-// no padding/border), so target === dialog can only happen on a backdrop click.
-document.getElementById('search-dialog').addEventListener('click', (e) => {
-  if (e.target === e.currentTarget) e.currentTarget.close();
-});
 
 document.getElementById('search-input').addEventListener('input', (e) => {
   renderSearchResults(runChestSearch(e.target.value));
