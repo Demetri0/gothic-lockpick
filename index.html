@@ -1690,7 +1690,7 @@ function flashBlockedPlate(plateId, sceneId) {
   setTimeout(() => el.classList.remove('plate-blocked'), 250);
 }
 </script>
-  <script id="render">
+  <script id="render-scene">
 // ── render — 3D scene render ────────────────────────────────────────────────────
 
 /** Pixel offset per position step on a plate */
@@ -1793,6 +1793,19 @@ function updateScene(sceneId, plates, activePlateId) {
 
     el.classList.toggle('active', plate.id === activePlateId);
   }
+}
+  </script>
+  <script id="render-preview">
+// ── render-preview — pure read-only config visuals (plates → HTML) ──────────
+/** A row of 7 holes per plate, the active one filled. `positions0` is 0-based. */
+function posStripHTML(positions0, idPrefix) {
+  return positions0.map((p, row) => {
+    const holes = Array.from({ length: 7 }, (_, i) =>
+      `<span class="sr-hole${i === p ? ' active' : ''}"`
+      + ` data-test-id="${idPrefix}-hole-${row}-${i}" data-active="${i === p}"></span>`
+    ).join('');
+    return `<div class="sr-plate" data-test-id="${idPrefix}-plate-${row}">${holes}</div>`;
+  }).join('');
 }
   </script>
   <script id="codecs">
