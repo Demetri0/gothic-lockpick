@@ -75,15 +75,30 @@ body {
 
 .dep-short { display: none; }
 .dep-icon { display: block; }
-.mini-matrix { display: grid; grid-template-columns: repeat(var(--n), 12px); gap: 2px; }
-.mini-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--bg-inset);
+.mini-matrix { display: grid; grid-template-columns: repeat(var(--n), var(--cell)); gap: 2px;
+               cursor: default; }
+.mini-cell { width: var(--cell); height: var(--cell); border-radius: 2px; background: var(--bg-inset);
              display: flex; align-items: center; justify-content: center; }
-.mini-cell[data-dep="self"] { background: var(--border); }
+.mini-cell[data-dep="self"] { background: var(--bg-control); }
 .mini-cell[data-dep="same"] { background: #3f6f3f; }
 .mini-cell[data-dep="opposite"] { background: #7a3a3a; }
-.mini-cell[data-dep="none"] { background: var(--bg-inset); }
-.mini-cell .dep-icon { width: 10px; height: 8px; }
-.import-card { display: flex; gap: 12px; align-items: flex-start; justify-content: center; margin: 6px 0 14px; }
+.mini-cell[data-dep="none"] { background: var(--border); }
+.mini-cell .dep-icon { width: calc(var(--cell) * 0.82); height: auto; }
+.mini-dot { color: var(--text-dim); font-size: calc(var(--cell) * 0.8); line-height: 1; }
+.import-card { --cell: 18px; user-select: none;
+               display: flex; gap: 26px; align-items: flex-start; justify-content: center;
+               padding: 16px 20px 20px; margin: 14px 0 22px;
+               border: 1px solid var(--border); border-radius: 8px; background: var(--bg-inset); }
+@media (max-width: 480px) { .import-card { --cell: 12px; gap: 16px; padding: 12px 14px; } }
+.import-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.import-col-label { font-size: 0.6em; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-muted); }
+/* Match the dep matrix row height so positions and deps are the same height. */
+.import-card .sr-hole { width: var(--cell); height: var(--cell); }
+#import-preview:not(:empty) { margin-bottom: 26px; }
+.import-found-label { margin: 14px 0 4px; font-size: 0.75em; color: var(--text-muted); }
+/* The found-in-DB card is informational here, not a clickable search result. */
+#import-found .search-result { cursor: default; }
+#import-found .search-result:hover { border-color: var(--border); }
 @container (max-width: 360px) {
   .dep-full { display: none; }
   .dep-short { display: inline-flex; align-items: center; justify-content: center; }
@@ -1462,6 +1477,8 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Импорт',
     'dialog-import-body': 'Применить конфигурацию из буфера обмена?',
     'import-found-in-db': 'Найдено в базе:',
+    'import-label-positions': 'Позиции',
+    'import-label-deps': 'Связи',
     'dialog-cancel': 'Отмена',     'dialog-ok': 'Применить',
     'overlay-cancel': 'Отмена',
     'plate': 'Элемент',           'dir-left': 'Влево',       'dir-right': 'Вправо',
@@ -1509,6 +1526,8 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Import',
     'dialog-import-body': 'Apply config from clipboard?',
     'import-found-in-db': 'Found in database:',
+    'import-label-positions': 'Positions',
+    'import-label-deps': 'Dependencies',
     'dialog-cancel': 'Cancel',     'dialog-ok': 'Apply',
     'overlay-cancel': 'Cancel',
     'plate': 'Plate',            'dir-left': 'Left',        'dir-right': 'Right',
@@ -1556,6 +1575,8 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Імпорт',
     'dialog-import-body': 'Застосувати конфіг з буфера обміну?',
     'import-found-in-db': 'Знайдено в базі:',
+    'import-label-positions': 'Позиції',
+    'import-label-deps': "Зв'язки",
     'dialog-cancel': 'Скасувати',  'dialog-ok': 'Застосувати',
     'overlay-cancel': 'Скасувати',
     'plate': 'Елемент',           'dir-left': 'Ліворуч',     'dir-right': 'Праворуч',
@@ -1847,8 +1868,10 @@ function depMatrixHTML(plates, renderCell) {
   return `<div class="mini-matrix" data-test-id="mini-matrix" style="--n:${plates.length}">${rows}</div>`;
 }
 
-/** Cell renderer: the directed-dependency glyph for linked cells, nothing otherwise. */
-function depCellIconHTML(dir) { return dir === 'same' || dir === 'opposite' ? depDirIcon(dir) : ''; }
+/** Cell renderer: the directed-dependency glyph for linked cells, a dim dot for unlinked ones. */
+function depCellIconHTML(dir) {
+  return dir === 'same' || dir === 'opposite' ? depDirIcon(dir) : '<span class="mini-dot">·</span>';
+}
   </script>
   <script id="codecs">
 // ── codecs — Config format parse/serialize registry ────────────────────────
@@ -2685,9 +2708,10 @@ document.getElementById('import-dialog').addEventListener('close', () => {
 function renderImportPreview(plates) {
   const box = document.getElementById('import-preview');
   if (!plates) { box.innerHTML = ''; return; }
+  const posViz = `<div class="sr-preview">${posStripHTML(plates.map(p => p.currentPos - 1), 'import')}</div>`;
   let html = `<div id="import-card" data-test-id="import-card" class="import-card">`
-    + `<div class="sr-preview">${posStripHTML(plates.map(p => p.currentPos - 1), 'import')}</div>`
-    + depMatrixHTML(plates, depCellIconHTML)
+    + `<div class="import-col"><div class="import-col-label">${t('import-label-positions')}</div>${posViz}</div>`
+    + `<div class="import-col"><div class="import-col-label">${t('import-label-deps')}</div>${depMatrixHTML(plates, depCellIconHTML)}</div>`
     + `</div>`;
   const hit = findIdenticalChest(plates);
   if (hit) html += `<div class="import-found-label">${t('import-found-in-db')}</div>`
