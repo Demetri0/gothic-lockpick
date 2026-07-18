@@ -6,6 +6,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+- Modal dialogs (import, search, notation) now close on a click outside their content
+  (on the backdrop), matching the existing `Esc` behaviour.
+
 ## [1.3.0] - 2026-07-19
 
 ### Added
