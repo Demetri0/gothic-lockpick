@@ -2019,6 +2019,28 @@ function looksLikeImportConfig(text) {
   return parseConfig(text) !== null;
 }
   </script>
+  <script id="url">
+// ── url — Shareable config in the query string (?lock=<dotted>[&solve]) ──────
+// URL is the single source of truth; history.state stays null. urlQueryFor /
+// urlReadConfig are pure (config passed in) so they test without the DOM.
+const LOCK_PARAM = 'lock', SOLVE_PARAM = 'solve';
+
+/** Build the query string for a config + stage, or null if not representable. */
+function urlQueryFor(plates, stage) {
+  const s = Codecs.dotted.serialize(plates);
+  if (!s) return null;
+  return '?' + LOCK_PARAM + '=' + encodeURIComponent(s) + (stage === 'solve' ? '&' + SOLVE_PARAM : '');
+}
+
+/** Parse a query string into { plates, wantSolve }, or null if there's no valid lock. */
+function urlReadConfig(search = location.search) {
+  const q = new URLSearchParams(search);
+  const raw = q.get(LOCK_PARAM);
+  if (!raw) return null;
+  const plates = validatePlates(Codecs.dotted.parse(raw));
+  return plates ? { plates, wantSolve: q.has(SOLVE_PARAM) } : null;
+}
+  </script>
   <script id="config">
 // ── config — Config screen UI ─────────────────────────────────────────────────
 
