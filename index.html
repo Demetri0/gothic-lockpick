@@ -75,6 +75,14 @@ body {
 
 .dep-short { display: none; }
 .dep-icon { display: block; }
+.mini-matrix { display: grid; grid-template-columns: repeat(var(--n), 12px); gap: 2px; }
+.mini-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--bg-inset);
+             display: flex; align-items: center; justify-content: center; }
+.mini-cell[data-dep="self"] { background: var(--border); }
+.mini-cell[data-dep="same"] { background: #3f6f3f; }
+.mini-cell[data-dep="opposite"] { background: #7a3a3a; }
+.mini-cell[data-dep="none"] { background: var(--bg-inset); }
+.mini-cell .dep-icon { width: 10px; height: 8px; }
 @container (max-width: 360px) {
   .dep-full { display: none; }
   .dep-short { display: inline-flex; align-items: center; justify-content: center; }
@@ -1807,6 +1815,38 @@ function posStripHTML(positions0, idPrefix) {
     return `<div class="sr-plate" data-test-id="${idPrefix}-plate-${row}">${holes}</div>`;
   }).join('');
 }
+
+/** Directed-dependency glyph (same = both arrows one way, opposite = arrows apart). */
+function depDirIcon(s) {
+  const path = s === 'same'
+    ? 'M1 3h9m0 0L7 .5M10 3 7 5.5M4 8h9m0 0-3-2.5M13 8l-3 2.5'
+    : 'M14 3H5m0 0 3-2.5M5 3l3 2.5M1 8h9m0 0L7 5.5M10 8l-3 2.5';
+  return `<svg class="dep-icon" data-test-id="dep-icon" data-dep="${s}" width="17" height="13" viewBox="0 0 15 11" `
+       + `fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" `
+       + `aria-hidden="true"><path d="${path}"></path></svg>`;
+}
+
+/** Read-only N×N dependency grid; each non-diagonal cell delegates to renderCell(dir). */
+function depMatrixHTML(plates, renderCell) {
+  const dirOf = (from, to) => {
+    const d = plates[from].deps.find(x => x.targetId === plates[to].id);
+    return d ? d.direction : 'none';
+  };
+  const rows = plates.map((_, r) =>
+    plates.map((_, c) => {
+      const dep = r === c ? 'self' : dirOf(r, c);
+      const inner = r === c ? '' : renderCell(dep);
+      return `<span class="mini-cell" data-test-id="mini-cell-${r}-${c}" data-dep="${dep}">${inner}</span>`;
+    }).join('')
+  ).join('');
+  return `<div class="mini-matrix" data-test-id="mini-matrix" style="--n:${plates.length}">${rows}</div>`;
+}
+
+/** Colour variant: the look is CSS on [data-dep]; no inner content. */
+function depCellColorHTML() { return ''; }
+
+/** Icon variant: reuse the directed-dependency glyph for linked cells. */
+function depCellIconHTML(dir) { return dir === 'same' || dir === 'opposite' ? depDirIcon(dir) : ''; }
   </script>
   <script id="codecs">
 // ── codecs — Config format parse/serialize registry ────────────────────────
@@ -2107,16 +2147,6 @@ function urlReconcile() {
 function depCellTitle(s, from, to) {
   const key = s === 'same' ? 'dep-title-same' : s === 'opposite' ? 'dep-title-opposite' : 'dep-title-none';
   return t(key, { from, to });
-}
-
-/** Directed-dependency glyph (same = both arrows one way, opposite = arrows apart). */
-function depDirIcon(s) {
-  const path = s === 'same'
-    ? 'M1 3h9m0 0L7 .5M10 3 7 5.5M4 8h9m0 0-3-2.5M13 8l-3 2.5'
-    : 'M14 3H5m0 0 3-2.5M5 3l3 2.5M1 8h9m0 0L7 5.5M10 8l-3 2.5';
-  return `<svg class="dep-icon" data-test-id="dep-icon" data-dep="${s}" width="17" height="13" viewBox="0 0 15 11" `
-       + `fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" `
-       + `aria-hidden="true"><path d="${path}"></path></svg>`;
 }
 
 function depCellHTML(s) {

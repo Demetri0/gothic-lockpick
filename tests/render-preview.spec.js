@@ -22,3 +22,35 @@ test('posStripHTML emits one row per plate with the active hole marked', async (
   expect(info.a05).toBe('false');
   expect(info.a20).toBe('true');
 });
+
+const cfg = () => ([
+  { id: 1, positions: 7, currentPos: 6, deps: [{ targetId: 2, direction: 'same', steps: 1 }] },
+  { id: 2, positions: 7, currentPos: 4, deps: [{ targetId: 3, direction: 'opposite', steps: 1 }] },
+  { id: 3, positions: 7, currentPos: 2, deps: [] },
+]);
+
+test('depMatrixHTML marks self/same/opposite/none per cell (colour variant)', async ({ page }) => {
+  const cells = await page.evaluate((p) => {
+    const el = document.createElement('div');
+    el.innerHTML = depMatrixHTML(p, depCellColorHTML);
+    const dep = (r, c) => el.querySelector(`[data-test-id="mini-cell-${r}-${c}"]`).dataset.dep;
+    return { c00: dep(0, 0), c01: dep(0, 1), c12: dep(1, 2), c02: dep(0, 2) };
+  }, cfg());
+  expect(cells.c00).toBe('self');
+  expect(cells.c01).toBe('same');
+  expect(cells.c12).toBe('opposite');
+  expect(cells.c02).toBe('none');
+});
+
+test('depMatrixHTML icon variant renders a dep-icon in linked cells only', async ({ page }) => {
+  const r = await page.evaluate((p) => {
+    const el = document.createElement('div');
+    el.innerHTML = depMatrixHTML(p, depCellIconHTML);
+    return {
+      linkedIconDep: el.querySelector('[data-test-id="mini-cell-0-1"] [data-test-id="dep-icon"]').dataset.dep,
+      noneHasIcon: !!el.querySelector('[data-test-id="mini-cell-0-2"] [data-test-id="dep-icon"]'),
+    };
+  }, cfg());
+  expect(r.linkedIconDep).toBe('same');
+  expect(r.noneHasIcon).toBe(false);
+});
