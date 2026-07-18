@@ -6,7 +6,17 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-07-19
+
 ### Added
+- **Shareable lock URL.** The lock config persists in a `?lock=<dotted>` query string
+  (plus an optional `&solve`): opening a link applies it, editing updates it live via
+  `replaceState`, and the browser Back/Forward buttons move between the config and the
+  solution. Nothing is stored server-side; the solution is recomputed on load.
+- **Import preview.** The `Ctrl+V` import dialog now previews the pending config as a
+  labelled card — positions strip + dependency matrix — and, when the database holds an
+  identical lock, shows that chest's card beneath it.
+- **`⌘K` / `Ctrl+K`** opens the chest-search dialog (platform-aware hint on the button).
 - **Pluggable config-format parsers.** Import auto-detects four formats — `json`,
   `gothic` (`040615 A:B-,C+;D:E-`), `dotted` (`3.531.saaoaa`), and `bytearray`
   (unlockmyloot `?lock=` v2 base64url; their share codes import directly). Each is a
@@ -18,6 +28,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   replacing the single-letter abbreviation.
 
 ### Changed
+- **Config-format codecs grouped under a `Codecs` namespace** (the `parsers` block is now
+  `codecs`); rendering split into `render-scene` (3D) and `render-preview` (read-only
+  config visuals), joined by a `url` block for the shareable-URL layer.
 - Unified the ru/uk plate term to «Элемент»/«Елемент» (matches legend/tooltip wording);
   solve-stage step buttons use chevron icons instead of text arrows; brighter active-plate
   highlight in 3D.
