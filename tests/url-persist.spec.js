@@ -99,3 +99,30 @@ test('importing a config persists it into ?lock', async ({ page }) => {
   const urlCount = await page.evaluate(() => urlReadConfig().plates.length);
   expect(urlCount).toBe(6);
 });
+
+// ── Solve stage & history ────────────────────────────────────────────────────
+
+test('clicking Solve pushes a &solve flag onto the URL', async ({ page }) => {
+  await page.goto('/');
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await expect(page).toHaveURL(/\?lock=[^&]*&solve/);
+  expect(await page.evaluate(() => urlReadConfig().wantSolve)).toBe(true);
+});
+
+test('browser Back after Solve returns to the config stage', async ({ page }) => {
+  await page.goto('/');
+  await page.getByTestId('btn-start').click();
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await page.goBack();
+  await expect(page.getByTestId('stage-config')).toBeVisible();
+  await expect(page.getByTestId('stage-solve')).toBeHidden();
+});
+
+test('opening ?lock=..&solve lands on the solve stage and keeps the flag', async ({ page }) => {
+  const lock = await page.evaluate(() =>
+    Codecs.dotted.serialize([1, 2, 3].map(id => ({ id, positions: 7, currentPos: 4, deps: [] }))));
+  await page.goto('/?lock=' + lock + '&solve');
+  await expect(page.getByTestId('stage-solve')).toBeVisible({ timeout: 15000 });
+  await expect(page).toHaveURL(/&solve/);   // load must not clobber the flag
+});
