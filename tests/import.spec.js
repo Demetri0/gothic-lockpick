@@ -315,3 +315,46 @@ test('8-plate Gothic export round-trips a dependency on plate H', async ({ page 
   });
   expect(ok).toBe(true);
 });
+
+// ── Import preview: identical-lock lookup ────────────────────────────────────
+
+test('findIdenticalChest returns the entry whose positions and edges match exactly', async ({ page }) => {
+  const res = await page.evaluate(async () => {
+    await chestSearchReady;
+    const entry = chestDb.entries[0];
+    const plates = entryToPlates(entry);
+    const hit = findIdenticalChest(plates);
+    const bumped = plates.map((p, i) => i === 0 ? { ...p, currentPos: (p.currentPos % 7) + 1 } : p);
+    return { sameEntry: hit === entry, missIsNull: findIdenticalChest(bumped) === null };
+  });
+  expect(res.sameEntry).toBe(true);
+  expect(res.missIsNull).toBe(true);
+});
+
+test('the import dialog previews the pending config (positions + dep matrix)', async ({ page }) => {
+  await page.evaluate(() => openImportDialog('040615 A:B-,C+;D:E-'));
+  await expect(page.getByTestId('import-preview')).toBeVisible();
+  await expect(page.getByTestId('import-card')).toBeVisible();
+  await expect(page.getByTestId('import-card').getByTestId('mini-matrix')).toBeVisible();
+  await expect(page.getByTestId('import-card').getByTestId('import-plate-0')).toBeVisible();
+});
+
+test('the import dialog shows a found-in-DB card for an identical lock', async ({ page }) => {
+  const gothicStr = await page.evaluate(async () => {
+    await chestSearchReady;
+    return Codecs.gothic.serialize(entryToPlates(chestDb.entries[0]));
+  });
+  await page.evaluate((s) => openImportDialog(s), gothicStr);
+  await expect(page.getByTestId('import-found')).toBeVisible();
+});
+
+test('no found-in-DB card when the config matches nothing', async ({ page }) => {
+  await page.evaluate(async () => { await chestSearchReady; openImportDialog('040615 A:B-,C+;D:E-'); });
+  await expect(page.getByTestId('import-found')).toHaveCount(0);
+});
+
+test('closing the import dialog clears the preview', async ({ page }) => {
+  await page.evaluate(() => openImportDialog('040615 A:B-,C+;D:E-'));
+  await page.getByTestId('import-dialog-cancel').click();
+  await expect(page.getByTestId('import-preview')).toBeEmpty();
+});

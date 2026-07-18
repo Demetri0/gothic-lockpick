@@ -238,7 +238,8 @@ solver-src    Ядро решателя: center(), computeMove(), нотация
 state         Константы, state, makePlate(), TRANSLATIONS, t(), setLanguage()
 ui-utils      showToast(), copyToClipboard() — общие UI-утилиты
 game-logic    applyMove(), getBlockingPlateId(), flashBlockedPlate()
-render         buildScene(), updateScene(), posToOffsetX() (3D-сцена)
+render-scene   buildScene(), updateScene(), posToOffsetX() (3D-сцена)
+render-preview posStripHTML(), depMatrixHTML(+depCellColor/Icon), depDirIcon — read-only виз
 codecs        Codecs = {json,gothic,dotted,bytearray}; глобали-фасад:
               validatePlates(), PARSERS, parseConfig(), looksLikeImportConfig()
 url           Шаримый ?lock=<dotted>[&solve]: urlQueryFor/urlReadConfig (чистые),
