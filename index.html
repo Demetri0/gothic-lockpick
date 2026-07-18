@@ -1071,6 +1071,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   <dialog id="import-dialog" data-test-id="import-dialog">
     <h3 data-i18n="dialog-import-title">Импорт</h3>
     <p data-i18n="dialog-import-body">Применить конфигурацию из буфера обмена?</p>
+    <div id="import-preview" data-test-id="import-preview"></div>
     <div class="dialog-buttons">
       <button id="import-dialog-cancel" data-test-id="import-dialog-cancel" data-i18n="dialog-cancel">Отмена</button>
       <button id="import-dialog-ok" class="btn-primary" data-test-id="import-dialog-ok" data-i18n="dialog-ok">Применить</button>
@@ -1459,6 +1460,9 @@ const TRANSLATIONS = {
     'export-title': 'Экспорт',     'import-title': 'Импорт',
     'dialog-import-title': 'Импорт',
     'dialog-import-body': 'Применить конфигурацию из буфера обмена?',
+    'import-found-in-db': 'Найдено в базе:',
+    'import-variant-icons': 'Иконки',
+    'import-variant-color': 'Цвет',
     'dialog-cancel': 'Отмена',     'dialog-ok': 'Применить',
     'overlay-cancel': 'Отмена',
     'plate': 'Элемент',           'dir-left': 'Влево',       'dir-right': 'Вправо',
@@ -1505,6 +1509,9 @@ const TRANSLATIONS = {
     'export-title': 'Export',      'import-title': 'Import',
     'dialog-import-title': 'Import',
     'dialog-import-body': 'Apply config from clipboard?',
+    'import-found-in-db': 'Found in database:',
+    'import-variant-icons': 'Icons',
+    'import-variant-color': 'Colour',
     'dialog-cancel': 'Cancel',     'dialog-ok': 'Apply',
     'overlay-cancel': 'Cancel',
     'plate': 'Plate',            'dir-left': 'Left',        'dir-right': 'Right',
@@ -1551,6 +1558,9 @@ const TRANSLATIONS = {
     'export-title': 'Експорт',     'import-title': 'Імпорт',
     'dialog-import-title': 'Імпорт',
     'dialog-import-body': 'Застосувати конфіг з буфера обміну?',
+    'import-found-in-db': 'Знайдено в базі:',
+    'import-variant-icons': 'Іконки',
+    'import-variant-color': 'Колір',
     'dialog-cancel': 'Скасувати',  'dialog-ok': 'Застосувати',
     'overlay-cancel': 'Скасувати',
     'plate': 'Елемент',           'dir-left': 'Ліворуч',     'dir-right': 'Праворуч',
