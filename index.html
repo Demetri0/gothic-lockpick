@@ -2685,10 +2685,34 @@ document.getElementById('import-dialog-cancel').addEventListener('click', () => 
 
 document.getElementById('import-dialog').addEventListener('close', () => {
   _importPending = null;
+  clearImportPreview();
 });
+
+function importVariantCard(labelKey, plates, renderCell) {
+  return `<div class="import-variant" data-test-id="${labelKey}">`
+    + `<div class="import-variant-label">${t(labelKey)}</div>`
+    + `<div class="sr-preview">${posStripHTML(plates.map(p => p.currentPos - 1), labelKey)}</div>`
+    + depMatrixHTML(plates, renderCell)
+    + `</div>`;
+}
+
+/** Fill #import-preview with the pending config (both matrix variants) + an identical-lock card. */
+function renderImportPreview(plates) {
+  const box = document.getElementById('import-preview');
+  if (!plates) { box.innerHTML = ''; return; }
+  let html = importVariantCard('import-variant-icons', plates, depCellIconHTML)
+           + importVariantCard('import-variant-color', plates, depCellColorHTML);
+  const hit = findIdenticalChest(plates);
+  if (hit) html += `<div class="import-found-label">${t('import-found-in-db')}</div>`
+                 + `<div id="import-found" data-test-id="import-found">${buildResultCard(hit, 'found')}</div>`;
+  box.innerHTML = html;
+}
+
+function clearImportPreview() { document.getElementById('import-preview').innerHTML = ''; }
 
 function openImportDialog(text) {
   _importPending = text;
+  renderImportPreview(parseConfig(text));
   document.getElementById('import-dialog').showModal();
 }
 

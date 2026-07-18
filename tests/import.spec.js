@@ -330,3 +330,31 @@ test('findIdenticalChest returns the entry whose positions and edges match exact
   expect(res.sameEntry).toBe(true);
   expect(res.missIsNull).toBe(true);
 });
+
+test('the import dialog previews the pending config (both matrix variants)', async ({ page }) => {
+  await page.evaluate(() => openImportDialog('040615 A:B-,C+;D:E-'));
+  await expect(page.getByTestId('import-preview')).toBeVisible();
+  await expect(page.getByTestId('import-variant-icons')).toBeVisible();
+  await expect(page.getByTestId('import-variant-color')).toBeVisible();
+  await expect(page.getByTestId('import-variant-color').locator('[data-test-id="mini-matrix"]')).toBeVisible();
+});
+
+test('the import dialog shows a found-in-DB card for an identical lock', async ({ page }) => {
+  const gothicStr = await page.evaluate(async () => {
+    await chestSearchReady;
+    return Codecs.gothic.serialize(entryToPlates(chestDb.entries[0]));
+  });
+  await page.evaluate((s) => openImportDialog(s), gothicStr);
+  await expect(page.getByTestId('import-found')).toBeVisible();
+});
+
+test('no found-in-DB card when the config matches nothing', async ({ page }) => {
+  await page.evaluate(async () => { await chestSearchReady; openImportDialog('040615 A:B-,C+;D:E-'); });
+  await expect(page.getByTestId('import-found')).toHaveCount(0);
+});
+
+test('closing the import dialog clears the preview', async ({ page }) => {
+  await page.evaluate(() => openImportDialog('040615 A:B-,C+;D:E-'));
+  await page.getByTestId('import-dialog-cancel').click();
+  await expect(page.getByTestId('import-preview')).toBeEmpty();
+});
