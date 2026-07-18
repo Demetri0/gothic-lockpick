@@ -3674,14 +3674,7 @@ function buildResultCard(entry, idx) {
   const image = entry.img[0]
     ? `<img src="${entry.img[0]}" alt="">`
     : `<span class="sr-image-placeholder" data-test-id="search-result-${idx}-placeholder">🖼</span>`;
-  const plateRows = entry.pos.map((p, plateIdx) => {
-    const holes = Array.from({ length: 7 }, (_, i) =>
-      `<span class="sr-hole${i === p ? ' active' : ''}"
-             data-test-id="search-result-${idx}-hole-${plateIdx}-${i}"
-             data-active="${i === p}"></span>`
-    ).join('');
-    return `<div class="sr-plate" data-test-id="search-result-${idx}-plate-${plateIdx}">${holes}</div>`;
-  }).join('');
+  const plateRows = posStripHTML(entry.pos, `search-result-${idx}`);
 
   return `
     <div class="search-result" data-test-id="search-result-${idx}" data-idx="${idx}" data-selected="false">
