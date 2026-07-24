@@ -245,6 +245,35 @@ test.describe('cross-format routing + disjointness', () => {
   }
 });
 
+// Every codec is a lossless representation of the same model: one canonical
+// config, encoded into each format and decoded back, must yield the same plates.
+// Deps are an unordered set — dotted/bytearray canonicalize them by targetId
+// while gothic/json keep source order — so equivalence is compared with each
+// plate's deps sorted. One test per (config × format) so a failure names both
+// the lock and the codec.
+test.describe('cross-format equivalence: every codec decodes to the same plates', () => {
+  const CONFIGS = {   // dep-rich reference locks, 5–7 plates (bytearray needs ≥3)
+    '7-plate': '3055665 A:C+,D+;B:A-,E-,G+;D:B-;E:D-;F:B-;G:A+,B-',
+    '6-plate': '040615 A:C-;B:C+,D-;D:E-,C+;E:F-;F:E+,B-',
+    '5-plate': '32614 A:B-,C-;B:A+,D-;C:A-,B+,D+;D:A-,E+;E:C-',
+  };
+  for (const [name, gothicCfg] of Object.entries(CONFIGS)) {
+    for (const fmt of ['json', 'gothic', 'dotted', 'bytearray']) {
+      test(`${name} via ${fmt} decodes to the canonical plates`, async ({ page }) => {
+        const ok = await page.evaluate(({ cfg, fmt }) => {
+          const norm = (ps) => JSON.stringify(ps.map(p =>
+            ({ ...p, deps: [...p.deps].sort((a, b) => a.targetId - b.targetId) })));
+          const plates = parseConfig(cfg);                 // canonical model
+          const s = Codecs[fmt].serialize(plates);         // encode
+          const p = s == null ? null : validatePlates(Codecs[fmt].parse(s));  // decode
+          return p ? norm(p) === norm(plates) : false;
+        }, { cfg: gothicCfg, fmt });
+        expect(ok).toBe(true);
+      });
+    }
+  }
+});
+
 test.describe('near-miss non-routing (must end at parseConfig -> null)', () => {
   for (const [name, s] of Object.entries({
     'broken dotted':          '3.531.saax',
