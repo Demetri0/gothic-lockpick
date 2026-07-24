@@ -88,6 +88,15 @@ tags=""два"""
     expect(report.some(l => l.startsWith('OVERRIDE'))).toBe(true);
   });
 
+  test('a drops decision removes the whole canonical group from the output', () => {
+    const base = pipeline.buildEntries(BASIC, null).entries;
+    expect(base).toHaveLength(1);
+    const key = pipeline.canonicalKey(base[0].pos, base[0].rules);
+    const { entries, report } = pipeline.buildEntries(BASIC, { v: 1, drops: [key] });
+    expect(entries).toHaveLength(0);
+    expect(report.some(l => l.startsWith('DROP'))).toBe(true);
+  });
+
   test('an override that still holds several entries stays flagged for review', () => {
     const key = pipeline.canonicalKey([1, 2], 'A:B-;B:A+');
     const decisions = {

@@ -253,15 +253,18 @@ function transform(raw, seen, rep) {
 
 // ── decisions layer ("git rerere" for DB curation) ────────────────────────────
 // tools/db-decisions.json records every human decision once:
+//   drops        — canonical keys to exclude (bad/unfixable ini data), so a
+//                  re-imported ini can't reintroduce them without touching the ini
 //   overrides    — canonical group → recorded entries (merges, fixes)
 //   additions    — entries with no ini counterpart (e.g. future uml imports)
 //   translations — per-key name/desc languages (Google-Translate round-trip)
 
-const EMPTY_DECISIONS = { v: 1, overrides: [], additions: [], translations: {} };
+const EMPTY_DECISIONS = { v: 1, drops: [], overrides: [], additions: [], translations: {} };
 
 function applyDecisions(entries, decisions, rep) {
   const d = { ...EMPTY_DECISIONS, ...(decisions || {}) };
   const overrideByKey = new Map((d.overrides || []).map(o => [o.key, o]));
+  const dropped = new Set(d.drops || []);
 
   // Group parsed entries by canonical key, preserving first-seen order
   const groups = new Map();
@@ -273,6 +276,10 @@ function applyDecisions(entries, decisions, rep) {
 
   const out = [];
   for (const [key, grp] of groups) {
+    if (dropped.has(key)) {
+      rep.push(`DROP         [${key}] ${grp.length} entr${grp.length === 1 ? 'y' : 'ies'}: ${grp.map(e => e.id).join(', ')}`);
+      continue;
+    }
     const ov = overrideByKey.get(key);
     if (ov) {
       out.push(...ov.entries.map(e => ({ ...e })));
