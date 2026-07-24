@@ -1496,6 +1496,7 @@ const TRANSLATIONS = {
     'toast-copy-fail': 'Не удалось скопировать',
     'hint-paste-pre': 'Есть конфиг?', 'hint-paste-post': '— поддерживается формат',
     'toast-invalid': 'Невалидный конфиг',
+    'toast-bad-link': 'Ссылка повреждена',
     'toast-applied': 'Конфиг применён',
     'toast-no-solution': 'Решение не найдено',
     'toast-error': 'Ошибка вычисления',
@@ -1545,6 +1546,7 @@ const TRANSLATIONS = {
     'toast-copy-fail': 'Copy failed',
     'hint-paste-pre': 'Have a config?', 'hint-paste-post': '— format supported:',
     'toast-invalid': 'Invalid config',
+    'toast-bad-link': 'This link is broken',
     'toast-applied': 'Config applied',
     'toast-no-solution': 'No solution found',
     'toast-error': 'Computation error',
@@ -1594,6 +1596,7 @@ const TRANSLATIONS = {
     'toast-copy-fail': 'Не вдалось скопіювати',
     'hint-paste-pre': 'Маєте конфіг?', 'hint-paste-post': '— підтримується формат',
     'toast-invalid': 'Невалідний конфіг',
+    'toast-bad-link': 'Посилання пошкоджено',
     'toast-applied': 'Конфіг застосовано',
     'toast-no-solution': 'Рішення не знайдено',
     'toast-error': 'Помилка обчислення',
@@ -2140,7 +2143,12 @@ function urlPush(plates, stage) {
 /** Apply the config from the URL (if any) on startup. Silent — no import dialog. */
 function urlApplyOnLoad() {
   const r = urlReadConfig();
-  if (!r) return;              // no/invalid lock → keep the default config
+  if (!r) {
+    // A present-but-unparseable lock is a corrupted/shared-wrong link — say so.
+    // An absent lock is a normal visit — stay silent.
+    if (new URLSearchParams(location.search).has(LOCK_PARAM)) showToast(t('toast-bad-link'), 'error');
+    return;                    // keep the default config
+  }
   syncingFromUrl = true;
   try { applyPlates(r.plates); } finally { syncingFromUrl = false; }
   // The solver worker (and resetProgress) live in a later block; wait for `load`

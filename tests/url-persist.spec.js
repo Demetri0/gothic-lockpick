@@ -56,6 +56,17 @@ test('a malformed ?lock is ignored, keeping the default config', async ({ page }
   await expect(page.getByTestId('val-plates')).toHaveText('4');   // default plate count
 });
 
+test('a malformed ?lock shows a corrupted-link toast', async ({ page }) => {
+  await page.goto('/?lock=not-a-real-lock');
+  await expect(page.getByTestId('toast')).toContainText('повреждена');
+});
+
+test('a bare visit shows no toast', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByTestId('stage-config')).toBeVisible();
+  await expect(page.getByTestId('toast')).toHaveCount(0);   // nothing to complain about
+});
+
 // ── Live persistence of config edits ─────────────────────────────────────────
 
 test('a bare visit stays / until the first edit, which writes ?lock', async ({ page }) => {

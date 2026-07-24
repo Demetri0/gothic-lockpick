@@ -6,6 +6,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- Opening a link with a present-but-unparseable `?lock` now shows a "link is broken"
+  toast (an absent `?lock` stays silent). The config still validates the same way — the
+  toast only explains why a shared link had no effect.
+
 ## [1.3.1] - 2026-07-19
 
 ### Changed
