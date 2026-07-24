@@ -83,6 +83,17 @@ test('a bare visit stays / until the first edit, which writes ?lock', async ({ p
   expect(matches).toBe(true);
 });
 
+test('a config-stage A/D key move persists to ?lock', async ({ page }) => {
+  await page.goto('/');
+  await page.keyboard.press('d');   // moves the active plate — must write the URL too
+  await expect(page).toHaveURL(/\?lock=/);
+  const matches = await page.evaluate(() => {
+    const r = urlReadConfig();
+    return !!r && r.plates.every((p, i) => p.currentPos === state.plates[i].currentPos);
+  });
+  expect(matches).toBe(true);
+});
+
 test('toggling a dependency persists it into ?lock', async ({ page }) => {
   await page.goto('/');
   await page.getByTestId('dep-1-2').click();   // none → same

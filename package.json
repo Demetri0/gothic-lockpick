@@ -1,13 +1,14 @@
 {
   "name": "gothic-lockpick",
-  "version": "1.3.2",
-  "description": "Браузерный решатель и визуализатор головоломки с дисковыми замками — механика взлома из Gothic и подобных RPG.",
+  "version": "1.4.0",
+  "description": "Браузерный решатель и 3D-визуализатор дисковых замков Gothic 1 Remake, с поиском по базе реальных сундуков игры.",
   "main": "index.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "test": "playwright test",
+    "test:corpus": "RUN_CORPUS=1 playwright test tests/corpus.spec.js",
     "record:demo": "node tools/record-demo.mjs screenshots/demo.mp4",
     "build:db": "node tools/ini2json.cjs chests.ini chests.json",
     "review:db": "node tools/review-server.cjs",

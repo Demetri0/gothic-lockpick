@@ -60,6 +60,33 @@ test('global Backspace removes the active plate without a focused input', async 
   await expect(page.getByTestId('pos-input-4')).toHaveCount(0);
 });
 
+test('config stage: A/D moves only the active plate — dependencies are neither applied nor blocking', async ({ page }) => {
+  // Plate 1 depends on plate 2 (same). Plate 2 sits at the max, so a linked move
+  // WOULD be blocked if config-stage moves applied dependencies. They must not:
+  // editing the initial config moves one disc freely, ignoring the puzzle rules.
+  const cfg = JSON.stringify([
+    { id: 1, positions: 7, currentPos: 4, deps: [{ targetId: 2, direction: 'same', steps: 1 }] },
+    { id: 2, positions: 7, currentPos: 7, deps: [] },
+  ]);
+  await page.evaluate((c) => openImportDialog(c), cfg);
+  await page.getByTestId('import-dialog-ok').click();
+
+  await page.keyboard.press('a');            // left → plate 1 4→5; a same-dep would push plate 2 7→8 (blocked)
+  await expectPosDigit(page, 1, 5);          // active plate moved freely
+  await expectPosDigit(page, 2, 7);          // dependency neither applied nor blocking
+});
+
+test('solve stage: A/D applies dependencies to linked plates', async ({ page }) => {
+  const cfg = JSON.stringify([
+    { id: 1, positions: 7, currentPos: 4, deps: [{ targetId: 2, direction: 'same', steps: 1 }] },
+    { id: 2, positions: 7, currentPos: 4, deps: [] },
+  ]);
+  await startSolve(page, cfg);
+  await page.keyboard.press('d');            // right → plate 1 4→3, same-dep drags plate 2 4→3
+  const pos = await page.evaluate(() => state.plates.map(p => p.currentPos));
+  expect(pos).toEqual([3, 3]);               // dependency applied on the solve stage
+});
+
 test('D at the left boundary does not move the plate', async ({ page }) => {
   const cfg = JSON.stringify([
     { id: 1, positions: 7, currentPos: 1, deps: [] },
@@ -96,6 +123,44 @@ test('D in solve stage enters explore mode and moves the plate', async ({ page }
   // D → enters explore mode; separator appears
   await page.keyboard.press('d');
   await expect(page.getByTestId('explore-separator')).toBeVisible();
+});
+
+test('a blocked solve-stage move fires haptic feedback', async ({ page }) => {
+  const cfg = JSON.stringify([
+    { id: 1, positions: 7, currentPos: 1, deps: [] },   // active plate at the min
+    { id: 2, positions: 7, currentPos: 4, deps: [] },
+  ]);
+  await startSolve(page, cfg);
+  await page.evaluate(() => {
+    window.__vib = [];
+    Object.defineProperty(navigator, 'vibrate', { configurable: true, value: (v) => { window.__vib.push(v); return true; } });
+  });
+  await page.keyboard.press('d');   // right → plate 1 would go to 0: blocked
+  expect((await page.evaluate(() => window.__vib)).length).toBeGreaterThan(0);
+});
+
+test('a manual solution step fires haptic feedback', async ({ page }) => {
+  await startSolve(page, JSON.stringify([
+    { id: 1, positions: 7, currentPos: 6, deps: [] },
+    { id: 2, positions: 7, currentPos: 6, deps: [] },
+  ]));
+  await page.evaluate(() => {
+    window.__vib = [];
+    Object.defineProperty(navigator, 'vibrate', { configurable: true, value: (v) => { window.__vib.push(v); return true; } });
+  });
+  await page.getByTestId('btn-step').click();
+  expect((await page.evaluate(() => window.__vib)).length).toBeGreaterThan(0);
+});
+
+test('a blocked first solve-stage move stays in following mode', async ({ page }) => {
+  const cfg = JSON.stringify([
+    { id: 1, positions: 7, currentPos: 1, deps: [] },   // active plate at the min
+    { id: 2, positions: 7, currentPos: 4, deps: [] },
+  ]);
+  await startSolve(page, cfg);
+  await page.keyboard.press('d');   // right → plate 1 would go to 0: blocked, no move happens
+  expect(await page.evaluate(() => state.solveMode)).toBe('following');
+  await expect(page.getByTestId('explore-separator')).toBeHidden();
 });
 
 test('A in explore mode collapses the opposite move', async ({ page }) => {

@@ -63,6 +63,21 @@ test.describe('gothic.parseRules', () => {
   test('ignores non-rule tokens', async ({ page }) => {
     expect(await page.evaluate(() => Codecs.gothic.parseRules('040615'))).toEqual({});
   });
+  test('strips all inner whitespace, not just around tokens', async ({ page }) => {
+    const r = await page.evaluate(() => Codecs.gothic.parseRules('  E : A- , C- '));
+    expect(r.E).toEqual([
+      { targetId: 1, direction: 'opposite', steps: 1 },
+      { targetId: 3, direction: 'opposite', steps: 1 },
+    ]);
+  });
+  test('a dependency with no direction is invalid data → null (not a silent drop)', async ({ page }) => {
+    const r = await page.evaluate(() => [
+      Codecs.gothic.parseRules('E:C'),           // bare target, no +/-
+      Codecs.gothic.parseRules('A:B-,C'),        // one good, one direction-less
+      Codecs.gothic.parseRules('D:D+,E,F-'),     // 'E' has no direction
+    ]);
+    expect(r).toEqual([null, null, null]);
+  });
 });
 
 test.describe('gothic parser', () => {
@@ -78,6 +93,19 @@ test.describe('gothic parser', () => {
   test('parses rules-first, digits-at-end (order lenient)', async ({ page }) => {
     const p = await page.evaluate(() => Codecs.gothic.parse('A:B-,C+;D:E- 040615'));
     expect(p.map(x => x.currentPos)).toEqual([1, 5, 1, 7, 2, 6]);
+  });
+  test('tolerates messy inner whitespace in the rules', async ({ page }) => {
+    const p = await page.evaluate(() => Codecs.gothic.parse('040615   A:B-, C+ ;  D:E-'));
+    expect(p.map(x => x.currentPos)).toEqual([1, 5, 1, 7, 2, 6]);
+    expect(p[0].deps).toEqual([
+      { targetId: 2, direction: 'opposite', steps: 1 },
+      { targetId: 3, direction: 'same', steps: 1 },
+    ]);
+  });
+  test('rejects a config whose rules contain a direction-less dependency', async ({ page }) => {
+    // The "фиск-1-с" chest's rules end in E:C (no +/-) — invalid data, must not parse.
+    expect(await page.evaluate(() =>
+      Codecs.gothic.parse('32614 A:B-,C-;B:A+,D-;C:A-,B+,D+;D:A-,E+;E:C'))).toBeNull();
   });
   for (const [name, s] of Object.entries({
     'positions only':     '040615',
@@ -242,6 +270,35 @@ test.describe('cross-format routing + disjointness', () => {
       expect(res.claims).toEqual([owner]);   // disjoint: exactly one parser claims each vector
       expect(res.routed).toBe(true);
     });
+  }
+});
+
+// Every codec is a lossless representation of the same model: one canonical
+// config, encoded into each format and decoded back, must yield the same plates.
+// Deps are an unordered set — dotted/bytearray canonicalize them by targetId
+// while gothic/json keep source order — so equivalence is compared with each
+// plate's deps sorted. One test per (config × format) so a failure names both
+// the lock and the codec.
+test.describe('cross-format equivalence: every codec decodes to the same plates', () => {
+  const CONFIGS = {   // dep-rich reference locks, 5–7 plates (bytearray needs ≥3)
+    '7-plate': '3055665 A:C+,D+;B:A-,E-,G+;D:B-;E:D-;F:B-;G:A+,B-',
+    '6-plate': '040615 A:C-;B:C+,D-;D:E-,C+;E:F-;F:E+,B-',
+    '5-plate': '32614 A:B-,C-;B:A+,D-;C:A-,B+,D+;D:A-,E+;E:C-',
+  };
+  for (const [name, gothicCfg] of Object.entries(CONFIGS)) {
+    for (const fmt of ['json', 'gothic', 'dotted', 'bytearray']) {
+      test(`${name} via ${fmt} decodes to the canonical plates`, async ({ page }) => {
+        const ok = await page.evaluate(({ cfg, fmt }) => {
+          const norm = (ps) => JSON.stringify(ps.map(p =>
+            ({ ...p, deps: [...p.deps].sort((a, b) => a.targetId - b.targetId) })));
+          const plates = parseConfig(cfg);                 // canonical model
+          const s = Codecs[fmt].serialize(plates);         // encode
+          const p = s == null ? null : validatePlates(Codecs[fmt].parse(s));  // decode
+          return p ? norm(p) === norm(plates) : false;
+        }, { cfg: gothicCfg, fmt });
+        expect(ok).toBe(true);
+      });
+    }
   }
 });
 

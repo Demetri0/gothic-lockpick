@@ -6,6 +6,30 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-07-25
+
+### Added
+- Haptic feedback on mobile (Android): a short buzz on a blocked move and a light tick
+  when a disc turns or a solution step plays manually. Silent no-op on iOS/desktop; needs
+  no permission. Auto-play stays quiet.
+
+### Changed
+- Gothic rule parsing is now strict on content: a dependency must state a direction
+  (`+`/`-`) — a direction-less or otherwise malformed token is invalid data and the config
+  no longer imports (previously the token was silently dropped). Whitespace/case tolerance
+  is unchanged.
+- Removed 3 chests with malformed (direction-less) rules from the database (394 → 391); two
+  were unsolvable as stored. A new `drops` decision keeps them out across `chests.ini`
+  re-imports without editing the (externally sourced) ini.
+
+### Fixed
+- Config-stage `A`/`D` disc moves now edit only the active disc (ignoring dependencies,
+  which are a solve-stage rule) and persist to the `?lock=` URL like every other config
+  edit — previously they applied dependencies and were silently dropped from the shared
+  URL (and could be wiped by a browser Back/Forward).
+- A blocked first move on the solve stage no longer flips into explore mode; it stays in
+  following mode until a move actually happens.
+
 ## [1.3.2] - 2026-07-24
 
 ### Added

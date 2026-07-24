@@ -1654,6 +1654,14 @@ const state = {
   <script id="ui-utils">
 // ── ui-utils — shared toast + clipboard helpers ─────────────────────────────
 
+// Best-effort haptic feedback (Android; a silent no-op on iOS/desktop and needs
+// no permission). Reads navigator.vibrate fresh so tests can stub it.
+const HAPTIC_STEP = 10;              // a light tick when a disc turns / a step plays
+const HAPTIC_BLOCK = [12, 20, 12];   // a short error buzz when a move is blocked
+function haptic(pattern) {
+  if (navigator.vibrate) navigator.vibrate(pattern);
+}
+
 function showToast(message, type = 'success') {
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
@@ -1717,8 +1725,17 @@ function getBlockingPlateId(plates, plateId, dir) {
   return null;
 }
 
+/** Cycle the active plate by delta (+1 deeper into the stack / −1 nearer), wrapping.
+ *  Rendering (scene, matrix highlight) is left to the caller. */
+function cycleActivePlate(delta) {
+  const ids = state.plates.map(p => p.id);
+  const idx = ids.indexOf(state.activePlate);
+  state.activePlate = ids[(idx + delta + ids.length) % ids.length];
+}
+
 /** Flash the blocking plate with a shake + red tint for 250 ms. */
 function flashBlockedPlate(plateId, sceneId) {
+  haptic(HAPTIC_BLOCK);   // a blocked move — buzz regardless of the scene state
   const el = document.querySelector(`#${sceneId} .plate[data-id="${plateId}"]`);
   if (!el) return;
   el.classList.remove('plate-blocked');
@@ -1835,12 +1852,19 @@ function updateScene(sceneId, plates, activePlateId) {
   <script id="render-preview">
 // ── render-preview — pure read-only config visuals (plates → HTML) ──────────
 /** A row of 7 holes per plate, the active one filled. `positions0` is 0-based. */
-function posStripHTML(positions0, idPrefix) {
+// With matchLen >= 0, the first `matchLen` rows' active holes get a `match`
+// class + `data-match` (used by the config-stage hint cards to show the matching
+// prefix); the default (-1) emits the plain strip used by search/import cards.
+function posStripHTML(positions0, idPrefix, matchLen = -1) {
+  const showMatch = matchLen >= 0;
   return positions0.map((p, row) => {
-    const holes = Array.from({ length: 7 }, (_, i) =>
-      `<span class="sr-hole${i === p ? ' active' : ''}"`
-      + ` data-test-id="${idPrefix}-hole-${row}-${i}" data-active="${i === p}"></span>`
-    ).join('');
+    const holes = Array.from({ length: 7 }, (_, i) => {
+      const active = i === p;
+      const match = active && row < matchLen;
+      return `<span class="sr-hole${active ? ' active' : ''}${match ? ' match' : ''}"`
+        + ` data-test-id="${idPrefix}-hole-${row}-${i}" data-active="${active}"`
+        + (showMatch ? ` data-match="${match}"` : '') + `></span>`;
+    }).join('');
     return `<div class="sr-plate" data-test-id="${idPrefix}-plate-${row}">${holes}</div>`;
   }).join('');
 }
@@ -1939,19 +1963,24 @@ const json = {
 const gothic = {
   id: 'gothic',
   /** Parse only the rule half, e.g. "A:B-,C+;D:E-", into
-   *  { [SRC letter]: [{targetId, direction, steps}] }. Case/space tolerant. */
+   *  { [SRC letter]: [{targetId, direction, steps}] }. Case/whitespace tolerant, but
+   *  STRICT on rule content: a dependency must state a direction (+/-) — a bare or
+   *  malformed target is invalid data (there is no third kind of dependency), so the
+   *  whole rule set is rejected with null rather than silently dropping it. Tokens
+   *  that aren't rules at all (e.g. a stray positions digit-run) are ignored. */
   parseRules(str) {
     const depMap = {};
-    for (const token of str.split(';')) {
-      const m = token.trim().match(/([A-H])\s*:\s*(.+)$/i);
-      if (!m) continue;
-      const src = m[1].toUpperCase();
+    for (const token of str.replace(/\s+/g, '').toUpperCase().split(';')) {
+      const m = token.replace(/^,+/, '').match(/^([A-H]):(.+)$/);   // tolerate a leading "," separator
+      if (!m) continue;                                   // not a rule token — ignore
+      const src = m[1];
       if (!depMap[src]) depMap[src] = [];
       for (const part of m[2].split(',')) {
-        const pm = part.trim().match(/^([A-H])\s*([+\-])$/i);
-        if (!pm) continue;
+        if (part === '') continue;                        // tolerate a trailing comma
+        const pm = part.match(/^([A-H])([+\-])$/);
+        if (!pm) return null;                             // direction-less / malformed → invalid
         depMap[src].push({
-          targetId: pm[1].toUpperCase().charCodeAt(0) - 64,
+          targetId: pm[1].charCodeAt(0) - 64,
           direction: pm[2] === '+' ? 'same' : 'opposite',
           steps: 1,
         });
@@ -1966,6 +1995,7 @@ const gothic = {
     if (!dM) return null;
     const rawPos = [...dM[1]].map(Number);
     const depMap = gothic.parseRules(text.replace(dM[0], ''));
+    if (depMap === null) return null;                     // malformed rule content (e.g. no direction)
     // Reject (don't silently drop) a rule whose SOURCE plate is beyond the position count.
     for (const src of Object.keys(depMap)) if (src.charCodeAt(0) - 65 >= rawPos.length) return null;
     const POSITIONS = 7;
@@ -2676,7 +2706,7 @@ function applyImportedConfig(rawText) {
 
 /** Build a plates array directly from a DB entry (pos is 0-based; rules may be empty). */
 function entryToPlates(entry) {
-  const depMap = Codecs.gothic.parseRules(entry.rules || '');
+  const depMap = Codecs.gothic.parseRules(entry.rules || '') || {};   // malformed DB rules → no deps (defensive; bad entries are dropped)
   return entry.pos.map((p, i) => ({
     id: i + 1,
     positions: 7,
@@ -3047,8 +3077,10 @@ function wireSolveHandlers() {
     switchToConfig();
     urlPush(state.plates, 'config');   // solve→config navigation: new entry, drops &solve
   });
-  document.getElementById('btn-prev').addEventListener('click', solveStepBack);
-  document.getElementById('btn-step').addEventListener('click', solveStepForward);
+  // Manual step nav ticks (the buttons are disabled at the ends, so a click is a real step).
+  // Auto-play calls solveStepForward directly and stays silent — no per-tick buzz spam.
+  document.getElementById('btn-prev').addEventListener('click', () => { solveStepBack(); haptic(HAPTIC_STEP); });
+  document.getElementById('btn-step').addEventListener('click', () => { solveStepForward(); haptic(HAPTIC_STEP); });
 
   const _notationContent = {
     ru: () => `
@@ -3136,16 +3168,13 @@ const KEY_MAP = {
 // Config-stage A/D: move the active plate (deps applied, all-or-nothing blocking),
 // then refresh the scene, matrix inputs, and chest hints together. Distinct from
 // the solve stage, where A/D drive explore mode and must not touch the config.
+// Config-stage A/D edits the initial config: it moves only the active disc and
+// ignores dependencies (the puzzle rules apply on the solve stage, not while
+// authoring). Routing through posSetPlateValue keeps it consistent with the
+// drum and carries the same side effects — clamp, scene, hints, URL persistence.
 function configMovePlate(dir) {
-  if (applyMove(state.plates, state.activePlate, dir)) {
-    state.cachedSolution = null;
-    updateScene('scene-config-inner', state.plates, state.activePlate);
-    syncMatrixPositions();
-    renderChestHints();
-  } else {
-    const b = getBlockingPlateId(state.plates, state.activePlate, dir);
-    if (b !== null) flashBlockedPlate(b, 'scene-config-inner');
-  }
+  const p = state.plates.find(x => x.id === state.activePlate);
+  if (p) posSetPlateValue(p.id, p.currentPos + (dir === 'left' ? 1 : -1));
 }
 
 document.addEventListener('keydown', (e) => {
@@ -3204,18 +3233,9 @@ document.addEventListener('keydown', (e) => {
   e.preventDefault();
 
   if (state.stage === 'config') {
-    if (key === 'W') {
+    if (key === 'W' || key === 'S') {
       // W = дальше вглубь стека (плашка выше на экране), S = ближе
-      const ids = state.plates.map(p => p.id);
-      const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx + 1) % ids.length];
-      updateScene('scene-config-inner', state.plates, state.activePlate);
-      updateMatrixActive();
-    }
-    if (key === 'S') {
-      const ids = state.plates.map(p => p.id);
-      const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
+      cycleActivePlate(key === 'W' ? 1 : -1);
       updateScene('scene-config-inner', state.plates, state.activePlate);
       updateMatrixActive();
     }
@@ -3224,34 +3244,29 @@ document.addEventListener('keydown', (e) => {
   }
 
   if (state.stage === 'solve') {
-    if (key === 'W') {
-      const ids = state.plates.map(p => p.id);
-      const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx + 1) % ids.length];
-      updateScene('scene-solve-inner', state.plates, state.activePlate);
-    }
-    if (key === 'S') {
-      const ids = state.plates.map(p => p.id);
-      const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
+    if (key === 'W' || key === 'S') {
+      cycleActivePlate(key === 'W' ? 1 : -1);
       updateScene('scene-solve-inner', state.plates, state.activePlate);
     }
     if (key === 'A' || key === 'D') {
       const dir = key === 'A' ? 'left' : 'right';
-      if (state.solveMode === 'following') {
-        // Enter exploring: stop auto-play, snapshot detach point
-        if (state.autoInterval) {
-          clearInterval(state.autoInterval);
-          state.autoInterval = null;
-          document.getElementById('btn-auto').textContent = t('btn-auto');
-        }
-        state.solveMode = 'exploring';
-        state.detachStep = state.solverStep;
-        state.detachPositions = state.plates.map(p => p.currentPos);
-      }
+      const wasFollowing = state.solveMode === 'following';
+      const preMovePositions = state.plates.map(p => p.currentPos);   // detach snapshot, pre-move
       const moved = applyMove(state.plates, state.activePlate, dir);
       if (moved) {
+        if (wasFollowing) {
+          // Detach from the BFS solution only once a real move happened.
+          if (state.autoInterval) {
+            clearInterval(state.autoInterval);
+            state.autoInterval = null;
+            document.getElementById('btn-auto').textContent = t('btn-auto');
+          }
+          state.solveMode = 'exploring';
+          state.detachStep = state.solverStep;
+          state.detachPositions = preMovePositions;
+        }
         addExploreMove(state.activePlate, dir);
+        haptic(HAPTIC_STEP);   // the user turned a disc
         updateScene('scene-solve-inner', state.plates, state.activePlate);
         renderSolvePanel();
       } else {
@@ -3654,7 +3669,7 @@ function searchByPosition(nums, entries) {
 /** Ordered rule groups for hint rendering — thin adapter over the gothic parser's
  *  rule parser (one rule regex in the app, not two). */
 function parseRuleGroups(rulesStr) {
-  return Object.entries(Codecs.gothic.parseRules(rulesStr || ''))
+  return Object.entries(Codecs.gothic.parseRules(rulesStr || '') || {})
     .filter(([, deps]) => deps.length)
     .map(([src, deps]) => ({
       from: src.charCodeAt(0) - 64,
@@ -3860,16 +3875,7 @@ function buildHintCard(entry, idx, score, matchLen, userEdges) {
   const name = escapeHtml(entryName(entry) || t('unknown-lock'));
   const tagsStr = escapeHtml(entry.tags.join(', '));
   const opacity = (score >= 0.999 ? 1 : 0.35 + 0.45 * score).toFixed(3);
-  const plateRows = entry.pos.map((p, plateIdx) => {
-    const holes = Array.from({ length: 7 }, (_, i) => {
-      const active = i === p;
-      const match = active && plateIdx < matchLen;
-      return `<span class="sr-hole${active ? ' active' : ''}${match ? ' match' : ''}"`
-        + ` data-test-id="chest-hint-${idx}-hole-${plateIdx}-${i}"`
-        + ` data-active="${active}" data-match="${match}"></span>`;
-    }).join('');
-    return `<div class="sr-plate" data-test-id="chest-hint-${idx}-plate-${plateIdx}">${holes}</div>`;
-  }).join('');
+  const plateRows = posStripHTML(entry.pos, `chest-hint-${idx}`, matchLen);
   return `
     <button type="button" class="chest-hint" data-test-id="chest-hint-${idx}" data-idx="${idx}"
             data-score="${Math.round(score * 100)}" style="opacity:${opacity}" title="${name}">
