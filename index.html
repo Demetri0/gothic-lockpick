@@ -1717,6 +1717,14 @@ function getBlockingPlateId(plates, plateId, dir) {
   return null;
 }
 
+/** Cycle the active plate by delta (+1 deeper into the stack / −1 nearer), wrapping.
+ *  Rendering (scene, matrix highlight) is left to the caller. */
+function cycleActivePlate(delta) {
+  const ids = state.plates.map(p => p.id);
+  const idx = ids.indexOf(state.activePlate);
+  state.activePlate = ids[(idx + delta + ids.length) % ids.length];
+}
+
 /** Flash the blocking plate with a shake + red tint for 250 ms. */
 function flashBlockedPlate(plateId, sceneId) {
   const el = document.querySelector(`#${sceneId} .plate[data-id="${plateId}"]`);
@@ -1835,12 +1843,19 @@ function updateScene(sceneId, plates, activePlateId) {
   <script id="render-preview">
 // ── render-preview — pure read-only config visuals (plates → HTML) ──────────
 /** A row of 7 holes per plate, the active one filled. `positions0` is 0-based. */
-function posStripHTML(positions0, idPrefix) {
+// With matchLen >= 0, the first `matchLen` rows' active holes get a `match`
+// class + `data-match` (used by the config-stage hint cards to show the matching
+// prefix); the default (-1) emits the plain strip used by search/import cards.
+function posStripHTML(positions0, idPrefix, matchLen = -1) {
+  const showMatch = matchLen >= 0;
   return positions0.map((p, row) => {
-    const holes = Array.from({ length: 7 }, (_, i) =>
-      `<span class="sr-hole${i === p ? ' active' : ''}"`
-      + ` data-test-id="${idPrefix}-hole-${row}-${i}" data-active="${i === p}"></span>`
-    ).join('');
+    const holes = Array.from({ length: 7 }, (_, i) => {
+      const active = i === p;
+      const match = active && row < matchLen;
+      return `<span class="sr-hole${active ? ' active' : ''}${match ? ' match' : ''}"`
+        + ` data-test-id="${idPrefix}-hole-${row}-${i}" data-active="${active}"`
+        + (showMatch ? ` data-match="${match}"` : '') + `></span>`;
+    }).join('');
     return `<div class="sr-plate" data-test-id="${idPrefix}-plate-${row}">${holes}</div>`;
   }).join('');
 }
@@ -3201,18 +3216,9 @@ document.addEventListener('keydown', (e) => {
   e.preventDefault();
 
   if (state.stage === 'config') {
-    if (key === 'W') {
+    if (key === 'W' || key === 'S') {
       // W = дальше вглубь стека (плашка выше на экране), S = ближе
-      const ids = state.plates.map(p => p.id);
-      const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx + 1) % ids.length];
-      updateScene('scene-config-inner', state.plates, state.activePlate);
-      updateMatrixActive();
-    }
-    if (key === 'S') {
-      const ids = state.plates.map(p => p.id);
-      const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
+      cycleActivePlate(key === 'W' ? 1 : -1);
       updateScene('scene-config-inner', state.plates, state.activePlate);
       updateMatrixActive();
     }
@@ -3221,16 +3227,8 @@ document.addEventListener('keydown', (e) => {
   }
 
   if (state.stage === 'solve') {
-    if (key === 'W') {
-      const ids = state.plates.map(p => p.id);
-      const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx + 1) % ids.length];
-      updateScene('scene-solve-inner', state.plates, state.activePlate);
-    }
-    if (key === 'S') {
-      const ids = state.plates.map(p => p.id);
-      const idx = ids.indexOf(state.activePlate);
-      state.activePlate = ids[(idx - 1 + ids.length) % ids.length];
+    if (key === 'W' || key === 'S') {
+      cycleActivePlate(key === 'W' ? 1 : -1);
       updateScene('scene-solve-inner', state.plates, state.activePlate);
     }
     if (key === 'A' || key === 'D') {
@@ -3859,16 +3857,7 @@ function buildHintCard(entry, idx, score, matchLen, userEdges) {
   const name = escapeHtml(entryName(entry) || t('unknown-lock'));
   const tagsStr = escapeHtml(entry.tags.join(', '));
   const opacity = (score >= 0.999 ? 1 : 0.35 + 0.45 * score).toFixed(3);
-  const plateRows = entry.pos.map((p, plateIdx) => {
-    const holes = Array.from({ length: 7 }, (_, i) => {
-      const active = i === p;
-      const match = active && plateIdx < matchLen;
-      return `<span class="sr-hole${active ? ' active' : ''}${match ? ' match' : ''}"`
-        + ` data-test-id="chest-hint-${idx}-hole-${plateIdx}-${i}"`
-        + ` data-active="${active}" data-match="${match}"></span>`;
-    }).join('');
-    return `<div class="sr-plate" data-test-id="chest-hint-${idx}-plate-${plateIdx}">${holes}</div>`;
-  }).join('');
+  const plateRows = posStripHTML(entry.pos, `chest-hint-${idx}`, matchLen);
   return `
     <button type="button" class="chest-hint" data-test-id="chest-hint-${idx}" data-idx="${idx}"
             data-score="${Math.round(score * 100)}" style="opacity:${opacity}" title="${name}">
