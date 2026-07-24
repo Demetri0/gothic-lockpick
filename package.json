@@ -1,6 +1,6 @@
 {
   "name": "gothic-lockpick",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Браузерный решатель и 3D-визуализатор дисковых замков Gothic 1 Remake, с поиском по базе реальных сундуков игры.",
   "main": "index.js",
   "directories": {
