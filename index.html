@@ -1963,19 +1963,24 @@ const json = {
 const gothic = {
   id: 'gothic',
   /** Parse only the rule half, e.g. "A:B-,C+;D:E-", into
-   *  { [SRC letter]: [{targetId, direction, steps}] }. Case/space tolerant. */
+   *  { [SRC letter]: [{targetId, direction, steps}] }. Case/whitespace tolerant, but
+   *  STRICT on rule content: a dependency must state a direction (+/-) — a bare or
+   *  malformed target is invalid data (there is no third kind of dependency), so the
+   *  whole rule set is rejected with null rather than silently dropping it. Tokens
+   *  that aren't rules at all (e.g. a stray positions digit-run) are ignored. */
   parseRules(str) {
     const depMap = {};
-    for (const token of str.split(';')) {
-      const m = token.trim().match(/([A-H])\s*:\s*(.+)$/i);
-      if (!m) continue;
-      const src = m[1].toUpperCase();
+    for (const token of str.replace(/\s+/g, '').toUpperCase().split(';')) {
+      const m = token.replace(/^,+/, '').match(/^([A-H]):(.+)$/);   // tolerate a leading "," separator
+      if (!m) continue;                                   // not a rule token — ignore
+      const src = m[1];
       if (!depMap[src]) depMap[src] = [];
       for (const part of m[2].split(',')) {
-        const pm = part.trim().match(/^([A-H])\s*([+\-])$/i);
-        if (!pm) continue;
+        if (part === '') continue;                        // tolerate a trailing comma
+        const pm = part.match(/^([A-H])([+\-])$/);
+        if (!pm) return null;                             // direction-less / malformed → invalid
         depMap[src].push({
-          targetId: pm[1].toUpperCase().charCodeAt(0) - 64,
+          targetId: pm[1].charCodeAt(0) - 64,
           direction: pm[2] === '+' ? 'same' : 'opposite',
           steps: 1,
         });
@@ -1990,6 +1995,7 @@ const gothic = {
     if (!dM) return null;
     const rawPos = [...dM[1]].map(Number);
     const depMap = gothic.parseRules(text.replace(dM[0], ''));
+    if (depMap === null) return null;                     // malformed rule content (e.g. no direction)
     // Reject (don't silently drop) a rule whose SOURCE plate is beyond the position count.
     for (const src of Object.keys(depMap)) if (src.charCodeAt(0) - 65 >= rawPos.length) return null;
     const POSITIONS = 7;
@@ -2700,7 +2706,7 @@ function applyImportedConfig(rawText) {
 
 /** Build a plates array directly from a DB entry (pos is 0-based; rules may be empty). */
 function entryToPlates(entry) {
-  const depMap = Codecs.gothic.parseRules(entry.rules || '');
+  const depMap = Codecs.gothic.parseRules(entry.rules || '') || {};   // malformed DB rules → no deps (defensive; bad entries are dropped)
   return entry.pos.map((p, i) => ({
     id: i + 1,
     positions: 7,
@@ -3663,7 +3669,7 @@ function searchByPosition(nums, entries) {
 /** Ordered rule groups for hint rendering — thin adapter over the gothic parser's
  *  rule parser (one rule regex in the app, not two). */
 function parseRuleGroups(rulesStr) {
-  return Object.entries(Codecs.gothic.parseRules(rulesStr || ''))
+  return Object.entries(Codecs.gothic.parseRules(rulesStr || '') || {})
     .filter(([, deps]) => deps.length)
     .map(([src, deps]) => ({
       from: src.charCodeAt(0) - 64,

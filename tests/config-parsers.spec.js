@@ -63,6 +63,21 @@ test.describe('gothic.parseRules', () => {
   test('ignores non-rule tokens', async ({ page }) => {
     expect(await page.evaluate(() => Codecs.gothic.parseRules('040615'))).toEqual({});
   });
+  test('strips all inner whitespace, not just around tokens', async ({ page }) => {
+    const r = await page.evaluate(() => Codecs.gothic.parseRules('  E : A- , C- '));
+    expect(r.E).toEqual([
+      { targetId: 1, direction: 'opposite', steps: 1 },
+      { targetId: 3, direction: 'opposite', steps: 1 },
+    ]);
+  });
+  test('a dependency with no direction is invalid data → null (not a silent drop)', async ({ page }) => {
+    const r = await page.evaluate(() => [
+      Codecs.gothic.parseRules('E:C'),           // bare target, no +/-
+      Codecs.gothic.parseRules('A:B-,C'),        // one good, one direction-less
+      Codecs.gothic.parseRules('D:D+,E,F-'),     // 'E' has no direction
+    ]);
+    expect(r).toEqual([null, null, null]);
+  });
 });
 
 test.describe('gothic parser', () => {
@@ -78,6 +93,19 @@ test.describe('gothic parser', () => {
   test('parses rules-first, digits-at-end (order lenient)', async ({ page }) => {
     const p = await page.evaluate(() => Codecs.gothic.parse('A:B-,C+;D:E- 040615'));
     expect(p.map(x => x.currentPos)).toEqual([1, 5, 1, 7, 2, 6]);
+  });
+  test('tolerates messy inner whitespace in the rules', async ({ page }) => {
+    const p = await page.evaluate(() => Codecs.gothic.parse('040615   A:B-, C+ ;  D:E-'));
+    expect(p.map(x => x.currentPos)).toEqual([1, 5, 1, 7, 2, 6]);
+    expect(p[0].deps).toEqual([
+      { targetId: 2, direction: 'opposite', steps: 1 },
+      { targetId: 3, direction: 'same', steps: 1 },
+    ]);
+  });
+  test('rejects a config whose rules contain a direction-less dependency', async ({ page }) => {
+    // The "фиск-1-с" chest's rules end in E:C (no +/-) — invalid data, must not parse.
+    expect(await page.evaluate(() =>
+      Codecs.gothic.parse('32614 A:B-,C-;B:A+,D-;C:A-,B+,D+;D:A-,E+;E:C'))).toBeNull();
   });
   for (const [name, s] of Object.entries({
     'positions only':     '040615',
