@@ -6,6 +6,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- Haptic feedback on mobile (Android): a short buzz on a blocked move and a light tick
+  when a disc turns or a solution step plays manually. Silent no-op on iOS/desktop; needs
+  no permission. Auto-play stays quiet.
+
 ### Fixed
 - Config-stage `A`/`D` disc moves now edit only the active disc (ignoring dependencies,
   which are a solve-stage rule) and persist to the `?lock=` URL like every other config

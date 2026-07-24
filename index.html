@@ -1654,6 +1654,14 @@ const state = {
   <script id="ui-utils">
 // ── ui-utils — shared toast + clipboard helpers ─────────────────────────────
 
+// Best-effort haptic feedback (Android; a silent no-op on iOS/desktop and needs
+// no permission). Reads navigator.vibrate fresh so tests can stub it.
+const HAPTIC_STEP = 10;              // a light tick when a disc turns / a step plays
+const HAPTIC_BLOCK = [12, 20, 12];   // a short error buzz when a move is blocked
+function haptic(pattern) {
+  if (navigator.vibrate) navigator.vibrate(pattern);
+}
+
 function showToast(message, type = 'success') {
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
@@ -1727,6 +1735,7 @@ function cycleActivePlate(delta) {
 
 /** Flash the blocking plate with a shake + red tint for 250 ms. */
 function flashBlockedPlate(plateId, sceneId) {
+  haptic(HAPTIC_BLOCK);   // a blocked move — buzz regardless of the scene state
   const el = document.querySelector(`#${sceneId} .plate[data-id="${plateId}"]`);
   if (!el) return;
   el.classList.remove('plate-blocked');
@@ -3062,8 +3071,10 @@ function wireSolveHandlers() {
     switchToConfig();
     urlPush(state.plates, 'config');   // solve→config navigation: new entry, drops &solve
   });
-  document.getElementById('btn-prev').addEventListener('click', solveStepBack);
-  document.getElementById('btn-step').addEventListener('click', solveStepForward);
+  // Manual step nav ticks (the buttons are disabled at the ends, so a click is a real step).
+  // Auto-play calls solveStepForward directly and stays silent — no per-tick buzz spam.
+  document.getElementById('btn-prev').addEventListener('click', () => { solveStepBack(); haptic(HAPTIC_STEP); });
+  document.getElementById('btn-step').addEventListener('click', () => { solveStepForward(); haptic(HAPTIC_STEP); });
 
   const _notationContent = {
     ru: () => `
@@ -3249,6 +3260,7 @@ document.addEventListener('keydown', (e) => {
           state.detachPositions = preMovePositions;
         }
         addExploreMove(state.activePlate, dir);
+        haptic(HAPTIC_STEP);   // the user turned a disc
         updateScene('scene-solve-inner', state.plates, state.activePlate);
         renderSolvePanel();
       } else {

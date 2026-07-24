@@ -125,6 +125,33 @@ test('D in solve stage enters explore mode and moves the plate', async ({ page }
   await expect(page.getByTestId('explore-separator')).toBeVisible();
 });
 
+test('a blocked solve-stage move fires haptic feedback', async ({ page }) => {
+  const cfg = JSON.stringify([
+    { id: 1, positions: 7, currentPos: 1, deps: [] },   // active plate at the min
+    { id: 2, positions: 7, currentPos: 4, deps: [] },
+  ]);
+  await startSolve(page, cfg);
+  await page.evaluate(() => {
+    window.__vib = [];
+    Object.defineProperty(navigator, 'vibrate', { configurable: true, value: (v) => { window.__vib.push(v); return true; } });
+  });
+  await page.keyboard.press('d');   // right → plate 1 would go to 0: blocked
+  expect((await page.evaluate(() => window.__vib)).length).toBeGreaterThan(0);
+});
+
+test('a manual solution step fires haptic feedback', async ({ page }) => {
+  await startSolve(page, JSON.stringify([
+    { id: 1, positions: 7, currentPos: 6, deps: [] },
+    { id: 2, positions: 7, currentPos: 6, deps: [] },
+  ]));
+  await page.evaluate(() => {
+    window.__vib = [];
+    Object.defineProperty(navigator, 'vibrate', { configurable: true, value: (v) => { window.__vib.push(v); return true; } });
+  });
+  await page.getByTestId('btn-step').click();
+  expect((await page.evaluate(() => window.__vib)).length).toBeGreaterThan(0);
+});
+
 test('a blocked first solve-stage move stays in following mode', async ({ page }) => {
   const cfg = JSON.stringify([
     { id: 1, positions: 7, currentPos: 1, deps: [] },   // active plate at the min
