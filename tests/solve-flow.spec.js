@@ -194,3 +194,28 @@ test('copy button writes solution steps joined with ➝ separator', async ({ pag
   expect(steps.length).toBeGreaterThanOrEqual(1);
   expect(steps.every(s => /^\d+[AD]\d*$/.test(s))).toBe(true);
 });
+
+// A 3-plate lock with dependencies: plate 1 (same→2), plate 2 (opposite→3).
+const DEP_CONFIG = JSON.stringify([
+  { id: 1, positions: 7, currentPos: 2, deps: [{ targetId: 2, direction: 'same', steps: 1 }] },
+  { id: 2, positions: 7, currentPos: 6, deps: [{ targetId: 3, direction: 'opposite', steps: 1 }] },
+  { id: 3, positions: 7, currentPos: 4, deps: [] },
+]);
+
+test('exploring then returning restores the BFS playback state at the detach step', async ({ page }) => {
+  await startSolve(page, DEP_CONFIG);
+  const before = await page.evaluate(() => ({ step: state.solverStep, pos: state.plates.map(p => p.currentPos) }));
+
+  // Detach into explore mode and turn a disc away from the solution.
+  await page.keyboard.press('a');   // plate 1 left (2→3); same-dep drags plate 2 (6→7)
+  await expect(page.getByTestId('explore-separator')).toBeVisible();
+  const during = await page.evaluate(() => state.plates.map(p => p.currentPos));
+  expect(during).not.toEqual(before.pos);   // explore actually moved discs
+
+  // Returning via the separator must restore the exact playback state at the detach step.
+  await page.getByTestId('explore-separator').click();
+  const after = await page.evaluate(() => ({ mode: state.solveMode, step: state.solverStep, pos: state.plates.map(p => p.currentPos) }));
+  expect(after.mode).toBe('following');
+  expect(after.step).toBe(before.step);
+  expect(after.pos).toEqual(before.pos);
+});

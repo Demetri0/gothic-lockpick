@@ -126,6 +126,29 @@ test.describe('compressPath', () => {
     const out = await page.evaluate(() => [compressPath([]), compressPath(['3D'])]);
     expect(out).toEqual([[], ['3D']]);
   });
+
+  test('is a faithful RLE — expanding the groups reproduces the raw path (minimality preserved)', async ({ page }) => {
+    // If compressPath ever dropped or added a keypress, the grouped solution's
+    // raw count would diverge from the minimal BFS depth. Fuzz it: expanding the
+    // groups back to single moves must reproduce the input exactly.
+    const res = await page.evaluate(() => {
+      const dirs = ['A', 'D'];
+      const expand = (grouped) => grouped.flatMap((s) => {
+        const { plateId, dir, steps } = parseNotation(s);
+        return Array.from({ length: steps }, () => toNotation(plateId, dir, 1));
+      });
+      for (let trial = 0; trial < 300; trial++) {
+        const len = 1 + Math.floor(Math.random() * 40);
+        const path = Array.from({ length: len }, () =>
+          `${1 + Math.floor(Math.random() * 8)}${dirs[Math.floor(Math.random() * 2)]}`);
+        if (JSON.stringify(expand(compressPath(path))) !== JSON.stringify(path)) {
+          return { failed: path, grouped: compressPath(path) };
+        }
+      }
+      return { failed: null };
+    });
+    expect(res.failed).toBeNull();
+  });
 });
 
 test.describe('worker equivalence', () => {
