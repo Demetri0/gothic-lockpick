@@ -3136,16 +3136,13 @@ const KEY_MAP = {
 // Config-stage A/D: move the active plate (deps applied, all-or-nothing blocking),
 // then refresh the scene, matrix inputs, and chest hints together. Distinct from
 // the solve stage, where A/D drive explore mode and must not touch the config.
+// Config-stage A/D edits the initial config: it moves only the active disc and
+// ignores dependencies (the puzzle rules apply on the solve stage, not while
+// authoring). Routing through posSetPlateValue keeps it consistent with the
+// drum and carries the same side effects — clamp, scene, hints, URL persistence.
 function configMovePlate(dir) {
-  if (applyMove(state.plates, state.activePlate, dir)) {
-    state.cachedSolution = null;
-    updateScene('scene-config-inner', state.plates, state.activePlate);
-    syncMatrixPositions();
-    renderChestHints();
-  } else {
-    const b = getBlockingPlateId(state.plates, state.activePlate, dir);
-    if (b !== null) flashBlockedPlate(b, 'scene-config-inner');
-  }
+  const p = state.plates.find(x => x.id === state.activePlate);
+  if (p) posSetPlateValue(p.id, p.currentPos + (dir === 'left' ? 1 : -1));
 }
 
 document.addEventListener('keydown', (e) => {
@@ -3238,19 +3235,21 @@ document.addEventListener('keydown', (e) => {
     }
     if (key === 'A' || key === 'D') {
       const dir = key === 'A' ? 'left' : 'right';
-      if (state.solveMode === 'following') {
-        // Enter exploring: stop auto-play, snapshot detach point
-        if (state.autoInterval) {
-          clearInterval(state.autoInterval);
-          state.autoInterval = null;
-          document.getElementById('btn-auto').textContent = t('btn-auto');
-        }
-        state.solveMode = 'exploring';
-        state.detachStep = state.solverStep;
-        state.detachPositions = state.plates.map(p => p.currentPos);
-      }
+      const wasFollowing = state.solveMode === 'following';
+      const preMovePositions = state.plates.map(p => p.currentPos);   // detach snapshot, pre-move
       const moved = applyMove(state.plates, state.activePlate, dir);
       if (moved) {
+        if (wasFollowing) {
+          // Detach from the BFS solution only once a real move happened.
+          if (state.autoInterval) {
+            clearInterval(state.autoInterval);
+            state.autoInterval = null;
+            document.getElementById('btn-auto').textContent = t('btn-auto');
+          }
+          state.solveMode = 'exploring';
+          state.detachStep = state.solverStep;
+          state.detachPositions = preMovePositions;
+        }
         addExploreMove(state.activePlate, dir);
         updateScene('scene-solve-inner', state.plates, state.activePlate);
         renderSolvePanel();

@@ -6,6 +6,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+- Config-stage `A`/`D` disc moves now edit only the active disc (ignoring dependencies,
+  which are a solve-stage rule) and persist to the `?lock=` URL like every other config
+  edit — previously they applied dependencies and were silently dropped from the shared
+  URL (and could be wiped by a browser Back/Forward).
+- A blocked first move on the solve stage no longer flips into explore mode; it stays in
+  following mode until a move actually happens.
+
 ## [1.3.2] - 2026-07-24
 
 ### Added
