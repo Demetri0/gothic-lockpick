@@ -1909,28 +1909,30 @@ function validatePlates(plates) {
   if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) return null;
   if (plates.some(p => !p || typeof p !== 'object')) return null;
 
-  const positions0 = plates[0]?.positions;
-  const sortedIds = plates.map(p => p.id).slice().sort((a, b) => a - b);
-  if (!sortedIds.every((id, i) => id === i + 1)) return null;
+  // ids must match the ARRAY ORDER, not merely form the set 1..n: every consumer
+  // addresses plates by position (the solver writes np[plateId - 1]; the serializers
+  // read positions by index but deps by id), so an out-of-order array silently
+  // corrupts them — the solver even reports a solvable lock as unsolvable.
+  if (!plates.every((p, i) => p.id === i + 1)) return null;
 
   for (const p of plates) {
-    if (typeof p.id !== 'number' ||
-        typeof p.positions !== 'number' || p.positions % 2 === 0 || p.positions < 3 ||
-        p.positions !== positions0 ||
-        typeof p.currentPos !== 'number' || p.currentPos < 1 || p.currentPos > p.positions ||
+    // The app is 7-hole by decision (see the codec spec: "hole count assumed 7"), and
+    // every format except json encodes that assumption. Enforce it here instead of
+    // letting an unrepresentable config reach the codecs and the scene builder.
+    if (!Number.isInteger(p.positions) || p.positions !== DEFAULT_POSITIONS ||
+        !Number.isInteger(p.currentPos) || p.currentPos < 1 || p.currentPos > p.positions ||
         !Array.isArray(p.deps)) {
       return null;
     }
     const seenTargets = new Set();
     for (const d of p.deps) {
       if (!d || typeof d !== 'object' ||
-          typeof d.targetId !== 'number' ||
           !Number.isInteger(d.targetId) ||
           d.targetId < 1 || d.targetId > plates.length ||
           d.targetId === p.id ||
           (d.direction !== 'same' && d.direction !== 'opposite') ||
-          typeof d.steps !== 'number' ||
-          !Number.isInteger(d.steps) || d.steps < 1) {
+          !Number.isInteger(d.steps) ||
+          d.steps < 1 || d.steps > p.positions - 1) {   // a longer step can never be legal
         return null;
       }
       if (seenTargets.has(d.targetId)) return null;   // duplicate/conflicting dep to same target

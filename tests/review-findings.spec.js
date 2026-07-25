@@ -133,16 +133,29 @@ test('F24: no codec throws on a non-string argument (never-throws contract)', as
   expect(thrown).toEqual([]);
 });
 
-test('F9: the URL is only written with a lock the app can read back', async ({ page }) => {
-  const ok = await page.evaluate(() => {
-    const plates = [
-      { id: 1, positions: 9, currentPos: 9, deps: [] },
-      { id: 2, positions: 9, currentPos: 1, deps: [] },
-    ];
-    const q = urlQueryFor(plates, 'config');
-    return q === null || urlReadConfig(q) !== null;   // either refuse to write, or be readable
+test('F9: every config the app accepts round-trips through the ?lock URL', async ({ page }) => {
+  // The original finding (the app writing a lock it then rejects as corrupted) is only
+  // reachable with a positions !== 7 config, which validatePlates now refuses outright.
+  // So pin the invariant that actually matters: anything that passes the gate must survive
+  // urlQueryFor → urlReadConfig unchanged, at every plate count and both boundary holes.
+  const bad = await page.evaluate(() => {
+    const fails = [];
+    for (let n = 2; n <= 8; n++) {
+      for (const pos of [1, 7, 4]) {                 // both boundary holes and the centre
+        const plates = Array.from({ length: n }, (_, i) => ({
+          id: i + 1, positions: 7, currentPos: pos,
+          deps: i === 0 && n > 1 ? [{ targetId: 2, direction: 'opposite', steps: 1 }] : [],
+        }));
+        if (!validatePlates(plates)) { fails.push(`gate rejected n=${n} pos=${pos}`); continue; }
+        const back = urlReadConfig(urlQueryFor(plates, 'config'));
+        if (!back || JSON.stringify(back.plates) !== JSON.stringify(plates)) {
+          fails.push(`n=${n} pos=${pos}`);
+        }
+      }
+    }
+    return fails;
   });
-  expect(ok).toBe(true);
+  expect(bad).toEqual([]);
 });
 
 // ── auto-play lifecycle ──────────────────────────────────────────────────────
