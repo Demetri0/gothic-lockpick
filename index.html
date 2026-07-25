@@ -602,6 +602,9 @@ input[type=number] {
 
 .btn-step-nav { display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
 .btn-chevron { display: block; flex: none; }
+/* .hidden is declared earlier with the same specificity, so this rule's own display
+   would otherwise win and the list could never be hidden. */
+.solution-list.hidden { display: none; }
 .solution-list {
   list-style: none;
   counter-reset: step;
@@ -631,7 +634,11 @@ input[type=number] {
   color: var(--text-bright);
 }
 .solution-list li:hover { background: var(--bg-hover); }
-.solve-note { padding: 28px 16px; text-align: center; line-height: 1.5; color: var(--text-soft); }
+.solve-note { padding: 16px; text-align: center; line-height: 1.5; color: var(--text-soft); }
+.solve-note:not(.hidden) {
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column; justify-content: center;
+}
 .solve-note-hint { margin-top: 8px; font-size: 0.85em; color: var(--text-muted); }
 .solution-list li.endpoint {
   color: var(--text-muted);
@@ -1180,7 +1187,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         <button id="btn-copy-solution" class="btn-copy-solution" data-test-id="btn-copy-solution" data-i18n-title="copy-solution" title="Копировать цепочку">📋</button>
       </div>
       <ol id="solution-steps" class="solution-list" data-test-id="solution-steps"></ol>
-      <div id="solve-note" class="solve-note hidden" data-test-id="solve-already-solved">
+      <div id="solve-note" class="solve-note hidden" data-test-id="solve-already-solved" aria-hidden="true">
         <p data-i18n="solve-solved-title">Данный замок уже решён.</p>
         <p class="solve-note-hint" data-i18n="solve-solved-hint">Возможно вы забыли выставить начальные позиции</p>
       </div>
@@ -2977,10 +2984,19 @@ function buildStepLi(move, opts = {}) {
   return li;
 }
 
+/** Swap the step list for the already-solved prose (or back). The empty <ol> keeps its
+ *  flex:1 and would otherwise push the text down against the buttons, so hide it too. */
+function showSolveNote(show) {
+  const note = document.getElementById('solve-note');
+  note.classList.toggle('hidden', !show);
+  note.setAttribute('aria-hidden', String(!show));
+  document.getElementById('solution-steps').classList.toggle('hidden', show);
+}
+
 function renderSolvePanel() {
   const list = document.getElementById('solution-steps');
   list.innerHTML = '';
-  document.getElementById('solve-note').classList.add('hidden');
+  showSolveNote(false);
 
   if (state.solveMode === 'exploring') {
     // ── Exploring mode ────────────────────────────────────────────────────
@@ -3048,7 +3064,7 @@ function renderSolvePanel() {
       // opened SOLVE before entering the lock's real starting positions, so say both.
       // The notice is a sibling of the <ol>, not a fake step inside it.
       document.getElementById('solution-string').innerHTML = '';
-      document.getElementById('solve-note').classList.remove('hidden');
+      showSolveNote(true);
       document.getElementById('btn-prev').disabled = true;
       document.getElementById('btn-step').disabled = true;
       document.getElementById('btn-auto').disabled = true;

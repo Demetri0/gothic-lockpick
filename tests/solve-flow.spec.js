@@ -249,3 +249,16 @@ test('the already-solved notice is localized', async ({ page }) => {
   await page.getByTestId('lang-uk').click();
   await expect(page.getByTestId('solve-already-solved')).toContainText('розв');
 });
+
+test('the already-solved notice replaces the list and is hidden from assistive tech when absent', async ({ page }) => {
+  await startSolve(page, SOLVED_CONFIG);
+  const note = page.getByTestId('solve-already-solved');
+  await expect(note).toHaveAttribute('aria-hidden', 'false');
+  await expect(page.getByTestId('solution-steps')).toBeHidden();   // empty <ol> must not eat the space
+
+  // A centred lock can still be explored — the notice must give the list back.
+  await page.keyboard.press('a');
+  await expect(note).toBeHidden();
+  await expect(note).toHaveAttribute('aria-hidden', 'true');
+  await expect(page.getByTestId('solution-steps')).toBeVisible();
+});
