@@ -1477,6 +1477,7 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Импорт',
     'dialog-import-body': 'Применить конфигурацию из буфера обмена?',
     'import-found-in-db': 'Найдено в базе:',
+    'toast-config-not-applied': 'Взяты только цифры: связи не перезаписаны',
     'import-label-positions': 'Позиции',
     'import-label-deps': 'Связи',
     'dialog-cancel': 'Отмена',     'dialog-ok': 'Применить',
@@ -1527,6 +1528,7 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Import',
     'dialog-import-body': 'Apply config from clipboard?',
     'import-found-in-db': 'Found in database:',
+    'toast-config-not-applied': 'Digits only — dependencies left intact',
     'import-label-positions': 'Positions',
     'import-label-deps': 'Dependencies',
     'dialog-cancel': 'Cancel',     'dialog-ok': 'Apply',
@@ -1577,6 +1579,7 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Імпорт',
     'dialog-import-body': 'Застосувати конфіг з буфера обміну?',
     'import-found-in-db': 'Знайдено в базі:',
+    'toast-config-not-applied': 'Взято лише цифри: зв\u2019язки не перезаписані',
     'import-label-positions': 'Позиції',
     'import-label-deps': "Зв'язки",
     'dialog-cancel': 'Скасувати',  'dialog-ok': 'Застосувати',
@@ -2479,6 +2482,12 @@ function posReplaceAll(digitsStr) {
   const zeroBased = digits.includes(0);
   const vals = digits.map(d => Math.min(Math.max(zeroBased ? d + 1 : d, 1), positions));
   while (vals.length < POS_MIN_PLATES) vals.push(center(positions));
+  // Same plate count → set the positions in place so the dependency matrix survives.
+  // Only a changed count forces a rebuild, where deps cannot be carried over anyway.
+  if (vals.length === state.plates.length) {
+    vals.forEach((v, i) => posSetPlateValue(state.plates[i].id, v));
+    return;
+  }
   state.plates = vals.map((v, i) => { const p = makePlate(i + 1, positions); p.currentPos = v; return p; });
   state.activePlate = state.plates.length;
   posStructuralUpdate(() => { if (!posFocusGhostAdd()) posFocusPlate(state.plates.length); });
@@ -2632,9 +2641,13 @@ function wireConfigHandlers() {
     // gothic paste, and only when nothing would be clobbered (no deps set yet).
     // Anything else (incl. base64url byte-array tokens) falls through to digits —
     // a whole-config import must go through the confirmation dialog (global paste).
+    const pastedConfig = validatePlates(Codecs.gothic.parse(text));
     if (state.plates.every(p => p.deps.length === 0)) {
-      const plates = validatePlates(Codecs.gothic.parse(text));
-      if (plates) { applyPlates(plates); showToast(t('toast-applied')); return; }
+      if (pastedConfig) { applyPlates(pastedConfig); showToast(t('toast-applied')); return; }
+    } else if (pastedConfig) {
+      // A whole config would overwrite the matrix the user has built, so take only the
+      // digits — and say so, instead of silently dropping the dependencies on the floor.
+      showToast(t('toast-config-not-applied'));
     }
     const digits = text.replace(/\D/g, '');
     if (!digits) return;
@@ -2806,7 +2819,9 @@ document.addEventListener('paste', (e) => {
   if (e.target.matches('input, textarea, select')) return;
   e.preventDefault();
   const text = e.clipboardData.getData('text');
-  if (text) openImportDialog(text);
+  // Only a real config opens the confirmation dialog; anything else is not an import
+  // (bare digits belong to the drum path) and must not raise a bogus «invalid config».
+  if (text && looksLikeImportConfig(text)) openImportDialog(text);
 });
 
 document.getElementById('btn-import').addEventListener('click', async () => {
@@ -3639,24 +3654,34 @@ async function loadChestDb() {
   if (typeof Fuse === 'undefined') return null; // CDN script failed to load
 
   const cached = localStorage.getItem('chestDb');
+  const usable = (db) => !!db && Array.isArray(db.entries) && db.entries.length > 0;
   try {
     const res = await fetch('chests.json');
     if (!res.ok) throw new Error('bad response');
-    chestDb = await res.json();
-    localStorage.setItem('chestDb', JSON.stringify(chestDb));
+    const fetched = await res.json();
+    if (!usable(fetched)) throw new Error('unusable shape');   // JSON, but not a chest DB
+    chestDb = fetched;
+    try { localStorage.setItem('chestDb', JSON.stringify(chestDb)); } catch { /* quota — keep the fresh DB */ }
   } catch {
     if (cached) {
-      try { chestDb = JSON.parse(cached); } catch { /* ignore corrupt cache */ }
+      try {
+        const fromCache = JSON.parse(cached);
+        if (usable(fromCache)) chestDb = fromCache;
+      } catch { /* ignore corrupt cache */ }
     }
   }
 
-  if (!chestDb) return null;
+  if (!usable(chestDb)) { chestDb = null; return null; }
 
-  chestFuse = new Fuse(chestDb.entries, {
-    keys: ['name.ru', 'name.en', 'name.de', 'name.uk', 'tags'],
-    threshold: 0.4,
-    ignoreLocation: true,
-  });
+  // Inside the guarded path: a Fuse constructor throw must not reject the readiness
+  // promise, or the search dies silently with no toast and no tooltip.
+  try {
+    chestFuse = new Fuse(chestDb.entries, {
+      keys: ['name.ru', 'name.en', 'name.de', 'name.uk', 'tags'],
+      threshold: 0.4,
+      ignoreLocation: true,
+    });
+  } catch { chestDb = null; return null; }
   return chestDb;
 }
 
@@ -3839,7 +3864,7 @@ function buildResultCard(entry, idx) {
   const name = escapeHtml(entryName(entry) || t('unknown-lock'));
   const tagsStr = escapeHtml(entry.tags.join(', '));
   const image = entry.img[0]
-    ? `<img src="${entry.img[0]}" alt="">`
+    ? `<img src="${escapeHtml(entry.img[0])}" alt="">`
     : `<span class="sr-image-placeholder" data-test-id="search-result-${idx}-placeholder">🖼</span>`;
   const plateRows = posStripHTML(entry.pos, `search-result-${idx}`);
 

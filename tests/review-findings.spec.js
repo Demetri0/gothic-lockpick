@@ -303,16 +303,22 @@ test('F15: Ctrl+V with text that is not a config does not open the import dialog
 
 // ── search readiness ─────────────────────────────────────────────────────────
 
-test('F16: a malformed chest DB leaves the search gracefully unavailable, not silently dead', async ({ page }) => {
-  await page.route('**/chests.json', route =>
+test('F16: a malformed chest DB leaves the search gracefully unavailable, not silently dead', async ({ browser, baseURL }) => {
+  // A FRESH context on purpose: reusing the beforeEach page would defeat the mock twice
+  // over — via the localStorage cache and via the browser's HTTP cache for chests.json
+  // (both gotchas are documented in CLAUDE.md).
+  const ctx = await browser.newContext({ baseURL });
+  const fresh = await ctx.newPage();
+  await fresh.route('**/chests.json', route =>
     route.fulfill({ status: 200, contentType: 'application/json', body: '{"nope":1}',
                     headers: { 'Cache-Control': 'no-store' } }));
-  await page.goto('/');
-  const settled = await page.evaluate(() =>
+  await fresh.goto('/');
+  const settled = await fresh.evaluate(() =>
     chestSearchReady.then(v => ({ ok: true, v }), e => ({ ok: false, e: String(e) })));
   expect(settled.ok).toBe(true);          // the readiness promise must not reject
   expect(settled.v).toBe(false);          // it resolves to "unavailable"
-  await expect(page.getByTestId('btn-search-db')).toBeDisabled();
+  await expect(fresh.getByTestId('btn-search-db')).toBeDisabled();
+  await ctx.close();
 });
 
 // ── solve panel consistency ──────────────────────────────────────────────────
