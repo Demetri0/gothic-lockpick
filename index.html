@@ -2975,10 +2975,17 @@ function renderSolvePanel() {
   } else {
     // ── Following mode ────────────────────────────────────────────────────
 
-    // Notation string with current step highlighted
+    // `solverStep` counts steps ALREADY played, so the move to highlight is the one at
+    // index solverStep − 1 (−1 when nothing has been played yet). Derive it once: both
+    // renderers below used to compute it independently (`i === solverStep` for the string
+    // vs `i + 1 === solverStep` for the cards), which is exactly how they drifted apart
+    // and ended up highlighting different moves.
+    const lastPlayedIndex = state.solverStep - 1;
+
+    // Notation string with the last played step highlighted
     const parts = state.solution.map((s, i) => {
       const arrow = i < state.solution.length - 1 ? ' →' : '';
-      const inner = i === state.solverStep
+      const inner = i === lastPlayedIndex
         ? `<span class="cur-step">${s}</span>`
         : `<span style="opacity:0.45">${s}</span>`;
       return `<span style="white-space:nowrap">${inner}${arrow}</span>`;
@@ -2999,7 +3006,7 @@ function renderSolvePanel() {
     state.solution.forEach((s, i) => {
       list.appendChild(buildStepLi(parseNotation(s), {
         testId: `step-${i + 1}`,
-        active: i + 1 === state.solverStep,
+        active: i === lastPlayedIndex,
         onClick: () => jumpToStep(i + 1),
       }));
     });
