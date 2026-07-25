@@ -1379,8 +1379,6 @@ function bfsSolveGrouped(plates, onProgress) {
 
   // ── Phase 2: distG over the corridor only ───────────────────────────────
   const distG = new Map([[goalKey, 0]]);
-  const layers = Array.from({ length: L + 1 }, () => []);  // corridor states by distS
-  layers[L].push(goalKey);
   frontier = [goalKey];
   while (frontier.length) {
     const next = [];
@@ -1392,7 +1390,6 @@ function bfsSolveGrouped(plates, onProgress) {
         if (distG.has(nk) || distS.get(nk) !== ds - 1) continue;
         distG.set(nk, g + 1);
         tick();
-        layers[ds - 1].push(nk);
         next.push(nk);
       }
     }
@@ -1702,8 +1699,7 @@ const state = {
   cachedSolution: null,     // solution found during randomization; cleared on any config change
   solveMode: 'following',   // 'following' | 'exploring'
   exploreHistory: [],       // manual moves recorded in explore mode
-  detachPositions: null,    // plate currentPos snapshot at moment of detach
-  detachStep: null,         // solverStep at moment of detach
+  detachStep: null,         // solverStep at moment of detach — returning replays from it, no snapshot needed
   lang: localStorage.getItem('lang') || 'ru',
 };
 </script>
@@ -1734,6 +1730,9 @@ function showToast(message, type = 'success') {
   setTimeout(() => {
     toast.classList.remove('visible');
     toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+    // transitionend never fires when there was nothing to transition (background tab,
+    // reduced motion, .visible never applied) — without this the node would leak.
+    setTimeout(() => toast.remove(), 400);
   }, 2500);
 }
 
@@ -1768,6 +1767,10 @@ function applyMove(plates, plateId, dir) {
 }
 
 /** Returns the id of the first plate that would go out of bounds, or null if move is valid. */
+// Deliberately mirrors computeMove's effect loop instead of reusing it: computeMove
+// answers "can this move happen" (null on block), this answers "who blocks it" for the
+// UI hint. Merging them would mean either a second return channel or a throwaway object
+// on every legal move — in the solver's hot path. Keep the two loops in sync by hand.
 function getBlockingPlateId(plates, plateId, dir) {
   const primaryDelta = dir === 'left' ? 1 : -1;
   const primary = plates.find(p => p.id === plateId);
@@ -1791,6 +1794,9 @@ function getBlockingPlateId(plates, plateId, dir) {
 function cycleActivePlate(delta) {
   const ids = state.plates.map(p => p.id);
   const idx = ids.indexOf(state.activePlate);
+  // A stale activePlate (config resized under it) would otherwise wrap to the
+  // second-to-last plate on delta -1 instead of landing on the first one.
+  if (idx === -1) { state.activePlate = ids[0]; return; }
   state.activePlate = ids[(idx + delta + ids.length) % ids.length];
 }
 
@@ -2952,7 +2958,6 @@ function resetExploreState() {
   state.solveMode = 'following';
   state.exploreHistory = [];
   state.detachStep = null;
-  state.detachPositions = null;
 }
 
 function switchToSolve(push = true) {
@@ -3387,7 +3392,6 @@ document.addEventListener('keydown', (e) => {
     if (key === 'A' || key === 'D') {
       const dir = key === 'A' ? 'left' : 'right';
       const wasFollowing = state.solveMode === 'following';
-      const preMovePositions = state.plates.map(p => p.currentPos);   // detach snapshot, pre-move
       const moved = applyMove(state.plates, state.activePlate, dir);
       if (moved) {
         if (wasFollowing) {
@@ -3395,7 +3399,6 @@ document.addEventListener('keydown', (e) => {
           stopAutoPlay();
           state.solveMode = 'exploring';
           state.detachStep = state.solverStep;
-          state.detachPositions = preMovePositions;
         }
         addExploreMove(state.activePlate, dir);
         haptic(HAPTIC_STEP);   // the user turned a disc

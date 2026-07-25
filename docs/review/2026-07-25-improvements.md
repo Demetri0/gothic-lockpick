@@ -12,6 +12,38 @@ that's the point of this file.
 
 ---
 
+## Resolution (reviewed 2026-07-26)
+
+All eight items re-verified as still valid, then decided. **This file is now closed** —
+the verdicts below are the record; nothing here is an open question.
+
+| # | Item | Verdict |
+|---|------|---------|
+| 1 | Dead `layers` array | **Done** — deleted |
+| 2 | Dead `state.detachPositions` | **Done** — deleted (with `preMovePositions`) |
+| 3 | `getBlockingPlateId` duplicates `computeMove` | **Kept** — split is deliberate, now commented in code |
+| 4 | `expand()` per-node allocations | **Declined** — see measurement below |
+| 5 | `showToast` node leak | **Done** — 400 ms fallback `remove()` |
+| 6 | DB re-serialised into `localStorage` every load | **Declined** — see measurement below |
+| 7 | `cycleActivePlate` stale-`activePlate` wrap | **Done** — `idx === -1` guard + test |
+| 8 | «return to step 0» wording | **Declined** — accepted as-is |
+
+Two items were marked "measure first"; both measurements are recorded here so they are
+not re-litigated:
+
+- **(4)** The five heaviest real 7-plate chests solve in **424 / 1606 / 1642 / 2068 / 2172 ms**
+  (34k–198k iterations). So the solver *is* slow on real data — the premise held. Optimising
+  it was nonetheless declined: the cost is a rewrite of the hot path that is shared verbatim
+  with the worker, against a wait users have not complained about.
+- **(6)** `JSON.stringify(chestDb)` = **1 ms** for 170 KB; `localStorage.setItem` = **1.4 ms**.
+  Nothing worth caching around. The quota half of this item was already fixed separately
+  (the `setItem` now has its own `try`).
+
+Item 8 was judged not worth a new i18n key: the separator's click target is correct, only
+the label reads oddly in the one case where you detach before playing any step.
+
+---
+
 ## 1. Dead `layers` array in `bfsSolveGrouped` — remove
 
 `index.html:1335-1348`. Re-verified: exactly three occurrences, **all writes**.

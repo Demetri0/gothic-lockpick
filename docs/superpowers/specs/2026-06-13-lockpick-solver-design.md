@@ -52,6 +52,11 @@ All plates in a configuration share the same `positions` value. `steps` is alway
 }
 ```
 
+> **Amendment (2026-07-26):** `detachPositions` was removed from the implementation. It was
+> written but never read — `returnToSolution` restores a step by replaying the solution from
+> the config snapshot (`solveStartPositions`), so a positional snapshot is redundant. Every
+> mention of it below is historical; `detachStep` alone is what explore mode records.
+
 `cachedSolution` is set by both random generation and BFS solve. It is cleared on any config mutation (keyboard move, dep edit, plate count change, position count change, import). Re-entering config from solve without changes preserves the cache.
 
 `solveMode` switches from `'following'` to `'exploring'` the first time the user presses A/D in solve stage. While exploring, `exploreHistory` accumulates free moves and `detachStep`/`detachPositions` record where the user branched off.

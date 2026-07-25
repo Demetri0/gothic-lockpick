@@ -89,6 +89,21 @@ test.describe('3D highlight follows playback', () => {
     await expect(page.getByTestId('scene-solve-inner-plate-4')).toHaveClass(/active/);
     await expect(page.getByTestId('scene-solve-inner-plate-5')).not.toHaveClass(/active/);
   });
+
+  test('cycling from an activePlate that is no longer in the config lands on the first plate', async ({ page }) => {
+    await startSolve(page, CONFIG);
+    // Without the idx === -1 guard, delta -1 wraps to the second-to-last plate instead
+    const [back, fwd] = await page.evaluate(() => {
+      state.activePlate = 99;
+      cycleActivePlate(-1);
+      const back = state.activePlate;
+      state.activePlate = 99;
+      cycleActivePlate(1);
+      return [back, state.activePlate];
+    });
+    expect(back).toBe(1);
+    expect(fwd).toBe(1);
+  });
 });
 
 test.describe('solution card localization + edge cases', () => {
