@@ -1,6 +1,6 @@
 # Full-review fixes — implementation plan
 
-**Scope:** the 26 defects confirmed by `tests/review-findings.spec.js` (all red as of
+**Scope:** the 24 defects confirmed by `tests/review-findings.spec.js` (all red as of
 `fix/review-findings`). Every fix turns its test green; the file is the acceptance criteria.
 
 **Source:** whole-file review of `index.html` (2026-07-25) — my own pass plus five
@@ -25,30 +25,41 @@ lock. Every consumer then assumes array index == id − 1 and exactly 7 holes.
   rejection over silent normalisation: every codec already emits ordered arrays, so an
   out-of-order array means hand-edited/corrupt input.
 - `Number.isInteger` on `positions` and `currentPos` (already applied to `targetId`/`steps`).
-- **Decision needed:** pin `positions === DEFAULT_POSITIONS` (7). The whole app hardcodes
-  7 — `dotted`/`gothic`/`bytearray` parse, `posStripHTML`, `entryToPlates`, the drum. The
-  alternative (teach every codec a hole count) is a real feature, not a fix; if we ever
-  want non-7 locks it should be its own task. Recommend pinning to 7 and stating it in the
-  JSDoc.
+- Pin `positions === DEFAULT_POSITIONS` (7). **Not an open question — already decided:**
+  `docs/superpowers/plans/2026-07-17-review-followups.md:10` ("I3 stays 7-hole") and the
+  codec design spec states "Hole count assumed 7" for both gothic and dotted. Today that
+  decision is only a comment; this makes it enforced, which is what the spec already
+  assumes when it says a non-7 config "round-trips only through json/gothic".
 - Require `d.steps <= positions - 1` (a larger step can never be legal, and today it
   silently freezes the plate and reports the lock unsolvable).
 
 ## Batch 2 — codec contract honesty
 
-Fixes **F2, F11, F21, F24**, and F9 falls out of F21/F2.
+Fixes **F11, F24**; F9 becomes unreachable once Batch 1 pins the hole count.
 
-- **F2 (`gothic` can't read its own export).** `gothic.parse` requires both a digit-run
-  and a rule token (that's what keeps the four formats disjoint), but `gothic.serialize`
-  emits a bare positions string for a dep-free config — including the default startup
-  config, so plain Ctrl+C → Ctrl+V fails. Fix on the serialize side: return `null` for a
-  config with no dependencies ("not representable in this format") and let the export /
-  Ctrl+C path fall through to the next codec (`dotted`, which round-trips it exactly).
-  Keeps parse strict and the disjointness tests intact.
+**Checked against `docs/superpowers/specs/2026-07-17-config-format-parsers-design.md`
+first — two of the original findings were wrong and are withdrawn:**
+
+- ~~**F21** (`bytearray.serialize` truncating a pin > 7)~~ — **not a defect.** The spec
+  says serialize returns `null` only for `n < 3`, and non-7 hole counts are an explicitly
+  accepted constraint ("round-trips only through json/gothic"), enforced by
+  `validatePlates`. Batch 1 makes the truncating path unreachable anyway.
+- ~~**F2** (Ctrl+C → Ctrl+V of a dep-free config reports «Невалидный конфиг»)~~ — **not a
+  defect of its own; a symptom of F15.** The spec covers this twice: gothic's *Known
+  limitation* ("a dependency-less config serialises to bare positions, which gothic.parse
+  will not re-import … not special-cased"), and the routing table — "Bare digits
+  (`3055665`) match none → **not an import config, consistent with the drum-input path
+  being separate**". So bare digits are *supposed* to go through the drum, where
+  `posReplaceAll` applies them as positions. The only wrong part is the bogus error toast,
+  which comes from the global paste not being gated on `looksLikeImportConfig` (F15). Do
+  **not** change the copy format or the codec: after F15 the global paste is a no-op for
+  bare digits and pasting them onto a drum cell restores the positions, which is the
+  documented design.
 - **F11.** `gothic.parse` clamps out-of-range digits with `Math.min(POSITIONS, …)`,
-  fabricating a config the user never typed. Drop the clamp and return `null` when a digit
-  exceeds `POSITIONS - 1`.
-- **F21.** `bytearray.serialize` packs the pin into 3 bits with no range check, silently
-  truncating 8 → 0. Return `null` when `currentPos - 1 > 7` (or `positions !== 7`).
+  fabricating a config the user never typed — and after Batch 1 the clamped value (7) is
+  still *valid*, so nothing downstream catches it. Drop the clamp and return `null` when a
+  digit exceeds `POSITIONS - 1`. The spec doesn't dictate this case, but it matches the
+  M4/M5/M6 precedent ("reject the dubious cases") and the sibling codecs' behaviour.
 - **F24.** `json`/`dotted`/`bytearray` call `.trim()` on the raw argument, so a non-string
   caller gets a `TypeError` from a method whose contract says it never throws. Coerce with
   `String(str)` like `gothic` does (one line each).

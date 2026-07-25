@@ -72,15 +72,14 @@ test('F23: validatePlates rejects a dep whose steps exceed the lock size', async
 
 // ── codec contract ───────────────────────────────────────────────────────────
 
-test('F2: a dependency-free config round-trips through the gothic codec', async ({ page }) => {
-  // Ctrl+C then Ctrl+V of the default (dep-free) config must import back.
-  const ok = await page.evaluate(() => {
-    const plates = state.plates;                        // default startup config, no deps
-    const s = Codecs.gothic.serialize(plates);
-    return parseConfig(s) !== null;
-  });
-  expect(ok).toBe(true);
-});
+// F2 (Ctrl+C → Ctrl+V of a dep-free config reports «Невалидный конфиг») was WITHDRAWN:
+// per the codec spec bare digits are deliberately NOT an import config but the separate
+// drum-input path, and gothic's inability to re-import them is a documented Known
+// limitation. The only wrong part is the bogus toast, which F15 (gating the global paste
+// on looksLikeImportConfig) removes. The 0-based/1-based collision this uncovered — a
+// gothic copy is 0-based, the drum reads pasted digits as its 1-based display values, so
+// a copy→paste-into-drum cycle shifts every disc by one — is a semantics question, not a
+// defect; recorded in docs/review/2026-07-25-improvements.md for a decision.
 
 test('F11: out-of-range position digits are rejected, not clamped', async ({ page }) => {
   // '789' means 0-based positions 8/9/10 on a 7-hole lock — impossible, so it must not
@@ -95,14 +94,11 @@ test('F11: out-of-range position digits are rejected, not clamped', async ({ pag
   expect(r.gothicRaw).toBeNull();
 });
 
-test('F21: bytearray.serialize returns null for a pin it cannot represent', async ({ page }) => {
-  const out = await page.evaluate(() => Codecs.bytearray.serialize([
-    { id: 1, positions: 9, currentPos: 9, deps: [] },
-    { id: 2, positions: 9, currentPos: 5, deps: [] },
-    { id: 3, positions: 9, currentPos: 5, deps: [] },
-  ]));
-  expect(out).toBeNull();   // must not silently truncate 8 into 3 bits
-});
+// F21 (bytearray.serialize truncating a >7 pin) was WITHDRAWN after checking
+// docs/superpowers/specs/2026-07-17-config-format-parsers-design.md: serialize is
+// specified to return null only for n < 3, and non-7 hole counts are a documented
+// accepted constraint ("round-trips only through json/gothic"), enforced by
+// validatePlates. Pinning positions to 7 (F8) makes the truncation unreachable.
 
 test('F24: no codec throws on a non-string argument (never-throws contract)', async ({ page }) => {
   const thrown = await page.evaluate(() => {
