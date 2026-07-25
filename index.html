@@ -2876,6 +2876,12 @@ function startSolve(push) {
   btn.textContent = '...';
   resetProgress();
   document.getElementById('computing-overlay').classList.add('active');
+  // A worker handles messages serially, so posting on top of an abandoned BFS would make
+  // this solve wait for it. Drop the old one the way Cancel does.
+  worker.terminate();
+  worker = createWorker();
+  worker.onmessage = onWorkerMessage;
+  worker.onerror = workerError;
   worker.postMessage({ type: 'solve', plates: state.plates, solveId: ++solveId });
 }
 
@@ -3387,7 +3393,8 @@ init();
 self.onmessage = ({ data }) => {
   if (data.type === 'solve') {
     const { solution } = bfsSolveGrouped(data.plates, (n) => {
-      self.postMessage({ type: 'progress', itersDelta: n });
+      // Tag progress with the solveId so the host can drop counts from a superseded run.
+      self.postMessage({ type: 'progress', itersDelta: n, solveId: data.solveId });
     });
     self.postMessage({ type: 'solve', solution, solveId: data.solveId });
   }
@@ -3493,6 +3500,8 @@ function resetProgress() {
 }
 
 function onWorkerMessage({ data }) {
+  // Stale progress (from a solve that was superseded) must not inflate the new counter.
+  if (data.solveId !== undefined && data.solveId !== solveId) return;
   if (data.type === 'progress') {
     _progressStates = (_progressStates || 0) + (data.itersDelta || 0);
     document.getElementById('progress-total').textContent =
@@ -3550,6 +3559,12 @@ function createRandomPool() {
   randomPool = Array.from({ length: n }, (_, i) => {
     const w = createWorker();
     w.onmessage = (e) => onRandomPoolMessage(e, capturedId, i);
+    // A worker that dies (OOM on a big random lock) would otherwise never report
+    // 'random-exhausted', and the only exit from the generating state is the exhausted
+    // count reaching the pool size — the overlay and the buttons would hang forever.
+    const asExhausted = () => onRandomPoolMessage({ data: { type: 'random-exhausted' } }, capturedId, i);
+    w.onerror = asExhausted;
+    w.onmessageerror = asExhausted;
     return w;
   });
   return randomPool.length;
