@@ -2456,11 +2456,17 @@ function posRemovePlateAt(idx) {
   });
 }
 
-/** Replace the whole set from pasted digits (>1): N = digit count (max 8), deps reset. */
+/** Replace the whole set from pasted digits (>1): N = digit count (max 8), deps reset.
+ *  The digit base is inferred, because a pasted run can come from either convention:
+ *  every wire format (gothic/dotted/DB `pos`) is 0-based, while the drum displays 1-based
+ *  values. A `0` is only possible 0-based (range 0–6) and a `7` only 1-based (range 1–7),
+ *  so the presence of a `0` decides it; digits 1–6 alone are ambiguous and read as
+ *  1-based — the drum sets the values it shows. Out-of-range leftovers still clamp. */
 function posReplaceAll(digitsStr) {
   const positions = DEFAULT_POSITIONS;
-  const vals = digitsStr.slice(0, POS_MAX_PLATES).split('')
-    .map(c => Math.min(Math.max(parseInt(c, 10), 1), positions));
+  const digits = digitsStr.slice(0, POS_MAX_PLATES).split('').map(c => parseInt(c, 10));
+  const zeroBased = digits.includes(0);
+  const vals = digits.map(d => Math.min(Math.max(zeroBased ? d + 1 : d, 1), positions));
   while (vals.length < POS_MIN_PLATES) vals.push(center(positions));
   state.plates = vals.map((v, i) => { const p = makePlate(i + 1, positions); p.currentPos = v; return p; });
   state.activePlate = state.plates.length;

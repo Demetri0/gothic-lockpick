@@ -352,12 +352,13 @@ test('position lock: pasting a full import config (with rules) applies it whole'
 });
 
 test('position lock: an import-looking but invalid config falls back to digit extraction', async ({ page }) => {
-  // 2 positions but rules reference 3 plates (A,B,C) → invalid gothic → digits only ("04")
+  // 2 positions but rules reference 3 plates (A,B,C) → invalid gothic → digits only ("04").
+  // The 0 marks the run as 0-based (a 0-based digit run is 0..6), so it reads as 1 and 5.
   await page.getByTestId('pos-input-1').focus();
   await pasteInto(page.getByTestId('pos-input-1'), '04 A:B-,C+');
   await expect(page.getByTestId('val-plates')).toHaveText('2');
-  await expectPosDigit(page, 1, 1); // 0 → clamped to 1
-  await expectPosDigit(page, 2, 4);
+  await expectPosDigit(page, 1, 1);
+  await expectPosDigit(page, 2, 5);
   await expect(page.getByTestId('dep-1-2')).toHaveAttribute('data-state', 'none'); // rules NOT applied
 });
 

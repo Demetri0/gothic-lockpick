@@ -123,38 +123,16 @@ number (needs a new i18n key in all three locales).
 **Recommend: do it** — cheap wording fix, and it is the first thing a user sees when they
 experiment right after solving.
 
-## 9. Digit base collision: gothic copies 0-based, the drum pastes 1-based — needs a decision
-
-Found while checking the withdrawn F2 finding; **measured**, not theoretical.
-
-`Codecs.gothic.serialize` writes positions 0-based (`currentPos - 1`), so the default
-4-plate config at centre copies as `3333`. `posReplaceAll` (`index.html:2460`) reads pasted
-digits as the drum's **1-based display values** (`clamp(parseInt(c), 1, positions)`), so
-pasting `3333` back onto a drum cell yields `currentPos 3` — re-serialising to `2222`.
-Every copy → paste-into-drum cycle shifts every disc down by one.
-
-Neither side is obviously wrong:
-
-- The drum is a display surface; its inputs show 1-based values, so a user copying the
-  digits they *see* would expect 1-based.
-- Every *format* in the project (gothic, dotted, DB `pos`) is 0-based, so a pasted format
-  string is 0-based.
-
-`searchByPosition` sidesteps the same ambiguity by matching **both** interpretations
-("users may type either 0-based or the app's 1-based display"), but a setter cannot try
-both.
-
-**Action:** decide the drum-paste convention explicitly and document it. **Recommend:
-keep 1-based** (the drum shows what it sets, and the documented round-trip path for a
-dep-free config is json/dotted, not the drum) — but this is your call, not a cleanup I
-should make unilaterally.
-
 ---
 
 ## Not included on purpose
 
 - Anything with a red test in `tests/review-findings.spec.js` — those are defects, tracked
   in the fix plan.
+- The drum digit-base question this review raised — **decided and implemented** on
+  `fix/review-findings`: the base is inferred from boundary digits, ambiguous runs read as
+  1-based. Rule documented in CLAUDE.md and README, guarded by `F29` in
+  `tests/review-findings.spec.js`.
 - The `positions !== 7` question. It looks like a cleanup ("just pin it to 7") but it is a
   product decision (do we ever want non-7-hole locks?), so it is a decision point in
   Batch 1 of the fix plan instead.

@@ -72,6 +72,26 @@ test('F23: validatePlates rejects a dep whose steps exceed the lock size', async
 
 // ── codec contract ───────────────────────────────────────────────────────────
 
+test('F29: the drum infers the digit base from boundary digits', async ({ page }) => {
+  // A 0 can only be 0-based (0-based range is 0..6); a 7 can only be 1-based (1..7);
+  // digits 1..6 alone are ambiguous and the drum — which sets the values it displays —
+  // treats them as 1-based. Today every pasted digit is read 1-based and a 0 is silently
+  // clamped to 1, so a 0-based copy like "0246" lands on the wrong holes.
+  const paste = async (text) => {
+    await page.getByTestId('pos-input-1').click();
+    await page.evaluate((t) => {
+      const el = document.querySelector('[data-test-id="pos-input-1"]');
+      const dt = new DataTransfer();
+      dt.setData('text/plain', t);
+      el.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }));
+    }, text);
+    return page.evaluate(() => state.plates.map(p => p.currentPos));
+  };
+  expect(await paste('0246')).toEqual([1, 3, 5, 7]);   // has a 0 → 0-based
+  expect(await paste('7143')).toEqual([7, 1, 4, 3]);   // has a 7 → 1-based
+  expect(await paste('3333')).toEqual([3, 3, 3, 3]);   // ambiguous → 1-based
+});
+
 // F2 (Ctrl+C → Ctrl+V of a dep-free config reports «Невалидный конфиг») was WITHDRAWN:
 // per the codec spec bare digits are deliberately NOT an import config but the separate
 // drum-input path, and gothic's inability to re-import them is a documented Known
