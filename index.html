@@ -27,7 +27,8 @@
   <meta name="twitter:image:alt" content="3D visualization of a Gothic disc lock with its solution played back step by step">
 
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
-  <style>
+  <style id="style-base">
+/* ── style-base — reset, body, .stage, .hidden ──────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -41,6 +42,9 @@ body {
 .stage { display: flex; flex-wrap: wrap; height: 100dvh; overflow: hidden; }
 .hidden { display: none; }
 
+  </style>
+  <style id="style-layout">
+/* ── style-layout — panels, stages, 3D wrapper ──────────────────────────────────── */
 .panel { padding: 24px; }
 .panel-left {
   width: var(--panel-w);
@@ -73,6 +77,9 @@ body {
   justify-content: center;
 }
 
+  </style>
+  <style id="style-preview">
+/* ── style-preview — read-only visuals: mini dep matrix, import preview card ────── */
 .dep-short { display: none; }
 .dep-icon { display: block; }
 .mini-matrix { display: grid; grid-template-columns: repeat(var(--n), var(--cell)); gap: 2px;
@@ -99,11 +106,14 @@ body {
 /* The found-in-DB card is informational here, not a clickable search result. */
 #import-found .search-result { cursor: default; }
 #import-found .search-result:hover { border-color: var(--border); }
-@container (max-width: 360px) {
+@container (max-width: 670px) {
   .dep-full { display: none; }
   .dep-short { display: inline-flex; align-items: center; justify-content: center; }
 }
 
+  </style>
+  <style id="style-controls">
+/* ── style-controls — headings, buttons, inputs, the search pill ────────────────── */
 h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
      color: var(--text-dim); border-bottom: 1px solid var(--border); padding-bottom: 10px;
      display: flex; align-items: center; justify-content: space-between; }
@@ -201,6 +211,9 @@ input[type=number] {
 }
 
 /* Config matrix */
+  </style>
+  <style id="style-config">
+/* ── style-config — position drum + dependency matrix ───────────────────────────── */
 #plates-positions {
   display: flex; justify-content: center;
   padding: 10px 4px;
@@ -342,6 +355,9 @@ input[type=number] {
 }
 
 /* Solve panel */
+  </style>
+  <style id="style-notation">
+/* ── style-notation — notation help dialog ──────────────────────────────────────── */
 .notation-btn {
   display: inline-flex;
   align-items: center;
@@ -406,6 +422,9 @@ input[type=number] {
 
 /* No padding/border on the dialog itself — .search-dialog-inner covers its entire content
    box, so a click landing on the dialog element (not a descendant) can only be the backdrop. */
+  </style>
+  <style id="style-search">
+/* ── style-search — search dialog, result cards, chest hints ────────────────────── */
 #search-dialog {
   position: fixed;
   inset: 0;
@@ -564,6 +583,9 @@ input[type=number] {
 .chest-hint-rules .dep-tok[data-rel="match"]    { color: #5cb85c; }
 .chest-hint-rules .dep-tok[data-rel="conflict"] { color: #d86a6a; }
 
+  </style>
+  <style id="style-solve">
+/* ── style-solve — solution list, step cards, explore separator, solved notice ──── */
 .solution-wrap {
   display: flex;
   align-items: flex-start;
@@ -602,6 +624,9 @@ input[type=number] {
 
 .btn-step-nav { display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
 .btn-chevron { display: block; flex: none; }
+/* .hidden is declared earlier with the same specificity, so this rule's own display
+   would otherwise win and the list could never be hidden. */
+.solution-list.hidden { display: none; }
 .solution-list {
   list-style: none;
   counter-reset: step;
@@ -631,6 +656,12 @@ input[type=number] {
   color: var(--text-bright);
 }
 .solution-list li:hover { background: var(--bg-hover); }
+.solve-note { padding: 16px; text-align: center; line-height: 1.5; color: var(--text-soft); }
+.solve-note:not(.hidden) {
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.solve-note-hint { margin-top: 8px; font-size: 0.85em; color: var(--text-muted); }
 .solution-list li.endpoint {
   color: var(--text-muted);
   font-size: 0.9em;
@@ -673,6 +704,9 @@ input[type=number] {
 
 button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
+  </style>
+  <style id="style-overlay">
+/* ── style-overlay — blocked flash, computing overlay, import dialog, toasts, legend ─── */
 @keyframes plate-shake {
   0%, 100% { translate: 0px 0; }
   15%  { translate: -6px 0; }
@@ -836,6 +870,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 /* No-solution message */
 .no-solution { color: var(--danger); font-size: 0.85em; text-align: center; padding: 20px; }
 
+  </style>
+  <style id="style-tokens">
+/* ── style-tokens — colour palette (:root custom properties) ────────────────────── */
 :root {
   --tilt: -30deg;         /* наклон камеры вниз; отрицательный = смотрим сверху */
   --yaw: -35deg;          /* поворот вокруг вертикали; отрицательный = видна правая грань */
@@ -893,6 +930,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   --pin-glow:            #d4a84388;
 }
 
+  </style>
+  <style id="style-scene">
+/* ── style-scene — 3D scene: plates, faces, holes, pins, lang selector ──────────── */
 .scene-wrap {
   position: relative;
   perspective: 900px;
@@ -1042,6 +1082,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 #lang-selector button:hover  { opacity: 0.75; }
 #lang-selector button.active { opacity: 1; border-color: var(--border-control); background: var(--bg-control); }
 
+  </style>
+  <style id="style-responsive">
+/* ── style-responsive — viewport media queries ──────────────────────────────────── */
 @media (max-width: 819px) {
   body         { height: auto; overflow: visible; }
   .stage       { height: auto; overflow: visible; }
@@ -1178,6 +1221,10 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         <button id="btn-copy-solution" class="btn-copy-solution" data-test-id="btn-copy-solution" data-i18n-title="copy-solution" title="Копировать цепочку">📋</button>
       </div>
       <ol id="solution-steps" class="solution-list" data-test-id="solution-steps"></ol>
+      <div id="solve-note" class="solve-note hidden" data-test-id="solve-already-solved" aria-hidden="true">
+        <p data-i18n="solve-solved-title">Данный замок уже решён.</p>
+        <p class="solve-note-hint" data-i18n="solve-solved-hint">Возможно вы забыли выставить начальные позиции</p>
+      </div>
       <div class="solve-buttons">
         <button id="btn-back" class="btn-primary btn-return" data-test-id="btn-back" data-i18n="btn-back">Вернуться</button>
         <button id="btn-prev" class="btn-primary btn-step-nav" data-test-id="btn-prev"><svg class="btn-chevron" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg><span data-i18n="btn-prev">Шаг</span></button>
@@ -1332,8 +1379,6 @@ function bfsSolveGrouped(plates, onProgress) {
 
   // ── Phase 2: distG over the corridor only ───────────────────────────────
   const distG = new Map([[goalKey, 0]]);
-  const layers = Array.from({ length: L + 1 }, () => []);  // corridor states by distS
-  layers[L].push(goalKey);
   frontier = [goalKey];
   while (frontier.length) {
     const next = [];
@@ -1345,7 +1390,6 @@ function bfsSolveGrouped(plates, onProgress) {
         if (distG.has(nk) || distS.get(nk) !== ds - 1) continue;
         distG.set(nk, g + 1);
         tick();
-        layers[ds - 1].push(nk);
         next.push(nk);
       }
     }
@@ -1470,6 +1514,8 @@ const TRANSLATIONS = {
     'btn-start': 'РЕШЕНИЕ',        'btn-back': 'Вернуться',
     'btn-prev': 'Шаг',            'btn-step': 'Шаг',
     'btn-auto': '▶ Авто',          'btn-stop': '■ Стоп',
+    'solve-solved-title': 'Данный замок уже решён.',
+    'solve-solved-hint': 'Возможно вы забыли выставить начальные позиции',
     'legend-move': 'Смещение элемента', 'legend-select': 'Выбор элемента',
     'pos-inc': 'Позиция +1',       'pos-dec': 'Позиция −1',
     'pos-del': 'Удалить элемент',  'pos-add': 'Добавить элемент',
@@ -1477,6 +1523,7 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Импорт',
     'dialog-import-body': 'Применить конфигурацию из буфера обмена?',
     'import-found-in-db': 'Найдено в базе:',
+    'toast-config-not-applied': 'Взяты только цифры: связи не перезаписаны',
     'import-label-positions': 'Позиции',
     'import-label-deps': 'Связи',
     'dialog-cancel': 'Отмена',     'dialog-ok': 'Применить',
@@ -1520,6 +1567,8 @@ const TRANSLATIONS = {
     'btn-start': 'SOLVE',          'btn-back': 'Back',
     'btn-prev': 'Step',            'btn-step': 'Step',
     'btn-auto': '▶ Auto',           'btn-stop': '■ Stop',
+    'solve-solved-title': 'This lock is already solved.',
+    'solve-solved-hint': 'You may have forgotten to set the starting positions',
     'legend-move': 'Move plate',   'legend-select': 'Select plate',
     'pos-inc': 'Position +1',      'pos-dec': 'Position −1',
     'pos-del': 'Remove plate',     'pos-add': 'Add plate',
@@ -1527,6 +1576,7 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Import',
     'dialog-import-body': 'Apply config from clipboard?',
     'import-found-in-db': 'Found in database:',
+    'toast-config-not-applied': 'Digits only — dependencies left intact',
     'import-label-positions': 'Positions',
     'import-label-deps': 'Dependencies',
     'dialog-cancel': 'Cancel',     'dialog-ok': 'Apply',
@@ -1570,6 +1620,8 @@ const TRANSLATIONS = {
     'btn-start': 'ВИРІШИТИ',       'btn-back': 'Повернутись',
     'btn-prev': 'Крок',            'btn-step': 'Крок',
     'btn-auto': '▶ Авто',           'btn-stop': '■ Стоп',
+    'solve-solved-title': 'Цей замок уже розв\u2019язано.',
+    'solve-solved-hint': 'Можливо, ви забули виставити початкові позиції',
     'legend-move': 'Зсув елемента', 'legend-select': 'Вибір елемента',
     'pos-inc': 'Позиція +1',       'pos-dec': 'Позиція −1',
     'pos-del': 'Видалити елемент', 'pos-add': 'Додати елемент',
@@ -1577,6 +1629,7 @@ const TRANSLATIONS = {
     'dialog-import-title': 'Імпорт',
     'dialog-import-body': 'Застосувати конфіг з буфера обміну?',
     'import-found-in-db': 'Знайдено в базі:',
+    'toast-config-not-applied': 'Взято лише цифри: зв\u2019язки не перезаписані',
     'import-label-positions': 'Позиції',
     'import-label-deps': "Зв'язки",
     'dialog-cancel': 'Скасувати',  'dialog-ok': 'Застосувати',
@@ -1646,8 +1699,7 @@ const state = {
   cachedSolution: null,     // solution found during randomization; cleared on any config change
   solveMode: 'following',   // 'following' | 'exploring'
   exploreHistory: [],       // manual moves recorded in explore mode
-  detachPositions: null,    // plate currentPos snapshot at moment of detach
-  detachStep: null,         // solverStep at moment of detach
+  detachStep: null,         // solverStep at moment of detach — returning replays from it, no snapshot needed
   lang: localStorage.getItem('lang') || 'ru',
 };
 </script>
@@ -1662,6 +1714,11 @@ function haptic(pattern) {
   if (navigator.vibrate) navigator.vibrate(pattern);
 }
 
+/** True while the solver overlay is up — user input that would swap the config must wait. */
+function isComputing() {
+  return document.getElementById('computing-overlay').classList.contains('active');
+}
+
 function showToast(message, type = 'success') {
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
@@ -1673,6 +1730,9 @@ function showToast(message, type = 'success') {
   setTimeout(() => {
     toast.classList.remove('visible');
     toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+    // transitionend never fires when there was nothing to transition (background tab,
+    // reduced motion, .visible never applied) — without this the node would leak.
+    setTimeout(() => toast.remove(), 400);
   }, 2500);
 }
 
@@ -1707,6 +1767,10 @@ function applyMove(plates, plateId, dir) {
 }
 
 /** Returns the id of the first plate that would go out of bounds, or null if move is valid. */
+// Deliberately mirrors computeMove's effect loop instead of reusing it: computeMove
+// answers "can this move happen" (null on block), this answers "who blocks it" for the
+// UI hint. Merging them would mean either a second return channel or a throwaway object
+// on every legal move — in the solver's hot path. Keep the two loops in sync by hand.
 function getBlockingPlateId(plates, plateId, dir) {
   const primaryDelta = dir === 'left' ? 1 : -1;
   const primary = plates.find(p => p.id === plateId);
@@ -1730,6 +1794,9 @@ function getBlockingPlateId(plates, plateId, dir) {
 function cycleActivePlate(delta) {
   const ids = state.plates.map(p => p.id);
   const idx = ids.indexOf(state.activePlate);
+  // A stale activePlate (config resized under it) would otherwise wrap to the
+  // second-to-last plate on delta -1 instead of landing on the first one.
+  if (idx === -1) { state.activePlate = ids[0]; return; }
   state.activePlate = ids[(idx + delta + ids.length) % ids.length];
 }
 
@@ -1909,28 +1976,30 @@ function validatePlates(plates) {
   if (!Array.isArray(plates) || plates.length < 2 || plates.length > 8) return null;
   if (plates.some(p => !p || typeof p !== 'object')) return null;
 
-  const positions0 = plates[0]?.positions;
-  const sortedIds = plates.map(p => p.id).slice().sort((a, b) => a - b);
-  if (!sortedIds.every((id, i) => id === i + 1)) return null;
+  // ids must match the ARRAY ORDER, not merely form the set 1..n: every consumer
+  // addresses plates by position (the solver writes np[plateId - 1]; the serializers
+  // read positions by index but deps by id), so an out-of-order array silently
+  // corrupts them — the solver even reports a solvable lock as unsolvable.
+  if (!plates.every((p, i) => p.id === i + 1)) return null;
 
   for (const p of plates) {
-    if (typeof p.id !== 'number' ||
-        typeof p.positions !== 'number' || p.positions % 2 === 0 || p.positions < 3 ||
-        p.positions !== positions0 ||
-        typeof p.currentPos !== 'number' || p.currentPos < 1 || p.currentPos > p.positions ||
+    // The app is 7-hole by decision (see the codec spec: "hole count assumed 7"), and
+    // every format except json encodes that assumption. Enforce it here instead of
+    // letting an unrepresentable config reach the codecs and the scene builder.
+    if (!Number.isInteger(p.positions) || p.positions !== DEFAULT_POSITIONS ||
+        !Number.isInteger(p.currentPos) || p.currentPos < 1 || p.currentPos > p.positions ||
         !Array.isArray(p.deps)) {
       return null;
     }
     const seenTargets = new Set();
     for (const d of p.deps) {
       if (!d || typeof d !== 'object' ||
-          typeof d.targetId !== 'number' ||
           !Number.isInteger(d.targetId) ||
           d.targetId < 1 || d.targetId > plates.length ||
           d.targetId === p.id ||
           (d.direction !== 'same' && d.direction !== 'opposite') ||
-          typeof d.steps !== 'number' ||
-          !Number.isInteger(d.steps) || d.steps < 1) {
+          !Number.isInteger(d.steps) ||
+          d.steps < 1 || d.steps > p.positions - 1) {   // a longer step can never be legal
         return null;
       }
       if (seenTargets.has(d.targetId)) return null;   // duplicate/conflicting dep to same target
@@ -1947,7 +2016,7 @@ const Codecs = (() => {
 const json = {
   id: 'json',
   parse(str) {
-    const t = str.trim();
+    const t = String(str).trim();          // never throws (contract), even on a non-string
     if (t[0] !== '[' && t[0] !== '{') return null;
     try { return JSON.parse(t); } catch { return null; }
   },
@@ -1999,10 +2068,14 @@ const gothic = {
     // Reject (don't silently drop) a rule whose SOURCE plate is beyond the position count.
     for (const src of Object.keys(depMap)) if (src.charCodeAt(0) - 65 >= rawPos.length) return null;
     const POSITIONS = 7;
+    // Digits are 0-based (0..POSITIONS-1) and the run is shifted as a WHOLE. Never clamp
+    // individual digits: that fabricates a config the user never typed, and the clamped
+    // value stays valid so nothing downstream catches it. Out of range → not this format.
+    if (rawPos.some(d => d + 1 < 1 || d + 1 > POSITIONS)) return null;
     return Array.from({ length: rawPos.length }, (_, i) => ({
       id: i + 1,
       positions: POSITIONS,
-      currentPos: Math.max(1, Math.min(POSITIONS, rawPos[i] + 1)),
+      currentPos: rawPos[i] + 1,
       deps: depMap[String.fromCharCode(65 + i)] || [],
     }));
   },
@@ -2027,7 +2100,7 @@ const gothic = {
 const dotted = {
   id: 'dotted',
   parse(str) {
-    const m = str.trim().match(/^(\d+)\.(\d+)\.([sao]+)$/);   // canonical: lowercase pairs only
+    const m = String(str).trim().match(/^(\d+)\.(\d+)\.([sao]+)$/);   // canonical: lowercase pairs only
     if (!m) return null;
     const n = parseInt(m[1], 10);
     if (String(n) !== m[1]) return null;                       // no leading-zero plate count
@@ -2068,7 +2141,7 @@ const bytearray = (() => {
   return {
     id: 'bytearray',
     parse(str) {
-      const s = str.trim();
+      const s = String(str).trim();        // never throws (contract), even on a non-string
       if (!/^[A-Za-z0-9_-]+$/.test(s) || /^\d+$/.test(s)) return null;
       if (!VALID_LENS.has(s.length)) return null;
       const bits = [];
@@ -2456,12 +2529,24 @@ function posRemovePlateAt(idx) {
   });
 }
 
-/** Replace the whole set from pasted digits (>1): N = digit count (max 8), deps reset. */
+/** Replace the whole set from pasted digits (>1): N = digit count (max 8), deps reset.
+ *  The digit base is inferred, because a pasted run can come from either convention:
+ *  every wire format (gothic/dotted/DB `pos`) is 0-based, while the drum displays 1-based
+ *  values. A `0` is only possible 0-based (range 0–6) and a `7` only 1-based (range 1–7),
+ *  so the presence of a `0` decides it; digits 1–6 alone are ambiguous and read as
+ *  1-based — the drum sets the values it shows. Out-of-range leftovers still clamp. */
 function posReplaceAll(digitsStr) {
   const positions = DEFAULT_POSITIONS;
-  const vals = digitsStr.slice(0, POS_MAX_PLATES).split('')
-    .map(c => Math.min(Math.max(parseInt(c, 10), 1), positions));
+  const digits = digitsStr.slice(0, POS_MAX_PLATES).split('').map(c => parseInt(c, 10));
+  const zeroBased = digits.includes(0);
+  const vals = digits.map(d => Math.min(Math.max(zeroBased ? d + 1 : d, 1), positions));
   while (vals.length < POS_MIN_PLATES) vals.push(center(positions));
+  // Same plate count → set the positions in place so the dependency matrix survives.
+  // Only a changed count forces a rebuild, where deps cannot be carried over anyway.
+  if (vals.length === state.plates.length) {
+    vals.forEach((v, i) => posSetPlateValue(state.plates[i].id, v));
+    return;
+  }
   state.plates = vals.map((v, i) => { const p = makePlate(i + 1, positions); p.currentPos = v; return p; });
   state.activePlate = state.plates.length;
   posStructuralUpdate(() => { if (!posFocusGhostAdd()) posFocusPlate(state.plates.length); });
@@ -2615,9 +2700,13 @@ function wireConfigHandlers() {
     // gothic paste, and only when nothing would be clobbered (no deps set yet).
     // Anything else (incl. base64url byte-array tokens) falls through to digits —
     // a whole-config import must go through the confirmation dialog (global paste).
+    const pastedConfig = validatePlates(Codecs.gothic.parse(text));
     if (state.plates.every(p => p.deps.length === 0)) {
-      const plates = validatePlates(Codecs.gothic.parse(text));
-      if (plates) { applyPlates(plates); showToast(t('toast-applied')); return; }
+      if (pastedConfig) { applyPlates(pastedConfig); showToast(t('toast-applied')); return; }
+    } else if (pastedConfig) {
+      // A whole config would overwrite the matrix the user has built, so take only the
+      // digits — and say so, instead of silently dropping the dependencies on the floor.
+      showToast(t('toast-config-not-applied'));
     }
     const digits = text.replace(/\D/g, '');
     if (!digits) return;
@@ -2690,6 +2779,10 @@ function applyPlates(plates) {
   state.plates = plates;
   state.activePlate = 1;
   state.cachedSolution = null;
+  // Invalidate any solve still in flight: nulling the cache is not enough, because a
+  // worker result carrying the previous solveId would still be accepted and rendered
+  // against this new config. (Declared later in worker-host; guard for the first call.)
+  if (typeof solveId === 'number') solveId++;
   document.getElementById('val-plates').textContent = plates.length;
   renderMatrix();
   buildScene('scene-config-inner', state.plates);
@@ -2707,10 +2800,13 @@ function applyImportedConfig(rawText) {
 /** Build a plates array directly from a DB entry (pos is 0-based; rules may be empty). */
 function entryToPlates(entry) {
   const depMap = Codecs.gothic.parseRules(entry.rules || '') || {};   // malformed DB rules → no deps (defensive; bad entries are dropped)
+  // DB `pos` is 0-based; shift the whole run and never clamp single digits — an
+  // out-of-range entry then fails validatePlates and applyEntry reports it, instead of
+  // silently moving one disc to a hole the DB never named.
   return entry.pos.map((p, i) => ({
     id: i + 1,
-    positions: 7,
-    currentPos: Math.max(1, Math.min(7, p + 1)),
+    positions: DEFAULT_POSITIONS,
+    currentPos: p + 1,
     deps: depMap[String.fromCharCode(65 + i)] || [],
   }));
 }
@@ -2778,10 +2874,13 @@ document.addEventListener('copy', (e) => {
 // Permanent paste listener — catches Ctrl+V outside of form inputs
 document.addEventListener('paste', (e) => {
   if (state.stage !== 'config') return;
+  if (isComputing()) return;   // a solve is running: swapping the config would strand its result
   if (e.target.matches('input, textarea, select')) return;
   e.preventDefault();
   const text = e.clipboardData.getData('text');
-  if (text) openImportDialog(text);
+  // Only a real config opens the confirmation dialog; anything else is not an import
+  // (bare digits belong to the drum path) and must not raise a bogus «invalid config».
+  if (text && looksLikeImportConfig(text)) openImportDialog(text);
 });
 
 document.getElementById('btn-import').addEventListener('click', async () => {
@@ -2836,18 +2935,37 @@ function startSolve(push) {
   btn.textContent = '...';
   resetProgress();
   document.getElementById('computing-overlay').classList.add('active');
+  // A worker handles messages serially, so posting on top of an abandoned BFS would make
+  // this solve wait for it. Drop the old one the way Cancel does.
+  worker.terminate();
+  worker = createWorker();
+  worker.onmessage = onWorkerMessage;
+  worker.onerror = workerError;
   worker.postMessage({ type: 'solve', plates: state.plates, solveId: ++solveId });
 }
 
-function switchToSolve(push = true) {
+/** Stop auto-play and restore the button label. The label used to be updated by hand at
+ *  each clearInterval site, and two of them forgot — leaving «Стоп» on an idle button. */
+function stopAutoPlay() {
   if (state.autoInterval) { clearInterval(state.autoInterval); state.autoInterval = null; }
+  const btn = document.getElementById('btn-auto');
+  if (btn) btn.textContent = t('btn-auto');
+}
+
+/** Re-attach to the BFS solution: the single place that clears explore state, so
+ *  switchToSolve and switchToConfig cannot drift apart on what "following" means. */
+function resetExploreState() {
+  state.solveMode = 'following';
+  state.exploreHistory = [];
+  state.detachStep = null;
+}
+
+function switchToSolve(push = true) {
+  stopAutoPlay();
   solveStartPositions = state.plates.map(p => ({ ...p, deps: p.deps.slice() }));
 
   state.stage = 'solve';
-  state.solveMode = 'following';
-  state.exploreHistory = [];
-  state.detachPositions = null;
-  state.detachStep = null;
+  resetExploreState();
   document.getElementById('stage-config').classList.add('hidden');
   document.getElementById('stage-solve').classList.remove('hidden');
 
@@ -2865,7 +2983,8 @@ function switchToSolve(push = true) {
 }
 
 function switchToConfig() {
-  if (state.autoInterval) { clearInterval(state.autoInterval); state.autoInterval = null; }
+  stopAutoPlay();
+  resetExploreState();   // leaving the stage mid-explore used to strand solveMode='exploring'
   state.stage = 'config';
   // Restore plates from config snapshot
   state.plates = solveStartPositions.map(p => ({ ...p, deps: p.deps.map(d => ({...d})) }));
@@ -2904,9 +3023,19 @@ function buildStepLi(move, opts = {}) {
   return li;
 }
 
+/** Swap the step list for the already-solved prose (or back). The empty <ol> keeps its
+ *  flex:1 and would otherwise push the text down against the buttons, so hide it too. */
+function showSolveNote(show) {
+  const note = document.getElementById('solve-note');
+  note.classList.toggle('hidden', !show);
+  note.setAttribute('aria-hidden', String(!show));
+  document.getElementById('solution-steps').classList.toggle('hidden', show);
+}
+
 function renderSolvePanel() {
   const list = document.getElementById('solution-steps');
   list.innerHTML = '';
+  showSolveNote(false);
 
   if (state.solveMode === 'exploring') {
     // ── Exploring mode ────────────────────────────────────────────────────
@@ -2969,22 +3098,43 @@ function renderSolvePanel() {
   } else {
     // ── Following mode ────────────────────────────────────────────────────
 
-    // Notation string with current step highlighted
+    if (state.solution.length === 0) {
+      // Nothing to play: the lock arrived already centred. Usually that means the user
+      // opened SOLVE before entering the lock's real starting positions, so say both.
+      // The notice is a sibling of the <ol>, not a fake step inside it.
+      document.getElementById('solution-string').innerHTML = '';
+      showSolveNote(true);
+      document.getElementById('btn-prev').disabled = true;
+      document.getElementById('btn-step').disabled = true;
+      document.getElementById('btn-auto').disabled = true;
+      return;
+    }
+
+    // `solverStep` counts steps ALREADY played, so the move to highlight is the one at
+    // index solverStep − 1 (−1 when nothing has been played yet). Derive it once: both
+    // renderers below used to compute it independently (`i === solverStep` for the string
+    // vs `i + 1 === solverStep` for the cards), which is exactly how they drifted apart
+    // and ended up highlighting different moves.
+    const lastPlayedIndex = state.solverStep - 1;
+
+    // Notation string with the last played step highlighted
     const parts = state.solution.map((s, i) => {
       const arrow = i < state.solution.length - 1 ? ' →' : '';
-      const inner = i === state.solverStep
+      const inner = i === lastPlayedIndex
         ? `<span class="cur-step">${s}</span>`
         : `<span style="opacity:0.45">${s}</span>`;
       return `<span style="white-space:nowrap">${inner}${arrow}</span>`;
     });
     document.getElementById('solution-string').innerHTML = parts.join(' ');
 
-    const makeEndpoint = (label, step, testId) => {
+    // On an already-centred lock the solution is empty, so start and end are both step 0
+    // and would both light up. The playhead sits at the start, so only that one is active.
+    const makeEndpoint = (label, step, testId, tieBreak = true) => {
       const li = document.createElement('li');
       li.textContent = label;
       li.classList.add('endpoint');
       li.dataset.testId = testId;
-      if (state.solverStep === step) li.classList.add('active');
+      if (state.solverStep === step && tieBreak) li.classList.add('active');
       li.addEventListener('click', () => jumpToStep(step));
       return li;
     };
@@ -2993,11 +3143,12 @@ function renderSolvePanel() {
     state.solution.forEach((s, i) => {
       list.appendChild(buildStepLi(parseNotation(s), {
         testId: `step-${i + 1}`,
-        active: i + 1 === state.solverStep,
+        active: i === lastPlayedIndex,
         onClick: () => jumpToStep(i + 1),
       }));
     });
-    list.appendChild(makeEndpoint(t('step-end'), state.solution.length, 'step-end'));
+    list.appendChild(makeEndpoint(t('step-end'), state.solution.length, 'step-end',
+                                  state.solution.length > 0));
 
     const active = list.querySelector('.active');
     if (active) active.scrollIntoView({ block: 'nearest' });
@@ -3012,6 +3163,7 @@ function renderSolvePanel() {
 
 /** Apply steps from current solverStep up to (but not including) targetStep */
 function jumpToStep(targetStep) {
+  stopAutoPlay();   // navigating away from the playhead must not leave the timer running
   // Reset to start
   state.plates.forEach((p, i) => { p.currentPos = solveStartPositions[i].currentPos; });
   state.solverStep = 0;
@@ -3048,10 +3200,7 @@ function solveStepBack() {
 
 /** Exit explore mode and jump to a BFS step. */
 function returnToSolution(targetStep) {
-  state.solveMode = 'following';
-  state.exploreHistory = [];
-  state.detachPositions = null;
-  state.detachStep = null;
+  resetExploreState();
   jumpToStep(targetStep);
 }
 
@@ -3136,22 +3285,14 @@ function wireSolveHandlers() {
     document.getElementById('notation-dialog').close());
 
   document.getElementById('btn-auto').addEventListener('click', () => {
-    const btn = document.getElementById('btn-auto');
-    if (state.autoInterval) {
-      clearInterval(state.autoInterval);
-      state.autoInterval = null;
-      btn.textContent = t('btn-auto');
-      return;
-    }
-    btn.textContent = t('btn-stop');
+    if (state.autoInterval) { stopAutoPlay(); return; }
+    document.getElementById('btn-auto').textContent = t('btn-stop');
     state.autoInterval = setInterval(() => {
-      if (state.solverStep >= state.solution.length) {
-        clearInterval(state.autoInterval);
-        state.autoInterval = null;
-        btn.textContent = t('btn-auto');
-        return;
-      }
+      if (state.solverStep >= state.solution.length) { stopAutoPlay(); return; }
       solveStepForward();
+      // Stop inside the tick that played the last step, not one tick later — otherwise
+      // the interval outlives the playback while its own button is already disabled.
+      if (state.solverStep >= state.solution.length) stopAutoPlay();
     }, AUTO_DELAY);
   });
 }
@@ -3179,7 +3320,7 @@ function configMovePlate(dir) {
 
 document.addEventListener('keydown', (e) => {
   if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
-  if (document.getElementById('computing-overlay').classList.contains('active')) return;
+  if (isComputing()) return;
   // Block WASD/arrows whenever any modal dialog is open, regardless of where focus
   // currently is — focus can leave a dialog's input (e.g. clicking a non-focusable
   // result card) while the dialog itself stays open, letting keys leak through otherwise.
@@ -3251,22 +3392,23 @@ document.addEventListener('keydown', (e) => {
     if (key === 'A' || key === 'D') {
       const dir = key === 'A' ? 'left' : 'right';
       const wasFollowing = state.solveMode === 'following';
-      const preMovePositions = state.plates.map(p => p.currentPos);   // detach snapshot, pre-move
       const moved = applyMove(state.plates, state.activePlate, dir);
       if (moved) {
         if (wasFollowing) {
           // Detach from the BFS solution only once a real move happened.
-          if (state.autoInterval) {
-            clearInterval(state.autoInterval);
-            state.autoInterval = null;
-            document.getElementById('btn-auto').textContent = t('btn-auto');
-          }
+          stopAutoPlay();
           state.solveMode = 'exploring';
           state.detachStep = state.solverStep;
-          state.detachPositions = preMovePositions;
         }
         addExploreMove(state.activePlate, dir);
         haptic(HAPTIC_STEP);   // the user turned a disc
+        if (state.exploreHistory.length === 0) {
+          // The explore moves cancelled each other out, so the lock is bit-identical to
+          // the detach point: re-attach to the solution instead of stranding the user in
+          // exploring mode, where prev/step/auto are all disabled.
+          returnToSolution(state.detachStep);
+          return;
+        }
         updateScene('scene-solve-inner', state.plates, state.activePlate);
         renderSolvePanel();
       } else {
@@ -3329,7 +3471,8 @@ init();
 self.onmessage = ({ data }) => {
   if (data.type === 'solve') {
     const { solution } = bfsSolveGrouped(data.plates, (n) => {
-      self.postMessage({ type: 'progress', itersDelta: n });
+      // Tag progress with the solveId so the host can drop counts from a superseded run.
+      self.postMessage({ type: 'progress', itersDelta: n, solveId: data.solveId });
     });
     self.postMessage({ type: 'solve', solution, solveId: data.solveId });
   }
@@ -3435,6 +3578,8 @@ function resetProgress() {
 }
 
 function onWorkerMessage({ data }) {
+  // Stale progress (from a solve that was superseded) must not inflate the new counter.
+  if (data.solveId !== undefined && data.solveId !== solveId) return;
   if (data.type === 'progress') {
     _progressStates = (_progressStates || 0) + (data.itersDelta || 0);
     document.getElementById('progress-total').textContent =
@@ -3452,6 +3597,9 @@ function onWorkerMessage({ data }) {
     btn.textContent = t('btn-start');
     if (data.solution === null) {
       showToast(t('toast-no-solution'), 'error');
+      // Drop a &solve the URL may still be advertising (e.g. an unsolvable deep link):
+      // the stage stays config, so a reload must not replay the same BFS and toast.
+      urlReplace(state.plates, 'config');
       return;
     }
     if (state.stage !== 'config') return;
@@ -3489,6 +3637,12 @@ function createRandomPool() {
   randomPool = Array.from({ length: n }, (_, i) => {
     const w = createWorker();
     w.onmessage = (e) => onRandomPoolMessage(e, capturedId, i);
+    // A worker that dies (OOM on a big random lock) would otherwise never report
+    // 'random-exhausted', and the only exit from the generating state is the exhausted
+    // count reaching the pool size — the overlay and the buttons would hang forever.
+    const asExhausted = () => onRandomPoolMessage({ data: { type: 'random-exhausted' } }, capturedId, i);
+    w.onerror = asExhausted;
+    w.onmessageerror = asExhausted;
     return w;
   });
   return randomPool.length;
@@ -3545,13 +3699,13 @@ function onRandomPoolMessage({ data }, poolId, workerId) {
     terminateRandomPool();
     hideOverlay();
     resetButtons();
-    state.plates = data.plates;
+    // Same stage guard the solve branch has: a late pool result must not rewrite the
+    // config out from under the solve stage.
+    if (state.stage !== 'config') return;
+    // Go through applyPlates rather than inlining it — that inlined copy was missing
+    // its urlReplace, which is why a generated lock never reached the ?lock URL.
+    applyPlates(data.plates);
     state.cachedSolution = data.solution;
-    state.activePlate = 1;
-    document.getElementById('val-plates').textContent = data.plates.length;
-    renderMatrix();
-    buildScene('scene-config-inner', state.plates);
-    updateScene('scene-config-inner', state.plates, state.activePlate);
     return;
   }
 
@@ -3593,24 +3747,34 @@ async function loadChestDb() {
   if (typeof Fuse === 'undefined') return null; // CDN script failed to load
 
   const cached = localStorage.getItem('chestDb');
+  const usable = (db) => !!db && Array.isArray(db.entries) && db.entries.length > 0;
   try {
     const res = await fetch('chests.json');
     if (!res.ok) throw new Error('bad response');
-    chestDb = await res.json();
-    localStorage.setItem('chestDb', JSON.stringify(chestDb));
+    const fetched = await res.json();
+    if (!usable(fetched)) throw new Error('unusable shape');   // JSON, but not a chest DB
+    chestDb = fetched;
+    try { localStorage.setItem('chestDb', JSON.stringify(chestDb)); } catch { /* quota — keep the fresh DB */ }
   } catch {
     if (cached) {
-      try { chestDb = JSON.parse(cached); } catch { /* ignore corrupt cache */ }
+      try {
+        const fromCache = JSON.parse(cached);
+        if (usable(fromCache)) chestDb = fromCache;
+      } catch { /* ignore corrupt cache */ }
     }
   }
 
-  if (!chestDb) return null;
+  if (!usable(chestDb)) { chestDb = null; return null; }
 
-  chestFuse = new Fuse(chestDb.entries, {
-    keys: ['name.ru', 'name.en', 'name.de', 'name.uk', 'tags'],
-    threshold: 0.4,
-    ignoreLocation: true,
-  });
+  // Inside the guarded path: a Fuse constructor throw must not reject the readiness
+  // promise, or the search dies silently with no toast and no tooltip.
+  try {
+    chestFuse = new Fuse(chestDb.entries, {
+      keys: ['name.ru', 'name.en', 'name.de', 'name.uk', 'tags'],
+      threshold: 0.4,
+      ignoreLocation: true,
+    });
+  } catch { chestDb = null; return null; }
   return chestDb;
 }
 
@@ -3793,7 +3957,7 @@ function buildResultCard(entry, idx) {
   const name = escapeHtml(entryName(entry) || t('unknown-lock'));
   const tagsStr = escapeHtml(entry.tags.join(', '));
   const image = entry.img[0]
-    ? `<img src="${entry.img[0]}" alt="">`
+    ? `<img src="${escapeHtml(entry.img[0])}" alt="">`
     : `<span class="sr-image-placeholder" data-test-id="search-result-${idx}-placeholder">🖼</span>`;
   const plateRows = posStripHTML(entry.pos, `search-result-${idx}`);
 
@@ -3923,10 +4087,12 @@ document.getElementById('chest-hints').addEventListener('click', (e) => {
 chestSearchReady.then(() => renderChestHints());
 
 function applySearchResult(entry) {
-  // applyEntry() shows its own success toast — don't double up
-  applyEntry(entry);
   document.getElementById('search-dialog').close();
+  // Leave the solve stage FIRST: switchToConfig restores state.plates from the pre-solve
+  // snapshot, so applying the entry before it left state, DOM and URL describing three
+  // different locks. Same order urlReconcile uses.
   if (state.stage !== 'config') switchToConfig();
+  applyEntry(entry);   // applyEntry() shows its own success toast — don't double up
 }
 
 // Opens the dialog synchronously (before any await) so it can never be
@@ -4021,6 +4187,7 @@ if (isMac) {
 document.addEventListener('keydown', async (e) => {
   if ((e.ctrlKey || e.metaKey) && e.code === 'KeyK') {
     e.preventDefault();
+    if (isComputing()) return;   // same reason as the paste handler above
     // Await the same readiness promise rather than reading the flag synchronously —
     // pressing Ctrl+K before the startup check resolves must wait for the real
     // result, not race against its "not yet known" initial value.
