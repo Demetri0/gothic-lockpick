@@ -206,21 +206,35 @@ test('F5: a randomly generated config is persisted to the URL', async ({ page })
   expect(r.inUrl).toBe(r.live);
 });
 
-test('F6: pasting digits into the drum does not silently destroy dependencies', async ({ page }) => {
+test('F6: a config pasted into the drum with deps set takes only the digits, keeps the matrix, and says so', async ({ page }) => {
+  // Decided rule: the drum applies a whole clipboard config ONLY when the matrix is
+  // empty; with any dep set it takes just the digits (so the matrix is not overwritten)
+  // and tells the user the config was not applied. Positions land in place while the
+  // plate count is unchanged — deps only reset when the count itself changes.
   await page.evaluate((c) => openImportDialog(c), DEP_CONFIG);
   await page.getByTestId('import-dialog-ok').click();
-  const before = await page.evaluate(() => state.plates.reduce((n, p) => n + p.deps.length, 0));
-  expect(before).toBeGreaterThan(0);
+  const before = await page.evaluate(() => ({
+    deps: state.plates.reduce((n, p) => n + p.deps.length, 0),
+    n: state.plates.length,
+  }));
+  expect(before.deps).toBeGreaterThan(0);
 
   await page.getByTestId('pos-input-1').click();
   await page.evaluate(() => {
     const el = document.querySelector('[data-test-id="pos-input-1"]');
     const dt = new DataTransfer();
-    dt.setData('text/plain', '12');
+    dt.setData('text/plain', '531505');            // 6 digits — same plate count, 0-based run
     el.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }));
   });
-  const after = await page.evaluate(() => state.plates.reduce((n, p) => n + p.deps.length, 0));
-  expect(after).toBe(before);   // a digit paste must not wipe the dependency matrix
+  const after = await page.evaluate(() => ({
+    deps: state.plates.reduce((n, p) => n + p.deps.length, 0),
+    n: state.plates.length,
+    pos: state.plates.map(p => p.currentPos),
+  }));
+  expect(after.n).toBe(before.n);
+  expect(after.deps).toBe(before.deps);           // matrix survives a digits-only paste
+  expect(after.pos).toEqual([6, 4, 2, 6, 1, 6]);  // digits applied (0-based → +1)
+  await expect(page.getByTestId('toast')).toBeVisible();   // told that the config was not applied
 });
 
 test('F1: applying a search result while solving leaves state, DOM and URL in agreement', async ({ page }) => {

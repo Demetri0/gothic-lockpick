@@ -55,11 +55,19 @@ first — two of the original findings were wrong and are withdrawn:**
   **not** change the copy format or the codec: after F15 the global paste is a no-op for
   bare digits and pasting them onto a drum cell restores the positions, which is the
   documented design.
-- **F11.** `gothic.parse` clamps out-of-range digits with `Math.min(POSITIONS, …)`,
-  fabricating a config the user never typed — and after Batch 1 the clamped value (7) is
-  still *valid*, so nothing downstream catches it. Drop the clamp and return `null` when a
-  digit exceeds `POSITIONS - 1`. The spec doesn't dictate this case, but it matches the
-  M4/M5/M6 precedent ("reject the dubious cases") and the sibling codecs' behaviour.
+- **F11 — and the same rule for `entryToPlates`.** Decided principle: **never clamp
+  individual digits.** A 0-based run is shifted **as a whole** (`+1` for every digit) or the
+  input is **rejected** — clamping only the out-of-range ones fabricates a config the user
+  never typed, and after Batch 1 the clamped value (7) is still *valid*, so nothing
+  downstream catches it.
+  - `gothic.parse` (`index.html:2005`): drop `Math.max(1, Math.min(POSITIONS, …))`; shift
+    all digits and return `null` if any lands outside `1..POSITIONS`.
+  - `entryToPlates` (`index.html:2719`): same — drop the clamp, shift all. A DB entry with
+    an out-of-range `pos` then fails `validatePlates` and `applyEntry` reports it instead
+    of silently shifting one disc. (The DB is 0-based; the curated corpus is all `0..6`, so
+    this is a guard, not a behaviour change for real data — re-run `npm run test:corpus`.)
+  - The gothic **codec itself stays strictly 0-based**; base inference belongs outside it
+    (the drum, `posReplaceAll`), which is where it now lives.
 - **F24.** `json`/`dotted`/`bytearray` call `.trim()` on the raw argument, so a non-string
   caller gets a `TypeError` from a method whose contract says it never throws. Coerce with
   `String(str)` like `gothic` does (one line each).
@@ -100,22 +108,38 @@ Fixes **F3, F3b, F22, F12, F18, F19, F28**.
   user navigates, while the Stop button is disabled.
 - **F3b.** Stop inside the tick that plays the last step instead of noticing one tick
   later (check `solverStep >= solution.length` after `solveStepForward()`).
-- **F12.** When `addExploreMove` collapses the history to empty, return to following mode
+- **F12.** When the explore history collapses back to empty, return to following mode
   (`returnToSolution(state.detachStep)`) instead of leaving all three nav buttons disabled
   in a state that is bit-identical to the detach point.
 - **F18.** `switchToConfig` must reset `solveMode`/`exploreHistory`/`detachStep` like
   `switchToSolve` does — extract the reset so the two cannot drift.
-- **F19.** The notation string marks `i === solverStep` (the next move) while the card list
-  marks `i + 1 === solverStep` (the played move), and explore mode adds a third convention.
-  Pick one — "the step just played" matches the 3D scene highlight — and derive both
-  renderers from a single helper.
+- **F19.** Unify **to the card convention** (`i + 1 === solverStep`, "the step just
+  played") and change the **notation string** to match it. Direction matters: the card
+  convention is pinned by existing tests (`solve-flow.spec.js` expects `step-1` active
+  after one step and `step-end` at the end), so touching the cards instead would break
+  them. Explore mode already highlights the last move made, i.e. the same convention.
 - **F28.** With an empty solution both endpoint cards resolve to step 0 and both go active;
   make the end endpoint inactive when `solution.length === 0`.
 
-## Batch 5 — robustness
+## Batch 5 — paste discipline and robustness
 
-Fixes **F15, F16, F27** plus three tail items without dedicated tests.
+Fixes **F6, F15, F16, F27** plus three tail items without dedicated tests.
 
+**Decided paste rules (they differ by surface — this is the point):**
+
+- **Global `Ctrl+V` never overwrites the config silently — it always goes through the
+  confirmation dialog.** Combined with F15 that means: a valid config opens the dialog
+  (as today), and anything that is *not* a config does nothing at all (today it opens the
+  dialog and then reports «Невалидный конфиг»).
+- **A drum paste applies a whole clipboard config only when the matrix is empty** (no dep
+  anywhere) — the existing guard. **With any dep set it takes only the digits and tells the
+  user the config was not applied**, so the matrix is not overwritten behind their back.
+  That notification is the F6 fix; a new i18n key in all three locales.
+- **F6.** Today the digits path (`posReplaceAll`) rebuilds the whole set unconditionally,
+  so a digits-only paste still wipes the matrix and says nothing. Apply the digits **in
+  place while the plate count is unchanged** (deps survive), rebuild only when the count
+  itself changes (deps then reset by necessity), and show the "config not applied" toast in
+  both cases. Base inference stays as just shipped.
 - **F15.** The global paste handler opens the dialog for any clipboard text; gate it on
   `looksLikeImportConfig(text)` as the design doc specifies.
 - **F16.** `new Fuse(chestDb.entries, …)` sits outside `loadChestDb`'s `try` and the guard
