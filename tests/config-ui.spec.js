@@ -27,7 +27,7 @@ test('dep cell: shows full text when container is wide', async ({ page }) => {
 });
 
 test('dep cell: shows a direction icon when container is narrow', async ({ page }) => {
-  // Narrow the container below the threshold (@container max-width: 360px)
+  // Narrow the container below the threshold (@container max-width: 375px)
   await page.evaluate(() => { document.getElementById('plates-matrix').style.width = '280px'; });
   const cell = page.getByTestId('dep-1-2');
   const short = cell.getByTestId('dep-short');
