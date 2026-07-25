@@ -17,8 +17,8 @@ async function pasteInto(locator, text) {
 // ── Dep cell responsive text ──────────────────────────────────────────────────
 
 test('dep cell: shows full text when container is wide', async ({ page }) => {
-  // Force width above the container-query threshold
-  await page.evaluate(() => { document.getElementById('plates-matrix').style.width = '500px'; });
+  // Force width above the container-query threshold (@container max-width: 670px)
+  await page.evaluate(() => { document.getElementById('plates-matrix').style.width = '800px'; });
   await page.getByTestId('dep-1-2').click(); // none → same
 
   const cell = page.getByTestId('dep-1-2');
@@ -27,7 +27,7 @@ test('dep cell: shows full text when container is wide', async ({ page }) => {
 });
 
 test('dep cell: shows a direction icon when container is narrow', async ({ page }) => {
-  // Narrow the container below the threshold (@container max-width: 375px)
+  // Narrow the container below the threshold (@container max-width: 670px)
   await page.evaluate(() => { document.getElementById('plates-matrix').style.width = '280px'; });
   const cell = page.getByTestId('dep-1-2');
   const short = cell.getByTestId('dep-short');

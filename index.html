@@ -106,9 +106,7 @@ body {
 /* The found-in-DB card is informational here, not a clickable search result. */
 #import-found .search-result { cursor: default; }
 #import-found .search-result:hover { border-color: var(--border); }
-/* Swap the abbreviated words for direction icons slightly before the words actually
-   get cramped — the text starts crowding the cells a bit above the old 360px. */
-@container (max-width: 375px) {
+@container (max-width: 670px) {
   .dep-full { display: none; }
   .dep-short { display: inline-flex; align-items: center; justify-content: center; }
 }
