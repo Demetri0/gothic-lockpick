@@ -1662,6 +1662,11 @@ function haptic(pattern) {
   if (navigator.vibrate) navigator.vibrate(pattern);
 }
 
+/** True while the solver overlay is up — user input that would swap the config must wait. */
+function isComputing() {
+  return document.getElementById('computing-overlay').classList.contains('active');
+}
+
 function showToast(message, type = 'success') {
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
@@ -2702,6 +2707,10 @@ function applyPlates(plates) {
   state.plates = plates;
   state.activePlate = 1;
   state.cachedSolution = null;
+  // Invalidate any solve still in flight: nulling the cache is not enough, because a
+  // worker result carrying the previous solveId would still be accepted and rendered
+  // against this new config. (Declared later in worker-host; guard for the first call.)
+  if (typeof solveId === 'number') solveId++;
   document.getElementById('val-plates').textContent = plates.length;
   renderMatrix();
   buildScene('scene-config-inner', state.plates);
@@ -2793,6 +2802,7 @@ document.addEventListener('copy', (e) => {
 // Permanent paste listener — catches Ctrl+V outside of form inputs
 document.addEventListener('paste', (e) => {
   if (state.stage !== 'config') return;
+  if (isComputing()) return;   // a solve is running: swapping the config would strand its result
   if (e.target.matches('input, textarea, select')) return;
   e.preventDefault();
   const text = e.clipboardData.getData('text');
@@ -3201,7 +3211,7 @@ function configMovePlate(dir) {
 
 document.addEventListener('keydown', (e) => {
   if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
-  if (document.getElementById('computing-overlay').classList.contains('active')) return;
+  if (isComputing()) return;
   // Block WASD/arrows whenever any modal dialog is open, regardless of where focus
   // currently is — focus can leave a dialog's input (e.g. clicking a non-focusable
   // result card) while the dialog itself stays open, letting keys leak through otherwise.
@@ -3474,6 +3484,9 @@ function onWorkerMessage({ data }) {
     btn.textContent = t('btn-start');
     if (data.solution === null) {
       showToast(t('toast-no-solution'), 'error');
+      // Drop a &solve the URL may still be advertising (e.g. an unsolvable deep link):
+      // the stage stays config, so a reload must not replay the same BFS and toast.
+      urlReplace(state.plates, 'config');
       return;
     }
     if (state.stage !== 'config') return;
@@ -3567,13 +3580,13 @@ function onRandomPoolMessage({ data }, poolId, workerId) {
     terminateRandomPool();
     hideOverlay();
     resetButtons();
-    state.plates = data.plates;
+    // Same stage guard the solve branch has: a late pool result must not rewrite the
+    // config out from under the solve stage.
+    if (state.stage !== 'config') return;
+    // Go through applyPlates rather than inlining it — that inlined copy was missing
+    // its urlReplace, which is why a generated lock never reached the ?lock URL.
+    applyPlates(data.plates);
     state.cachedSolution = data.solution;
-    state.activePlate = 1;
-    document.getElementById('val-plates').textContent = data.plates.length;
-    renderMatrix();
-    buildScene('scene-config-inner', state.plates);
-    updateScene('scene-config-inner', state.plates, state.activePlate);
     return;
   }
 
@@ -3945,10 +3958,12 @@ document.getElementById('chest-hints').addEventListener('click', (e) => {
 chestSearchReady.then(() => renderChestHints());
 
 function applySearchResult(entry) {
-  // applyEntry() shows its own success toast — don't double up
-  applyEntry(entry);
   document.getElementById('search-dialog').close();
+  // Leave the solve stage FIRST: switchToConfig restores state.plates from the pre-solve
+  // snapshot, so applying the entry before it left state, DOM and URL describing three
+  // different locks. Same order urlReconcile uses.
   if (state.stage !== 'config') switchToConfig();
+  applyEntry(entry);   // applyEntry() shows its own success toast — don't double up
 }
 
 // Opens the dialog synchronously (before any await) so it can never be
@@ -4043,6 +4058,7 @@ if (isMac) {
 document.addEventListener('keydown', async (e) => {
   if ((e.ctrlKey || e.metaKey) && e.code === 'KeyK') {
     e.preventDefault();
+    if (isComputing()) return;   // same reason as the paste handler above
     // Await the same readiness promise rather than reading the flag synchronously —
     // pressing Ctrl+K before the startup check resolves must wait for the real
     // result, not race against its "not yet known" initial value.
