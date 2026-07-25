@@ -219,3 +219,33 @@ test('exploring then returning restores the BFS playback state at the detach ste
   expect(after.step).toBe(before.step);
   expect(after.pos).toEqual(before.pos);
 });
+
+// ── Already-solved lock ──────────────────────────────────────────────────────
+
+const SOLVED_CONFIG = JSON.stringify([
+  { id: 1, positions: 7, currentPos: 4, deps: [] },   // every disc already centred
+  { id: 2, positions: 7, currentPos: 4, deps: [] },
+]);
+
+test('a lock that is already centred shows a notice instead of an empty step list', async ({ page }) => {
+  await startSolve(page, SOLVED_CONFIG);
+  const note = page.getByTestId('solve-already-solved');
+  await expect(note).toBeVisible();
+  await expect(note).toContainText('уже решён');
+  await expect(note).toContainText('начальные позиции');
+  // no step cards and no endpoint rows to click through
+  await expect(page.getByTestId('step-start')).toHaveCount(0);
+  await expect(page.getByTestId('step-end')).toHaveCount(0);
+  // nothing to play
+  await expect(page.getByTestId('btn-step')).toBeDisabled();
+  await expect(page.getByTestId('btn-prev')).toBeDisabled();
+  await expect(page.getByTestId('btn-auto')).toBeDisabled();
+});
+
+test('the already-solved notice is localized', async ({ page }) => {
+  await page.getByTestId('lang-en').click();
+  await startSolve(page, SOLVED_CONFIG);
+  await expect(page.getByTestId('solve-already-solved')).toContainText('already solved');
+  await page.getByTestId('lang-uk').click();
+  await expect(page.getByTestId('solve-already-solved')).toContainText('розв');
+});

@@ -333,14 +333,18 @@ test('F19: the notation string and the step list highlight the same step', async
   expect(r.stringCur).toBe(r.listActive);
 });
 
-test('F28: an already-centred lock shows exactly one active endpoint', async ({ page }) => {
+test('F28: an already-centred lock never shows two active rows', async ({ page }) => {
+  // Originally both endpoint cards resolved to step 0 and both lit up. An empty solution
+  // now renders the already-solved notice instead of endpoints (see solve-flow.spec.js),
+  // so the double highlight cannot arise at all — this guards that invariant either way.
   await startSolve(page, JSON.stringify([
     { id: 1, positions: 7, currentPos: 4, deps: [] },
     { id: 2, positions: 7, currentPos: 4, deps: [] },
   ]));
   const active = await page.evaluate(() =>
     [...document.querySelectorAll('#solution-steps li.active')].map(li => li.dataset.testId));
-  expect(active).toHaveLength(1);
+  expect(active.length).toBeLessThanOrEqual(1);
+  await expect(page.getByTestId('solve-already-solved')).toBeVisible();
 });
 
 // ── DB rendering ─────────────────────────────────────────────────────────────

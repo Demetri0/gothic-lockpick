@@ -614,8 +614,8 @@ input[type=number] {
   min-height: 0;
   padding: 0;
 }
-.solution-list li:not(.endpoint):not(.explore-separator) { counter-increment: step; }
-.solution-list li:not(.endpoint):not(.explore-separator)::before {
+.solution-list li:not(.endpoint):not(.explore-separator):not(.solve-note) { counter-increment: step; }
+.solution-list li:not(.endpoint):not(.explore-separator):not(.solve-note)::before {
   content: counter(step) ". ";
   color: var(--border-control);
 }
@@ -631,6 +631,12 @@ input[type=number] {
   color: var(--text-bright);
 }
 .solution-list li:hover { background: var(--bg-hover); }
+.solve-note {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 28px 16px; text-align: center; line-height: 1.5;
+  color: var(--text-soft); cursor: default;
+}
+.solve-note-hint { font-size: 0.85em; color: var(--text-muted); }
 .solution-list li.endpoint {
   color: var(--text-muted);
   font-size: 0.9em;
@@ -1470,6 +1476,8 @@ const TRANSLATIONS = {
     'btn-start': 'РЕШЕНИЕ',        'btn-back': 'Вернуться',
     'btn-prev': 'Шаг',            'btn-step': 'Шаг',
     'btn-auto': '▶ Авто',          'btn-stop': '■ Стоп',
+    'solve-solved-title': 'Данный замок уже решён.',
+    'solve-solved-hint': 'Возможно вы забыли выставить начальные позиции',
     'legend-move': 'Смещение элемента', 'legend-select': 'Выбор элемента',
     'pos-inc': 'Позиция +1',       'pos-dec': 'Позиция −1',
     'pos-del': 'Удалить элемент',  'pos-add': 'Добавить элемент',
@@ -1521,6 +1529,8 @@ const TRANSLATIONS = {
     'btn-start': 'SOLVE',          'btn-back': 'Back',
     'btn-prev': 'Step',            'btn-step': 'Step',
     'btn-auto': '▶ Auto',           'btn-stop': '■ Stop',
+    'solve-solved-title': 'This lock is already solved.',
+    'solve-solved-hint': 'You may have forgotten to set the starting positions',
     'legend-move': 'Move plate',   'legend-select': 'Select plate',
     'pos-inc': 'Position +1',      'pos-dec': 'Position −1',
     'pos-del': 'Remove plate',     'pos-add': 'Add plate',
@@ -1572,6 +1582,8 @@ const TRANSLATIONS = {
     'btn-start': 'ВИРІШИТИ',       'btn-back': 'Повернутись',
     'btn-prev': 'Крок',            'btn-step': 'Крок',
     'btn-auto': '▶ Авто',           'btn-stop': '■ Стоп',
+    'solve-solved-title': 'Цей замок уже розв\u2019язано.',
+    'solve-solved-hint': 'Можливо, ви забули виставити початкові позиції',
     'legend-move': 'Зсув елемента', 'legend-select': 'Вибір елемента',
     'pos-inc': 'Позиція +1',       'pos-dec': 'Позиція −1',
     'pos-del': 'Видалити елемент', 'pos-add': 'Додати елемент',
@@ -3029,6 +3041,19 @@ function renderSolvePanel() {
 
   } else {
     // ── Following mode ────────────────────────────────────────────────────
+
+    if (state.solution.length === 0) {
+      // Nothing to play: the lock arrived already centred. Usually that means the user
+      // opened SOLVE before entering the lock's real starting positions, so say both.
+      document.getElementById('solution-string').innerHTML = '';
+      list.innerHTML = `<li class="solve-note" data-test-id="solve-already-solved">`
+        + `<span>${t('solve-solved-title')}</span>`
+        + `<span class="solve-note-hint">${t('solve-solved-hint')}</span></li>`;
+      document.getElementById('btn-prev').disabled = true;
+      document.getElementById('btn-step').disabled = true;
+      document.getElementById('btn-auto').disabled = true;
+      return;
+    }
 
     // `solverStep` counts steps ALREADY played, so the move to highlight is the one at
     // index solverStep − 1 (−1 when nothing has been played yet). Derive it once: both
