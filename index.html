@@ -614,8 +614,8 @@ input[type=number] {
   min-height: 0;
   padding: 0;
 }
-.solution-list li:not(.endpoint):not(.explore-separator):not(.solve-note) { counter-increment: step; }
-.solution-list li:not(.endpoint):not(.explore-separator):not(.solve-note)::before {
+.solution-list li:not(.endpoint):not(.explore-separator) { counter-increment: step; }
+.solution-list li:not(.endpoint):not(.explore-separator)::before {
   content: counter(step) ". ";
   color: var(--border-control);
 }
@@ -631,12 +631,8 @@ input[type=number] {
   color: var(--text-bright);
 }
 .solution-list li:hover { background: var(--bg-hover); }
-.solve-note {
-  display: flex; flex-direction: column; gap: 8px;
-  padding: 28px 16px; text-align: center; line-height: 1.5;
-  color: var(--text-soft); cursor: default;
-}
-.solve-note-hint { font-size: 0.85em; color: var(--text-muted); }
+.solve-note { padding: 28px 16px; text-align: center; line-height: 1.5; color: var(--text-soft); }
+.solve-note-hint { margin-top: 8px; font-size: 0.85em; color: var(--text-muted); }
 .solution-list li.endpoint {
   color: var(--text-muted);
   font-size: 0.9em;
@@ -1184,6 +1180,10 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
         <button id="btn-copy-solution" class="btn-copy-solution" data-test-id="btn-copy-solution" data-i18n-title="copy-solution" title="Копировать цепочку">📋</button>
       </div>
       <ol id="solution-steps" class="solution-list" data-test-id="solution-steps"></ol>
+      <div id="solve-note" class="solve-note hidden" data-test-id="solve-already-solved">
+        <p data-i18n="solve-solved-title">Данный замок уже решён.</p>
+        <p class="solve-note-hint" data-i18n="solve-solved-hint">Возможно вы забыли выставить начальные позиции</p>
+      </div>
       <div class="solve-buttons">
         <button id="btn-back" class="btn-primary btn-return" data-test-id="btn-back" data-i18n="btn-back">Вернуться</button>
         <button id="btn-prev" class="btn-primary btn-step-nav" data-test-id="btn-prev"><svg class="btn-chevron" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg><span data-i18n="btn-prev">Шаг</span></button>
@@ -2980,6 +2980,7 @@ function buildStepLi(move, opts = {}) {
 function renderSolvePanel() {
   const list = document.getElementById('solution-steps');
   list.innerHTML = '';
+  document.getElementById('solve-note').classList.add('hidden');
 
   if (state.solveMode === 'exploring') {
     // ── Exploring mode ────────────────────────────────────────────────────
@@ -3045,10 +3046,9 @@ function renderSolvePanel() {
     if (state.solution.length === 0) {
       // Nothing to play: the lock arrived already centred. Usually that means the user
       // opened SOLVE before entering the lock's real starting positions, so say both.
+      // The notice is a sibling of the <ol>, not a fake step inside it.
       document.getElementById('solution-string').innerHTML = '';
-      list.innerHTML = `<li class="solve-note" data-test-id="solve-already-solved">`
-        + `<span>${t('solve-solved-title')}</span>`
-        + `<span class="solve-note-hint">${t('solve-solved-hint')}</span></li>`;
+      document.getElementById('solve-note').classList.remove('hidden');
       document.getElementById('btn-prev').disabled = true;
       document.getElementById('btn-step').disabled = true;
       document.getElementById('btn-auto').disabled = true;
