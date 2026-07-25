@@ -2864,15 +2864,29 @@ function startSolve(push) {
   worker.postMessage({ type: 'solve', plates: state.plates, solveId: ++solveId });
 }
 
-function switchToSolve(push = true) {
+/** Stop auto-play and restore the button label. The label used to be updated by hand at
+ *  each clearInterval site, and two of them forgot — leaving «Стоп» on an idle button. */
+function stopAutoPlay() {
   if (state.autoInterval) { clearInterval(state.autoInterval); state.autoInterval = null; }
+  const btn = document.getElementById('btn-auto');
+  if (btn) btn.textContent = t('btn-auto');
+}
+
+/** Re-attach to the BFS solution: the single place that clears explore state, so
+ *  switchToSolve and switchToConfig cannot drift apart on what "following" means. */
+function resetExploreState() {
+  state.solveMode = 'following';
+  state.exploreHistory = [];
+  state.detachStep = null;
+  state.detachPositions = null;
+}
+
+function switchToSolve(push = true) {
+  stopAutoPlay();
   solveStartPositions = state.plates.map(p => ({ ...p, deps: p.deps.slice() }));
 
   state.stage = 'solve';
-  state.solveMode = 'following';
-  state.exploreHistory = [];
-  state.detachPositions = null;
-  state.detachStep = null;
+  resetExploreState();
   document.getElementById('stage-config').classList.add('hidden');
   document.getElementById('stage-solve').classList.remove('hidden');
 
@@ -2890,7 +2904,8 @@ function switchToSolve(push = true) {
 }
 
 function switchToConfig() {
-  if (state.autoInterval) { clearInterval(state.autoInterval); state.autoInterval = null; }
+  stopAutoPlay();
+  resetExploreState();   // leaving the stage mid-explore used to strand solveMode='exploring'
   state.stage = 'config';
   // Restore plates from config snapshot
   state.plates = solveStartPositions.map(p => ({ ...p, deps: p.deps.map(d => ({...d})) }));
@@ -3011,12 +3026,14 @@ function renderSolvePanel() {
     });
     document.getElementById('solution-string').innerHTML = parts.join(' ');
 
-    const makeEndpoint = (label, step, testId) => {
+    // On an already-centred lock the solution is empty, so start and end are both step 0
+    // and would both light up. The playhead sits at the start, so only that one is active.
+    const makeEndpoint = (label, step, testId, tieBreak = true) => {
       const li = document.createElement('li');
       li.textContent = label;
       li.classList.add('endpoint');
       li.dataset.testId = testId;
-      if (state.solverStep === step) li.classList.add('active');
+      if (state.solverStep === step && tieBreak) li.classList.add('active');
       li.addEventListener('click', () => jumpToStep(step));
       return li;
     };
@@ -3029,7 +3046,8 @@ function renderSolvePanel() {
         onClick: () => jumpToStep(i + 1),
       }));
     });
-    list.appendChild(makeEndpoint(t('step-end'), state.solution.length, 'step-end'));
+    list.appendChild(makeEndpoint(t('step-end'), state.solution.length, 'step-end',
+                                  state.solution.length > 0));
 
     const active = list.querySelector('.active');
     if (active) active.scrollIntoView({ block: 'nearest' });
@@ -3044,6 +3062,7 @@ function renderSolvePanel() {
 
 /** Apply steps from current solverStep up to (but not including) targetStep */
 function jumpToStep(targetStep) {
+  stopAutoPlay();   // navigating away from the playhead must not leave the timer running
   // Reset to start
   state.plates.forEach((p, i) => { p.currentPos = solveStartPositions[i].currentPos; });
   state.solverStep = 0;
@@ -3080,10 +3099,7 @@ function solveStepBack() {
 
 /** Exit explore mode and jump to a BFS step. */
 function returnToSolution(targetStep) {
-  state.solveMode = 'following';
-  state.exploreHistory = [];
-  state.detachPositions = null;
-  state.detachStep = null;
+  resetExploreState();
   jumpToStep(targetStep);
 }
 
@@ -3168,22 +3184,14 @@ function wireSolveHandlers() {
     document.getElementById('notation-dialog').close());
 
   document.getElementById('btn-auto').addEventListener('click', () => {
-    const btn = document.getElementById('btn-auto');
-    if (state.autoInterval) {
-      clearInterval(state.autoInterval);
-      state.autoInterval = null;
-      btn.textContent = t('btn-auto');
-      return;
-    }
-    btn.textContent = t('btn-stop');
+    if (state.autoInterval) { stopAutoPlay(); return; }
+    document.getElementById('btn-auto').textContent = t('btn-stop');
     state.autoInterval = setInterval(() => {
-      if (state.solverStep >= state.solution.length) {
-        clearInterval(state.autoInterval);
-        state.autoInterval = null;
-        btn.textContent = t('btn-auto');
-        return;
-      }
+      if (state.solverStep >= state.solution.length) { stopAutoPlay(); return; }
       solveStepForward();
+      // Stop inside the tick that played the last step, not one tick later — otherwise
+      // the interval outlives the playback while its own button is already disabled.
+      if (state.solverStep >= state.solution.length) stopAutoPlay();
     }, AUTO_DELAY);
   });
 }
@@ -3288,17 +3296,20 @@ document.addEventListener('keydown', (e) => {
       if (moved) {
         if (wasFollowing) {
           // Detach from the BFS solution only once a real move happened.
-          if (state.autoInterval) {
-            clearInterval(state.autoInterval);
-            state.autoInterval = null;
-            document.getElementById('btn-auto').textContent = t('btn-auto');
-          }
+          stopAutoPlay();
           state.solveMode = 'exploring';
           state.detachStep = state.solverStep;
           state.detachPositions = preMovePositions;
         }
         addExploreMove(state.activePlate, dir);
         haptic(HAPTIC_STEP);   // the user turned a disc
+        if (state.exploreHistory.length === 0) {
+          // The explore moves cancelled each other out, so the lock is bit-identical to
+          // the detach point: re-attach to the solution instead of stranding the user in
+          // exploring mode, where prev/step/auto are all disabled.
+          returnToSolution(state.detachStep);
+          return;
+        }
         updateScene('scene-solve-inner', state.plates, state.activePlate);
         renderSolvePanel();
       } else {
