@@ -27,7 +27,8 @@
   <meta name="twitter:image:alt" content="3D visualization of a Gothic disc lock with its solution played back step by step">
 
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
-  <style>
+  <style id="style-base">
+/* ── style-base — reset, body, .stage, .hidden ──────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -41,6 +42,9 @@ body {
 .stage { display: flex; flex-wrap: wrap; height: 100dvh; overflow: hidden; }
 .hidden { display: none; }
 
+  </style>
+  <style id="style-layout">
+/* ── style-layout — panels, stages, 3D wrapper ──────────────────────────────────── */
 .panel { padding: 24px; }
 .panel-left {
   width: var(--panel-w);
@@ -73,6 +77,9 @@ body {
   justify-content: center;
 }
 
+  </style>
+  <style id="style-preview">
+/* ── style-preview — read-only visuals: mini dep matrix, import preview card ────── */
 .dep-short { display: none; }
 .dep-icon { display: block; }
 .mini-matrix { display: grid; grid-template-columns: repeat(var(--n), var(--cell)); gap: 2px;
@@ -104,6 +111,9 @@ body {
   .dep-short { display: inline-flex; align-items: center; justify-content: center; }
 }
 
+  </style>
+  <style id="style-controls">
+/* ── style-controls — headings, buttons, inputs, the search pill ────────────────── */
 h2 { font-size: 0.85em; letter-spacing: 3px; text-transform: uppercase;
      color: var(--text-dim); border-bottom: 1px solid var(--border); padding-bottom: 10px;
      display: flex; align-items: center; justify-content: space-between; }
@@ -201,6 +211,9 @@ input[type=number] {
 }
 
 /* Config matrix */
+  </style>
+  <style id="style-config">
+/* ── style-config — position drum + dependency matrix ───────────────────────────── */
 #plates-positions {
   display: flex; justify-content: center;
   padding: 10px 4px;
@@ -342,6 +355,9 @@ input[type=number] {
 }
 
 /* Solve panel */
+  </style>
+  <style id="style-notation">
+/* ── style-notation — notation help dialog ──────────────────────────────────────── */
 .notation-btn {
   display: inline-flex;
   align-items: center;
@@ -406,6 +422,9 @@ input[type=number] {
 
 /* No padding/border on the dialog itself — .search-dialog-inner covers its entire content
    box, so a click landing on the dialog element (not a descendant) can only be the backdrop. */
+  </style>
+  <style id="style-search">
+/* ── style-search — search dialog, result cards, chest hints ────────────────────── */
 #search-dialog {
   position: fixed;
   inset: 0;
@@ -564,6 +583,9 @@ input[type=number] {
 .chest-hint-rules .dep-tok[data-rel="match"]    { color: #5cb85c; }
 .chest-hint-rules .dep-tok[data-rel="conflict"] { color: #d86a6a; }
 
+  </style>
+  <style id="style-solve">
+/* ── style-solve — solution list, step cards, explore separator, solved notice ──── */
 .solution-wrap {
   display: flex;
   align-items: flex-start;
@@ -682,6 +704,9 @@ input[type=number] {
 
 button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
+  </style>
+  <style id="style-overlay">
+/* ── style-overlay — blocked flash, computing overlay, import dialog, toasts, legend ─── */
 @keyframes plate-shake {
   0%, 100% { translate: 0px 0; }
   15%  { translate: -6px 0; }
@@ -845,6 +870,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 /* No-solution message */
 .no-solution { color: var(--danger); font-size: 0.85em; text-align: center; padding: 20px; }
 
+  </style>
+  <style id="style-tokens">
+/* ── style-tokens — colour palette (:root custom properties) ────────────────────── */
 :root {
   --tilt: -30deg;         /* наклон камеры вниз; отрицательный = смотрим сверху */
   --yaw: -35deg;          /* поворот вокруг вертикали; отрицательный = видна правая грань */
@@ -902,6 +930,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   --pin-glow:            #d4a84388;
 }
 
+  </style>
+  <style id="style-scene">
+/* ── style-scene — 3D scene: plates, faces, holes, pins, lang selector ──────────── */
 .scene-wrap {
   position: relative;
   perspective: 900px;
@@ -1051,6 +1082,9 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 #lang-selector button:hover  { opacity: 0.75; }
 #lang-selector button.active { opacity: 1; border-color: var(--border-control); background: var(--bg-control); }
 
+  </style>
+  <style id="style-responsive">
+/* ── style-responsive — viewport media queries ──────────────────────────────────── */
 @media (max-width: 819px) {
   body         { height: auto; overflow: visible; }
   .stage       { height: auto; overflow: visible; }
