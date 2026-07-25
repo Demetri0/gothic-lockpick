@@ -1949,7 +1949,7 @@ const Codecs = (() => {
 const json = {
   id: 'json',
   parse(str) {
-    const t = str.trim();
+    const t = String(str).trim();          // never throws (contract), even on a non-string
     if (t[0] !== '[' && t[0] !== '{') return null;
     try { return JSON.parse(t); } catch { return null; }
   },
@@ -2001,10 +2001,14 @@ const gothic = {
     // Reject (don't silently drop) a rule whose SOURCE plate is beyond the position count.
     for (const src of Object.keys(depMap)) if (src.charCodeAt(0) - 65 >= rawPos.length) return null;
     const POSITIONS = 7;
+    // Digits are 0-based (0..POSITIONS-1) and the run is shifted as a WHOLE. Never clamp
+    // individual digits: that fabricates a config the user never typed, and the clamped
+    // value stays valid so nothing downstream catches it. Out of range → not this format.
+    if (rawPos.some(d => d + 1 < 1 || d + 1 > POSITIONS)) return null;
     return Array.from({ length: rawPos.length }, (_, i) => ({
       id: i + 1,
       positions: POSITIONS,
-      currentPos: Math.max(1, Math.min(POSITIONS, rawPos[i] + 1)),
+      currentPos: rawPos[i] + 1,
       deps: depMap[String.fromCharCode(65 + i)] || [],
     }));
   },
@@ -2029,7 +2033,7 @@ const gothic = {
 const dotted = {
   id: 'dotted',
   parse(str) {
-    const m = str.trim().match(/^(\d+)\.(\d+)\.([sao]+)$/);   // canonical: lowercase pairs only
+    const m = String(str).trim().match(/^(\d+)\.(\d+)\.([sao]+)$/);   // canonical: lowercase pairs only
     if (!m) return null;
     const n = parseInt(m[1], 10);
     if (String(n) !== m[1]) return null;                       // no leading-zero plate count
@@ -2070,7 +2074,7 @@ const bytearray = (() => {
   return {
     id: 'bytearray',
     parse(str) {
-      const s = str.trim();
+      const s = String(str).trim();        // never throws (contract), even on a non-string
       if (!/^[A-Za-z0-9_-]+$/.test(s) || /^\d+$/.test(s)) return null;
       if (!VALID_LENS.has(s.length)) return null;
       const bits = [];
@@ -2715,10 +2719,13 @@ function applyImportedConfig(rawText) {
 /** Build a plates array directly from a DB entry (pos is 0-based; rules may be empty). */
 function entryToPlates(entry) {
   const depMap = Codecs.gothic.parseRules(entry.rules || '') || {};   // malformed DB rules → no deps (defensive; bad entries are dropped)
+  // DB `pos` is 0-based; shift the whole run and never clamp single digits — an
+  // out-of-range entry then fails validatePlates and applyEntry reports it, instead of
+  // silently moving one disc to a hole the DB never named.
   return entry.pos.map((p, i) => ({
     id: i + 1,
-    positions: 7,
-    currentPos: Math.max(1, Math.min(7, p + 1)),
+    positions: DEFAULT_POSITIONS,
+    currentPos: p + 1,
     deps: depMap[String.fromCharCode(65 + i)] || [],
   }));
 }
