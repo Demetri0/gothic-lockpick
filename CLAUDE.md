@@ -57,6 +57,8 @@ Any user-visible text added to `index.html` must be added to **all three locales
 
 The only exception is locale-independent symbols (e.g. `·`, `↩`) that carry the same meaning in all languages.
 
+This is enforced, not just conventional — `tests/i18n.spec.js` fails on a key missing from any locale, a blank value, a `data-i18n` attribute with no dictionary entry, and on `t()` falling back to returning the key. Adding a string to one locale only turns the suite red.
+
 ### Style
 - `{ force: true }` on clicks inside the 3D scene (CSS 3D transforms affect hit-testing)
 - Don't assert transient UI states (overlay appearing then disappearing in <5 ms is not reliably catchable — assert the result instead)

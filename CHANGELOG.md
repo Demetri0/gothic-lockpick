@@ -4,7 +4,27 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.5.0] - 2026-07-26
+
+### Added
+- Opening the solve stage with every disc already centered now explains itself — "this lock
+  is already solved, you may have forgotten to set the starting positions" — instead of
+  showing an empty step list with dead navigation buttons.
+
+### Changed
+- Dependency-matrix cells switch from the direction word to the direction icon based on the
+  **matrix's own width** (a container query at 670px) rather than the viewport, so an 8-plate
+  matrix — where each cell is only `width / (N+1)` wide — now switches on desktop too instead
+  of letting the text collide with the cell borders.
+- The stylesheet is split into `<style>` blocks with semantic ids, mirroring the `<script>`
+  blocks (`style-base`, `style-layout`, … `style-responsive`). Purely organisational: the
+  blocks concatenate byte-identically in document order, verified against the previous
+  single sheet by a computed-style diff over 139 elements. Still no `!important` anywhere.
+- Internal cleanup from the review's non-defect findings: dropped two never-read pieces of
+  state (the solver's per-layer corridor buckets and the explore-mode position snapshot —
+  returning to a step always replays from the config), toasts can no longer leak a hidden
+  node when their fade-out transition never fires, and cycling the active disc now handles
+  an active id that is no longer in the config. No behaviour change.
 
 ### Fixed
 
