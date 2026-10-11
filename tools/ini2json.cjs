@@ -258,8 +258,10 @@ function transform(raw, seen, rep) {
 //   overrides    — canonical group → recorded entries (merges, fixes)
 //   additions    — entries with no ini counterpart (e.g. future uml imports)
 //   translations — per-key name/desc languages (Google-Translate round-trip)
+//   evidence     — per-key agreement with external catalogs (derived; rewritten
+//                  whole by tools/sync-catalogs.cjs --write-evidence)
 
-const EMPTY_DECISIONS = { v: 1, drops: [], overrides: [], additions: [], translations: {} };
+const EMPTY_DECISIONS = { v: 1, drops: [], overrides: [], additions: [], translations: {}, evidence: {} };
 
 function applyDecisions(entries, decisions, rep) {
   const d = { ...EMPTY_DECISIONS, ...(decisions || {}) };
@@ -322,6 +324,25 @@ function applyDecisions(entries, decisions, rep) {
       if (p.name) e.name = fill(e.name, p.name);
       if (p.desc) e.desc = fill(e.desc || {}, p.desc);
     }
+  }
+
+  // Evidence (written by tools/sync-catalogs.cjs --write-evidence) → per-entry
+  // agreement with the external catalogs: `conf` ranks the app's search and hints,
+  // `doubt` + `alt` drive the "this entry may contain an error" notice, `game` is
+  // the in-game asset metadata. Entries no other source knows carry none of these.
+  const ev = d.evidence;
+  const idByKey = new Map();
+  for (const e of out) {
+    const key = canonicalKey(e.pos, e.rules);
+    if (!idByKey.has(key)) idByKey.set(key, e.id);
+  }
+  for (const e of out) {
+    const x = ev[canonicalKey(e.pos, e.rules)];
+    if (!x) continue;
+    e.conf = x.conf;
+    if (x.doubt) e.doubt = true;
+    if (x.better && idByKey.has(x.better)) e.alt = idByKey.get(x.better);
+    if (x.game) e.game = { ...x.game };
   }
 
   return out;

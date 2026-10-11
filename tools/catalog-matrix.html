@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сверка базы замков</title>
+<style>
+/* Layout: summary strip → filter bar → one dense table; a row expands into its variants. */
+:root{
+  --bg:#f6f5f1; --panel:#ffffff; --fg:#1d1f1c; --muted:#6b6e66; --line:#dedcd3; --accent:#7a5a1e;
+  --ok:#2f6b3a; --ok-bg:#e3efe2; --warn:#8a5a00; --warn-bg:#f6ead0; --bad:#9b2c22; --bad-bg:#f5dfdb; --info:#3b5b86; --info-bg:#e1e8f2; --none:#b9b7ae;
+  --f-display:"Alegreya SC",Georgia,serif; --f-body:"Alegreya Sans",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#171815; --panel:#1f201c; --fg:#e8e6de; --muted:#9a9b92; --line:#34352f; --accent:#d4a752;
+  --ok:#8fd09a; --ok-bg:#1f3523; --warn:#e8bd62; --warn-bg:#3a2f15; --bad:#f09a8f; --bad-bg:#3d1f1b; --info:#9cb8e0; --info-bg:#1f2a3a; --none:#55564f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#171815; --panel:#1f201c; --fg:#e8e6de; --muted:#9a9b92; --line:#34352f; --accent:#d4a752;
+  --ok:#8fd09a; --ok-bg:#1f3523; --warn:#e8bd62; --warn-bg:#3a2f15; --bad:#f09a8f; --bad-bg:#3d1f1b; --info:#9cb8e0; --info-bg:#1f2a3a; --none:#55564f; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--f-body)}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:28px 48px;display:grid;gap:22px}
+h1{font:600 30px/1.15 var(--f-display);margin:0;text-wrap:balance;color:var(--accent)}
+.lede{margin:6px 0 0;color:var(--muted);max-width:70ch}
+.sum{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:999px;padding:5px 12px;font:inherit;font-size:14px;cursor:pointer;display:flex;gap:8px;align-items:baseline}
+.chip b{font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.chip:focus-visible,.row:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.legend{display:grid;gap:4px;font-size:14px;color:var(--muted);grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.legend div{min-width:0}
+input[type=search]{width:100%;max-width:420px;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--fg);font:inherit}
+.tbl{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:760px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font:600 12px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);position:sticky;top:0;background:var(--panel)}
+td.c{text-align:center;font:500 13px var(--f-mono);font-variant-numeric:tabular-nums}
+td.num{font-variant-numeric:tabular-nums;color:var(--muted)}
+.row{cursor:pointer}.row:hover td{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.v{display:inline-block;min-width:26px;padding:1px 6px;border-radius:4px;background:var(--info-bg);color:var(--info)}
+.v.main{background:var(--ok-bg);color:var(--ok)}
+.dash{color:var(--none)}
+.pill{display:inline-block;font-size:12.5px;padding:1px 8px;border-radius:4px;white-space:nowrap}
+.p-OURS-DISPUTED,.p-SOURCES-DISAGREE{background:var(--bad-bg);color:var(--bad)}
+.p-KEEP-CONSENSUS,.p-DEDUP-BENIGN{background:var(--warn-bg);color:var(--warn)}
+.p-MISSING{background:var(--info-bg);color:var(--info)}
+.p-AGREE{background:var(--ok-bg);color:var(--ok)}
+.p-ONLY-OURS{background:var(--line);color:var(--muted)}
+.det td{background:var(--bg);padding:12px 14px}
+.det .grid{display:grid;gap:10px}
+.var{font:13px/1.6 var(--f-mono);overflow-x:auto;white-space:nowrap}
+.var .tag{font-family:var(--f-body);color:var(--muted)}
+.res-ok{color:var(--ok)}.res-bad{color:var(--bad)}
+.small{font-size:13px;color:var(--muted)}
+.flag{color:var(--bad);font-size:12.5px}
+section h2{font:600 19px var(--f-display);margin:0 0 6px}
+section p,section li{max-width:75ch}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@600&family=Alegreya+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Сверка базы замков</h1>
+    <p class="lede">Наша база (<span id="ours-count"></span> записей) против трёх внешних каталогов. Каждая строка — один физический замок; ячейка показывает, какой вариант конфигурации держит источник. Вариант <span class="v main">v1</span> — тот, за который больше всего источников. Нажмите на строку, чтобы увидеть варианты и проверку: проходит ли наше решение на чужом варианте.</p>
+  </header>
+  <div class="sum" id="sum" role="group" aria-label="Фильтр по вердикту"></div>
+  <div class="legend" id="legend"></div>
+  <input type="search" id="q" placeholder="Поиск по названию, позициям или правилам" aria-label="Поиск">
+  <div class="tbl"><table>
+    <thead><tr><th>Замок</th><th>Пл.</th><th>Наша</th><th>dsazz</th><th>UML</th><th>religiosa1</th><th>Вердикт</th></tr></thead>
+    <tbody id="tb"></tbody>
+  </table></div>
+  <section>
+    <h2>Источники</h2>
+    <ul>
+      <li><b>dsazz</b> — <a href="https://github.com/dsazz/gothic-remake-lockbreaker">gothic-remake-lockbreaker</a>, каталог <code>assets/catalog/locks.json</code>, 345 замков с внутриигровыми id (<code>FM_Chest_…_Lock</code>). Происхождение в репозитории не указано; 276 записей совпадают с нашими байт в байт, поэтому общий источник вероятен.</li>
+      <li><b>UML</b> — <a href="https://github.com/1h8s/unlockmyloot">unlockmyloot</a>, 38 страниц замков с кодом <code>?lock=</code>, декодированы нашим <code>tools/sync-uml.cjs</code>.</li>
+      <li><b>religiosa1</b> — <a href="https://github.com/religiosa1/gothic-lockpick-emulator">gothic-lockpick-emulator</a>, 6 замков, записанных с игры (нумерация пластин обратная, приведена к нашей).</li>
+      <li class="small">Генерируется <code>node tools/sync-catalogs.cjs</code>. Не включены: пресеты gothicremakelockpicking.com (6) и nkbgaming (4) — ни одна запись не совпала с другими источниками ни в одной ориентации, у nkbgaming замки на 3 пластины, которых в игре нет.</li>
+    </ul>
+  </section>
+</div>
+<script>
+const D=/*DATA*/[];
+const OURS=/*OURS_COUNT*/0;
+document.getElementById('ours-count').textContent=OURS;
+const L={
+ 'OURS-DISPUTED':['Спорно у нас','ни один наш вариант не подтверждён извне — решать вручную'],
+ 'SOURCES-DISAGREE':['Источники расходятся','наш вариант подтверждён, но есть внешний с другими данными'],
+ 'KEEP-CONSENSUS':['Лишние варианты у нас','у нас несколько вариантов, внешние подтверждают один — остальные кандидаты в drops'],
+ 'DEDUP-BENIGN':['Безвредный дубль','варианты отличаются, но решения взаимозаменяемы'],
+ 'MISSING':['Нет у нас','замок есть во внешнем каталоге — кандидат в additions'],
+ 'ONLY-OURS':['Только у нас','внешних данных нет'],
+ 'AGREE':['Совпадает','один вариант у всех, кто знает этот замок'],
+};
+const SRC=['ours','dsazz','uml','religiosa1'];
+let filter=null;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function cell(r,s){const vs=r.c[s];if(!vs.length)return '<span class="dash">—</span>';return vs.map(i=>`<span class="v${i===1?' main':''}">v${i}</span>`).join(' ')}
+function detail(r){
+  const vars=r.v.map((v,i)=>`<div class="var"><span class="v${i===0?' main':''}">v${i+1}</span> ${esc(v[0])} &nbsp;${esc(v[1])} &nbsp;<span class="tag">← ${v[2].map(s=>s==='ours'?'наша':s).join(', ')}</span></div>`).join('');
+  const chk=r.x.length?'<div class="small">Наше решение на чужом варианте: '+r.x.map(([a,b,res])=>`v${a}→v${b} <span class="${res==='ok'?'res-ok':'res-bad'}">${res==='ok'?'проходит':res.startsWith('wall')?'упор в стенку на '+res.slice(5)+'-м нажатии':res==='off-center'?'не центрирует':'нет решения'}</span>`).join(' · ')+'</div>':'';
+  const mem='<div class="small">'+r.m.map(([s,id,name,v])=>`${s==='ours'?'наша':s}: ${esc(name)} <span class="tag">(${esc(id)}, v${v})</span>`).join('<br>')+'</div>';
+  return `<tr class="det"><td colspan="7"><div class="grid">${vars}${chk}${r.rev?'<div class="flag">Позиции одного из вариантов записаны в обратном порядке пластин.</div>':''}${mem}</div></td></tr>`;
+}
+function render(){
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  const tb=document.getElementById('tb');let h='';
+  D.forEach((r,i)=>{ if(filter&&r.a!==filter)return;
+    if(q&&!(r.n.toLowerCase().includes(q)||r.v.some(v=>v[0].includes(q)||v[1].toLowerCase().includes(q))||r.m.some(m=>String(m[2]).toLowerCase().includes(q))))return;
+    h+=`<tr class="row" tabindex="0" data-i="${i}"><td>${esc(r.n)}${r.rev?' <span class="flag">⇄</span>':''}</td><td class="num">${r.p}</td>${SRC.map(s=>`<td class="c">${cell(r,s)}</td>`).join('')}<td><span class="pill p-${r.a}">${L[r.a][0]}</span></td></tr>`;
+    if(open.has(i))h+=detail(r);});
+  tb.innerHTML=h||'<tr><td colspan="7" class="small">Ничего не найдено.</td></tr>';
+}
+const open=new Set();
+document.getElementById('tb').addEventListener('click',e=>{const tr=e.target.closest('.row');if(!tr)return;const i=+tr.dataset.i;open.has(i)?open.delete(i):open.add(i);render();});
+document.getElementById('tb').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('row')){e.preventDefault();e.target.click();}});
+document.getElementById('q').addEventListener('input',render);
+const cnt={};D.forEach(r=>cnt[r.a]=(cnt[r.a]||0)+1);
+document.getElementById('sum').innerHTML=`<button class="chip" aria-pressed="true" data-a="">Все <b>${D.length}</b></button>`+Object.keys(L).filter(a=>cnt[a]).map(a=>`<button class="chip" aria-pressed="false" data-a="${a}"><span class="pill p-${a}">${L[a][0]}</span><b>${cnt[a]}</b></button>`).join('');
+document.getElementById('legend').innerHTML=Object.keys(L).filter(a=>cnt[a]).map(a=>`<div><b>${L[a][0]}</b> — ${L[a][1]}</div>`).join('');
+document.getElementById('sum').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;filter=b.dataset.a||null;document.querySelectorAll('#sum .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));render();});
+render();
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 {
   "v": 1,
-  "updated": "2026-07-24T18:58:30.129Z",
+  "updated": "2026-10-11T00:29:41.797Z",
   "entries": [
     {
       "id": "старый-лагерь-внутри-ворот-старого-лагеря",
@@ -26,7 +26,13 @@
         "глава 1",
         "ворота"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard230_Lock",
+        "name": "Guard 230 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "кавалорн-лучник-колония-хранилище-в-пещере",
@@ -55,7 +61,13 @@
         "глава 1",
         "старый лагерь 1 глава"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "CV_Stash_Door_Lock",
+        "name": "Stash Door",
+        "place": "CV area"
+      }
     },
     {
       "id": "старый-лагерь-сундук-граво",
@@ -79,7 +91,13 @@
         "Старый лагерь",
         "Граво"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Gravo_Lock",
+        "name": "Gravo Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "located-next-to-the-bookshelf-in-dusty’s-shack",
@@ -103,7 +121,13 @@
         "Old camp",
         "in Dusty’s shack."
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger506_Lock",
+        "name": "Digger 506 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-первая-хибара-рудокопа-где-лежит-портрет-девушки",
@@ -127,7 +151,13 @@
         "хижина рудокопа",
         "1 хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger554_Lock",
+        "name": "Digger 554 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "altes-lager-kiste-in-diegos-hütte",
@@ -157,6 +187,12 @@
         "en": "Diego's shack southeast of the Old Camp castle gate, marked by red draping and hides. 5 Essences of Healing, 3 lockpicks, 22 ore and supplies.",
         "de": "Diegos Hütte befindet sich südöstlich des Burgtors des Alten Lagers. Am Eingang liegen rote Tücher und Felle. Sie enthält 5 Heilessenzen, 3 Dietriche, 22 Erz und Vorräte.",
         "uk": "Хата Дієго на південний схід від воріт замку Старого табору, з червоною тканиною і шкурами біля входу. 5 есенцій лікування, 3 відмички, 22 руди та запаси."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Diego_Lock",
+        "name": "Diego Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -181,7 +217,13 @@
         "северные ворота",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger527_Lock",
+        "name": "Digger 527 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "болотный-лагерь-2-этаж-дом-послушника-1-глава-6-плит",
@@ -212,7 +254,13 @@
         "6 плит.",
         "дом Кор Ангар"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_CorAngar_Lock",
+        "name": "Cor Angar Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "болотный-лагерь-третий-этаж-к-хижине-ведёт-лестница",
@@ -238,7 +286,13 @@
         "хижина",
         "дом Нирас"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_Nyras_Lock",
+        "name": "Nyras Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "старый-лагерь-дом-рядом-с-большим-котелком-для-еды-на-стенах-дом",
@@ -276,6 +330,12 @@
         "en": "Cartographer Graham's hut left of the Old Camp North Gate (before the first cauldron). The cartographer's personal stash.",
         "de": "Kartograf Grahams Hütte befindet sich links vom Nordtor des Alten Lagers (vor dem ersten Kessel). Vorrat des Kartografen.",
         "uk": "Хатина картографа Грехема ліворуч від Північної брами Старого табору (перед першим котлом). Запас старателя картографа."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Graham_Lock",
+        "name": "Graham Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -304,7 +364,13 @@
         "Лаборатория",
         "2 этаж"
       ],
-      "img": []
+      "img": [],
+      "conf": 1,
+      "game": {
+        "id": "SC_Chest_CorKalom_03_Lock",
+        "name": "Cor Kalom 03 Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "старый-лагерь-сундук-сверху-арены-в-углу",
@@ -335,7 +401,13 @@
         "над ареной",
         "дом над ареной"
       ],
-      "img": []
+      "img": [],
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Bettingowner_Lock",
+        "name": "Bettingowner Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старий-табір-хатина-скатті-завдання-фінгерса",
@@ -372,6 +444,12 @@
         "en": "Scatty's chest is in the Old Camp. Inside is the ring you hand to Fingers for that quest.",
         "de": "Scattys Truhe befindet sich im Alten Lager. Darin befindet sich ein Ring, der Fingers für die gleichnamige Quest gegeben werden muss.",
         "uk": "Скриня Скатті знаходиться в Старому таборі. Усередині кільце, яке потрібно віддати Фінгерсу за однойменним квестом."
+      },
+      "conf": 7,
+      "game": {
+        "id": "OC_Chest_Scorpio_Lock",
+        "name": "Scorpio Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -401,7 +479,13 @@
         "Lagerhaus",
         "Burg"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Santino_Lock",
+        "name": "Santino",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "джесс-старый-лагерь-глава-1-хижина",
@@ -428,7 +512,13 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Jesse_Lock",
+        "name": "Jesse Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "идол-парвез-старый-лагерь-глава-1-хижина",
@@ -454,7 +544,13 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_BaalParvez_Lock",
+        "name": "Baal Parvez Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "altes-lager-4-buddler-hütte-am-wall-dusty",
@@ -477,7 +573,13 @@
         "Altes Lager",
         "Dusty"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Dusty_Lock",
+        "name": "Dusty Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "свободная-шахта-внутри-хижины-у-подьёмника",
@@ -500,7 +602,13 @@
         "Свободная Шахта в хижине у поломоного подьёмника",
         "Freie Mine"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FME_Chest_EmptyHut_02_Lock",
+        "name": "Empty Hut 02 Chest",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "1-глава-болотный-лагерь-хижина-кор-галома-рецепт",
@@ -531,6 +639,12 @@
         "en": "Cor Galom's chest is in the Swamp Camp lab. Inside is the cultists' recipe needed for the quest.",
         "de": "Cor Kaloms Truhe. Darin befindet sich ein Sektiererrezept, das für die Quest benötigt wird.",
         "uk": "Скриня Кор Калома. Усередині рецепт сектантів, необхідний квесту."
+      },
+      "conf": 5,
+      "game": {
+        "id": "SC_Chest_CorKalom_01_Lock",
+        "name": "Cor Kalom 01 Chest",
+        "place": "Swamp Camp"
       }
     },
     {
@@ -561,6 +675,12 @@
         "en": "The door is at the base of the Ruined Tower near the Old Camp. Behind it lies a crypt with a body and a chest holding solid early-game gear.",
         "de": "Die Tür befindet sich am Fuße des zerstörten Turms in der Nähe des Alten Lagers. Dahinter befindet sich eine Krypta mit einer Leiche und einer Truhe: gute Ausrüstung für den Spielbeginn.",
         "uk": "Двері стоять біля основи Зруйнованої вежі неподалік Старого табору. За дверима – склеп із трупом та скринею: добротне спорядження для раннього етапу."
+      },
+      "conf": 5,
+      "game": {
+        "id": "BT_Tower_Door_Lock",
+        "name": "Tower Door",
+        "place": "Old Mine"
       }
     },
     {
@@ -586,7 +706,10 @@
         "Старый лагерь",
         "глава 1"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-хижина-фингерса"
     },
     {
       "id": "старый-лагерь-от-серверные-ворота-направо-третий-дом",
@@ -611,7 +734,13 @@
         "стена",
         "рудокоп"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger557_Lock",
+        "name": "Digger 557 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-от-северные-ворота-первый-дом-налево-у-стены",
@@ -643,7 +772,13 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow304_Lock",
+        "name": "Shadow 304 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дом-напротив-хуно",
@@ -668,7 +803,13 @@
         "хуно",
         "рудокоп"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger555_Lock",
+        "name": "Digger 555 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "новый-лагер-под-водой-под-таверной-около-плотины",
@@ -696,7 +837,10 @@
         "плотина",
         "сундук под водой"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "новый-лагерь-под-таверной-под-водой-по-пути-в-подвал-силаса"
     },
     {
       "id": "подвал-силаса-возле-трупа",
@@ -721,7 +865,10 @@
         "Силас",
         "Новый лагерь"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "новый-лагерь-сундук-внутри-тавернырядом-с-трупом"
     },
     {
       "id": "болотный-лагерь-кузница-2",
@@ -754,6 +901,12 @@
         "en": "Chest in the Swamp Camp forge. One-handed axe with 29 slash damage and smith materials inside.",
         "de": "Truhe in der Schmiede des Sumpflagers. Darin befindet sich eine Einhandaxt (29 Schaden) und Schmiedematerialien.",
         "uk": "Скриня в кузні Болотного табору. Всередині одноручна сокира на 29 шкоди та ковальські матеріали."
+      },
+      "conf": 5,
+      "game": {
+        "id": "SC_Chest_Blacksmith_Lock",
+        "name": "Blacksmith Chest",
+        "place": "Swamp Camp"
       }
     },
     {
@@ -779,7 +932,13 @@
         "амбар",
         "рисовый лорд"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Ricelord_Lock",
+        "name": "Ricelord Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-сторожевая-вышка-верхний-этаж",
@@ -806,7 +965,10 @@
         "ворота",
         "деревянная башня"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "neues-lager-kiste-auf-dem-turm-am-damm"
     },
     {
       "id": "новый-лагерь-сторожевая-вышка-второй-этаж-помещение",
@@ -832,7 +994,13 @@
         "деревянная башня",
         "наемники"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_GateInterior_01_Lock",
+        "name": "Gate Interior 01 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "старый-лагерь-склад-фиска-сундук-у-окна",
@@ -853,7 +1021,10 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "хижина-с-дверью-слева-от-дома-фиска-левый-дальний-сундук"
     },
     {
       "id": "старый-лагерь-внешнее-кольцо-грэхэм",
@@ -878,7 +1049,10 @@
         "старый лагерь",
         "внешнее кольцо."
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-дом-рядом-с-большим-котелком-для-еды-на-стенах-дом"
     },
     {
       "id": "новый-лагерь-котел-дом-суини",
@@ -903,7 +1077,13 @@
         "суини",
         "скребок"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FME_Chest_Swiney_Lock",
+        "name": "Swiney Chest",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "новый-лагерь-сундук-внутри-тавернырядом-с-трупом",
@@ -932,7 +1112,13 @@
         "рядом с трупом",
         "сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Distillery_Lock",
+        "name": "Distillery Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-дверь-за-силасом-в-таверне",
@@ -960,7 +1146,13 @@
         "Neues Lager",
         "Taverne"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Cave_Tavern_Door_Lock_02",
+        "name": "Cave Tavern Door Lock 02",
+        "place": "New Camp"
+      }
     },
     {
       "id": "ruдверь-в-корабль-на-пляже-с-огненными-ящерами-enthe-door-to-the",
@@ -987,7 +1179,13 @@
         "ship",
         "door"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SW_Captain_Ship_Door_Lock",
+        "name": "Captain Ship Door",
+        "place": "SW"
+      }
     },
     {
       "id": "новый-лагерь-рисовое-поле-решётка-на-третьем-этаже",
@@ -1020,6 +1218,12 @@
         "en": "Door on the 3rd floor of the storeroom above the New Camp rice fields. Behind it is a storeroom with supplies and loot.",
         "de": "Tür im 3. Stock des Lagerhauses über den Reisfeldern im Neuen Lager. Hinter der Tür befindet sich ein Lagerhaus mit Vorräten und Beute.",
         "uk": "Двері на 3-му поверсі складу над рисовими полями Нового табору. За дверима - склад із запасами та лутом."
+      },
+      "conf": 5,
+      "game": {
+        "id": "NC_RiceLord_Room_Lock_01",
+        "name": "Rice Lord Room Lock 01",
+        "place": "New Camp"
       }
     },
     {
@@ -1056,7 +1260,13 @@
         "Amulett",
         "Strand"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SW_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "SW"
+      }
     },
     {
       "id": "дом-слая",
@@ -1082,7 +1292,13 @@
         "хижина",
         "глава 1"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Sly_Lock",
+        "name": "Sly Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "hut-left-from-kyles-hut-in-the-old-camp",
@@ -1108,7 +1324,13 @@
         "left",
         "chapter 1"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger526_Lock",
+        "name": "Digger 526 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "hut-at-hereks-grind-stone-with-the-fur-in-front",
@@ -1135,7 +1357,13 @@
         "fur",
         "grind stone"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger575_Lock",
+        "name": "Digger 575 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "новый-лагерь-под-таверной-под-водой-по-пути-в-подвал-силаса",
@@ -1170,6 +1398,12 @@
         "en": "Underwater chest in the basement beneath Silas's tavern (New Camp). Inside is Bran's axe.",
         "de": "Eine Unterwassertruhe im Keller unter Silas' Taverne (Neues Lager). Darin befindet sich Brans Axt.",
         "uk": "Підводна скриня у підвалі під таверною Сіласа (Новий табір). Всередині сокира Брана."
+      },
+      "conf": 5,
+      "game": {
+        "id": "NC_Chest_Cellar_Lock",
+        "name": "Cellar Chest",
+        "place": "New Camp"
       }
     },
     {
@@ -1195,7 +1429,10 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-2-дом-справа-от-висельницу-у-стены-замка-около-кос"
     },
     {
       "id": "old-camp-at-the-scavenger-fire-place-the-locked-door-with-the-re",
@@ -1222,7 +1459,13 @@
         "scavenger",
         "door"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Fisk_Storage_Door_Lock",
+        "name": "Fisk Storage Door",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "новый-лагерь-сундук-в-озерепод-водой-в-хижине-со-сломанной-крыше",
@@ -1249,7 +1492,13 @@
         "таверна",
         "под водой"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Sunken_01_Lock",
+        "name": "Sunken 01 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "swamp-camp-tree-bottom-inside-near-baal-cadar",
@@ -1273,7 +1522,13 @@
         "Baal Cadar",
         "tree bottom"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_BaalCadar_Lock",
+        "name": "Baal Cadar Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "новый-лагерь-вход-в-пещеру-первый-дом-налево",
@@ -1293,7 +1548,13 @@
         5
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue05_810_Lock",
+        "name": "Rogue 05 810 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "заброшенная-хижина-на-озере-рядом-со-входом-в-новый-лагерь",
@@ -1315,7 +1576,13 @@
       "tags": [
         "Заброшенная хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 5,
+      "game": {
+        "id": "IWML_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "IWML"
+      }
     },
     {
       "id": "neues-lager-kiste-im-haus-von-lares",
@@ -1342,7 +1609,13 @@
         "Neues Lager",
         "Lares"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Lares_Lock",
+        "name": "Lares Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-озеро-под-водой-дальний-дом-от-острова",
@@ -1369,7 +1642,13 @@
         "See",
         "Wasser"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Sunken_02_Lock",
+        "name": "Sunken 02 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-пещера-хижина-горна",
@@ -1393,7 +1672,13 @@
         "новый лагерь",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Mercenary06_708_Lock",
+        "name": "Mercenary 06 708 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "старый-лагерь-внутренний-круг-дверь-после-лестницы-вниз",
@@ -1426,6 +1711,12 @@
         "en": "Storage under Gomez in the Old Camp castle - wine cellar behind the door at the bottom of a vertical ladder.",
         "de": "Ein Lagerhaus unter Gomez in der Burg des Alten Lagers – ein Weinkeller hinter einer Tür am Fuße der vertikalen Leiter.",
         "uk": "Склад під Гомезом у замку Старого табору – винний льох за дверима внизу вертикальної драбини."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Cellar_Door_Lock",
+        "name": "Cellar Door",
+        "place": "Old Camp"
       }
     },
     {
@@ -1452,7 +1743,13 @@
         "хижина (слева от внутренних ворот",
         "внизу)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger504_Lock",
+        "name": "Digger 504 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "рисовый-лорд-новый-лагерь-сундук-у-кровати",
@@ -1477,7 +1774,10 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "новый-лагерь-амбар-вверхний-этаж-второй-дом"
     },
     {
       "id": "старый-лагерь-решетка-после-винного-склада",
@@ -1509,7 +1809,13 @@
         "решетка",
         "внутренний круг"
       ],
-      "img": []
+      "img": [],
+      "conf": 5,
+      "game": {
+        "id": "OC_Cellar_Lock_02",
+        "name": "Cellar Lock 02",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "шахта-сундук-за-ульбертом-и-за-помещением-с-сундукомкоторый-он-охраняет",
@@ -1534,7 +1840,13 @@
         "rozdzial 1",
         "magazyn"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OM_Chest_Ulbert_01_Lock",
+        "name": "Ulbert 01 Chest",
+        "place": "Old Mine"
+      }
     },
     {
       "id": "новый-лагерь-по-направлению-взгляда-брюса-проход-в-скалах-с-факе",
@@ -1562,7 +1874,10 @@
         "Тоннель",
         "Ларес"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "neues-lager-kiste-im-haus"
     },
     {
       "id": "старый-лагерь-второй-дом-слева-от-основного-входа-в-лагерь-внешн",
@@ -1589,7 +1904,13 @@
         "внешнее кольцо",
         "основной вход"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger505_Lock",
+        "name": "Digger 505 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-хижина-фингерса",
@@ -1616,7 +1937,13 @@
         "хижина",
         "Сундук Фингерса"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Fingers_Lock",
+        "name": "Fingers Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "stara-kopalnia-skrzynia-w-malym-magazynie-ulberta",
@@ -1643,28 +1970,13 @@
         "rozdzial 1",
         "maly magazyn"
       ],
-      "img": []
-    },
-    {
-      "id": "первый-этаж-помещения-над-ареной",
-      "name": {
-        "ru": "Первый этаж помещения над ареной",
-        "en": "First floor of the room above the Arena",
-        "de": "Erstes Stockwerk des Raumes über der Arena",
-        "uk": "Перший поверх приміщення над ареною"
-      },
-      "cells": 6,
-      "rules": "A:D-;B:D+,F-;C:F-;D:B-,F-;E:B+,F-;F:D+",
-      "pos": [
-        4,
-        5,
-        0,
-        2,
-        1,
-        0
-      ],
-      "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OM_Chest_Ulbert_02_Lock",
+        "name": "Ulbert 02 Chest",
+        "place": "Old Mine"
+      }
     },
     {
       "id": "старый-лагерь-хижина-призрака-справа-от-нашей",
@@ -1691,7 +2003,10 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "altes-lager-schatten-hütte-oben-an-der-arena"
     },
     {
       "id": "stara-kopalnia-skrzynia-w-magazynie-santino",
@@ -1718,7 +2033,13 @@
         "Шахта",
         "Сундук Сантино"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OM_Chest_Santino_02_Lock",
+        "name": "Santino 02 Chest",
+        "place": "Old Mine"
+      }
     },
     {
       "id": "новый-лагерь-таверна-дверь-за-силасом",
@@ -1744,7 +2065,10 @@
         "таверна",
         "дверь"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "новый-лагерь-дверь-за-силасом-в-таверне"
     },
     {
       "id": "хижина-фингерса",
@@ -1771,7 +2095,10 @@
         "хижина",
         "глава 1. хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-хижина-фингерса"
     },
     {
       "id": "tower-near-cavalorns-camp",
@@ -1795,7 +2122,10 @@
         "cavalorn",
         "tower"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "дверь-в-разрушеную-башню-с-двумя-сундуками-возле-старого-лагеря"
     },
     {
       "id": "сундук-под-водой-рядом-с-огненными-ящерицами-на-берегу",
@@ -1819,7 +2149,13 @@
         "корабль",
         "затопленный сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SW_Chest_07_Lock",
+        "name": "Chest 07",
+        "place": "SW"
+      }
     },
     {
       "id": "first-chest-in-tower-near-cavalorns",
@@ -1843,7 +2179,10 @@
         "cavalorn",
         "tower"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "руины-башни-около-старого-лагеря-первый-сундук"
     },
     {
       "id": "глава-1-старый-лагерь-хижина-хуно-кузнец",
@@ -1873,7 +2212,13 @@
         "дом",
         "слева от кузницы"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Huno_Lock",
+        "name": "Huno Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-хижина-справа-от-входа-на-арену-с-вымпелом",
@@ -1903,7 +2248,13 @@
         "Altes Lager",
         "Kharim"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Kirgo_Lock",
+        "name": "Kirgo Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "новый-лагерь-камера-справа-от-дома-барона-на-помостах-над-рисовы",
@@ -1929,7 +2280,10 @@
         "решетка",
         "пещера"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "новый-лагерь-рисовое-поле-решётка-на-третьем-этаже"
     },
     {
       "id": "разрушенная-башня-входная-дверь-страый-лагерь-глава-1",
@@ -1953,7 +2307,10 @@
         "разрушенная башня входная дверь",
         "страый лагерь глава 1"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "дверь-в-разрушеную-башню-с-двумя-сундуками-возле-старого-лагеря"
     },
     {
       "id": "хижина-справа-от-снаффа-если-смотреть-в-сторону-арены-без-обучен",
@@ -1978,7 +2335,13 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Mud_Lock",
+        "name": "Mud Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-сундук-мордрага",
@@ -2006,7 +2369,13 @@
         "Mordrag",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Mordrag_Lock",
+        "name": "Mordrag Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "новый-лагерьтаверна-за-дверью-на-перво-этаже",
@@ -2031,7 +2400,10 @@
         "таверна",
         "1 глава"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "новый-лагерь-сундук-внутри-тавернырядом-с-трупом"
     },
     {
       "id": "старый-лагерь-дверь-от-дома-фиска",
@@ -2055,7 +2427,10 @@
         "старый лагерь",
         "дверь"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-дверь-торговца-фиска"
     },
     {
       "id": "пещера-разбойников-силаса-рядом",
@@ -2087,6 +2462,12 @@
         "en": "Chest by two bandits on the trail from the Old Camp to the New Camp.",
         "de": "Eine Truhe bei zwei Banditen auf dem Weg vom Alten zum Neuen Lager.",
         "uk": "Скриня у двох розбійників на стежці зі Старого табору до Нового."
+      },
+      "conf": 5,
+      "game": {
+        "id": "CV_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "CV area"
       }
     },
     {
@@ -2113,7 +2494,10 @@
         "глава 1",
         "спальня"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "замок-гомеза-второй-этаж-первая-дверь-слева-его-покои"
     },
     {
       "id": "старый-лагерь-хижина-возле-ареныстартовая",
@@ -2132,7 +2516,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Dexter_Lock",
+        "name": "Dexter Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-через-несколько-хибар-после-хибары-рудокопа-справа",
@@ -2158,7 +2548,13 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger528_Lock",
+        "name": "Digger 528 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "над-хижиной-кавалорна-с-наемниками",
@@ -2181,7 +2577,13 @@
       "tags": [
         "Кавалорн"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "CV_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "CV area"
+      }
     },
     {
       "id": "старый-лагерь-дом-фингерса-2",
@@ -2233,7 +2635,10 @@
         "второй этаж",
         "первая дверь справа"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-замок-гомеза-второй-этаж-первая-правая-дверь"
     },
     {
       "id": "сундук-на-выходе-из-тайного-хода-из-замка-старого-замка",
@@ -2257,7 +2662,13 @@
         "выход из тайного хода",
         "старый лагерь"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OCS_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "OCS"
+      }
     },
     {
       "id": "старый-лагерь-сундук-фингерса-2",
@@ -2283,7 +2694,10 @@
         "хижина",
         "глава 1"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-хижина-фингерса"
     },
     {
       "id": "гнездо-ползунов-комната-с-телом-каина-правый-от-входа-сундук",
@@ -2310,7 +2724,13 @@
         "Гнездо ползунов",
         "Каин"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FM_Chest_Digginggallery_02_Lock",
+        "name": "Digging Gallery 02 Chest",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "болотный-лагерь-над-лагерем-на-горе-охраняет-варан",
@@ -2335,7 +2755,13 @@
         "болотный лагерь",
         "пещера"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "EF_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "Forbidden area"
+      }
     },
     {
       "id": "altes-lager-schatten-hütte-oben-an-der-arena",
@@ -2361,7 +2787,13 @@
         "Schatten",
         "Arena"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow306_Lock",
+        "name": "Shadow 306 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дверь-торговца-фиска",
@@ -2388,7 +2820,13 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Fisk_Hut_Door_Lock",
+        "name": "Fisk Hut Door",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "юнитор-над-болотным-лагерем-пещера-с-зомби-на-скале",
@@ -2418,7 +2856,13 @@
         "скала",
         "болотный лагерь"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "EF_Chest_05_Lock",
+        "name": "Chest 05",
+        "place": "Forbidden area"
+      }
     },
     {
       "id": "свободная-шахта-новый-лагерь-котел-дом-слева-от-хижины-напротив-",
@@ -2445,7 +2889,13 @@
         "наемник",
         "Freie Mine"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FME_Chest_Mercenary13_765_02_Lock",
+        "name": "Mercenary 13 765 02 Chest",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "новый-лагерь-свободная-шахта-котел-дом-слева-от-хижины-напротив-",
@@ -2470,7 +2920,13 @@
         "наемник",
         "подъемник"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FME_Chest_Mercenary13_765_01_Lock",
+        "name": "Mercenary 13 765 01 Chest",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "новый-лагерь-свободная-шахта-котел-второй-дом-вниз-от-самого-вер",
@@ -2497,7 +2953,9 @@
         "наемник",
         "склад"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true
     },
     {
       "id": "новый-лагерь-свободная-шахта-котел-дом-напротив-поста-окила",
@@ -2525,7 +2983,13 @@
         "Freie Mine",
         "Okyl"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FME_Chest_EmptyHut_05_Lock",
+        "name": "Empty Hut 05 Chest",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "новый-лагерь-свободная-шахта-котел-на-входе-в-котел-ворота-наемн",
@@ -2553,7 +3017,13 @@
         "ворота",
         "вход"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FME_Chest_ControlAccess_Lock",
+        "name": "Control Access Chest",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "neues-lager-kiste-im-haus-von-wolf",
@@ -2578,7 +3048,13 @@
         "Neues Lager",
         "Wolf"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Wolf_Lock",
+        "name": "Wolf Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-бар-силас-дверь-на-втором-этаже",
@@ -2606,7 +3082,13 @@
         "Neues Lager",
         "Taverne"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Cave_Tavern_Door_Lock",
+        "name": "Cave Tavern Door",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-бар-силас-сундук-на-втором-этаже-за-дверь-сбоку-у-с",
@@ -2633,7 +3115,13 @@
         "Neues Lager",
         "Taverne"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Jeremiah_Lock",
+        "name": "Jeremiah Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-бар-силаса-второй-этаж-за-дверь-сундук-напротив-две",
@@ -2659,7 +3147,13 @@
         "силас",
         "таверна"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Silas_Lock",
+        "name": "Silas Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "снаф-старый-лагерь-глава-1-хижина-сундук-дальний-от-входа",
@@ -2685,7 +3179,13 @@
         "хижина",
         "сундук дальний от входа"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Snaf_01_Lock",
+        "name": "Snaf 01 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "шахта-старого-лагеря-возле-снайпса",
@@ -2714,7 +3214,13 @@
         "шахта",
         "сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OM_Chest_Aaron_Lock",
+        "name": "Aaron Chest",
+        "place": "Old Mine"
+      }
     },
     {
       "id": "снаф-старый-лагерь-глава-1-хижина-ближайший-сундук-от-входа",
@@ -2740,7 +3246,13 @@
         "глава 1",
         "хижина ближайший сундук от входа"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Snaf_02_Lock",
+        "name": "Snaf 02 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "пещера-квентина-дверь-справа-от-входа",
@@ -2764,7 +3276,13 @@
         "Пещера Квентина",
         "дверь справа от входа"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_LootCave_Door_Lock",
+        "name": "Loot Cave Door",
+        "place": "Bandit Camp"
+      }
     },
     {
       "id": "руины-башни-около-старого-лагеря-второй-сундук",
@@ -2795,7 +3313,13 @@
         "старый лагерь",
         "сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": 5,
+      "game": {
+        "id": "BT_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "Old Mine"
+      }
     },
     {
       "id": "пещера-квентина-дверь-слева",
@@ -2819,7 +3343,13 @@
         "Пещера Квентина",
         "дверь слева."
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_LootCave_Door_Lock_02",
+        "name": "Loot Cave Door Lock 02",
+        "place": "Bandit Camp"
+      }
     },
     {
       "id": "новый-лагерь-рисовая-ферма-нижняя-дверь-на-склад",
@@ -2844,7 +3374,13 @@
         "рисовая ферма",
         "нижняя дверь на склад"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_RiceLord_Room_Lock_02",
+        "name": "Rice Lord Room Lock 02",
+        "place": "New Camp"
+      }
     },
     {
       "id": "пещера-квентина-дверь-слева-второй-сундук-слева",
@@ -2869,7 +3405,13 @@
         "дверь слева",
         "второй сундук слева."
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_18_Lock",
+        "name": "Chest 18",
+        "place": "Bandit Camp"
+      }
     },
     {
       "id": "старый-лагерь-хижина-напротив-входа-на-арену",
@@ -2894,7 +3436,13 @@
         "Арена",
         "Кирго"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Kharim_Lock",
+        "name": "Kharim Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-сундук-гор-ханис",
@@ -2918,7 +3466,13 @@
         "гор ханис",
         "сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_GorHanis_Lock",
+        "name": "Gor Hanis Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старая-шахта-сундук-альберто-внизу",
@@ -2949,6 +3503,12 @@
         "en": "Chest on the 1st floor in the hut by Alberto's mine.",
         "de": "Eine Truhe im ersten Stock der Hütte nahe Albertos Mine.",
         "uk": "Скриня на 1-му поверсі в хатині біля шахти Альберто."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OM_Chest_Alberto_03_Lock",
+        "name": "Alberto 03 Chest",
+        "place": "Old Mine"
       }
     },
     {
@@ -2972,7 +3532,13 @@
         "Altes Lager",
         "Schatten"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow313_Lock",
+        "name": "Shadow 313 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-замок-гомеза-второй-этаж-первая-правая-дверь",
@@ -3010,6 +3576,12 @@
         "en": "First door on the bedrooms floor in Gomez's chambers - Voran, Gomez, and Arto rooms.",
         "de": "Die erste Tür im Schlafsaal von Gomez' Gemächern – den Zimmern von Raven, Gomez und Arto.",
         "uk": "Перші двері на поверсі спалень покоїв Гомеза – кімнати Ворона, Гомеза та Арто."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Orebaron_Room_01_Lock",
+        "name": "Ore Baron Room 01",
+        "place": "Old Camp"
       }
     },
     {
@@ -3036,7 +3608,10 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "дом-кайла-проходной-дом"
     },
     {
       "id": "второй-этаж-замка-гомеза-сундук-у-дальней-кровати-с-кольцом-рудной-кожи",
@@ -3071,6 +3646,12 @@
         "en": "Far chest at the foot of the bed in the bedrooms-floor room. Ore skin ring, extracts, alcohol.",
         "de": "Die hintere Truhe am Fußende des Bettes im Schlafsaal enthält einen Ring aus Erzleder, Extrakte und Alkohol.",
         "uk": "Далека скриня в ногах ліжка у спальні на поверсі спалень. Кільце рудної шкіри, екстракти, алкоголь."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Bartholo_Lock",
+        "name": "Bartholo Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3103,6 +3684,12 @@
         "en": "Near chest at the foot of the bed in the bedrooms-floor room. Ring of great vitality, extracts.",
         "de": "Die vordere Truhe am Fußende des Bettes im Schlafsaal enthält einen Ring der Großen Vitalität und Extrakte.",
         "uk": "Близька скриня в ногах ліжка у спальні на поверсі спалень. Кільце великої життєвої сили, екстракти."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Scar_Lock",
+        "name": "Scar Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3135,6 +3722,12 @@
         "en": "Door to Gomez's chambers in the Old Camp castle.",
         "de": "Die Tür zu Gomez' Gemächern in der Burg des Alten Lagers.",
         "uk": "Двері в покої Гомеза в замку Старого табору."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Gomez_Room_Lock",
+        "name": "Gomez Room",
+        "place": "Old Camp"
       }
     },
     {
@@ -3163,7 +3756,13 @@
         "хижина фиска",
         "левый сундук от входа"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Fisk_04_Lock",
+        "name": "Fisk 04 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "altes-lager-haus-mit-2-türen",
@@ -3185,7 +3784,13 @@
         "Altes Lager",
         "offene Hütte"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger514_Lock",
+        "name": "Digger 514 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старая-шахта-кладовка-ульберта",
@@ -3207,7 +3812,10 @@
       "tags": [
         "Сундук позади Кладовки Ульберта"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "шахта-сундук-за-ульбертом-и-за-помещением-с-сундукомкоторый-он-охраняет"
     },
     {
       "id": "старый-лагерь-дом-рудокопа-в-разрушенной-стене-с-южной-стороны",
@@ -3235,7 +3843,13 @@
         "юг",
         "рудокоп"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow330_Lock",
+        "name": "Shadow 330 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "old-camp-castle-second-door-on-left-chest-by-the-bed",
@@ -3266,6 +3880,12 @@
         "en": "Chest at the foot of Gomez's bed in the Old Camp castle. The personal stash of the Old Camp's boss.",
         "de": "Eine Truhe am Fußende von Gomez' Bett in der Burg des Alten Lagers. Der persönliche Vorrat des Bosses des Alten Lagers.",
         "uk": "Скриня біля ліжка в ногах Гомеза, у замку Старого табору. Особиста схованка боса Старого табору."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Gomez_01_Lock",
+        "name": "Gomez 01 Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3297,6 +3917,12 @@
         "en": "Door to Arto's room in Gomez's chambers - opposite Voran's room.",
         "de": "Die Tür zu Artos Zimmer in Gomez' Quartier befindet sich gegenüber von Ravens Zimmer.",
         "uk": "Двері в кімнату Арто у покоях Гомеза – навпроти кімнати Ворона."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Orebaron_Room_02_Lock",
+        "name": "Ore Baron Room 02",
+        "place": "Old Camp"
       }
     },
     {
@@ -3322,7 +3948,13 @@
         "второй сундук по часовой стрелке",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Fisk_03_Lock",
+        "name": "Fisk 03 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-место-тренировки-справа-на-разрушенной-постройке",
@@ -3349,7 +3981,13 @@
         "глава 1",
         "стена замка"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Ruins_01_Lock",
+        "name": "Ruins 01 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "руины-башни-около-старого-лагеря-первый-сундук",
@@ -3381,7 +4019,13 @@
         "старый лагерь",
         "chest"
       ],
-      "img": []
+      "img": [],
+      "conf": 1,
+      "game": {
+        "id": "BT_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Old Mine"
+      }
     },
     {
       "id": "старый-лагерь-хижина-фиска-2-сундука-взломанный-правый-сундук",
@@ -3406,7 +4050,13 @@
         "2 сундука",
         "взломанный правый сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Fisk_02_Lock",
+        "name": "Fisk 02 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-замок-2-этаж-последняя-дверь-справа-сундук-арто",
@@ -3438,6 +4088,12 @@
         "en": "Chest at the near bed in Arto's room. Ring of power, ore.",
         "de": "Truhe neben dem nächsten Bett in Artos Zimmer. Ring der Macht, Erz.",
         "uk": "Скриня біля ближнього ліжка в кімнаті Арто. Кільце мощі, руда."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Arto_Lock",
+        "name": "Arto Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3465,7 +4121,10 @@
         "башня",
         "кавалорн"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "дверь-в-разрушеную-башню-с-двумя-сундуками-возле-старого-лагеря"
     },
     {
       "id": "старый-лагерь-замок-2-этаж-последняя-дверь-справа-сундук-торуса",
@@ -3491,7 +4150,13 @@
         "замок",
         "2 этаж"
       ],
-      "img": []
+      "img": [],
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Thorus_Lock",
+        "name": "Thorus Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-замок-гомеза-2-й-этаж-последняя-дверь-слевагде-ноч",
@@ -3523,6 +4188,12 @@
         "en": "Wall chest in Gomez's room. From Voran's side.",
         "de": "Truhe an der Wand in Gomez' Zimmer. Auf der Seite, die zu Ravens Zimmer zeigt.",
         "uk": "Скриня біля стіни в кімнаті Гомеза. З боку кімнати Ворона."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Raven_Room_01_Lock",
+        "name": "Raven Room 01",
+        "place": "Old Camp"
       }
     },
     {
@@ -3556,6 +4227,12 @@
         "en": "Chest at Voran's bed - Raven Tower key, fire protection ring.",
         "de": "Truhe neben Ravens Bett – Turmschlüssel, Feuerschutzring.",
         "uk": "Скриня біля ліжка Ворона - Ключ від вежі, кільце від вогню."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Raven_Lock",
+        "name": "Raven Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3589,6 +4266,12 @@
         "en": "First chest on the left in Raven Tower after entering from the chambers. 6 cups, 2500 coins, ore.",
         "de": "Erste Truhe links in Ravens Turm, nachdem man ihn von seinem Quartier aus betreten hat. 6 Becher, 2500 Münzen, Erz.",
         "uk": "Перша скриня ліворуч у вежі Ворона після входу з покоїв. 6 кубків, 2500 монет, руда."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Tower_02_Lock",
+        "name": "Tower 02 Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3614,7 +4297,13 @@
         "новый лагерь",
         "сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Gorn_Lock",
+        "name": "Gorn Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "old-camp-castle-gomez-tower-second-floor-right-chest-замок-вежа-",
@@ -3650,6 +4339,12 @@
         "en": "Chest on the right in Raven Tower. Serrated axes and rusty swords.",
         "de": "Truhe rechts in Ravens Turm. Gezackte Äxte und rostige Schwerter.",
         "uk": "Скриня праворуч у вежі Ворона. Зазубрені сокири та іржаві мечі."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Tower_03_Lock",
+        "name": "Tower 03 Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3688,6 +4383,12 @@
         "en": "Chest right after the stairs on Raven Tower floor 2. Wine, strong wine, beer.",
         "de": "Truhe direkt hinter der Treppe im 2. Stock von Ravens Turm. Wein, starker Wein, Bier.",
         "uk": "Скриня відразу після сходів на 2-му поверсі вежі Ворона. Вино, міцне вино, пиво."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Tower_04_Lock",
+        "name": "Tower 04 Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3713,7 +4414,13 @@
         "старый лагерь",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guy_Lock",
+        "name": "Guy Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "old-camp-castle-gomez-tower-second-floor-left-chest-замок-вежа-г",
@@ -3751,6 +4458,12 @@
         "en": "Second chest on Raven Tower floor 2. 12 cutlery and 8897 coins.",
         "de": "Zweite Truhe im 2. Stock von Ravens Turm. 12 Besteckteile und 8897 Münzen.",
         "uk": "Друга скриня на 2-му поверсі вежі Ворона. 12 столових приборів та 8897 монет."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Tower_05_Lock",
+        "name": "Tower 05 Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3774,7 +4487,13 @@
         "новый лагерь",
         "бутч"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Butch_Lock",
+        "name": "Butch Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "old-camp-castle-gomez-tower-3rd-floor-front-chest-замок-вежа-гом",
@@ -3809,6 +4528,12 @@
         "en": "Chest right in front of you on Raven Tower floor 3. Wolf claws, teeth, cutlery.",
         "de": "Truhe direkt vorn im 3. Stock von Ravens Turm. Wolfsklauen, Zähne, Utensilien.",
         "uk": "Скриня одразу перед вами на 3-му поверсі вежі Ворона. Вовчі пазурі, зуби, прилади."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Tower_06_Lock",
+        "name": "Tower 06 Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3854,7 +4579,13 @@
         "новый лагерь",
         "гомер"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Homer_Lock",
+        "name": "Homer Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "old-camp-castle-gomez-tower-3rd-floor-right-chest-замок-вежа-гом",
@@ -3891,6 +4622,12 @@
         "en": "Next chest on Raven Tower floor 3. Empty.",
         "de": "Die nächste Truhe befindet sich im 3. Stock von Ravens Turm. Leer.",
         "uk": "Наступна скриня на 3-му поверсі вежі Ворона. Порожня."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Tower_07_Lock",
+        "name": "Tower 07 Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -3916,7 +4653,13 @@
         "новый лагерь",
         "ли"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_LeeCave_Door_Lock",
+        "name": "Lee Cave Door",
+        "place": "New Camp"
+      }
     },
     {
       "id": "old-camp-castle-gomez-tower-4th-floor-front-chest-замок-вежа-гом",
@@ -3947,7 +4690,10 @@
         "4й поверх",
         "центральна скриня)"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-башня-замка-4-этаж-первый-сундук"
     },
     {
       "id": "altes-lager-buddler-hütte-am-ende-des-weges-oben-schießscheibe-v",
@@ -3971,7 +4717,13 @@
         "Altes Lager",
         "Buddler"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger531_Lock",
+        "name": "Digger 531 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-в-комнате-ли-новый-лагерь",
@@ -3995,7 +4747,13 @@
         "сундук",
         "новый лагерь. ли"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Lee_Lock",
+        "name": "Lee Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "altes-lager-buddler-hütte-oben",
@@ -4017,7 +4775,13 @@
         "Altes Lager",
         "Buddler"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger553_Lock",
+        "name": "Digger 553 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "old-camp-castle-gomez-tower-4th-floor-left-chest-замок-вежа-гоме",
@@ -4056,6 +4820,12 @@
         "en": "Chest to the left of the elixir chest on Raven Tower floor 4. Wine, beer, meat.",
         "de": "Truhe links von den Elixieren im 4. Stock von Ravens Turm. Wein, Bier, Fleisch.",
         "uk": "Скриня ліворуч від еліксирів на 4-му поверсі вежі Ворона. Вино, пиво, м'ясо."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Tower_01_Lock",
+        "name": "Tower 01 Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -4080,7 +4850,13 @@
         "Altes Lager",
         "Buddler"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger565_Lock",
+        "name": "Digger 565 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "old-camp-castle-gomez-tower-top-chest-замок-вежа-гомеза-скриня-н",
@@ -4115,6 +4891,12 @@
         "en": "The only chest at the top of Raven Tower. Agility ring, sleep call, velaiis herb.",
         "de": "Die einzige Truhe ganz oben in Ravens Turm. Ring der Beweglichkeit, Ruf des Schlafs, Velais.",
         "uk": "Єдина скриня на вершині вежі Ворона. Кільце спритності, поклик сну, велаїс."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Tower_08_Lock",
+        "name": "Tower 08 Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -4138,7 +4920,13 @@
         "Altes Lager",
         "Buddler"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger503_Lock",
+        "name": "Digger 503 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "altes-lager-buddler-hütte-links",
@@ -4162,7 +4950,13 @@
         "Altes Lager",
         "Buddler"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger507_Lock",
+        "name": "Digger 507 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "altes-lager-4-buddler-hütte-am-wall",
@@ -4185,7 +4979,13 @@
         "Altes Lager",
         "Buddler"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger509_Lock",
+        "name": "Digger 509 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "altes-lager-3-buddler-hütte-am-wall",
@@ -4208,7 +5008,13 @@
         "Altes Lager",
         "Buddler"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger523_Lock",
+        "name": "Digger 523 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "altes-lager-buddler-hütte",
@@ -4230,7 +5036,13 @@
         "Altes Lager",
         "Buddler Hütte"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger533_Lock",
+        "name": "Digger 533 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "дом-кайла-проходной-дом",
@@ -4256,7 +5068,13 @@
         "дом на дороге",
         "насквозь"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Kyle_Lock",
+        "name": "Kyle Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-замок-перед-кроватью-гомеза",
@@ -4279,7 +5097,10 @@
         "замок",
         "Гомез"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-second-door-on-left-chest-by-the-bed"
     },
     {
       "id": "около-моста-вымогателей-по-пути-в-нл",
@@ -4302,7 +5123,10 @@
       "tags": [
         "вымогатели"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "сундук-на-мосту-вымогателей-у-нового-лагеря"
     },
     {
       "id": "новый-лагерь-сундук-в-пещере-джако",
@@ -4327,7 +5151,13 @@
         "новый лагерь",
         "сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "IWML_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "IWML"
+      }
     },
     {
       "id": "старый-лагерь-башня-ворона-второй-ярус-слева-от-подьема",
@@ -4351,7 +5181,10 @@
         "башня Ворона",
         "второй ярус слева от подьема"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-second-floor-left-chest-замок-вежа-г"
     },
     {
       "id": "старый-лагерь-замок-башня-ворона-1-этаж-слева-взлом-мастер",
@@ -4377,7 +5210,10 @@
         "башня ворона",
         "1 этаж слева (взлом-мастер)"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-left-chest-вежа-гомеза-скриня-ліва"
     },
     {
       "id": "база-бандитов-сокровещница-левый-центраный-сундук",
@@ -4402,7 +5238,10 @@
         "сокровещница",
         "левый центраный сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "пещера-квентина-дверь-слева-второй-сундук-слева"
     },
     {
       "id": "дверь-от-каюты-части-корабля-вокруг-огненные-ящеры",
@@ -4427,7 +5266,10 @@
         "Корабль возле пещеры",
         "под башней с нежатью"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "ruдверь-в-корабль-на-пляже-с-огненными-ящерами-enthe-door-to-the"
     },
     {
       "id": "сундук-квентина-лагерь-бандитов",
@@ -4451,7 +5293,13 @@
         "сундук квентина",
         "лагерь бандитов"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_16_Lock",
+        "name": "Chest 16",
+        "place": "Bandit Camp"
+      }
     },
     {
       "id": "сундук-в-каюте-половины-коробля",
@@ -4476,7 +5324,10 @@
         "амулет брони",
         "половина коробля"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "сундук-в-разбитом-корабле-рядом-с-огненными-ящерицами-на-берегу"
     },
     {
       "id": "старый-лагерь-дверь-вниз-по-лестнице-рядом-с-женщиной",
@@ -4505,7 +5356,10 @@
         "Гомез",
         "Дверь"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-внутренний-круг-дверь-после-лестницы-вниз"
     },
     {
       "id": "пещера-квентина-левая-левый-сундук",
@@ -4530,7 +5384,13 @@
         "пещера квентина",
         "сокровищница"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_22_Lock",
+        "name": "Chest 22",
+        "place": "Bandit Camp"
+      }
     },
     {
       "id": "болотний-лагерь-идол-тондрал-сундук-в-его-хижине-на-дереве",
@@ -4560,7 +5420,13 @@
         "1 глава.",
         "сундук в доме Идол Тондрал"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_BaalTondral_Lock",
+        "name": "Baal Tondral Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "пещера-квентина-левая-правый-сундук",
@@ -4584,7 +5450,13 @@
         "пещера квентина",
         "сокровищница"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_23_Lock",
+        "name": "Chest 23",
+        "place": "Bandit Camp"
+      }
     },
     {
       "id": "старый-лагерь-замок-2-этаж-дальняя-дверь-слева",
@@ -4610,7 +5482,10 @@
         "2 этаж",
         "дальняя дверь слева"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-замок-гомеза-2-й-этаж-последняя-дверь-слевагде-ноч"
     },
     {
       "id": "замок-второй-этаж-сундук-в-дальней-комнате",
@@ -4637,7 +5512,10 @@
         "второй этаж",
         "сундук в дальней комнате"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-last-door-on-left-chest-замок"
     },
     {
       "id": "башня-ворона-первый-сундук-на-первом-уровне",
@@ -4663,7 +5541,10 @@
         "башня Ворона",
         "первый сундук на первом уровне"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-left-chest-вежа-гомеза-скриня-ліва"
     },
     {
       "id": "левая-пещера-квентина-1-слева-сундук",
@@ -4686,7 +5567,13 @@
         "пещера квентина",
         "левая сокровищница"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_17_Lock",
+        "name": "Chest 17",
+        "place": "Bandit Camp"
+      }
     },
     {
       "id": "левая-пещера-квентина-3-слева-сундук",
@@ -4710,7 +5597,13 @@
         "пещера квентина",
         "левая сокровищница"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_19_Lock",
+        "name": "Chest 19",
+        "place": "Bandit Camp"
+      }
     },
     {
       "id": "левая-пещера-квентина-4-слева-сундук",
@@ -4734,7 +5627,13 @@
         "пещера квентина",
         "левая сокровищница"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_20_Lock",
+        "name": "Chest 20",
+        "place": "Bandit Camp"
+      }
     },
     {
       "id": "башня-ворона-первый-уровень-второй-сундук",
@@ -4761,7 +5660,10 @@
         "первый уровень",
         "второй сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-second-floor-right-chest-замок-вежа-"
     },
     {
       "id": "башня-ворона-второй-уровень-первый-сундук",
@@ -4788,7 +5690,10 @@
         "второй уровень",
         "первый сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-second-floor-right-chest-замок-вежа--2"
     },
     {
       "id": "башня-ворона-второй-уровень-второй-сундук",
@@ -4814,7 +5719,10 @@
         "второй уровень",
         "второй сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-second-floor-left-chest-замок-вежа-г"
     },
     {
       "id": "башня-ворона-3-уровень-1-сундук",
@@ -4840,7 +5748,10 @@
         "3 уровень",
         "1 сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-3rd-floor-front-chest-замок-вежа-гом"
     },
     {
       "id": "башня-ворона-3-уровень-2-сундук",
@@ -4894,7 +5805,13 @@
         "дом послушника",
         "1 глава"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_Fortuno_Lock",
+        "name": "Fortuno Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "старый-лагерьдом-справа-от-кузницы-хуно",
@@ -4914,7 +5831,13 @@
         3
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger561_Lock",
+        "name": "Digger 561 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "фиск-старый-лагерь-глава-четвёртый-сундук-по-часовой-стрелке-хиж",
@@ -4940,7 +5863,13 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Fisk_01_Lock",
+        "name": "Fisk 01 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-замок-комната-ворона",
@@ -4966,7 +5895,10 @@
         "замок",
         "ворон"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-last-door-on-left-chest-замок"
     },
     {
       "id": "башня-ворона-4-уровень-2-сундук",
@@ -4993,7 +5925,10 @@
         "4 уровень",
         "2 сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-4th-floor-left-chest-замок-вежа-гоме"
     },
     {
       "id": "башня-ворона-5-уровень-самый-верх",
@@ -5020,7 +5955,10 @@
         "5 уровень",
         "самый верх"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-top-chest-замок-вежа-гомеза-скриня-н"
     },
     {
       "id": "фиск-слева-от-двери",
@@ -5042,7 +5980,10 @@
       "tags": [
         "Фиск"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "фиск-старый-лагерь-глава-1-первый-сундук-по-часовой-стрелке-хижи"
     },
     {
       "id": "болотный-лагерь",
@@ -5066,7 +6007,10 @@
       "tags": [
         "дом Фортуно"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "болотный-лагерь-2-этаж-дом-послушника-1-глава-замок-на-7-плит"
     },
     {
       "id": "горный-замоквнутри-комнаты-со-столом-алхимиисправа-от-скелета-с-",
@@ -5089,7 +6033,13 @@
       "tags": [
         "горный замок"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "MF_Chest_08_Lock",
+        "name": "Chest 08",
+        "place": "Mountain Fortress"
+      }
     },
     {
       "id": "1й-дом-рудокопа-справа-от-дома-фиска",
@@ -5109,7 +6059,13 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger522_Lock",
+        "name": "Digger 522 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "2й-дом-рудокопа-справа-от-дома-фиска",
@@ -5129,7 +6085,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger517_Lock",
+        "name": "Digger 517 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-на-кладбище-орков",
@@ -5153,7 +6115,13 @@
         "кладбище орков",
         "сундук в главном зале"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OG_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "OG"
+      }
     },
     {
       "id": "хижина-с-дверью-слвеа-от-дома-фиска-сундук-справа",
@@ -5174,7 +6142,13 @@
         5
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Fisk_06_Lock",
+        "name": "Fisk 06 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "новый-лагерь-рисовое-поле-сундук-1-на-3-этаже",
@@ -5202,7 +6176,13 @@
         "сундук 1",
         "на 3 этаже"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Lefty_01_Lock",
+        "name": "Lefty 01 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "uml:arlin-dungeon-key",
@@ -5235,6 +6215,12 @@
         "en": "Arlin's dungeon key in the Old Camp castle - cell in the dungeon, Bar the Truth quest.",
         "de": "Schlüssel zu Arlins Verlies in der Alten Lagerburg – eine Zelle im Verlies, die Quest „Die Wahrheit blockieren“.",
         "uk": "Ключ від в'язниці Арліна у замку Старого табору – камера у підземеллі, квест «Перекрити правду»."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Cell12_Bandit_Door_Lock",
+        "name": "Cell 12 Bandit Door",
+        "place": "Old Camp"
       }
     },
     {
@@ -5257,7 +6243,13 @@
       "tags": [
         "в хижине на столе шкатулка"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger515_Lock",
+        "name": "Digger 515 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "neues-lager-truhe#2-im-haus-hinter-horratio",
@@ -5283,7 +6275,13 @@
         "рисовое поле",
         "сундук 2 на 3 этаже"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Lefty_02_Lock",
+        "name": "Lefty 02 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "хижина-с-дверью-слева-от-дома-фиска-сундук-напротив-двери",
@@ -5304,7 +6302,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Fisk_05_Lock",
+        "name": "Fisk 05 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "хижина-с-дверью-слева-от-дома-фиска-левый-дальний-сундук",
@@ -5325,7 +6329,13 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Fisk_07_Lock",
+        "name": "Fisk 07 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "хижина-с-дверью-слева-от-дома-фиска-левый-ближний-сундук",
@@ -5344,7 +6354,13 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Fisk_08_Lock",
+        "name": "Fisk 08 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "old-camp-dungeon-door",
@@ -5378,6 +6394,12 @@
         "en": "Dungeon door under the Old Camp castle - by the executed ghost. Bar the Truth quest, Arlin.",
         "de": "Die Tür im Verlies unterhalb der Burg des Alten Lagers – in der Nähe des hingerichteten Geistes. Quest „Die Wahrheit blockieren“, Arlene.",
         "uk": "Двері в темниці під замком Старого табору - біля розстріляної примари. Квест \"Перекрити правду\", Арлін."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Prison_Dungeons_Moat_Lock",
+        "name": "Prison Dungeons Moat",
+        "place": "Old Camp"
       }
     },
     {
@@ -5401,7 +6423,13 @@
       "tags": [
         "Болотный лагерь. Идол Намиб"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_BaalNamib_Lock",
+        "name": "Baal Namib Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "старый-лагерь-замок-гомеза-сундук-у-трона-en:-old-camp-gomez-cas",
@@ -5431,6 +6459,12 @@
         "en": "Chest to Gomez's right in the castle throne hall. Royal Weapon blueprint, rubies.",
         "de": "Truhe rechts von Gomez im Thronsaal der Burg. Bauplan der Königlichen Waffe, Rubine.",
         "uk": "Скриня праворуч від Гомеза у тронному залі замку. Креслення королівської зброї, рубіни."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Prison_Dungeons_06_Lock",
+        "name": "Prison Dungeons 06",
+        "place": "Old Camp"
       }
     },
     {
@@ -5457,7 +6491,13 @@
         "0",
         "0"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Bloodwyn_Lock",
+        "name": "Bloodwyn Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "3й-справа-дом-рудокопа-от-дома-фиска",
@@ -5478,7 +6518,13 @@
         4
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger521_Lock",
+        "name": "Digger 521 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "второй-сундук-в-разрушенной-башне-возле-дома-кавалорна",
@@ -5503,7 +6549,10 @@
         "глава 1",
         "разрушенная башня"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "руины-башни-около-старого-лагеря-второй-сундук"
     },
     {
       "id": "болотный-лагерь-2-этаж-дом-послушника-1-глава-6-плит-проверяйте-",
@@ -5530,7 +6579,13 @@
         "1 глава",
         "6 плит. ПРОВЕРЯЙТЕ НАЧАЛЬНЫЕ ПАЗЫ В ПЛИТАХ."
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_Viran_Lock",
+        "name": "Viran Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "рядом-с-новым-лагерем-под-мостом-вымогателей-пещера-с-гоблинами",
@@ -5558,7 +6613,13 @@
         "Ring der Magie",
         "Кольцо магии"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "CV_Chest_09_Lock",
+        "name": "Chest 09",
+        "place": "CV area"
+      }
     },
     {
       "id": "сундук-в-доме-орана-болотный-лагерь-без-навыка",
@@ -5585,29 +6646,13 @@
         "Болотный лагерь",
         "оран"
       ],
-      "img": []
-    },
-    {
-      "id": "old-camp-scatties-ring-chest",
-      "name": {
-        "en": "Old camp. Scattie's ring chest.",
-        "ru": "Старый лагерь. Сундук с кольцом Скатти.",
-        "de": "Altes Lager, Truhe mit Scattys Ring",
-        "uk": "Старий табір. Скриня з перснем Скатті."
-      },
-      "cells": 5,
-      "rules": "A:D+;B:E+;C:E-;D:B+,E-",
-      "pos": [
-        5,
-        2,
-        1,
-        0,
-        6
-      ],
-      "tags": [
-        "Old Camp. Steal the Scattie's ring"
-      ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_BaalOrun_Lock",
+        "name": "Baal Orun Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "сундук-на-мосту-вымогателей-у-нового-лагеря",
@@ -5636,7 +6681,13 @@
         "Сундук 2х разбойников на мосту",
         "Сундук вымогателей"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "CV_Chest_07_Lock",
+        "name": "Chest 07",
+        "place": "CV area"
+      }
     },
     {
       "id": "исправлено:-дверь-на-пляже-разбитого-корабля",
@@ -5661,7 +6712,10 @@
         "каюта",
         "пляж"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "ruдверь-в-корабль-на-пляже-с-огненными-ящерами-enthe-door-to-the"
     },
     {
       "id": "горный-замокперед-мостом-к-замку-справа-балкон",
@@ -5685,7 +6739,13 @@
         "мост",
         "орочий молот"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "MF_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Mountain Fortress"
+      }
     },
     {
       "id": "старый-лагерь-второй-дом-слева-от-вашей-хижинывозле-арены",
@@ -5708,7 +6768,13 @@
       "tags": [
         "RU"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger513_Lock",
+        "name": "Digger 513 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старая-шахта-сундук-за-подъемником-ульриха",
@@ -5731,7 +6797,10 @@
         "старая шахта",
         "ульрих"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "шахта-сундук-за-ульбертом-и-за-помещением-с-сундукомкоторый-он-охраняет"
     },
     {
       "id": "старая-шахта-сундук-в-подъемнике-ульриха",
@@ -5755,7 +6824,10 @@
         "старая шахта",
         "ульрих"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "stara-kopalnia-skrzynia-w-malym-magazynie-ulberta"
     },
     {
       "id": "старая-шахта-левый-сундук-за-яном",
@@ -5778,7 +6850,10 @@
         "старая шахта",
         "ян"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старая-шахта-сундук-альберто-внизу"
     },
     {
       "id": "старая-шахта-2-этаж-за-яном-2-сундук",
@@ -5801,7 +6876,9 @@
         "старая шахта",
         "ян"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true
     },
     {
       "id": "neues-lager-kiste-auf-dem-turm-am-damm",
@@ -5825,7 +6902,13 @@
         "Neues Lager",
         "Turm"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_GateInterior_02_Lock",
+        "name": "Gate Interior 02 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "alte-mine-kiste-in-hütte-von-santino-1-stock",
@@ -5856,7 +6939,13 @@
         "торговец",
         "2 этаж"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OM_Chest_Santino_03_Lock",
+        "name": "Santino 03 Chest",
+        "place": "Old Mine"
+      }
     },
     {
       "id": "рыбацкая-деревня-напротив-нового-лагеря-хижина-на-южном-берегу-о",
@@ -5886,7 +6975,13 @@
         "рыбацкая деревня",
         "озеро"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "IWML_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "IWML"
+      }
     },
     {
       "id": "старый-лагерь-2-этаж-замка-гомеза-дальний-сундук-1-дверь-справа",
@@ -5911,7 +7006,10 @@
         "1 дверь справа",
         "2 ур.взлома"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "второй-этаж-замка-гомеза-сундук-у-дальней-кровати-с-кольцом-рудной-кожи"
     },
     {
       "id": "замок-ворона-второй-сундук-у-кровати-от-двери",
@@ -5931,7 +7029,10 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "второй-этаж-замка-гомеза-сундук-у-дальней-кровати-с-кольцом-рудной-кожи"
     },
     {
       "id": "заброшеная-хибара-возле-старого-лагеря",
@@ -5981,7 +7082,10 @@
         "хижина Янека",
         "глава 1"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "рыбацкое-озеро-напротив-входа-в-новый-лагерь-сундук-под-водой-у-берега-с-сетями"
     },
     {
       "id": "сундур-арона-в-старой-шахте",
@@ -6005,7 +7109,10 @@
         "Арон",
         "старая шахта"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "шахта-старого-лагеря-возле-снайпса"
     },
     {
       "id": "старый-лагерь-2",
@@ -6027,7 +7134,10 @@
       "tags": [
         "над Фингерсом"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-дверь-на-втором-этаже-на-торговой-площаде"
     },
     {
       "id": "swamp-camp-temple-left-room-болотний-табір-храм-ліва-кімната",
@@ -6054,7 +7164,13 @@
         "храм",
         "ліва кімната)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_Natalia_Lock",
+        "name": "Natalia Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "болотный-лагерь-храм-спящего-правая-комната",
@@ -6084,7 +7200,13 @@
         "глава 1",
         "правая комната"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_Chani_Lock",
+        "name": "Chani Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "сундук-на-затонувшем-корабле-возле-огненных-ящеров-1-уровень-взл",
@@ -6110,7 +7232,10 @@
         "вода",
         "под водой"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "сундук-под-водой-рядом-с-огненными-ящерицами-на-берегу"
     },
     {
       "id": "новый-лагерь-дом-кагана-в-пещере",
@@ -6136,7 +7261,13 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Sharky_Lock",
+        "name": "Sharky Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "справа-от-моста-к-старому-лагерю-позади-2-разбойников",
@@ -6159,7 +7290,10 @@
       "tags": [
         "Если перейти мост к Старому Лагерю то справа если пройти можно увидеть 2 разбойников охраняющих сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "над-хижиной-кавалорна-с-наемниками"
     },
     {
       "id": "truhe-in-der-höhle-am-holzfällerlager-mit-den-wölfen-morgenstern",
@@ -6189,7 +7323,13 @@
         "Morgenstern",
         "Волчье логово"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "CV_Chest_10_Lock",
+        "name": "Chest 10",
+        "place": "CV area"
+      }
     },
     {
       "id": "болотный-лагерь-сундук-в-храме-комната-ю-бериона",
@@ -6213,7 +7353,13 @@
         "Ю-Берион",
         "храм"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SC_Chest_Yberion_Lock",
+        "name": "Yberion Chest",
+        "place": "Swamp Camp"
+      }
     },
     {
       "id": "старый-лагерь-замок-гомеза-дверь-решёнки-справа-3-взлом",
@@ -6238,7 +7384,9 @@
         "дверь",
         "решётка"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true
     },
     {
       "id": "старый-лагерь-замок-гомеза-справа-на-входе-за-решёткой-дальний-л",
@@ -6262,7 +7410,9 @@
         "замок гомеза",
         "сундук за решёткой"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true
     },
     {
       "id": "старый-лагерь-замок-дверь-в-комнату-гомеза-слева-посередине",
@@ -6285,7 +7435,10 @@
       "tags": [
         "Burg"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "замок-гомеза-второй-этаж-первая-дверь-слева-его-покои"
     },
     {
       "id": "сундук-под-водой-в-заброшенной-шахте-поворот-налево",
@@ -6340,7 +7493,10 @@
         "орк",
         "неупокоенный"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "гнездо-ползунов-комната-с-телом-каина-правый-от-входа-сундук"
     },
     {
       "id": "сундук-храм-юбериона-правая-комната",
@@ -6368,7 +7524,10 @@
         "Юберион",
         "Ю'Берион"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "болотный-лагерь-храм-спящего-правая-комната"
     },
     {
       "id": "сундук-храм-юбериона-левая-комната",
@@ -6398,7 +7557,10 @@
         "лагерь",
         "Ю'Берион"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "swamp-camp-temple-left-room-болотний-табір-храм-ліва-кімната"
     },
     {
       "id": "сундук-стоуна-в-кузнице-старый-лагерь",
@@ -6426,7 +7588,10 @@
         "Старый лагерь",
         "Кузница"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "сундук-стоуна-в-кузнице-замка-старого-лагеря"
     },
     {
       "id": "дверь-в-кузнице-стоуна-старый-лагерь",
@@ -6454,7 +7619,10 @@
         "лагерь",
         "старый лагерь"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-внутреннее-кольцо-дверь-в-кузнице"
     },
     {
       "id": "дверь-на-2-этаже-торговой-площади-старого-лагеря",
@@ -6476,7 +7644,10 @@
       "tags": [
         "Старый лагерь Фиск 2 этаж"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-дверь-на-втором-этаже-на-торговой-площаде"
     },
     {
       "id": "правый-сундук-за-закрытой-дверь-в-кузнице-стоуна",
@@ -6505,7 +7676,10 @@
         "старый",
         "лагерь"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "правый-сундук-за-дверью-стоуна-в-кузнице-замка-старого-лагеря"
     },
     {
       "id": "дверь-в-комнату-гомеза-2",
@@ -6529,7 +7703,10 @@
         "Старый лагерь",
         "дверь в комнату гомеза"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "замок-гомеза-второй-этаж-первая-дверь-слева-его-покои"
     },
     {
       "id": "земли-орков-разрушенная-крепость-подвал-с-големом",
@@ -6554,7 +7731,13 @@
         "каменный голем",
         "разрушенная крепость"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "CR_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "CR area"
+      }
     },
     {
       "id": "старый-лагерь-дверь-рядом-с-фиском-слева",
@@ -6577,7 +7760,10 @@
       "tags": [
         "ФИСК Дверь слева"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "old-camp-at-the-scavenger-fire-place-the-locked-door-with-the-re"
     },
     {
       "id": "новый-лагерь-большие-ворота-в-новый-лагерь",
@@ -6601,7 +7787,10 @@
         "Ворота в новый лагерь",
         "второй этаж"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "новый-лагерь-сторожевая-вышка-второй-этаж-помещение"
     },
     {
       "id": "старый-лагерьзамок-второй-этаж-1-дверь-справа",
@@ -6624,7 +7813,10 @@
       "tags": [
         "Старый лагерь ЗАмок 2 этаж 1 дверь справа"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-замок-гомеза-второй-этаж-первая-правая-дверь"
     },
     {
       "id": "старый-лагерь-замок-2-этаж-1-комната-дальний-сундук",
@@ -6646,7 +7838,10 @@
       "tags": [
         "ЗАмок 2 этаж"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "второй-этаж-замка-гомеза-сундук-у-дальней-кровати-с-кольцом-рудной-кожи"
     },
     {
       "id": "над-болотным-лагерем-пещера-с-2-зомби",
@@ -6670,7 +7865,10 @@
         "Болотный лагерь",
         "зомби"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "юнитор-над-болотным-лагерем-пещера-с-зомби-на-скале"
     },
     {
       "id": "старый-лагерь-замок-2-дверь-слева-на-2-этаже-после-двери-гомеза",
@@ -6691,7 +7889,10 @@
         1
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-замок-гомеза-2-й-этаж-последняя-дверь-слевагде-ноч"
     },
     {
       "id": "старый-лагерь-хижина-мордрена",
@@ -6714,7 +7915,10 @@
       "tags": [
         "Старый Лагерь"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-сундук-мордрага"
     },
     {
       "id": "форт-гарпий-подвал-тюремная-клетка-1",
@@ -6739,7 +7943,9 @@
         "подвал",
         "тюремная клетка 1"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true
     },
     {
       "id": "форт-гарпий-подвал-тюремная-клетка-2",
@@ -6764,7 +7970,9 @@
         "подвал",
         "тюремная клетка 2"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true
     },
     {
       "id": "рыбацкое-озеро-напротив-входа-в-новый-лагерь-сундук-под-водой-у-берега-с-сетями",
@@ -6791,7 +7999,13 @@
         "на дне",
         "Озеров перед новым лагерем"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "IWML_Chest_05_Lock",
+        "name": "Chest 05",
+        "place": "IWML"
+      }
     },
     {
       "id": "neues-lager-kiste-im-haus-mit-banditen",
@@ -6814,7 +8028,13 @@
         "Neues Lager",
         "mit Bandit"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue10_820_Lock",
+        "name": "Rogue 10 820 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-сундук",
@@ -6838,7 +8058,13 @@
         "Новый лагерь",
         "сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Blade_Lock",
+        "name": "Blade Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "старая-шахта-сундук-сантино",
@@ -6865,7 +8091,13 @@
         "Alte Mine",
         "Santino"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OM_Chest_Santino_01_Lock",
+        "name": "Santino 01 Chest",
+        "place": "Old Mine"
+      }
     },
     {
       "id": "новый-лагерь-сундук-2",
@@ -6889,7 +8121,13 @@
         "Новый лагерь",
         "сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue13_823_Lock",
+        "name": "Rogue 13 823 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "сундкук-корда-рядом-с-ли",
@@ -6910,7 +8148,13 @@
         1
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Cord_Lock",
+        "name": "Cord Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "16026",
@@ -6932,7 +8176,13 @@
       "tags": [
         "Дом Торлофа"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Torlof_Lock",
+        "name": "Torlof Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "за-кладовкой-ульберта",
@@ -6955,7 +8205,10 @@
         "ульберт",
         "старая шахта"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "шахта-сундук-за-ульбертом-и-за-помещением-с-сундукомкоторый-он-охраняет"
     },
     {
       "id": "старый-лагерь-дверь-в-подвал-напротив-кухни",
@@ -6980,7 +8233,10 @@
         "старый лагерь",
         "подвал"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-внутренний-круг-дверь-после-лестницы-вниз"
     },
     {
       "id": "43655",
@@ -7002,7 +8258,13 @@
       "tags": [
         "43655"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Forge_01_Lock",
+        "name": "Forge 01 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "лагерь-бандитов-пещера-с-награбленным-левая-сторона-второй-справ",
@@ -7026,7 +8288,10 @@
         "Лагерь бандитов",
         "пещера с награбленным"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "левая-пещера-квентина-3-слева-сундук"
     },
     {
       "id": "дом-призрака-слева-от-диего-через-дом-грима",
@@ -7054,7 +8319,13 @@
         "слева",
         "первый дом слева"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow322_Lock",
+        "name": "Shadow 322 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-левый-дом-около-котла-и-висящих-падальщиков",
@@ -7074,7 +8345,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger529_Lock",
+        "name": "Digger 529 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "башня-ворона-4-этаж-1-сундук-мастре-взлом",
@@ -7095,7 +8372,10 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-4th-floor-left-chest-замок-вежа-гоме"
     },
     {
       "id": "башня-ворона-4-этаж-2-сундук-мастре-взлом",
@@ -7117,7 +8397,10 @@
         3
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-башня-замка-4-этаж-первый-сундук"
     },
     {
       "id": "башня-ворона-верхний-сундук-мастер-взлом",
@@ -7138,7 +8421,10 @@
         1
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-gomez-tower-top-chest-замок-вежа-гомеза-скриня-н"
     },
     {
       "id": "дом-следующий-после-кайла",
@@ -7162,7 +8448,10 @@
         "проходной дом",
         "рудокоп"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "hut-left-from-kyles-hut-in-the-old-camp"
     },
     {
       "id": "старый-лагерь-проходной-дом",
@@ -7185,7 +8474,10 @@
         "Проходной дом",
         "дом на дороге"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "джесс-старый-лагерь-глава-1-хижина"
     },
     {
       "id": "старый-лагерь-дом-призрака-правее-идол-парвес",
@@ -7208,7 +8500,13 @@
         "идол парвес",
         "призрак"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow318_Lock",
+        "name": "Shadow 318 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-зомби-над-скалолазом",
@@ -7232,30 +8530,10 @@
         "Болотный лагерь",
         "сундук зомби над скалолазом"
       ],
-      "img": []
-    },
-    {
-      "id": "сундук-над-ареной-старый-лагерь",
-      "name": {
-        "ru": "Сундук над ареной, старый  лагерь",
-        "en": "Chest above the Arena, Old Camp",
-        "de": "Truhe über der Arena, Altes Lager",
-        "uk": "Скриня над ареною, старий табір"
-      },
-      "cells": 6,
-      "rules": "A:D-;B:D+,F-;C:F-;D:B+,F+;E:B+,F-;F:D+",
-      "pos": [
-        4,
-        5,
-        0,
-        2,
-        1,
-        0
-      ],
-      "tags": [
-        "ru"
-      ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "юнитор-над-болотным-лагерем-пещера-с-зомби-на-скале"
     },
     {
       "id": "замок-ворона-второй-этаж-первый-сундук-от-двери",
@@ -7276,7 +8554,10 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "old-camp-castle-first-door-on-right-first-chest"
     },
     {
       "id": "старый-лагерь-третий-дом-слева-от-основного-хода-лагерь-внешнее-",
@@ -7302,7 +8583,13 @@
         "слева",
         "основной вход"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow310_Lock",
+        "name": "Shadow 310 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дом-призарка-напротив-падальщика-на-вертеле",
@@ -7323,7 +8610,13 @@
         1
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow319_Lock",
+        "name": "Shadow 319 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-слева-от-хижины-диего",
@@ -7347,7 +8640,13 @@
         "старый лагерь",
         "диего"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Grim_Lock",
+        "name": "Grim Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дом-рудокопа-слева-от-южных-ворот",
@@ -7367,7 +8666,13 @@
         1
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger556_Lock",
+        "name": "Digger 556 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дом-рудокопа-справа-от-развалин",
@@ -7387,7 +8692,13 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger501_Lock",
+        "name": "Digger 501 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "болотный-лагерь-храм-спящего-комната-слева",
@@ -7412,7 +8723,10 @@
         "храм",
         "комната"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "swamp-camp-temple-left-room-болотний-табір-храм-ліва-кімната"
     },
     {
       "id": "старый-лагерь-рядом-с-кузницей-у-стены",
@@ -7433,7 +8747,13 @@
         3
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger510_Lock",
+        "name": "Digger 510 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-напротив-кузницы-у-стены",
@@ -7454,7 +8774,13 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger576_Lock",
+        "name": "Digger 576 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дом-у-стены-со-шкурой-рядом-с-бочками",
@@ -7474,7 +8800,10 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-дом-у-стены-со-шкурой-рядом-с-бочками-2"
     },
     {
       "id": "старый-лагерь-дом-у-стены-со-шкурой-рядом-с-бочками-2",
@@ -7494,7 +8823,13 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow314_Lock",
+        "name": "Shadow 314 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дом-рудокопа-слева-от-дома-хуно-напротив-дом-со-шк",
@@ -7514,7 +8849,13 @@
         4
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger508_Lock",
+        "name": "Digger 508 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дом-у-костра-с-козырьком-лодкой",
@@ -7533,7 +8874,13 @@
         4
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger532_Lock",
+        "name": "Digger 532 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "клетка-в-подвале-гомеза",
@@ -7558,7 +8905,10 @@
         "клетка",
         "дверь"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-решетка-после-винного-склада"
     },
     {
       "id": "старый-лагерь-проходнрой-дом-рудокопа-ближэе-к-рынку-и-котелку",
@@ -7578,7 +8928,13 @@
         4
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger512_Lock",
+        "name": "Digger 512 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дверь-в-темницу",
@@ -7603,7 +8959,10 @@
         "дверь в темницу",
         "спуск с верхнего двора рядом с Сирой"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "старый-лагерь-внутренний-круг-дверь-после-лестницы-вниз"
     },
     {
       "id": "старый-лагерь-темница-2",
@@ -7628,7 +8987,10 @@
         "решетка после стражника в конце",
         "за ней сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "решетка-под-замком-старого-лагеря"
     },
     {
       "id": "старый-лагерь-последний-дом-около-падальщик-на-вертеле",
@@ -7648,7 +9010,13 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger577_Lock",
+        "name": "Digger 577 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-первый-дом-около-падальщик-на-вертеле-и-дерева",
@@ -7668,7 +9036,13 @@
         2
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger502_Lock",
+        "name": "Digger 502 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дом-напротив-повара",
@@ -7688,7 +9062,13 @@
         3
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger560_Lock",
+        "name": "Digger 560 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-дом-в-углу-около-арены-сковородка-у-входа-шкура-на",
@@ -7712,7 +9092,13 @@
         "Старый лагерь",
         "арена"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow316_Lock",
+        "name": "Shadow 316 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-левый-дом-напротив-арены-и-телеги",
@@ -7732,7 +9118,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Shadow328_Lock",
+        "name": "Shadow 328 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-2-дом-справа-от-висельницу-у-стены-замка-около-кос",
@@ -7753,7 +9145,13 @@
         2
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger535_Lock",
+        "name": "Digger 535 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "altes-lager-kiste-in-der-hütte-von-torrez",
@@ -7776,7 +9174,13 @@
         "Altes Lager",
         "Torrez"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger516_Lock",
+        "name": "Digger 516 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "104401",
@@ -7799,7 +9203,13 @@
       "tags": [
         "Земли орков"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OA_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "OA"
+      }
     },
     {
       "id": "старый-лагерь-справа-от-дома-мордрага-торговца-сундук-в-хижине",
@@ -7822,7 +9232,13 @@
         "справа от дома Мордрага торговца",
         "сундук в хижине"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger519_Lock",
+        "name": "Digger 519 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "новый-лагерь-сундук-затопленный-за-таверной",
@@ -7845,7 +9261,10 @@
         "Новый лагерь",
         "сундук затопленный за таверной"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "новый-лагерь-сундук-в-озерепод-водой-в-хижине-со-сломанной-крыше"
     },
     {
       "id": "старый-лагерь-дом-уилстера",
@@ -7864,7 +9283,13 @@
         4
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Whistler_Lock",
+        "name": "Whistler Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-правый-дом-около-котла-и-висящих-падальщиков",
@@ -7883,7 +9308,13 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Digger578_Lock",
+        "name": "Digger 578 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "первый-сундук-в-казармах-над-оружейней-старого-лагеря",
@@ -7906,7 +9337,13 @@
         "сундук",
         "оружейня"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard206_Lock",
+        "name": "Guard 206 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "рыбацкое-озеро-рядом-со-входом-в-новый-лагерь-сундук-под-пирсом-",
@@ -7933,7 +9370,13 @@
         "под причалом",
         "под пирсом"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "IWML_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "IWML"
+      }
     },
     {
       "id": "затопленная-пещера-затопленный-сундук-на-развилке-влево-перед-ка",
@@ -7981,7 +9424,10 @@
         "Затопленная шахта",
         "сундук рядом с кайном"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "гнездо-ползунов-комната-с-телом-каина-правый-от-входа-сундук"
     },
     {
       "id": "466520",
@@ -8004,7 +9450,13 @@
       "tags": [
         "466520"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "MF_Chest_07_Lock",
+        "name": "Chest 07",
+        "place": "Mountain Fortress"
+      }
     },
     {
       "id": "сундук-в-разрушенной-башне",
@@ -8029,7 +9481,10 @@
         "сундук",
         "глава 1"
       ],
-      "img": []
+      "img": [],
+      "conf": -5,
+      "doubt": true,
+      "alt": "руины-башни-около-старого-лагеря-первый-сундук"
     },
     {
       "id": "kloster-kiste-in-einer-höhle",
@@ -8053,7 +9508,13 @@
         "Kloster",
         "Kiste in einer Höhle"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "AMR_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "AMR"
+      }
     },
     {
       "id": "сундук-в-каюте-корабля",
@@ -8077,7 +9538,10 @@
         "каюта",
         "сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "сундук-в-разбитом-корабле-рядом-с-огненными-ящерицами-на-берегу"
     },
     {
       "id": "54634",
@@ -8099,7 +9563,13 @@
       "tags": [
         "54634"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "XT_ExperimentalChamber_Door_Lock",
+        "name": "Experimental Chamber Door",
+        "place": "Xardas Tower"
+      }
     },
     {
       "id": "045362",
@@ -8122,7 +9592,13 @@
       "tags": [
         "045362"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "XT_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Xardas Tower"
+      }
     },
     {
       "id": "064536",
@@ -8145,7 +9621,13 @@
       "tags": [
         "064536"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "XT_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "Xardas Tower"
+      }
     },
     {
       "id": "сундук-в-доме-фиска",
@@ -8168,7 +9650,10 @@
       "tags": [
         "сундук в доме фиска"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "фиск-старый-лагерь-глава-четвёртый-сундук-по-часовой-стрелке-хиж"
     },
     {
       "id": "сундук-в-башне-ксардеса-за-демоном",
@@ -8194,7 +9679,10 @@
         "башня",
         "огненная"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "башня-ксардаса-сундук-у-демона"
     },
     {
       "id": "пещера-недалеко-от-юнитора-нираса-рядом-огненный-ящер",
@@ -8221,7 +9709,10 @@
         "руины над Болотным лагерем",
         "пещера"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "болотный-лагерь-над-лагерем-на-горе-охраняет-варан"
     },
     {
       "id": "разрушеная-цетадель-сундук-в-башне",
@@ -8242,7 +9733,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "CR_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "CR area"
+      }
     },
     {
       "id": "дверь-на-втором-этаже-старого-монастыря",
@@ -8266,7 +9763,13 @@
         "дверь",
         "второй этаж"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "AMR_Storage_Room_Lock",
+        "name": "Storage Room",
+        "place": "AMR"
+      }
     },
     {
       "id": "ущелье-выше-старой-крепости-сундук",
@@ -8289,7 +9792,10 @@
         "Ущелье выше старой крепости",
         "сундук"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "горный-замокперед-мостом-к-замку-справа-балкон"
     },
     {
       "id": "старый-лагерь-замок-дверь-внутри-комнаты-ворона",
@@ -8315,7 +9821,13 @@
         "старый лагерь",
         "замок"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Raven_Room_02_Lock",
+        "name": "Raven Room 02",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-башня-замка-4-этаж-первый-сундук",
@@ -8349,6 +9861,12 @@
         "en": "Chest past the stairs on Raven Tower floor 4. Elixirs and extracts.",
         "de": "Truhe hinter der Treppe im 4. Stock von Ravens Turm. Elixiere und Extrakte.",
         "uk": "Скриня за сходами на 4-му поверсі вежі Ворона. Еліксири та екстракти."
+      },
+      "conf": 5,
+      "game": {
+        "id": "OC_Chest_Tower_09_Lock",
+        "name": "Tower 09 Chest",
+        "place": "Old Camp"
       }
     },
     {
@@ -8373,7 +9891,13 @@
         "Neues Lager",
         "Banditen"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue03_806_Lock",
+        "name": "Rogue 03 806 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "neues-lager-kiste-in-hütte-mit-banditen-im-1-stock",
@@ -8396,7 +9920,13 @@
         "Neues Lager",
         "Bandit"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue06_811_Lock",
+        "name": "Rogue 06 811 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "neues-lager-kiste-im-haus-mit-banditen-2",
@@ -8419,7 +9949,13 @@
         "Neues Lager",
         "Bandit"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue08_816_Lock",
+        "name": "Rogue 08 816 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "neues-lager-kiste-im-1-stock-von-bruce-haus",
@@ -8443,7 +9979,13 @@
         "Neues Lager",
         "Bruce"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Buster_Lock",
+        "name": "Buster Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "neues-lager-kiste-im-haus-mit-banditen-3",
@@ -8467,7 +10009,13 @@
         "Neues Lager",
         "Bandit"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue01_800_Lock",
+        "name": "Rogue 01 800 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "neues-lager-kiste-im-haus-von-bruce",
@@ -8491,7 +10039,13 @@
         "Neues Lager",
         "Bruce"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Bruce_Lock",
+        "name": "Bruce Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "neues-lager-kiste-im-haus-mit-zwei-banditen",
@@ -8514,7 +10068,13 @@
         "Neues Lager",
         "Banditen"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue07_815_Lock",
+        "name": "Rogue 07 815 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "neues-lager-kiste-im-haus",
@@ -8537,7 +10097,13 @@
       "tags": [
         "Neues Lager"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Wedge_Lock",
+        "name": "Wedge Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "06360",
@@ -8559,7 +10125,13 @@
       "tags": [
         "06360"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FME_Chest_Gate_Lock",
+        "name": "Gate Chest",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "161635",
@@ -8587,7 +10159,13 @@
         "3",
         "5"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FM_Chest_Furnace_01_Lock",
+        "name": "Furnace 01 Chest",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "ошибка-догнать-b-вручную",
@@ -8615,7 +10193,9 @@
         "0",
         "0"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true
     },
     {
       "id": "новый-лагерь-свободная-шахта-решетка-после-лужи-с-ползунами",
@@ -8640,7 +10220,13 @@
         "решетка",
         "дверь"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FM_AbandonedGallery_Door_Lock",
+        "name": "Abandoned Gallery Door",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "фиск-сундук-в-его-доме-справа",
@@ -8666,7 +10252,10 @@
         "глава 1",
         "хижина"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "фиск-старый-лагерь-глава-четвёртый-сундук-по-часовой-стрелке-хиж"
     },
     {
       "id": "436100",
@@ -8689,7 +10278,13 @@
       "tags": [
         "436100"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "FM_Chest_Gallery_01_Lock",
+        "name": "Gallery 01 Chest",
+        "place": "Free Mine"
+      }
     },
     {
       "id": "025201",
@@ -8712,7 +10307,13 @@
       "tags": [
         "025201"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "XT_Chest_05_Lock",
+        "name": "Chest 05",
+        "place": "Xardas Tower"
+      }
     },
     {
       "id": "021205",
@@ -8735,7 +10336,13 @@
       "tags": [
         "021205"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "XT_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "Xardas Tower"
+      }
     },
     {
       "id": "363606",
@@ -8758,7 +10365,13 @@
       "tags": [
         "363606"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OA_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "OA"
+      }
     },
     {
       "id": "34466",
@@ -8780,7 +10393,13 @@
       "tags": [
         "34466"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OA_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "OA"
+      }
     },
     {
       "id": "136644",
@@ -8803,7 +10422,13 @@
       "tags": [
         "136644"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OA_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "OA"
+      }
     },
     {
       "id": "036564",
@@ -8831,7 +10456,13 @@
         "6",
         "4"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "Otown_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "Otown"
+      }
     },
     {
       "id": "старый-лагерь-внутреннее-кольцо-дверь-в-кузнице",
@@ -8856,7 +10487,13 @@
         "кузница",
         "Скип"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Forge_Loot_Room_Lock",
+        "name": "Forge Loot Room",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-замок-кухня-в-замке",
@@ -8882,7 +10519,13 @@
         "кухня",
         "старый лагерь"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Kitchen_Lock",
+        "name": "Kitchen Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "подвал-магов-огня-сундук-в-1-комнате",
@@ -8906,7 +10549,13 @@
         "маги огня",
         "комната"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Drago_Lock",
+        "name": "Drago Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "подвал-магов-огня-1-сундук-в-2-комнате-без-навыка",
@@ -8928,7 +10577,13 @@
         "Подвал магов огня",
         "1 сундук в 2 комнате (без навыка)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Milten_Lock",
+        "name": "Milten Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "подвал-магов-огня-3-сундук-в-2-комнате",
@@ -8953,7 +10608,13 @@
         "3 сундук",
         "вторая комната"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Torrez_Lock",
+        "name": "Torrez Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "старый-лагерь-правая-спальня-магов-сундук-в-центре",
@@ -8977,7 +10638,13 @@
         "сундук",
         "спальня"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Rodriguez_Lock",
+        "name": "Rodriguez Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "решетка-под-замком-старого-лагеря-2",
@@ -9001,7 +10668,13 @@
         "решётка",
         "замок"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Prison_Dungeons_09_Lock",
+        "name": "Prison Dungeons 09",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "хижина-наемника-рядом-с-ли",
@@ -9021,7 +10694,13 @@
         3
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Mercenary04_706_Lock",
+        "name": "Mercenary 04 706 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "правый-сундук-за-дверью-стоуна-в-кузнице-замка-старого-лагеря",
@@ -9042,7 +10721,13 @@
         1
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Forge_04_Lock",
+        "name": "Forge 04 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-внутри-замка-старого-лагеря",
@@ -9063,7 +10748,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Ruins_02_Lock",
+        "name": "Ruins 02 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-внутри-казарм-замка-старого-лагеря",
@@ -9084,7 +10775,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Jackal_Lock",
+        "name": "Jackal Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-внутри-казарм-замка-старого-лагеря-2",
@@ -9104,7 +10801,13 @@
         2
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Fletcher_Lock",
+        "name": "Fletcher Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-внутри-казарм-замка-старого-лагеря-3",
@@ -9124,7 +10827,13 @@
         3
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_CUTTER_Lock",
+        "name": "CUTTER Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-внутри-казарм-замка-старого-лагеря-4",
@@ -9144,7 +10853,13 @@
         2
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Bullit_Lock",
+        "name": "Bullit Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-внутри-казарм-замка-старого-лагеря-5",
@@ -9164,7 +10879,13 @@
         5
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard226_Lock",
+        "name": "Guard 226 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-внутри-казарм-замка-старого-лагеря-6",
@@ -9184,7 +10905,13 @@
         5
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard228_Lock",
+        "name": "Guard 228 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "столовая-стражников-в-старом-лагере-первая-решетка-слева-без-нав",
@@ -9208,7 +10935,13 @@
         "Столовая стражников в Старом лагере",
         "первая решетка слева (без навыков)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Guards_Cell_01_Lock",
+        "name": "Guards Cell 01",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "столовая-стражников-в-старом-лагере-первая-решетка-2-сундук-без-",
@@ -9232,7 +10965,13 @@
         "Столовая стражников в Старом лагере",
         "первая решетка 2 сундук (без навыков)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Omid_Lock",
+        "name": "Omid Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "столовая-стражников-в-старом-лагере-первая-решетка-1-сундук-без-",
@@ -9256,7 +10995,13 @@
         "Столовая стражников в Старом лагере",
         "первая решетка 1 сундук (без навыков)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Balam_Lock",
+        "name": "Balam Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "столовая-стражников-в-старом-лагере-вторая-решетка-слева-без-нав",
@@ -9280,7 +11025,13 @@
         "Столовая стражников в Старом лагере",
         "вторая решетка слева (без навыков)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Guards_Cell_02_Lock",
+        "name": "Guards Cell 02",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "столовая-стражников-в-старом-лагере-вторая-решетка-1-сундук-без-",
@@ -9304,7 +11055,13 @@
         "Столовая стражников в Старом лагере",
         "вторая решетка 1 сундук (без навыков)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard232_Lock",
+        "name": "Guard 232 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-справа-за-2й-решеткой-слева-внутри-казарм-замка-старого-л",
@@ -9324,7 +11081,13 @@
         2
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard240_Lock",
+        "name": "Guard 240 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "решетка-под-замком-старого-лагеря",
@@ -9344,7 +11107,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Prison_Dungeons_23_Lock",
+        "name": "Prison Dungeons 23",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-стоуна-в-кузнице-замка-старого-лагеря",
@@ -9365,7 +11134,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Forge_02_Lock",
+        "name": "Forge 02 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-рядом-с-кроватью-скипа-в-казармах-над-кузницей-замка-стар",
@@ -9386,7 +11161,13 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Skip_Lock",
+        "name": "Skip Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "дальний-сундук-в-казармах-над-кузницей-в-замке-старого-лагеря",
@@ -9406,7 +11187,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard252_Lock",
+        "name": "Guard 252 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-справа-от-дальнего-левого-в-казармах-над-кузницей-в-замке",
@@ -9427,7 +11214,13 @@
         1
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard221_Lock",
+        "name": "Guard 221 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-слева-от-дальнего-левого-в-казармах-над-кузницей-в-замке-",
@@ -9447,7 +11240,13 @@
         4
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard253_Lock",
+        "name": "Guard 253 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "дальний-правый-сундук-в-казармах-над-кузницей-в-замке-старого-ла",
@@ -9468,7 +11267,13 @@
         5
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard241_Lock",
+        "name": "Guard 241 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-справа-от-дальнего-правого-сундука-в-казармах-над-кузнице",
@@ -9488,7 +11293,13 @@
         5
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard220_Lock",
+        "name": "Guard 220 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "сундук-справа-от-сундука-скипа-в-казармах-над-кузницей-в-замке-с",
@@ -9509,7 +11320,13 @@
         6
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard239_Lock",
+        "name": "Guard 239 Chest",
+        "place": "Old Camp"
+      }
     },
     {
       "id": "лагерь-болотников-дом-фортуно",
@@ -9533,7 +11350,10 @@
       "tags": [
         "сложный замок в доме фортуно на дереве"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "болотный-лагерь-2-этаж-дом-послушника-1-глава-замок-на-7-плит"
     },
     {
       "id": "на-берегу-озера-у-нового-лагеря-под-помостом",
@@ -9558,7 +11378,10 @@
         "хижина",
         "озеро"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "рыбацкое-озеро-рядом-со-входом-в-новый-лагерь-сундук-под-пирсом-"
     },
     {
       "id": "пещера-с-двумя-зомби-недалеко-от-юнитора-нираса-мастер-взлом",
@@ -9579,7 +11402,10 @@
         0
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "юнитор-над-болотным-лагерем-пещера-с-зомби-на-скале"
     },
     {
       "id": "alte-mine-hütte-von-ian-auf-dem-dach",
@@ -9601,7 +11427,13 @@
         "Alte Mine",
         "Ian"
       ],
-      "img": []
+      "img": [],
+      "conf": 5,
+      "game": {
+        "id": "OM_Chest_Alberto_04_Lock",
+        "name": "Alberto 04 Chest",
+        "place": "Old Mine"
+      }
     },
     {
       "id": "новый-лагерь-сундук-в-хижине-бандита",
@@ -9622,7 +11454,13 @@
         3
       ],
       "tags": [],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue23_838_Lock",
+        "name": "Rogue 23 838 Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "163605",
@@ -9645,7 +11483,13 @@
       "tags": [
         "163605"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "MF_Chest_12_Lock",
+        "name": "Chest 12",
+        "place": "Mountain Fortress"
+      }
     },
     {
       "id": "башня-ксардаса-сундук-у-демона",
@@ -9669,7 +11513,13 @@
         "Башня Ксардаса",
         "сундук у демона"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "XT_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "Xardas Tower"
+      }
     },
     {
       "id": "затопленная-башня-ксардаса-после-4-жаровен-решетка-перед-сундуко",
@@ -9694,7 +11544,13 @@
         "затопленная башня ксардаса",
         "зомби"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SNT_LootCage_Door_Lock",
+        "name": "Loot Cage Door",
+        "place": "SNT"
+      }
     },
     {
       "id": "новый-лагерь-маги-воды-1-дом-справа-сундук-без-наыка",
@@ -9718,7 +11574,13 @@
         "Новый лагерь",
         "маги воды 1 дом справа сундук (без наыка)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Saturas_Lock",
+        "name": "Saturas Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-маги-воды-1-дом-слева-сундук-без-наыка",
@@ -9742,7 +11604,13 @@
         "Новый лагерь",
         "маги воды 1 дом слева сундук (без наыка)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Myxir_Lock",
+        "name": "Myxir Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-маги-воды-2-дом-справа-сундук-без-наыка",
@@ -9765,7 +11633,13 @@
         "Новый лагерь",
         "маги воды 2 дом справа сундук (без наыка)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Nefarius_Lock",
+        "name": "Nefarius Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-маги-воды-2-дом-слева-сундук-без-наыка",
@@ -9789,7 +11663,13 @@
         "Новый лагерь",
         "маги воды 2 дом слева сундук (без наыка)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Cronos_Lock",
+        "name": "Cronos Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-маги-воды-3-дом-слева-сундук-без-наыка",
@@ -9812,7 +11692,13 @@
         "Новый лагерь",
         "маги воды 3 дом слева сундук (без наыка)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Merdarion_Lock",
+        "name": "Merdarion Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "новый-лагерь-маги-воды-3-дом-справа-сундук-без-наыка",
@@ -9836,7 +11722,13 @@
         "Новый лагерь",
         "маги воды 3 дом справа сундук (без наыка)"
       ],
-      "img": []
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Riordian_Lock",
+        "name": "Riordian Chest",
+        "place": "New Camp"
+      }
     },
     {
       "id": "старый-лагерь-казармы-тренировочный-лагерь-сундук-сверху-разруше",
@@ -9862,7 +11754,1757 @@
         "тренировочный лагерь",
         "сундук сверху разрушенной башни(Над Скорпио)"
       ],
-      "img": []
+      "img": [],
+      "conf": -3,
+      "doubt": true,
+      "alt": "старый-лагерь-место-тренировки-справа-на-разрушенной-постройке"
+    },
+    {
+      "id": "bandit-camp-chest-01",
+      "name": {
+        "en": "Bandit Camp, Chest 01",
+        "ru": "Лагерь бандитов, сундук 01",
+        "de": "Banditenlager, Truhe 01",
+        "uk": "Табір бандитів, скриня 01"
+      },
+      "cells": 5,
+      "rules": "A:C-;B:A+;C:D-,E+;D:A+,E-;E:A+",
+      "pos": [
+        6,
+        0,
+        6,
+        3,
+        2
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-02",
+      "name": {
+        "en": "Bandit Camp, Chest 02",
+        "ru": "Лагерь бандитов, сундук 02",
+        "de": "Banditenlager, Truhe 02",
+        "uk": "Табір бандитів, скриня 02"
+      },
+      "cells": 5,
+      "rules": "A:B-,D+,E-;B:A+;C:A+,B+;D:A+,B+;E:B+,D-",
+      "pos": [
+        6,
+        2,
+        6,
+        0,
+        0
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-03",
+      "name": {
+        "en": "Bandit Camp, Chest 03",
+        "ru": "Лагерь бандитов, сундук 03",
+        "de": "Banditenlager, Truhe 03",
+        "uk": "Табір бандитів, скриня 03"
+      },
+      "cells": 5,
+      "rules": "A:B+,C-;B:A+,C-,D-,E-;C:D-;D:A+,C-",
+      "pos": [
+        3,
+        5,
+        3,
+        4,
+        0
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-04",
+      "name": {
+        "en": "Bandit Camp, Chest 04",
+        "ru": "Лагерь бандитов, сундук 04",
+        "de": "Banditenlager, Truhe 04",
+        "uk": "Табір бандитів, скриня 04"
+      },
+      "cells": 6,
+      "rules": "A:B+,C+;B:F-;C:D-,E+;D:B+,F-;E:B-;F:B+,D-",
+      "pos": [
+        5,
+        0,
+        1,
+        6,
+        5,
+        6
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-05",
+      "name": {
+        "en": "Bandit Camp, Chest 05",
+        "ru": "Лагерь бандитов, сундук 05",
+        "de": "Banditenlager, Truhe 05",
+        "uk": "Табір бандитів, скриня 05"
+      },
+      "cells": 4,
+      "rules": "A:B+,C+,D-;B:A+;C:B-,D+",
+      "pos": [
+        0,
+        4,
+        6,
+        3
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_05_Lock",
+        "name": "Chest 05",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-07",
+      "name": {
+        "en": "Bandit Camp, Chest 07",
+        "ru": "Лагерь бандитов, сундук 07",
+        "de": "Banditenlager, Truhe 07",
+        "uk": "Табір бандитів, скриня 07"
+      },
+      "cells": 4,
+      "rules": "A:B-,C-,D-;C:A+;D:C+",
+      "pos": [
+        6,
+        3,
+        4,
+        6
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_07_Lock",
+        "name": "Chest 07",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-08",
+      "name": {
+        "en": "Bandit Camp, Chest 08",
+        "ru": "Лагерь бандитов, сундук 08",
+        "de": "Banditenlager, Truhe 08",
+        "uk": "Табір бандитів, скриня 08"
+      },
+      "cells": 5,
+      "rules": "A:C+,D-,E+;B:C-;D:A-,C-;E:C+,D-",
+      "pos": [
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_08_Lock",
+        "name": "Chest 08",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-09",
+      "name": {
+        "en": "Bandit Camp, Chest 09",
+        "ru": "Лагерь бандитов, сундук 09",
+        "de": "Banditenlager, Truhe 09",
+        "uk": "Табір бандитів, скриня 09"
+      },
+      "cells": 5,
+      "rules": "A:B-,C-;B:A+,D+;C:A+,B-,D-,E-;E:C-",
+      "pos": [
+        4,
+        6,
+        4,
+        0,
+        6
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_09_Lock",
+        "name": "Chest 09",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-10",
+      "name": {
+        "en": "Bandit Camp, Chest 10",
+        "ru": "Лагерь бандитов, сундук 10",
+        "de": "Banditenlager, Truhe 10",
+        "uk": "Табір бандитів, скриня 10"
+      },
+      "cells": 5,
+      "rules": "A:B-,D+;B:A+,D-;C:A-,B-,D-,E-;D:A+;E:A+",
+      "pos": [
+        0,
+        0,
+        0,
+        5,
+        3
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_10_Lock",
+        "name": "Chest 10",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-11",
+      "name": {
+        "en": "Bandit Camp, Chest 11",
+        "ru": "Лагерь бандитов, сундук 11",
+        "de": "Banditenlager, Truhe 11",
+        "uk": "Табір бандитів, скриня 11"
+      },
+      "cells": 5,
+      "rules": "A:C-,D-;B:C-,E-;C:B-,D+;D:C-;E:B+",
+      "pos": [
+        6,
+        6,
+        0,
+        6,
+        6
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_11_Lock",
+        "name": "Chest 11",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-12",
+      "name": {
+        "en": "Bandit Camp, Chest 12",
+        "ru": "Лагерь бандитов, сундук 12",
+        "de": "Banditenlager, Truhe 12",
+        "uk": "Табір бандитів, скриня 12"
+      },
+      "cells": 6,
+      "rules": "B:A-,C+,E+,F-;C:E+,F-;F:A+,D-",
+      "pos": [
+        3,
+        0,
+        4,
+        0,
+        0,
+        0
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_12_Lock",
+        "name": "Chest 12",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-13",
+      "name": {
+        "en": "Bandit Camp, Chest 13",
+        "ru": "Лагерь бандитов, сундук 13",
+        "de": "Banditenlager, Truhe 13",
+        "uk": "Табір бандитів, скриня 13"
+      },
+      "cells": 5,
+      "rules": "A:B+,C+,D-,E+;B:A+;C:A+,D-,E-;E:B+",
+      "pos": [
+        3,
+        5,
+        5,
+        6,
+        3
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_13_Lock",
+        "name": "Chest 13",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-14",
+      "name": {
+        "en": "Bandit Camp, Chest 14",
+        "ru": "Лагерь бандитов, сундук 14",
+        "de": "Banditenlager, Truhe 14",
+        "uk": "Табір бандитів, скриня 14"
+      },
+      "cells": 6,
+      "rules": "A:C-,D-,E-;B:F-;C:E-;E:F-;F:C+",
+      "pos": [
+        1,
+        6,
+        0,
+        2,
+        2,
+        6
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_14_Lock",
+        "name": "Chest 14",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "bandit-camp-chest-15",
+      "name": {
+        "en": "Bandit Camp, Chest 15",
+        "ru": "Лагерь бандитов, сундук 15",
+        "de": "Banditenlager, Truhe 15",
+        "uk": "Табір бандитів, скриня 15"
+      },
+      "cells": 5,
+      "rules": "A:B-,C+,D+,E-;B:C+,E+;D:C+,E-;E:C+",
+      "pos": [
+        5,
+        4,
+        1,
+        0,
+        1
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "BC_Chest_15_Lock",
+        "name": "Chest 15",
+        "place": "Bandit Camp"
+      }
+    },
+    {
+      "id": "exchange-zone-loot-cage-door",
+      "name": {
+        "en": "Exchange Zone, Loot Cage Door",
+        "ru": "Зона обмена, дверь клетки с добычей",
+        "de": "Tauschzone, Tür des Beutekäfigs",
+        "uk": "Зона обміну, двері клітки зі здобиччю"
+      },
+      "cells": 4,
+      "rules": "A:D+;D:B+",
+      "pos": [
+        5,
+        0,
+        4,
+        6
+      ],
+      "tags": [
+        "Exchange Zone"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "EZ_LootCage_Door_Lock",
+        "name": "Loot Cage Door",
+        "place": "Exchange Zone"
+      }
+    },
+    {
+      "id": "mountain-fortress-chest-04",
+      "name": {
+        "en": "Mountain Fortress, Chest 04",
+        "ru": "Горная крепость, сундук 04",
+        "de": "Bergfestung, Truhe 04",
+        "uk": "Гірська фортеця, скриня 04"
+      },
+      "cells": 6,
+      "rules": "A:B+,E-;B:A-;D:A+,E+;E:A+,F+;F:B+,C+,D-",
+      "pos": [
+        3,
+        2,
+        1,
+        1,
+        0,
+        6
+      ],
+      "tags": [
+        "Mountain Fortress"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "MF_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "Mountain Fortress"
+      }
+    },
+    {
+      "id": "new-camp-cipher-chest",
+      "name": {
+        "en": "New Camp, Cipher Chest",
+        "ru": "Новый лагерь, сундук Сайфера",
+        "de": "Neues Lager, Truhe von Cipher",
+        "uk": "Новий табір, скриня Сайфера"
+      },
+      "cells": 6,
+      "rules": "A:C+,D+,E+,F-;B:C+,F+;C:F-;F:E+",
+      "pos": [
+        0,
+        0,
+        6,
+        3,
+        4,
+        3
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Cipher_Lock",
+        "name": "Cipher Chest",
+        "place": "New Camp"
+      }
+    },
+    {
+      "id": "new-camp-rogue-11-821-chest",
+      "name": {
+        "en": "New Camp, Rogue 11 821 Chest",
+        "ru": "Новый лагерь, сундук разбойника 11 821",
+        "de": "Neues Lager, Truhe des Banditen 11 821",
+        "uk": "Новий табір, скриня розбійника 11 821"
+      },
+      "cells": 4,
+      "rules": "B:A+,C-,D-;C:B-;D:A+,C+",
+      "pos": [
+        2,
+        0,
+        1,
+        3
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue11_821_Lock",
+        "name": "Rogue 11 821 Chest",
+        "place": "New Camp"
+      }
+    },
+    {
+      "id": "new-camp-mercenary-07-710-chest",
+      "name": {
+        "en": "New Camp, Mercenary 07 710 Chest",
+        "ru": "Новый лагерь, сундук наёмника 07 710",
+        "de": "Neues Lager, Truhe des Söldners 07 710",
+        "uk": "Новий табір, скриня найманця 07 710"
+      },
+      "cells": 5,
+      "rules": "A:C-;B:A-,C-;C:A-,B+,D+,E-;D:C+",
+      "pos": [
+        1,
+        0,
+        3,
+        2,
+        1
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Mercenary07_710_Lock",
+        "name": "Mercenary 07 710 Chest",
+        "place": "New Camp"
+      }
+    },
+    {
+      "id": "new-camp-mercenary-02-703-chest",
+      "name": {
+        "en": "New Camp, Mercenary 02 703 Chest",
+        "ru": "Новый лагерь, сундук наёмника 02 703",
+        "de": "Neues Lager, Truhe des Söldners 02 703",
+        "uk": "Новий табір, скриня найманця 02 703"
+      },
+      "cells": 5,
+      "rules": "A:D+,E+;C:B+,D-;D:A+,B+,C+;E:A-,B-,D-",
+      "pos": [
+        6,
+        1,
+        0,
+        1,
+        4
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Mercenary02_703_Lock",
+        "name": "Mercenary 02 703 Chest",
+        "place": "New Camp"
+      }
+    },
+    {
+      "id": "new-camp-mercenary-03-705-chest",
+      "name": {
+        "en": "New Camp, Mercenary 03 705 Chest",
+        "ru": "Новый лагерь, сундук наёмника 03 705",
+        "de": "Neues Lager, Truhe des Söldners 03 705",
+        "uk": "Новий табір, скриня найманця 03 705"
+      },
+      "cells": 5,
+      "rules": "A:D-;B:C+;C:B+,D+;D:A-,B+,C-,E-;E:A-",
+      "pos": [
+        6,
+        6,
+        0,
+        1,
+        1
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Mercenary03_705_Lock",
+        "name": "Mercenary 03 705 Chest",
+        "place": "New Camp"
+      }
+    },
+    {
+      "id": "new-camp-mercenary-17-735-chest",
+      "name": {
+        "en": "New Camp, Mercenary 17 735 Chest",
+        "ru": "Новый лагерь, сундук наёмника 17 735",
+        "de": "Neues Lager, Truhe des Söldners 17 735",
+        "uk": "Новий табір, скриня найманця 17 735"
+      },
+      "cells": 5,
+      "rules": "A:D+,E-;B:A+,E+;C:B+;E:D+",
+      "pos": [
+        5,
+        0,
+        4,
+        3,
+        0
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Mercenary17_735_Lock",
+        "name": "Mercenary 17 735 Chest",
+        "place": "New Camp"
+      }
+    },
+    {
+      "id": "new-camp-orik-chest",
+      "name": {
+        "en": "New Camp, Orik Chest",
+        "ru": "Новый лагерь, сундук Орика",
+        "de": "Neues Lager, Truhe von Orik",
+        "uk": "Новий табір, скриня Оріка"
+      },
+      "cells": 5,
+      "rules": "A:B-,C+;B:A+,C+,E+;C:A-,E-;D:B+;E:B+,C-",
+      "pos": [
+        6,
+        1,
+        4,
+        5,
+        0
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Orik_Lock",
+        "name": "Orik Chest",
+        "place": "New Camp"
+      }
+    },
+    {
+      "id": "new-camp-rogue-09-817-chest",
+      "name": {
+        "en": "New Camp, Rogue 09 817 Chest",
+        "ru": "Новый лагерь, сундук разбойника 09 817",
+        "de": "Neues Lager, Truhe des Banditen 09 817",
+        "uk": "Новий табір, скриня розбійника 09 817"
+      },
+      "cells": 6,
+      "rules": "A:C+,E+;B:C-,F+;D:A-;E:B-,D-;F:A-,B+",
+      "pos": [
+        1,
+        3,
+        2,
+        5,
+        0,
+        0
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue09_817_Lock",
+        "name": "Rogue 09 817 Chest",
+        "place": "New Camp"
+      }
+    },
+    {
+      "id": "new-camp-rogue-22-837-chest",
+      "name": {
+        "en": "New Camp, Rogue 22 837 Chest",
+        "ru": "Новый лагерь, сундук разбойника 22 837",
+        "de": "Neues Lager, Truhe des Banditen 22 837",
+        "uk": "Новий табір, скриня розбійника 22 837"
+      },
+      "cells": 5,
+      "rules": "B:D+,E-;C:A-,B+,D-;D:C-,E-;E:A-",
+      "pos": [
+        2,
+        4,
+        2,
+        0,
+        4
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "NC_Chest_Rogue22_837_Lock",
+        "name": "Rogue 22 837 Chest",
+        "place": "New Camp"
+      }
+    },
+    {
+      "id": "old-camp-mages-room-01",
+      "name": {
+        "en": "Old Camp, Mages Room 01",
+        "ru": "Старый лагерь, комната магов 01",
+        "de": "Altes Lager, Zimmer der Magier 01",
+        "uk": "Старий табір, кімната магів 01"
+      },
+      "cells": 6,
+      "rules": "A:B+,C+,D-,E+;B:A-,C-,F+;D:A-,C+,E-",
+      "pos": [
+        0,
+        3,
+        3,
+        2,
+        6,
+        0
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Mages_Room_01_Lock",
+        "name": "Mages Room 01",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-mages-room-02",
+      "name": {
+        "en": "Old Camp, Mages Room 02",
+        "ru": "Старый лагерь, комната магов 02",
+        "de": "Altes Lager, Zimmer der Magier 02",
+        "uk": "Старий табір, кімната магів 02"
+      },
+      "cells": 6,
+      "rules": "A:D-,F-;B:C+;D:A-,B-,E-;F:D-",
+      "pos": [
+        1,
+        2,
+        2,
+        1,
+        5,
+        0
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Mages_Room_02_Lock",
+        "name": "Mages Room 02",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-mages-room-03",
+      "name": {
+        "en": "Old Camp, Mages Room 03",
+        "ru": "Старый лагерь, комната магов 03",
+        "de": "Altes Lager, Zimmer der Magier 03",
+        "uk": "Старий табір, кімната магів 03"
+      },
+      "cells": 6,
+      "rules": "B:C-,E-;D:A+,B-,E+;E:A-,F+;F:C-,D-",
+      "pos": [
+        1,
+        4,
+        6,
+        6,
+        1,
+        5
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Mages_Room_03_Lock",
+        "name": "Mages Room 03",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-armory-01-chest",
+      "name": {
+        "en": "Old Camp, Armory 01 Chest",
+        "ru": "Старый лагерь, сундук в оружейной 01",
+        "de": "Altes Lager, Truhe in der Waffenkammer 01",
+        "uk": "Старий табір, скриня у зброярні 01"
+      },
+      "cells": 5,
+      "rules": "A:B-,C-;B:A-;C:D-;D:B+,E-;E:A-,B-,C+,D+",
+      "pos": [
+        6,
+        6,
+        1,
+        6,
+        3
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Armory_01_Lock",
+        "name": "Armory 01 Chest",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-armory-02-chest",
+      "name": {
+        "en": "Old Camp, Armory 02 Chest",
+        "ru": "Старый лагерь, сундук в оружейной 02",
+        "de": "Altes Lager, Truhe in der Waffenkammer 02",
+        "uk": "Старий табір, скриня у зброярні 02"
+      },
+      "cells": 5,
+      "rules": "B:D+;C:A+,B-,D+;D:A-,B-,C+,E+;E:A+,B+",
+      "pos": [
+        0,
+        2,
+        6,
+        0,
+        2
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Armory_02_Lock",
+        "name": "Armory 02 Chest",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-armory-03-chest",
+      "name": {
+        "en": "Old Camp, Armory 03 Chest",
+        "ru": "Старый лагерь, сундук в оружейной 03",
+        "de": "Altes Lager, Truhe in der Waffenkammer 03",
+        "uk": "Старий табір, скриня у зброярні 03"
+      },
+      "cells": 6,
+      "rules": "A:C-,E-;B:A+,F+;C:B-;D:C-,F-;E:D+;F:B-",
+      "pos": [
+        6,
+        5,
+        1,
+        1,
+        6,
+        6
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Armory_03_Lock",
+        "name": "Armory 03 Chest",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-corristo-chest",
+      "name": {
+        "en": "Old Camp, Corristo Chest",
+        "ru": "Старый лагерь, сундук Корристо",
+        "de": "Altes Lager, Truhe von Corristo",
+        "uk": "Старий табір, скриня Коррісто"
+      },
+      "cells": 5,
+      "rules": "A:D-,E-;B:A-,C+,D-;C:A+;D:A+,C+;E:A-,C-",
+      "pos": [
+        0,
+        1,
+        5,
+        3,
+        1
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Corristo_Lock",
+        "name": "Corristo Chest",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-damarok-chest",
+      "name": {
+        "en": "Old Camp, Damarok Chest",
+        "ru": "Старый лагерь, сундук Дамарока",
+        "de": "Altes Lager, Truhe von Damarok",
+        "uk": "Старий табір, скриня Дамарока"
+      },
+      "cells": 6,
+      "rules": "A:C+;B:A-;D:A-;F:A-,B-,D-,E+",
+      "pos": [
+        5,
+        6,
+        3,
+        4,
+        0,
+        5
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Damarok_Lock",
+        "name": "Damarok Chest",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-guard-229-chest",
+      "name": {
+        "en": "Old Camp, Guard 229 Chest",
+        "ru": "Старый лагерь, сундук стражника 229",
+        "de": "Altes Lager, Truhe des Gardisten 229",
+        "uk": "Старий табір, скриня стражника 229"
+      },
+      "cells": 4,
+      "rules": "A:B+;B:C+,D+;C:A-,B+,D-",
+      "pos": [
+        1,
+        0,
+        6,
+        6
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard229_Lock",
+        "name": "Guard 229 Chest",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-guard-242-chest",
+      "name": {
+        "en": "Old Camp, Guard 242 Chest",
+        "ru": "Старый лагерь, сундук стражника 242",
+        "de": "Altes Lager, Truhe des Gardisten 242",
+        "uk": "Старий табір, скриня стражника 242"
+      },
+      "cells": 4,
+      "rules": "A:B+,D+;B:A+;C:A-,B+;D:A-",
+      "pos": [
+        0,
+        6,
+        1,
+        3
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard242_Lock",
+        "name": "Guard 242 Chest",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-stone-chest",
+      "name": {
+        "en": "Old Camp, Stone Chest",
+        "ru": "Старый лагерь, каменный сундук",
+        "de": "Altes Lager, Steintruhe",
+        "uk": "Старий табір, кам'яна скриня"
+      },
+      "cells": 5,
+      "rules": "B:C+;C:E-;D:B-,C+,E-;E:A-",
+      "pos": [
+        1,
+        6,
+        3,
+        6,
+        5
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Stone_Lock",
+        "name": "Stone Chest",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-chest-01",
+      "name": {
+        "en": "Old Camp, Chest 01",
+        "ru": "Старый лагерь, сундук 01",
+        "de": "Altes Lager, Truhe 01",
+        "uk": "Старий табір, скриня 01"
+      },
+      "cells": 6,
+      "rules": "A:C+,D+,F+;C:B-,D+,F-;D:B+,E-;F:B+",
+      "pos": [
+        3,
+        6,
+        0,
+        6,
+        6,
+        0
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-chest-02",
+      "name": {
+        "en": "Old Camp, Chest 02",
+        "ru": "Старый лагерь, сундук 02",
+        "de": "Altes Lager, Truhe 02",
+        "uk": "Старий табір, скриня 02"
+      },
+      "cells": 5,
+      "rules": "A:C+,D+;B:D-;C:B+;D:A-,B+,E+",
+      "pos": [
+        6,
+        6,
+        1,
+        4,
+        1
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-guard-209-chest",
+      "name": {
+        "en": "Old Camp, Guard 209 Chest",
+        "ru": "Старый лагерь, сундук стражника 209",
+        "de": "Altes Lager, Truhe des Gardisten 209",
+        "uk": "Старий табір, скриня стражника 209"
+      },
+      "cells": 5,
+      "rules": "A:B+;B:C-,E-;C:D+;D:A-,B-,C-,E+;E:A+",
+      "pos": [
+        5,
+        5,
+        2,
+        3,
+        6
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Guard209_Lock",
+        "name": "Guard 209 Chest",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-camp-herek-chest",
+      "name": {
+        "en": "Old Camp, Herek Chest",
+        "ru": "Старый лагерь, сундук Херека",
+        "de": "Altes Lager, Truhe von Herek",
+        "uk": "Старий табір, скриня Херека"
+      },
+      "cells": 4,
+      "rules": "A:C+;B:C-;C:A+,B+;D:C+",
+      "pos": [
+        0,
+        0,
+        6,
+        3
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OC_Chest_Herek_Lock",
+        "name": "Herek Chest",
+        "place": "Old Camp"
+      }
+    },
+    {
+      "id": "old-mine-alberto-01-chest",
+      "name": {
+        "en": "Old Mine, Alberto 01 Chest",
+        "ru": "Старая шахта, сундук Альберто 01",
+        "de": "Alte Mine, Truhe von Alberto 01",
+        "uk": "Стара шахта, скриня Альберто 01"
+      },
+      "cells": 6,
+      "rules": "B:E-;C:A+,B-;D:B-,C+,F+;E:A+",
+      "pos": [
+        6,
+        1,
+        0,
+        0,
+        3,
+        6
+      ],
+      "tags": [
+        "Old Mine"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OM_Chest_Alberto_01_Lock",
+        "name": "Alberto 01 Chest",
+        "place": "Old Mine"
+      }
+    },
+    {
+      "id": "otown-chest-01",
+      "name": {
+        "en": "Otown, Chest 01",
+        "ru": "Otown, сундук 01",
+        "de": "Otown, Truhe 01",
+        "uk": "Otown, скриня 01"
+      },
+      "cells": 6,
+      "rules": "A:C+;B:D+,E-;C:F-;D:A-,B+,F+;E:C+;F:B-",
+      "pos": [
+        2,
+        4,
+        2,
+        0,
+        3,
+        2
+      ],
+      "tags": [
+        "Otown"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "Otown_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Otown"
+      }
+    },
+    {
+      "id": "otown-chest-02",
+      "name": {
+        "en": "Otown, Chest 02",
+        "ru": "Otown, сундук 02",
+        "de": "Otown, Truhe 02",
+        "uk": "Otown, скриня 02"
+      },
+      "cells": 6,
+      "rules": "A:F+;B:C-,D+,E-,F+;C:B-;D:C+,E+;E:C+;F:A-",
+      "pos": [
+        0,
+        5,
+        6,
+        2,
+        0,
+        4
+      ],
+      "tags": [
+        "Otown"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "Otown_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "Otown"
+      }
+    },
+    {
+      "id": "otown-chest-03",
+      "name": {
+        "en": "Otown, Chest 03",
+        "ru": "Otown, сундук 03",
+        "de": "Otown, Truhe 03",
+        "uk": "Otown, скриня 03"
+      },
+      "cells": 6,
+      "rules": "A:B+,C-,E+,F+;B:A+,D+;D:A-,E+;E:C+;F:E-",
+      "pos": [
+        5,
+        2,
+        4,
+        1,
+        6,
+        6
+      ],
+      "tags": [
+        "Otown"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "Otown_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "Otown"
+      }
+    },
+    {
+      "id": "ott-chest-05",
+      "name": {
+        "en": "OTT, Chest 05",
+        "ru": "OTT, сундук 05",
+        "de": "OTT, Truhe 05",
+        "uk": "OTT, скриня 05"
+      },
+      "cells": 5,
+      "rules": "A:B-,C-,D+,E-;B:C+,E+;C:E+;E:A-,B-,D+",
+      "pos": [
+        0,
+        2,
+        5,
+        3,
+        2
+      ],
+      "tags": [
+        "OTT"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OTT_Chest_05_Lock",
+        "name": "Chest 05",
+        "place": "OTT"
+      }
+    },
+    {
+      "id": "ott-chest-06",
+      "name": {
+        "en": "OTT, Chest 06",
+        "ru": "OTT, сундук 06",
+        "de": "OTT, Truhe 06",
+        "uk": "OTT, скриня 06"
+      },
+      "cells": 5,
+      "rules": "A:C-,D-,E-;B:D-;C:A+,B-,D-,E+;D:A-;E:D-",
+      "pos": [
+        0,
+        2,
+        5,
+        3,
+        1
+      ],
+      "tags": [
+        "OTT"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OTT_Chest_06_Lock",
+        "name": "Chest 06",
+        "place": "OTT"
+      }
+    },
+    {
+      "id": "ott-chest-09",
+      "name": {
+        "en": "OTT, Chest 09",
+        "ru": "OTT, сундук 09",
+        "de": "OTT, Truhe 09",
+        "uk": "OTT, скриня 09"
+      },
+      "cells": 6,
+      "rules": "B:A+,F-;C:D-;D:B+;E:A+,D-,F-;F:A+",
+      "pos": [
+        6,
+        0,
+        5,
+        3,
+        5,
+        2
+      ],
+      "tags": [
+        "OTT"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "OTT_Chest_09_Lock",
+        "name": "Chest 09",
+        "place": "OTT"
+      }
+    },
+    {
+      "id": "snt-chest-04",
+      "name": {
+        "en": "SNT, Chest 04",
+        "ru": "SNT, сундук 04",
+        "de": "SNT, Truhe 04",
+        "uk": "SNT, скриня 04"
+      },
+      "cells": 6,
+      "rules": "B:D+,E+,F-;C:A-,D-,E+;D:B+;E:A-,C-,F-",
+      "pos": [
+        0,
+        2,
+        5,
+        6,
+        5,
+        5
+      ],
+      "tags": [
+        "SNT"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SNT_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "SNT"
+      }
+    },
+    {
+      "id": "snt-chest-06",
+      "name": {
+        "en": "SNT, Chest 06",
+        "ru": "SNT, сундук 06",
+        "de": "SNT, Truhe 06",
+        "uk": "SNT, скриня 06"
+      },
+      "cells": 6,
+      "rules": "B:A-,F+;C:A-,B-,E-;D:F+;E:A-,D+;F:C+",
+      "pos": [
+        6,
+        0,
+        3,
+        0,
+        2,
+        5
+      ],
+      "tags": [
+        "SNT"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SNT_Chest_06_Lock",
+        "name": "Chest 06",
+        "place": "SNT"
+      }
+    },
+    {
+      "id": "snt-chest-09",
+      "name": {
+        "en": "SNT, Chest 09",
+        "ru": "SNT, сундук 09",
+        "de": "SNT, Truhe 09",
+        "uk": "SNT, скриня 09"
+      },
+      "cells": 6,
+      "rules": "B:E-;C:F-;D:B-,E+;E:F+;F:A-,D+",
+      "pos": [
+        2,
+        4,
+        1,
+        0,
+        5,
+        0
+      ],
+      "tags": [
+        "SNT"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SNT_Chest_09_Lock",
+        "name": "Chest 09",
+        "place": "SNT"
+      }
+    },
+    {
+      "id": "sw-chest-02",
+      "name": {
+        "en": "SW, Chest 02",
+        "ru": "SW, сундук 02",
+        "de": "SW, Truhe 02",
+        "uk": "SW, скриня 02"
+      },
+      "cells": 5,
+      "rules": "A:B+,D+;C:A+,D-;D:C-;E:C-",
+      "pos": [
+        0,
+        2,
+        5,
+        5,
+        6
+      ],
+      "tags": [
+        "SW"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SW_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "SW"
+      }
+    },
+    {
+      "id": "sw-chest-03",
+      "name": {
+        "en": "SW, Chest 03",
+        "ru": "SW, сундук 03",
+        "de": "SW, Truhe 03",
+        "uk": "SW, скриня 03"
+      },
+      "cells": 5,
+      "rules": "B:A-;C:D-;D:A-,B-;E:A-,B+,C-,D-",
+      "pos": [
+        1,
+        4,
+        0,
+        5,
+        0
+      ],
+      "tags": [
+        "SW"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "SW_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "SW"
+      }
+    },
+    {
+      "id": "tst-forge-01-chest",
+      "name": {
+        "en": "TST, Forge 01 Chest",
+        "ru": "TST, сундук в кузнице 01",
+        "de": "TST, Truhe in der Schmiede 01",
+        "uk": "TST, скриня в кузні 01"
+      },
+      "cells": 5,
+      "rules": "A:B+;B:A+,D+,E+;E:B+",
+      "pos": [
+        3,
+        4,
+        6,
+        3,
+        3
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "TST_Chest_Forge_01_Lock",
+        "name": "Forge 01 Chest",
+        "place": "TST"
+      }
+    },
+    {
+      "id": "tst-lava-stronghold-01-chest",
+      "name": {
+        "en": "TST, Lava Stronghold 01 Chest",
+        "ru": "TST, сундук в лавовой цитадели 01",
+        "de": "TST, Truhe in der Lavafestung 01",
+        "uk": "TST, скриня в лавовій цитаделі 01"
+      },
+      "cells": 4,
+      "rules": "B:A+,C-,D+;C:D-",
+      "pos": [
+        1,
+        6,
+        4,
+        5
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "TST_Chest_Lava_Stronghold_01_Lock",
+        "name": "Lava Stronghold 01 Chest",
+        "place": "TST"
+      }
+    },
+    {
+      "id": "tst-slave-01-chest",
+      "name": {
+        "en": "TST, Slave 01 Chest",
+        "ru": "TST, сундук раба 01",
+        "de": "TST, Truhe des Sklaven 01",
+        "uk": "TST, скриня раба 01"
+      },
+      "cells": 4,
+      "rules": "A:C+;B:A+;D:A+,C-",
+      "pos": [
+        1,
+        4,
+        4,
+        3
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "TST_Chest_Slave_01_Lock",
+        "name": "Slave 01 Chest",
+        "place": "TST"
+      }
+    },
+    {
+      "id": "tst-winch-room-01-chest",
+      "name": {
+        "en": "TST, Winch Room 01 Chest",
+        "ru": "TST, сундук в комнате с лебёдкой 01",
+        "de": "TST, Truhe im Windenraum 01",
+        "uk": "TST, скриня в кімнаті з лебідкою 01"
+      },
+      "cells": 6,
+      "rules": "A:B+,F+;C:A-,D-;D:E-;F:A+,B-,C+,E+",
+      "pos": [
+        6,
+        3,
+        5,
+        0,
+        6,
+        4
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "TST_Chest_WinchRoom_01_Lock",
+        "name": "Winch Room 01 Chest",
+        "place": "TST"
+      }
+    },
+    {
+      "id": "tst-winch-room-02-chest",
+      "name": {
+        "en": "TST, Winch Room 02 Chest",
+        "ru": "TST, сундук в комнате с лебёдкой 02",
+        "de": "TST, Truhe im Windenraum 02",
+        "uk": "TST, скриня в кімнаті з лебідкою 02"
+      },
+      "cells": 4,
+      "rules": "B:A+;C:A-,D-;D:B-",
+      "pos": [
+        4,
+        6,
+        4,
+        2
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "TST_Chest_WinchRoom_02_Lock",
+        "name": "Winch Room 02 Chest",
+        "place": "TST"
+      }
+    },
+    {
+      "id": "tst-winch-room-03-chest",
+      "name": {
+        "en": "TST, Winch Room 03 Chest",
+        "ru": "TST, сундук в комнате с лебёдкой 03",
+        "de": "TST, Truhe im Windenraum 03",
+        "uk": "TST, скриня в кімнаті з лебідкою 03"
+      },
+      "cells": 4,
+      "rules": "A:D-;B:A-;C:B-,D-",
+      "pos": [
+        1,
+        5,
+        2,
+        5
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "TST_Chest_WinchRoom_03_Lock",
+        "name": "Winch Room 03 Chest",
+        "place": "TST"
+      }
+    },
+    {
+      "id": "tst-sleeper-01-chest",
+      "name": {
+        "en": "TST, Sleeper 01 Chest",
+        "ru": "TST, сундук Спящего 01",
+        "de": "TST, Truhe des Schläfers 01",
+        "uk": "TST, скриня Сплячого 01"
+      },
+      "cells": 4,
+      "rules": "A:D+;B:A-,C-,D-",
+      "pos": [
+        1,
+        6,
+        6,
+        0
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "TST_Chest_Sleeper_01_Lock",
+        "name": "Sleeper 01 Chest",
+        "place": "TST"
+      }
+    },
+    {
+      "id": "tst-sleeper-02-chest",
+      "name": {
+        "en": "TST, Sleeper 02 Chest",
+        "ru": "TST, сундук Спящего 02",
+        "de": "TST, Truhe des Schläfers 02",
+        "uk": "TST, скриня Сплячого 02"
+      },
+      "cells": 6,
+      "rules": "A:B-,D+,E+;B:F-;D:E-;E:F+",
+      "pos": [
+        3,
+        0,
+        0,
+        1,
+        4,
+        1
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "TST_Chest_Sleeper_02_Lock",
+        "name": "Sleeper 02 Chest",
+        "place": "TST"
+      }
+    },
+    {
+      "id": "tst-lava-stronghold-02-chest",
+      "name": {
+        "en": "TST, Lava Stronghold 02 Chest",
+        "ru": "TST, сундук в лавовой цитадели 02",
+        "de": "TST, Truhe in der Lavafestung 02",
+        "uk": "TST, скриня в лавовій цитаделі 02"
+      },
+      "cells": 5,
+      "rules": "B:C-,E-;C:B-,D+;E:A-,D-",
+      "pos": [
+        1,
+        3,
+        3,
+        6,
+        5
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "TST_Chest_Lava_Stronghold_02_Lock",
+        "name": "Lava Stronghold 02 Chest",
+        "place": "TST"
+      }
+    },
+    {
+      "id": "xardas-tower-chest-06",
+      "name": {
+        "en": "Xardas' Tower, Chest 06",
+        "ru": "Башня Ксардаса, сундук 06",
+        "de": "Xardas' Turm, Truhe 06",
+        "uk": "Башта Ксардаса, скриня 06"
+      },
+      "cells": 6,
+      "rules": "A:B-,C+,E-,F+;B:A+;C:B+;D:A+;E:F+;F:C+",
+      "pos": [
+        6,
+        5,
+        6,
+        2,
+        4,
+        0
+      ],
+      "tags": [
+        "Xardas' Tower"
+      ],
+      "img": [],
+      "conf": 3,
+      "game": {
+        "id": "XT_Chest_06_Lock",
+        "name": "Chest 06",
+        "place": "Xardas Tower"
+      }
     }
   ]
 }
