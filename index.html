@@ -537,6 +537,7 @@ input[type=number] {
 .sr-image-placeholder { font-size: 1.3em; opacity: 0.35; }
 .sr-info { flex: 1; min-width: 0; }
 .sr-name { font-size: 0.85em; color: var(--text); }
+.doubt-mark { color: var(--warn); margin-right: 4px; vertical-align: -1px; }
 .sr-tags { font-size: 0.72em; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sr-preview { flex-shrink: 0; display: flex; flex-direction: column; gap: 2px; }
 .sr-plate { display: flex; gap: 2px; }
@@ -662,6 +663,17 @@ input[type=number] {
   display: flex; flex-direction: column; justify-content: center;
 }
 .solve-note-hint { margin-top: 8px; font-size: 0.85em; color: var(--text-muted); }
+.solve-doubt {
+  margin-bottom: 8px; padding: 8px 10px;
+  border: 1px solid var(--warn); border-radius: 3px; background: var(--bg-warn);
+  font-size: 0.85em; line-height: 1.45; color: var(--text);
+}
+.solve-doubt-title { color: var(--warn); font-weight: bold; }
+.btn-open-alt {
+  margin-top: 6px; padding: 3px 10px; cursor: pointer;
+  border: 1px solid var(--warn); border-radius: 3px; background: none; color: var(--warn); font: inherit;
+}
+.btn-open-alt:hover { background: var(--bg-accent); }
 .solution-list li.endpoint {
   color: var(--text-muted);
   font-size: 0.9em;
@@ -905,6 +917,8 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   --text-soft:           #bfae8a;
   --accent:              #e8c87a;
   --danger:              #e55;
+  --warn:                #d9a04a;
+  --bg-warn:             #2a2012;
   --legend-text:         #e7d7b8;
   --keycap-border:       #cdbb96;
   --keycap-bg:           rgba(0, 0, 0, 0.35);
@@ -1216,6 +1230,12 @@ button:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
   <div id="stage-solve" class="stage hidden" data-test-id="stage-solve">
     <div class="panel panel-left">
       <h2><span style="display:inline-flex;align-items:center;gap:0"><span data-i18n="solve-title">Решение</span><button id="btn-notation-help" class="notation-btn" data-test-id="btn-notation-help">?</button></span><span class="h2-actions"><button id="btn-expand-3d-solve" class="btn-icon" title="Развернуть 3D">↕</button><button id="btn-toggle-3d-solve" class="btn-icon active" title="3D вид">⬡</button></span></h2>
+      <div id="solve-doubt" class="solve-doubt hidden" data-test-id="solve-doubt" role="note">
+        <p class="solve-doubt-title" data-i18n="doubt-title">Эта запись может содержать ошибку.</p>
+        <p id="solve-doubt-text" data-test-id="solve-doubt-text" data-i18n="doubt-text">Другие источники описывают этот замок иначе. Перед тем как идти по шагам, сверьте с игрой начальные позиции и связи элементов.</p>
+        <p id="solve-doubt-text-alt" class="hidden" data-test-id="solve-doubt-text-alt" data-i18n="doubt-text-alt">В базе есть другая запись этого замка, она лучше согласуется с другими источниками. Сверьте позиции и связи с игрой или откройте её.</p>
+        <button id="btn-open-alt" type="button" class="btn-open-alt hidden" data-test-id="btn-open-alt" data-i18n="doubt-open-alt">Открыть другую запись</button>
+      </div>
       <div class="solution-wrap">
         <div id="solution-string" class="solution-str" data-test-id="solution-string"></div>
         <button id="btn-copy-solution" class="btn-copy-solution" data-test-id="btn-copy-solution" data-i18n-title="copy-solution" title="Копировать цепочку">📋</button>
@@ -1516,6 +1536,11 @@ const TRANSLATIONS = {
     'btn-auto': '▶ Авто',          'btn-stop': '■ Стоп',
     'solve-solved-title': 'Данный замок уже решён.',
     'solve-solved-hint': 'Возможно вы забыли выставить начальные позиции',
+    'doubt-badge': 'Другие источники описывают этот замок иначе',
+    'doubt-title': 'Эта запись может содержать ошибку.',
+    'doubt-text': 'Другие источники описывают этот замок иначе. Перед тем как идти по шагам, сверьте с игрой начальные позиции и связи элементов.',
+    'doubt-text-alt': 'В базе есть другая запись этого замка, она лучше согласуется с другими источниками. Сверьте позиции и связи с игрой или откройте её.',
+    'doubt-open-alt': 'Открыть другую запись',
     'legend-move': 'Смещение элемента', 'legend-select': 'Выбор элемента',
     'pos-inc': 'Позиция +1',       'pos-dec': 'Позиция −1',
     'pos-del': 'Удалить элемент',  'pos-add': 'Добавить элемент',
@@ -1569,6 +1594,11 @@ const TRANSLATIONS = {
     'btn-auto': '▶ Auto',           'btn-stop': '■ Stop',
     'solve-solved-title': 'This lock is already solved.',
     'solve-solved-hint': 'You may have forgotten to set the starting positions',
+    'doubt-badge': 'Other sources describe this lock differently',
+    'doubt-title': 'This entry may contain an error.',
+    'doubt-text': 'Other sources describe this lock differently. Before following the steps, check the starting positions and the plate dependencies against the game.',
+    'doubt-text-alt': 'The database has another entry for this lock that agrees better with other sources. Check the positions and dependencies against the game, or open that entry.',
+    'doubt-open-alt': 'Open the other entry',
     'legend-move': 'Move plate',   'legend-select': 'Select plate',
     'pos-inc': 'Position +1',      'pos-dec': 'Position −1',
     'pos-del': 'Remove plate',     'pos-add': 'Add plate',
@@ -1622,6 +1652,11 @@ const TRANSLATIONS = {
     'btn-auto': '▶ Авто',           'btn-stop': '■ Стоп',
     'solve-solved-title': 'Цей замок уже розв\u2019язано.',
     'solve-solved-hint': 'Можливо, ви забули виставити початкові позиції',
+    'doubt-badge': 'Інші джерела описують цей замок інакше',
+    'doubt-title': 'Цей запис може містити помилку.',
+    'doubt-text': 'Інші джерела описують цей замок інакше. Перш ніж іти за кроками, звірте з грою початкові позиції та зв\u2019язки елементів.',
+    'doubt-text-alt': 'У базі є інший запис цього замка, він краще узгоджується з іншими джерелами. Звірте позиції та зв\u2019язки з грою або відкрийте його.',
+    'doubt-open-alt': 'Відкрити інший запис',
     'legend-move': 'Зсув елемента', 'legend-select': 'Вибір елемента',
     'pos-inc': 'Позиція +1',       'pos-dec': 'Позиція −1',
     'pos-del': 'Видалити елемент', 'pos-add': 'Додати елемент',
@@ -1874,7 +1909,7 @@ function buildScene(sceneId, plates) {
       <div class="face top">${holesHTML}</div>
       <div class="face front"></div>
       <div class="face right"><span class="plate-num">${plate.id}</span></div>
-      <div class="pin ${isRaised ? 'raised' : 'lowered'}"
+      <div class="pin ${isRaised ? 'raised' : 'lowered'}" data-test-id="${sceneId}-pin-${plate.id}"
            style="left:${pinLeft(plate.currentPos, plate.positions)}px"></div>
     `;
     scene.appendChild(el);
@@ -2976,6 +3011,7 @@ function switchToSolve(push = true) {
 
   buildScene('scene-solve-inner', state.plates);
   renderSolvePanel();
+  renderSolveDoubt();
   updateScene('scene-solve-inner', state.plates, state.activePlate);
   // Push a new history entry for the config→solve navigation; lock stays the
   // initial config (solveStartPositions), never the mutated playback positions.
@@ -3770,9 +3806,10 @@ async function loadChestDb() {
   // promise, or the search dies silently with no toast and no tooltip.
   try {
     chestFuse = new Fuse(chestDb.entries, {
-      keys: ['name.ru', 'name.en', 'name.de', 'name.uk', 'tags'],
+      keys: ['name.ru', 'name.en', 'name.de', 'name.uk', 'tags', 'game.id', 'game.name'],
       threshold: 0.4,
       ignoreLocation: true,
+      includeScore: true,
     });
   } catch { chestDb = null; return null; }
   return chestDb;
@@ -3927,6 +3964,7 @@ function computeChestHints(entries, user0, plateCount, limit = 3, userEdges = ne
   }
   scored.sort((a, b) =>
     b.score - a.score
+    || entryConf(b.entry) - entryConf(a.entry)   // variants of one lock score alike — trust decides
     || a.entry.pos.length - b.entry.pos.length
     || (a.entry.id < b.entry.id ? -1 : a.entry.id > b.entry.id ? 1 : 0)
   );
@@ -3940,13 +3978,40 @@ function entryName(entry) {
   return Object.values(entry.name)[0] || '';
 }
 
+/** How well an entry agrees with the external catalogs (build-time `conf`; an
+ *  entry no other source knows counts as neutral 0). Ranks search and hints. */
+function entryConf(entry) {
+  return typeof entry.conf === 'number' ? entry.conf : 0;
+}
+
+// Text relevance comes first; agreement only reorders results whose Fuse scores
+// fall into the same band, so a precise name match is never buried by a better-
+// agreeing but looser one. A position query has no relevance order of its own.
+const SEARCH_SCORE_BAND = 0.05;
+
 function runChestSearch(query) {
   if (!chestDb) return [];
   const q = query.trim();
   if (!q) return [];
-  return isPositionQuery(q)
-    ? searchByPosition(parsePositionQuery(q), chestDb.entries)
-    : chestFuse.search(q).map(r => r.item);
+  if (isPositionQuery(q)) {
+    return searchByPosition(parsePositionQuery(q), chestDb.entries)
+      .map((entry, i) => ({ entry, i }))
+      .sort((a, b) => entryConf(b.entry) - entryConf(a.entry) || a.i - b.i)
+      .map(x => x.entry);
+  }
+  return chestFuse.search(q)
+    .map((r, i) => ({ entry: r.item, band: Math.round(r.score / SEARCH_SCORE_BAND), i }))
+    .sort((a, b) => a.band - b.band || entryConf(b.entry) - entryConf(a.entry) || a.i - b.i)
+    .map(x => x.entry);
+}
+
+/** Warning glyph for an entry the other sources speak against (`doubt`). */
+function doubtMarkHTML(entry, testId) {
+  if (!entry.doubt) return '';
+  return `<svg class="doubt-mark" data-test-id="${testId}" viewBox="0 0 24 24" width="13" height="13" fill="none"`
+       + ` stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"`
+       + ` role="img"><title data-i18n="doubt-badge">${escapeHtml(t('doubt-badge'))}</title>`
+       + `<path d="M12 3l10 18H2z"></path><path d="M12 10v5"></path><path d="M12 18v.5"></path></svg>`;
 }
 
 function escapeHtml(s) {
@@ -3965,7 +4030,7 @@ function buildResultCard(entry, idx) {
     <div class="search-result" data-test-id="search-result-${idx}" data-idx="${idx}" data-selected="false">
       <div class="sr-image" data-test-id="search-result-${idx}-image">${image}</div>
       <div class="sr-info">
-        <div class="sr-name" data-test-id="search-result-${idx}-name">${name}</div>
+        <div class="sr-name">${doubtMarkHTML(entry, `search-result-${idx}-doubt`)}<span data-test-id="search-result-${idx}-name">${name}</span></div>
         <div class="sr-tags" data-test-id="search-result-${idx}-tags">${tagsStr}</div>
       </div>
       <div class="sr-preview">${plateRows}</div>
@@ -4044,7 +4109,7 @@ function buildHintCard(entry, idx, score, matchLen, userEdges) {
     <button type="button" class="chest-hint" data-test-id="chest-hint-${idx}" data-idx="${idx}"
             data-score="${Math.round(score * 100)}" style="opacity:${opacity}" title="${name}">
       <div class="chest-hint-info">
-        <div class="chest-hint-name" data-test-id="chest-hint-${idx}-name">${name}</div>
+        <div class="chest-hint-name">${doubtMarkHTML(entry, `chest-hint-${idx}-doubt`)}<span data-test-id="chest-hint-${idx}-name">${name}</span></div>
         <div class="chest-hint-tags" data-test-id="chest-hint-${idx}-tags" title="${tagsStr}">${tagsStr}</div>
         ${renderRulesLine(idx, entry, userEdges)}
       </div>
@@ -4086,14 +4151,43 @@ document.getElementById('chest-hints').addEventListener('click', (e) => {
 // Show hints once the DB finishes loading, in case the user is already on config.
 chestSearchReady.then(() => renderChestHints());
 
-function applySearchResult(entry) {
-  document.getElementById('search-dialog').close();
+/** Load a DB entry from any stage (search result, the solve-stage "other entry" button). */
+function loadEntry(entry) {
   // Leave the solve stage FIRST: switchToConfig restores state.plates from the pre-solve
   // snapshot, so applying the entry before it left state, DOM and URL describing three
   // different locks. Same order urlReconcile uses.
   if (state.stage !== 'config') switchToConfig();
   applyEntry(entry);   // applyEntry() shows its own success toast — don't double up
 }
+
+function applySearchResult(entry) {
+  document.getElementById('search-dialog').close();
+  loadEntry(entry);
+}
+
+// ── Solve-stage doubt notice ────────────────────────────────────────────────
+// Shown when the lock being solved is a DB entry the other sources speak against.
+// The config may come from search, a hint, an import or a ?lock= link, so the entry
+// is found structurally rather than remembered from the search.
+let solveDoubtAlt = null;   // the better-agreeing entry the notice offers, if any
+
+function renderSolveDoubt() {
+  const box = document.getElementById('solve-doubt');
+  const entry = state.stage === 'solve' && chestDb ? findIdenticalChest(solveStartPositions) : null;
+  const doubt = !!(entry && entry.doubt);
+  solveDoubtAlt = doubt && entry.alt ? chestDb.entries.find(e => e.id === entry.alt) || null : null;
+  box.classList.toggle('hidden', !doubt);
+  document.getElementById('solve-doubt-text').classList.toggle('hidden', !!solveDoubtAlt);
+  document.getElementById('solve-doubt-text-alt').classList.toggle('hidden', !solveDoubtAlt);
+  document.getElementById('btn-open-alt').classList.toggle('hidden', !solveDoubtAlt);
+}
+
+document.getElementById('btn-open-alt').addEventListener('click', () => {
+  if (solveDoubtAlt) loadEntry(solveDoubtAlt);
+});
+
+// A ?lock=…&solve link can reach the solve stage before the DB has loaded.
+chestSearchReady.then(() => renderSolveDoubt());
 
 // Opens the dialog synchronously (before any await) so it can never be
 // reopened by a late showModal() racing against a test/user closing it first.

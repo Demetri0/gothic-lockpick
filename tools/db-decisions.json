@@ -3,7 +3,10 @@
   "drops": [
     "0,6,0,2,1|2>1+;2>3+;2>4+;3>2-;3>4+;4>2-;4>3+;4>5+",
     "0,2,2,6,4|2>5-;3>2-;4>2-;4>3-;4>5+;5>1-;5>3-",
-    "4,2,5,6,1,6|1>3+;1>6-;3>1+;3>6+;4>4+;4>6-;6>3-"
+    "4,2,5,6,1,6|1>3+;1>6-;3>1+;3>6+;4>4+;4>6-;6>3-",
+    "5,2,1,0,6|1>4+;2>5+;3>5-;4>2+;4>5-",
+    "4,5,0,2,1,0|1>4-;2>4+;2>6-;3>6-;4>2-;4>6-;5>2+;5>6-;6>4+",
+    "4,5,0,2,1,0|1>4-;2>4+;2>6-;3>6-;4>2+;4>6+;5>2+;5>6-;6>4+"
   ],
   "overrides": [
     {
@@ -12233,7 +12236,1197 @@
       ]
     }
   ],
-  "additions": [],
+  "additions": [
+    {
+      "id": "bandit-camp-chest-01",
+      "name": {
+        "en": "Bandit Camp, Chest 01"
+      },
+      "cells": 5,
+      "rules": "A:C-;B:A+;C:D-,E+;D:A+,E-;E:A+",
+      "pos": [
+        6,
+        0,
+        6,
+        3,
+        2
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-02",
+      "name": {
+        "en": "Bandit Camp, Chest 02"
+      },
+      "cells": 5,
+      "rules": "A:B-,D+,E-;B:A+;C:A+,B+;D:A+,B+;E:B+,D-",
+      "pos": [
+        6,
+        2,
+        6,
+        0,
+        0
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-03",
+      "name": {
+        "en": "Bandit Camp, Chest 03"
+      },
+      "cells": 5,
+      "rules": "A:B+,C-;B:A+,C-,D-,E-;C:D-;D:A+,C-",
+      "pos": [
+        3,
+        5,
+        3,
+        4,
+        0
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-04",
+      "name": {
+        "en": "Bandit Camp, Chest 04"
+      },
+      "cells": 6,
+      "rules": "A:B+,C+;B:F-;C:D-,E+;D:B+,F-;E:B-;F:B+,D-",
+      "pos": [
+        5,
+        0,
+        1,
+        6,
+        5,
+        6
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-05",
+      "name": {
+        "en": "Bandit Camp, Chest 05"
+      },
+      "cells": 4,
+      "rules": "A:B+,C+,D-;B:A+;C:B-,D+",
+      "pos": [
+        0,
+        4,
+        6,
+        3
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-07",
+      "name": {
+        "en": "Bandit Camp, Chest 07"
+      },
+      "cells": 4,
+      "rules": "A:B-,C-,D-;C:A+;D:C+",
+      "pos": [
+        6,
+        3,
+        4,
+        6
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-08",
+      "name": {
+        "en": "Bandit Camp, Chest 08"
+      },
+      "cells": 5,
+      "rules": "A:C+,D-,E+;B:C-;D:A-,C-;E:C+,D-",
+      "pos": [
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-09",
+      "name": {
+        "en": "Bandit Camp, Chest 09"
+      },
+      "cells": 5,
+      "rules": "A:B-,C-;B:A+,D+;C:A+,B-,D-,E-;E:C-",
+      "pos": [
+        4,
+        6,
+        4,
+        0,
+        6
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-10",
+      "name": {
+        "en": "Bandit Camp, Chest 10"
+      },
+      "cells": 5,
+      "rules": "A:B-,D+;B:A+,D-;C:A-,B-,D-,E-;D:A+;E:A+",
+      "pos": [
+        0,
+        0,
+        0,
+        5,
+        3
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-11",
+      "name": {
+        "en": "Bandit Camp, Chest 11"
+      },
+      "cells": 5,
+      "rules": "A:C-,D-;B:C-,E-;C:B-,D+;D:C-;E:B+",
+      "pos": [
+        6,
+        6,
+        0,
+        6,
+        6
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-12",
+      "name": {
+        "en": "Bandit Camp, Chest 12"
+      },
+      "cells": 6,
+      "rules": "B:A-,C+,E+,F-;C:E+,F-;F:A+,D-",
+      "pos": [
+        3,
+        0,
+        4,
+        0,
+        0,
+        0
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-13",
+      "name": {
+        "en": "Bandit Camp, Chest 13"
+      },
+      "cells": 5,
+      "rules": "A:B+,C+,D-,E+;B:A+;C:A+,D-,E-;E:B+",
+      "pos": [
+        3,
+        5,
+        5,
+        6,
+        3
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-14",
+      "name": {
+        "en": "Bandit Camp, Chest 14"
+      },
+      "cells": 6,
+      "rules": "A:C-,D-,E-;B:F-;C:E-;E:F-;F:C+",
+      "pos": [
+        1,
+        6,
+        0,
+        2,
+        2,
+        6
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "bandit-camp-chest-15",
+      "name": {
+        "en": "Bandit Camp, Chest 15"
+      },
+      "cells": 5,
+      "rules": "A:B-,C+,D+,E-;B:C+,E+;D:C+,E-;E:C+",
+      "pos": [
+        5,
+        4,
+        1,
+        0,
+        1
+      ],
+      "tags": [
+        "Bandit Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "exchange-zone-loot-cage-door",
+      "name": {
+        "en": "Exchange Zone, Loot Cage Door"
+      },
+      "cells": 4,
+      "rules": "A:D+;D:B+",
+      "pos": [
+        5,
+        0,
+        4,
+        6
+      ],
+      "tags": [
+        "Exchange Zone"
+      ],
+      "img": []
+    },
+    {
+      "id": "mountain-fortress-chest-04",
+      "name": {
+        "en": "Mountain Fortress, Chest 04"
+      },
+      "cells": 6,
+      "rules": "A:B+,E-;B:A-;D:A+,E+;E:A+,F+;F:B+,C+,D-",
+      "pos": [
+        3,
+        2,
+        1,
+        1,
+        0,
+        6
+      ],
+      "tags": [
+        "Mountain Fortress"
+      ],
+      "img": []
+    },
+    {
+      "id": "new-camp-cipher-chest",
+      "name": {
+        "en": "New Camp, Cipher Chest"
+      },
+      "cells": 6,
+      "rules": "A:C+,D+,E+,F-;B:C+,F+;C:F-;F:E+",
+      "pos": [
+        0,
+        0,
+        6,
+        3,
+        4,
+        3
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "new-camp-rogue-11-821-chest",
+      "name": {
+        "en": "New Camp, Rogue 11 821 Chest"
+      },
+      "cells": 4,
+      "rules": "B:A+,C-,D-;C:B-;D:A+,C+",
+      "pos": [
+        2,
+        0,
+        1,
+        3
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "new-camp-mercenary-07-710-chest",
+      "name": {
+        "en": "New Camp, Mercenary 07 710 Chest"
+      },
+      "cells": 5,
+      "rules": "A:C-;B:A-,C-;C:A-,B+,D+,E-;D:C+",
+      "pos": [
+        1,
+        0,
+        3,
+        2,
+        1
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "new-camp-mercenary-02-703-chest",
+      "name": {
+        "en": "New Camp, Mercenary 02 703 Chest"
+      },
+      "cells": 5,
+      "rules": "A:D+,E+;C:B+,D-;D:A+,B+,C+;E:A-,B-,D-",
+      "pos": [
+        6,
+        1,
+        0,
+        1,
+        4
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "new-camp-mercenary-03-705-chest",
+      "name": {
+        "en": "New Camp, Mercenary 03 705 Chest"
+      },
+      "cells": 5,
+      "rules": "A:D-;B:C+;C:B+,D+;D:A-,B+,C-,E-;E:A-",
+      "pos": [
+        6,
+        6,
+        0,
+        1,
+        1
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "new-camp-mercenary-17-735-chest",
+      "name": {
+        "en": "New Camp, Mercenary 17 735 Chest"
+      },
+      "cells": 5,
+      "rules": "A:D+,E-;B:A+,E+;C:B+;E:D+",
+      "pos": [
+        5,
+        0,
+        4,
+        3,
+        0
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "new-camp-orik-chest",
+      "name": {
+        "en": "New Camp, Orik Chest"
+      },
+      "cells": 5,
+      "rules": "A:B-,C+;B:A+,C+,E+;C:A-,E-;D:B+;E:B+,C-",
+      "pos": [
+        6,
+        1,
+        4,
+        5,
+        0
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "new-camp-rogue-09-817-chest",
+      "name": {
+        "en": "New Camp, Rogue 09 817 Chest"
+      },
+      "cells": 6,
+      "rules": "A:C+,E+;B:C-,F+;D:A-;E:B-,D-;F:A-,B+",
+      "pos": [
+        1,
+        3,
+        2,
+        5,
+        0,
+        0
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "new-camp-rogue-22-837-chest",
+      "name": {
+        "en": "New Camp, Rogue 22 837 Chest"
+      },
+      "cells": 5,
+      "rules": "B:D+,E-;C:A-,B+,D-;D:C-,E-;E:A-",
+      "pos": [
+        2,
+        4,
+        2,
+        0,
+        4
+      ],
+      "tags": [
+        "New Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-mages-room-01",
+      "name": {
+        "en": "Old Camp, Mages Room 01"
+      },
+      "cells": 6,
+      "rules": "A:B+,C+,D-,E+;B:A-,C-,F+;D:A-,C+,E-",
+      "pos": [
+        0,
+        3,
+        3,
+        2,
+        6,
+        0
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-mages-room-02",
+      "name": {
+        "en": "Old Camp, Mages Room 02"
+      },
+      "cells": 6,
+      "rules": "A:D-,F-;B:C+;D:A-,B-,E-;F:D-",
+      "pos": [
+        1,
+        2,
+        2,
+        1,
+        5,
+        0
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-mages-room-03",
+      "name": {
+        "en": "Old Camp, Mages Room 03"
+      },
+      "cells": 6,
+      "rules": "B:C-,E-;D:A+,B-,E+;E:A-,F+;F:C-,D-",
+      "pos": [
+        1,
+        4,
+        6,
+        6,
+        1,
+        5
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-armory-01-chest",
+      "name": {
+        "en": "Old Camp, Armory 01 Chest"
+      },
+      "cells": 5,
+      "rules": "A:B-,C-;B:A-;C:D-;D:B+,E-;E:A-,B-,C+,D+",
+      "pos": [
+        6,
+        6,
+        1,
+        6,
+        3
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-armory-02-chest",
+      "name": {
+        "en": "Old Camp, Armory 02 Chest"
+      },
+      "cells": 5,
+      "rules": "B:D+;C:A+,B-,D+;D:A-,B-,C+,E+;E:A+,B+",
+      "pos": [
+        0,
+        2,
+        6,
+        0,
+        2
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-armory-03-chest",
+      "name": {
+        "en": "Old Camp, Armory 03 Chest"
+      },
+      "cells": 6,
+      "rules": "A:C-,E-;B:A+,F+;C:B-;D:C-,F-;E:D+;F:B-",
+      "pos": [
+        6,
+        5,
+        1,
+        1,
+        6,
+        6
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-corristo-chest",
+      "name": {
+        "en": "Old Camp, Corristo Chest"
+      },
+      "cells": 5,
+      "rules": "A:D-,E-;B:A-,C+,D-;C:A+;D:A+,C+;E:A-,C-",
+      "pos": [
+        0,
+        1,
+        5,
+        3,
+        1
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-damarok-chest",
+      "name": {
+        "en": "Old Camp, Damarok Chest"
+      },
+      "cells": 6,
+      "rules": "A:C+;B:A-;D:A-;F:A-,B-,D-,E+",
+      "pos": [
+        5,
+        6,
+        3,
+        4,
+        0,
+        5
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-guard-229-chest",
+      "name": {
+        "en": "Old Camp, Guard 229 Chest"
+      },
+      "cells": 4,
+      "rules": "A:B+;B:C+,D+;C:A-,B+,D-",
+      "pos": [
+        1,
+        0,
+        6,
+        6
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-guard-242-chest",
+      "name": {
+        "en": "Old Camp, Guard 242 Chest"
+      },
+      "cells": 4,
+      "rules": "A:B+,D+;B:A+;C:A-,B+;D:A-",
+      "pos": [
+        0,
+        6,
+        1,
+        3
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-stone-chest",
+      "name": {
+        "en": "Old Camp, Stone Chest"
+      },
+      "cells": 5,
+      "rules": "B:C+;C:E-;D:B-,C+,E-;E:A-",
+      "pos": [
+        1,
+        6,
+        3,
+        6,
+        5
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-chest-01",
+      "name": {
+        "en": "Old Camp, Chest 01"
+      },
+      "cells": 6,
+      "rules": "A:C+,D+,F+;C:B-,D+,F-;D:B+,E-;F:B+",
+      "pos": [
+        3,
+        6,
+        0,
+        6,
+        6,
+        0
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-chest-02",
+      "name": {
+        "en": "Old Camp, Chest 02"
+      },
+      "cells": 5,
+      "rules": "A:C+,D+;B:D-;C:B+;D:A-,B+,E+",
+      "pos": [
+        6,
+        6,
+        1,
+        4,
+        1
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-guard-209-chest",
+      "name": {
+        "en": "Old Camp, Guard 209 Chest"
+      },
+      "cells": 5,
+      "rules": "A:B+;B:C-,E-;C:D+;D:A-,B-,C-,E+;E:A+",
+      "pos": [
+        5,
+        5,
+        2,
+        3,
+        6
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-camp-herek-chest",
+      "name": {
+        "en": "Old Camp, Herek Chest"
+      },
+      "cells": 4,
+      "rules": "A:C+;B:C-;C:A+,B+;D:C+",
+      "pos": [
+        0,
+        0,
+        6,
+        3
+      ],
+      "tags": [
+        "Old Camp"
+      ],
+      "img": []
+    },
+    {
+      "id": "old-mine-alberto-01-chest",
+      "name": {
+        "en": "Old Mine, Alberto 01 Chest"
+      },
+      "cells": 6,
+      "rules": "B:E-;C:A+,B-;D:B-,C+,F+;E:A+",
+      "pos": [
+        6,
+        1,
+        0,
+        0,
+        3,
+        6
+      ],
+      "tags": [
+        "Old Mine"
+      ],
+      "img": []
+    },
+    {
+      "id": "otown-chest-01",
+      "name": {
+        "en": "Otown, Chest 01"
+      },
+      "cells": 6,
+      "rules": "A:C+;B:D+,E-;C:F-;D:A-,B+,F+;E:C+;F:B-",
+      "pos": [
+        2,
+        4,
+        2,
+        0,
+        3,
+        2
+      ],
+      "tags": [
+        "Otown"
+      ],
+      "img": []
+    },
+    {
+      "id": "otown-chest-02",
+      "name": {
+        "en": "Otown, Chest 02"
+      },
+      "cells": 6,
+      "rules": "A:F+;B:C-,D+,E-,F+;C:B-;D:C+,E+;E:C+;F:A-",
+      "pos": [
+        0,
+        5,
+        6,
+        2,
+        0,
+        4
+      ],
+      "tags": [
+        "Otown"
+      ],
+      "img": []
+    },
+    {
+      "id": "otown-chest-03",
+      "name": {
+        "en": "Otown, Chest 03"
+      },
+      "cells": 6,
+      "rules": "A:B+,C-,E+,F+;B:A+,D+;D:A-,E+;E:C+;F:E-",
+      "pos": [
+        5,
+        2,
+        4,
+        1,
+        6,
+        6
+      ],
+      "tags": [
+        "Otown"
+      ],
+      "img": []
+    },
+    {
+      "id": "ott-chest-05",
+      "name": {
+        "en": "OTT, Chest 05"
+      },
+      "cells": 5,
+      "rules": "A:B-,C-,D+,E-;B:C+,E+;C:E+;E:A-,B-,D+",
+      "pos": [
+        0,
+        2,
+        5,
+        3,
+        2
+      ],
+      "tags": [
+        "OTT"
+      ],
+      "img": []
+    },
+    {
+      "id": "ott-chest-06",
+      "name": {
+        "en": "OTT, Chest 06"
+      },
+      "cells": 5,
+      "rules": "A:C-,D-,E-;B:D-;C:A+,B-,D-,E+;D:A-;E:D-",
+      "pos": [
+        0,
+        2,
+        5,
+        3,
+        1
+      ],
+      "tags": [
+        "OTT"
+      ],
+      "img": []
+    },
+    {
+      "id": "ott-chest-09",
+      "name": {
+        "en": "OTT, Chest 09"
+      },
+      "cells": 6,
+      "rules": "B:A+,F-;C:D-;D:B+;E:A+,D-,F-;F:A+",
+      "pos": [
+        6,
+        0,
+        5,
+        3,
+        5,
+        2
+      ],
+      "tags": [
+        "OTT"
+      ],
+      "img": []
+    },
+    {
+      "id": "snt-chest-04",
+      "name": {
+        "en": "SNT, Chest 04"
+      },
+      "cells": 6,
+      "rules": "B:D+,E+,F-;C:A-,D-,E+;D:B+;E:A-,C-,F-",
+      "pos": [
+        0,
+        2,
+        5,
+        6,
+        5,
+        5
+      ],
+      "tags": [
+        "SNT"
+      ],
+      "img": []
+    },
+    {
+      "id": "snt-chest-06",
+      "name": {
+        "en": "SNT, Chest 06"
+      },
+      "cells": 6,
+      "rules": "B:A-,F+;C:A-,B-,E-;D:F+;E:A-,D+;F:C+",
+      "pos": [
+        6,
+        0,
+        3,
+        0,
+        2,
+        5
+      ],
+      "tags": [
+        "SNT"
+      ],
+      "img": []
+    },
+    {
+      "id": "snt-chest-09",
+      "name": {
+        "en": "SNT, Chest 09"
+      },
+      "cells": 6,
+      "rules": "B:E-;C:F-;D:B-,E+;E:F+;F:A-,D+",
+      "pos": [
+        2,
+        4,
+        1,
+        0,
+        5,
+        0
+      ],
+      "tags": [
+        "SNT"
+      ],
+      "img": []
+    },
+    {
+      "id": "sw-chest-02",
+      "name": {
+        "en": "SW, Chest 02"
+      },
+      "cells": 5,
+      "rules": "A:B+,D+;C:A+,D-;D:C-;E:C-",
+      "pos": [
+        0,
+        2,
+        5,
+        5,
+        6
+      ],
+      "tags": [
+        "SW"
+      ],
+      "img": []
+    },
+    {
+      "id": "sw-chest-03",
+      "name": {
+        "en": "SW, Chest 03"
+      },
+      "cells": 5,
+      "rules": "B:A-;C:D-;D:A-,B-;E:A-,B+,C-,D-",
+      "pos": [
+        1,
+        4,
+        0,
+        5,
+        0
+      ],
+      "tags": [
+        "SW"
+      ],
+      "img": []
+    },
+    {
+      "id": "tst-forge-01-chest",
+      "name": {
+        "en": "TST, Forge 01 Chest"
+      },
+      "cells": 5,
+      "rules": "A:B+;B:A+,D+,E+;E:B+",
+      "pos": [
+        3,
+        4,
+        6,
+        3,
+        3
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": []
+    },
+    {
+      "id": "tst-lava-stronghold-01-chest",
+      "name": {
+        "en": "TST, Lava Stronghold 01 Chest"
+      },
+      "cells": 4,
+      "rules": "B:A+,C-,D+;C:D-",
+      "pos": [
+        1,
+        6,
+        4,
+        5
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": []
+    },
+    {
+      "id": "tst-slave-01-chest",
+      "name": {
+        "en": "TST, Slave 01 Chest"
+      },
+      "cells": 4,
+      "rules": "A:C+;B:A+;D:A+,C-",
+      "pos": [
+        1,
+        4,
+        4,
+        3
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": []
+    },
+    {
+      "id": "tst-winch-room-01-chest",
+      "name": {
+        "en": "TST, Winch Room 01 Chest"
+      },
+      "cells": 6,
+      "rules": "A:B+,F+;C:A-,D-;D:E-;F:A+,B-,C+,E+",
+      "pos": [
+        6,
+        3,
+        5,
+        0,
+        6,
+        4
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": []
+    },
+    {
+      "id": "tst-winch-room-02-chest",
+      "name": {
+        "en": "TST, Winch Room 02 Chest"
+      },
+      "cells": 4,
+      "rules": "B:A+;C:A-,D-;D:B-",
+      "pos": [
+        4,
+        6,
+        4,
+        2
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": []
+    },
+    {
+      "id": "tst-winch-room-03-chest",
+      "name": {
+        "en": "TST, Winch Room 03 Chest"
+      },
+      "cells": 4,
+      "rules": "A:D-;B:A-;C:B-,D-",
+      "pos": [
+        1,
+        5,
+        2,
+        5
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": []
+    },
+    {
+      "id": "tst-sleeper-01-chest",
+      "name": {
+        "en": "TST, Sleeper 01 Chest"
+      },
+      "cells": 4,
+      "rules": "A:D+;B:A-,C-,D-",
+      "pos": [
+        1,
+        6,
+        6,
+        0
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": []
+    },
+    {
+      "id": "tst-sleeper-02-chest",
+      "name": {
+        "en": "TST, Sleeper 02 Chest"
+      },
+      "cells": 6,
+      "rules": "A:B-,D+,E+;B:F-;D:E-;E:F+",
+      "pos": [
+        3,
+        0,
+        0,
+        1,
+        4,
+        1
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": []
+    },
+    {
+      "id": "tst-lava-stronghold-02-chest",
+      "name": {
+        "en": "TST, Lava Stronghold 02 Chest"
+      },
+      "cells": 5,
+      "rules": "B:C-,E-;C:B-,D+;E:A-,D-",
+      "pos": [
+        1,
+        3,
+        3,
+        6,
+        5
+      ],
+      "tags": [
+        "TST"
+      ],
+      "img": []
+    },
+    {
+      "id": "xardas-tower-chest-06",
+      "name": {
+        "en": "Xardas' Tower, Chest 06"
+      },
+      "cells": 6,
+      "rules": "A:B-,C+,E-,F+;B:A+;C:B+;D:A+;E:F+;F:C+",
+      "pos": [
+        6,
+        5,
+        6,
+        2,
+        4,
+        0
+      ],
+      "tags": [
+        "Xardas' Tower"
+      ],
+      "img": []
+    }
+  ],
   "translations": {
     "1,0,5,4,3,6|2>3+;2>5-;4>2+;4>5-;5>2-;5>3+;5>6-;6>5+": {
       "byId": {
@@ -12533,6 +13726,5765 @@
             "uk": "Скриня за сходами на 4-му поверсі вежі Ворона. Еліксири та екстракти."
           }
         }
+      }
+    },
+    "6,0,6,3,2|1>3-;2>1+;3>4-;3>5+;4>1+;4>5-;5>1+": {
+      "byId": {
+        "bandit-camp-chest-01": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 01",
+            "de": "Banditenlager, Truhe 01",
+            "uk": "Табір бандитів, скриня 01"
+          }
+        }
+      }
+    },
+    "6,2,6,0,0|1>2-;1>4+;1>5-;2>1+;3>1+;3>2+;4>1+;4>2+;5>2+;5>4-": {
+      "byId": {
+        "bandit-camp-chest-02": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 02",
+            "de": "Banditenlager, Truhe 02",
+            "uk": "Табір бандитів, скриня 02"
+          }
+        }
+      }
+    },
+    "3,5,3,4,0|1>2+;1>3-;2>1+;2>3-;2>4-;2>5-;3>4-;4>1+;4>3-": {
+      "byId": {
+        "bandit-camp-chest-03": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 03",
+            "de": "Banditenlager, Truhe 03",
+            "uk": "Табір бандитів, скриня 03"
+          }
+        }
+      }
+    },
+    "5,0,1,6,5,6|1>2+;1>3+;2>6-;3>4-;3>5+;4>2+;4>6-;5>2-;6>2+;6>4-": {
+      "byId": {
+        "bandit-camp-chest-04": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 04",
+            "de": "Banditenlager, Truhe 04",
+            "uk": "Табір бандитів, скриня 04"
+          }
+        }
+      }
+    },
+    "0,4,6,3|1>2+;1>3+;1>4-;2>1+;3>2-;3>4+": {
+      "byId": {
+        "bandit-camp-chest-05": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 05",
+            "de": "Banditenlager, Truhe 05",
+            "uk": "Табір бандитів, скриня 05"
+          }
+        }
+      }
+    },
+    "6,3,4,6|1>2-;1>3-;1>4-;3>1+;4>3+": {
+      "byId": {
+        "bandit-camp-chest-07": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 07",
+            "de": "Banditenlager, Truhe 07",
+            "uk": "Табір бандитів, скриня 07"
+          }
+        }
+      }
+    },
+    "0,0,1,1,0|1>3+;1>4-;1>5+;2>3-;4>1-;4>3-;5>3+;5>4-": {
+      "byId": {
+        "bandit-camp-chest-08": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 08",
+            "de": "Banditenlager, Truhe 08",
+            "uk": "Табір бандитів, скриня 08"
+          }
+        }
+      }
+    },
+    "4,6,4,0,6|1>2-;1>3-;2>1+;2>4+;3>1+;3>2-;3>4-;3>5-;5>3-": {
+      "byId": {
+        "bandit-camp-chest-09": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 09",
+            "de": "Banditenlager, Truhe 09",
+            "uk": "Табір бандитів, скриня 09"
+          }
+        }
+      }
+    },
+    "0,0,0,5,3|1>2-;1>4+;2>1+;2>4-;3>1-;3>2-;3>4-;3>5-;4>1+;5>1+": {
+      "byId": {
+        "bandit-camp-chest-10": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 10",
+            "de": "Banditenlager, Truhe 10",
+            "uk": "Табір бандитів, скриня 10"
+          }
+        }
+      }
+    },
+    "6,6,0,6,6|1>3-;1>4-;2>3-;2>5-;3>2-;3>4+;4>3-;5>2+": {
+      "byId": {
+        "bandit-camp-chest-11": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 11",
+            "de": "Banditenlager, Truhe 11",
+            "uk": "Табір бандитів, скриня 11"
+          }
+        }
+      }
+    },
+    "3,0,4,0,0,0|2>1-;2>3+;2>5+;2>6-;3>5+;3>6-;6>1+;6>4-": {
+      "byId": {
+        "bandit-camp-chest-12": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 12",
+            "de": "Banditenlager, Truhe 12",
+            "uk": "Табір бандитів, скриня 12"
+          }
+        }
+      }
+    },
+    "3,5,5,6,3|1>2+;1>3+;1>4-;1>5+;2>1+;3>1+;3>4-;3>5-;5>2+": {
+      "byId": {
+        "bandit-camp-chest-13": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 13",
+            "de": "Banditenlager, Truhe 13",
+            "uk": "Табір бандитів, скриня 13"
+          }
+        }
+      }
+    },
+    "1,6,0,2,2,6|1>3-;1>4-;1>5-;2>6-;3>5-;5>6-;6>3+": {
+      "byId": {
+        "bandit-camp-chest-14": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 14",
+            "de": "Banditenlager, Truhe 14",
+            "uk": "Табір бандитів, скриня 14"
+          }
+        }
+      }
+    },
+    "5,4,1,0,1|1>2-;1>3+;1>4+;1>5-;2>3+;2>5+;4>3+;4>5-;5>3+": {
+      "byId": {
+        "bandit-camp-chest-15": {
+          "name": {
+            "ru": "Лагерь бандитов, сундук 15",
+            "de": "Banditenlager, Truhe 15",
+            "uk": "Табір бандитів, скриня 15"
+          }
+        }
+      }
+    },
+    "5,0,4,6|1>4+;4>2+": {
+      "byId": {
+        "exchange-zone-loot-cage-door": {
+          "name": {
+            "ru": "Зона обмена, дверь клетки с добычей",
+            "de": "Tauschzone, Tür des Beutekäfigs",
+            "uk": "Зона обміну, двері клітки зі здобиччю"
+          }
+        }
+      }
+    },
+    "3,2,1,1,0,6|1>2+;1>5-;2>1-;4>1+;4>5+;5>1+;5>6+;6>2+;6>3+;6>4-": {
+      "byId": {
+        "mountain-fortress-chest-04": {
+          "name": {
+            "ru": "Горная крепость, сундук 04",
+            "de": "Bergfestung, Truhe 04",
+            "uk": "Гірська фортеця, скриня 04"
+          }
+        }
+      }
+    },
+    "0,0,6,3,4,3|1>3+;1>4+;1>5+;1>6-;2>3+;2>6+;3>6-;6>5+": {
+      "byId": {
+        "new-camp-cipher-chest": {
+          "name": {
+            "ru": "Новый лагерь, сундук Сайфера",
+            "de": "Neues Lager, Truhe von Cipher",
+            "uk": "Новий табір, скриня Сайфера"
+          }
+        }
+      }
+    },
+    "2,0,1,3|2>1+;2>3-;2>4-;3>2-;4>1+;4>3+": {
+      "byId": {
+        "new-camp-rogue-11-821-chest": {
+          "name": {
+            "ru": "Новый лагерь, сундук разбойника 11 821",
+            "de": "Neues Lager, Truhe des Banditen 11 821",
+            "uk": "Новий табір, скриня розбійника 11 821"
+          }
+        }
+      }
+    },
+    "1,0,3,2,1|1>3-;2>1-;2>3-;3>1-;3>2+;3>4+;3>5-;4>3+": {
+      "byId": {
+        "new-camp-mercenary-07-710-chest": {
+          "name": {
+            "ru": "Новый лагерь, сундук наёмника 07 710",
+            "de": "Neues Lager, Truhe des Söldners 07 710",
+            "uk": "Новий табір, скриня найманця 07 710"
+          }
+        }
+      }
+    },
+    "6,1,0,1,4|1>4+;1>5+;3>2+;3>4-;4>1+;4>2+;4>3+;5>1-;5>2-;5>4-": {
+      "byId": {
+        "new-camp-mercenary-02-703-chest": {
+          "name": {
+            "ru": "Новый лагерь, сундук наёмника 02 703",
+            "de": "Neues Lager, Truhe des Söldners 02 703",
+            "uk": "Новий табір, скриня найманця 02 703"
+          }
+        }
+      }
+    },
+    "6,6,0,1,1|1>4-;2>3+;3>2+;3>4+;4>1-;4>2+;4>3-;4>5-;5>1-": {
+      "byId": {
+        "new-camp-mercenary-03-705-chest": {
+          "name": {
+            "ru": "Новый лагерь, сундук наёмника 03 705",
+            "de": "Neues Lager, Truhe des Söldners 03 705",
+            "uk": "Новий табір, скриня найманця 03 705"
+          }
+        }
+      }
+    },
+    "5,0,4,3,0|1>4+;1>5-;2>1+;2>5+;3>2+;5>4+": {
+      "byId": {
+        "new-camp-mercenary-17-735-chest": {
+          "name": {
+            "ru": "Новый лагерь, сундук наёмника 17 735",
+            "de": "Neues Lager, Truhe des Söldners 17 735",
+            "uk": "Новий табір, скриня найманця 17 735"
+          }
+        }
+      }
+    },
+    "6,1,4,5,0|1>2-;1>3+;2>1+;2>3+;2>5+;3>1-;3>5-;4>2+;5>2+;5>3-": {
+      "byId": {
+        "new-camp-orik-chest": {
+          "name": {
+            "ru": "Новый лагерь, сундук Орика",
+            "de": "Neues Lager, Truhe von Orik",
+            "uk": "Новий табір, скриня Оріка"
+          }
+        }
+      }
+    },
+    "1,3,2,5,0,0|1>3+;1>5+;2>3-;2>6+;4>1-;5>2-;5>4-;6>1-;6>2+": {
+      "byId": {
+        "new-camp-rogue-09-817-chest": {
+          "name": {
+            "ru": "Новый лагерь, сундук разбойника 09 817",
+            "de": "Neues Lager, Truhe des Banditen 09 817",
+            "uk": "Новий табір, скриня розбійника 09 817"
+          }
+        }
+      }
+    },
+    "2,4,2,0,4|2>4+;2>5-;3>1-;3>2+;3>4-;4>3-;4>5-;5>1-": {
+      "byId": {
+        "new-camp-rogue-22-837-chest": {
+          "name": {
+            "ru": "Новый лагерь, сундук разбойника 22 837",
+            "de": "Neues Lager, Truhe des Banditen 22 837",
+            "uk": "Новий табір, скриня розбійника 22 837"
+          }
+        }
+      }
+    },
+    "0,3,3,2,6,0|1>2+;1>3+;1>4-;1>5+;2>1-;2>3-;2>6+;4>1-;4>3+;4>5-": {
+      "byId": {
+        "old-camp-mages-room-01": {
+          "name": {
+            "ru": "Старый лагерь, комната магов 01",
+            "de": "Altes Lager, Zimmer der Magier 01",
+            "uk": "Старий табір, кімната магів 01"
+          }
+        }
+      }
+    },
+    "1,2,2,1,5,0|1>4-;1>6-;2>3+;4>1-;4>2-;4>5-;6>4-": {
+      "byId": {
+        "old-camp-mages-room-02": {
+          "name": {
+            "ru": "Старый лагерь, комната магов 02",
+            "de": "Altes Lager, Zimmer der Magier 02",
+            "uk": "Старий табір, кімната магів 02"
+          }
+        }
+      }
+    },
+    "1,4,6,6,1,5|2>3-;2>5-;4>1+;4>2-;4>5+;5>1-;5>6+;6>3-;6>4-": {
+      "byId": {
+        "old-camp-mages-room-03": {
+          "name": {
+            "ru": "Старый лагерь, комната магов 03",
+            "de": "Altes Lager, Zimmer der Magier 03",
+            "uk": "Старий табір, кімната магів 03"
+          }
+        }
+      }
+    },
+    "6,6,1,6,3|1>2-;1>3-;2>1-;3>4-;4>2+;4>5-;5>1-;5>2-;5>3+;5>4+": {
+      "byId": {
+        "old-camp-armory-01-chest": {
+          "name": {
+            "ru": "Старый лагерь, сундук в оружейной 01",
+            "de": "Altes Lager, Truhe in der Waffenkammer 01",
+            "uk": "Старий табір, скриня у зброярні 01"
+          }
+        }
+      }
+    },
+    "0,2,6,0,2|2>4+;3>1+;3>2-;3>4+;4>1-;4>2-;4>3+;4>5+;5>1+;5>2+": {
+      "byId": {
+        "old-camp-armory-02-chest": {
+          "name": {
+            "ru": "Старый лагерь, сундук в оружейной 02",
+            "de": "Altes Lager, Truhe in der Waffenkammer 02",
+            "uk": "Старий табір, скриня у зброярні 02"
+          }
+        }
+      }
+    },
+    "6,5,1,1,6,6|1>3-;1>5-;2>1+;2>6+;3>2-;4>3-;4>6-;5>4+;6>2-": {
+      "byId": {
+        "old-camp-armory-03-chest": {
+          "name": {
+            "ru": "Старый лагерь, сундук в оружейной 03",
+            "de": "Altes Lager, Truhe in der Waffenkammer 03",
+            "uk": "Старий табір, скриня у зброярні 03"
+          }
+        }
+      }
+    },
+    "0,1,5,3,1|1>4-;1>5-;2>1-;2>3+;2>4-;3>1+;4>1+;4>3+;5>1-;5>3-": {
+      "byId": {
+        "old-camp-corristo-chest": {
+          "name": {
+            "ru": "Старый лагерь, сундук Корристо",
+            "de": "Altes Lager, Truhe von Corristo",
+            "uk": "Старий табір, скриня Коррісто"
+          }
+        }
+      }
+    },
+    "5,6,3,4,0,5|1>3+;2>1-;4>1-;6>1-;6>2-;6>4-;6>5+": {
+      "byId": {
+        "old-camp-damarok-chest": {
+          "name": {
+            "ru": "Старый лагерь, сундук Дамарока",
+            "de": "Altes Lager, Truhe von Damarok",
+            "uk": "Старий табір, скриня Дамарока"
+          }
+        }
+      }
+    },
+    "1,0,6,6|1>2+;2>3+;2>4+;3>1-;3>2+;3>4-": {
+      "byId": {
+        "old-camp-guard-229-chest": {
+          "name": {
+            "ru": "Старый лагерь, сундук стражника 229",
+            "de": "Altes Lager, Truhe des Gardisten 229",
+            "uk": "Старий табір, скриня стражника 229"
+          }
+        }
+      }
+    },
+    "0,6,1,3|1>2+;1>4+;2>1+;3>1-;3>2+;4>1-": {
+      "byId": {
+        "old-camp-guard-242-chest": {
+          "name": {
+            "ru": "Старый лагерь, сундук стражника 242",
+            "de": "Altes Lager, Truhe des Gardisten 242",
+            "uk": "Старий табір, скриня стражника 242"
+          }
+        }
+      }
+    },
+    "1,6,3,6,5|2>3+;3>5-;4>2-;4>3+;4>5-;5>1-": {
+      "byId": {
+        "old-camp-stone-chest": {
+          "name": {
+            "ru": "Старый лагерь, каменный сундук",
+            "de": "Altes Lager, Steintruhe",
+            "uk": "Старий табір, кам'яна скриня"
+          }
+        }
+      }
+    },
+    "3,6,0,6,6,0|1>3+;1>4+;1>6+;3>2-;3>4+;3>6-;4>2+;4>5-;6>2+": {
+      "byId": {
+        "old-camp-chest-01": {
+          "name": {
+            "ru": "Старый лагерь, сундук 01",
+            "de": "Altes Lager, Truhe 01",
+            "uk": "Старий табір, скриня 01"
+          }
+        }
+      }
+    },
+    "6,6,1,4,1|1>3+;1>4+;2>4-;3>2+;4>1-;4>2+;4>5+": {
+      "byId": {
+        "old-camp-chest-02": {
+          "name": {
+            "ru": "Старый лагерь, сундук 02",
+            "de": "Altes Lager, Truhe 02",
+            "uk": "Старий табір, скриня 02"
+          }
+        }
+      }
+    },
+    "5,5,2,3,6|1>2+;2>3-;2>5-;3>4+;4>1-;4>2-;4>3-;4>5+;5>1+": {
+      "byId": {
+        "old-camp-guard-209-chest": {
+          "name": {
+            "ru": "Старый лагерь, сундук стражника 209",
+            "de": "Altes Lager, Truhe des Gardisten 209",
+            "uk": "Старий табір, скриня стражника 209"
+          }
+        }
+      }
+    },
+    "0,0,6,3|1>3+;2>3-;3>1+;3>2+;4>3+": {
+      "byId": {
+        "old-camp-herek-chest": {
+          "name": {
+            "ru": "Старый лагерь, сундук Херека",
+            "de": "Altes Lager, Truhe von Herek",
+            "uk": "Старий табір, скриня Херека"
+          }
+        }
+      }
+    },
+    "6,1,0,0,3,6|2>5-;3>1+;3>2-;4>2-;4>3+;4>6+;5>1+": {
+      "byId": {
+        "old-mine-alberto-01-chest": {
+          "name": {
+            "ru": "Старая шахта, сундук Альберто 01",
+            "de": "Alte Mine, Truhe von Alberto 01",
+            "uk": "Стара шахта, скриня Альберто 01"
+          }
+        }
+      }
+    },
+    "2,4,2,0,3,2|1>3+;2>4+;2>5-;3>6-;4>1-;4>2+;4>6+;5>3+;6>2-": {
+      "byId": {
+        "otown-chest-01": {
+          "name": {
+            "ru": "Otown, сундук 01",
+            "de": "Otown, Truhe 01",
+            "uk": "Otown, скриня 01"
+          }
+        }
+      }
+    },
+    "0,5,6,2,0,4|1>6+;2>3-;2>4+;2>5-;2>6+;3>2-;4>3+;4>5+;5>3+;6>1-": {
+      "byId": {
+        "otown-chest-02": {
+          "name": {
+            "ru": "Otown, сундук 02",
+            "de": "Otown, Truhe 02",
+            "uk": "Otown, скриня 02"
+          }
+        }
+      }
+    },
+    "5,2,4,1,6,6|1>2+;1>3-;1>5+;1>6+;2>1+;2>4+;4>1-;4>5+;5>3+;6>5-": {
+      "byId": {
+        "otown-chest-03": {
+          "name": {
+            "ru": "Otown, сундук 03",
+            "de": "Otown, Truhe 03",
+            "uk": "Otown, скриня 03"
+          }
+        }
+      }
+    },
+    "0,2,5,3,2|1>2-;1>3-;1>4+;1>5-;2>3+;2>5+;3>5+;5>1-;5>2-;5>4+": {
+      "byId": {
+        "ott-chest-05": {
+          "name": {
+            "ru": "OTT, сундук 05",
+            "de": "OTT, Truhe 05",
+            "uk": "OTT, скриня 05"
+          }
+        }
+      }
+    },
+    "0,2,5,3,1|1>3-;1>4-;1>5-;2>4-;3>1+;3>2-;3>4-;3>5+;4>1-;5>4-": {
+      "byId": {
+        "ott-chest-06": {
+          "name": {
+            "ru": "OTT, сундук 06",
+            "de": "OTT, Truhe 06",
+            "uk": "OTT, скриня 06"
+          }
+        }
+      }
+    },
+    "6,0,5,3,5,2|2>1+;2>6-;3>4-;4>2+;5>1+;5>4-;5>6-;6>1+": {
+      "byId": {
+        "ott-chest-09": {
+          "name": {
+            "ru": "OTT, сундук 09",
+            "de": "OTT, Truhe 09",
+            "uk": "OTT, скриня 09"
+          }
+        }
+      }
+    },
+    "0,2,5,6,5,5|2>4+;2>5+;2>6-;3>1-;3>4-;3>5+;4>2+;5>1-;5>3-;5>6-": {
+      "byId": {
+        "snt-chest-04": {
+          "name": {
+            "ru": "SNT, сундук 04",
+            "de": "SNT, Truhe 04",
+            "uk": "SNT, скриня 04"
+          }
+        }
+      }
+    },
+    "6,0,3,0,2,5|2>1-;2>6+;3>1-;3>2-;3>5-;4>6+;5>1-;5>4+;6>3+": {
+      "byId": {
+        "snt-chest-06": {
+          "name": {
+            "ru": "SNT, сундук 06",
+            "de": "SNT, Truhe 06",
+            "uk": "SNT, скриня 06"
+          }
+        }
+      }
+    },
+    "2,4,1,0,5,0|2>5-;3>6-;4>2-;4>5+;5>6+;6>1-;6>4+": {
+      "byId": {
+        "snt-chest-09": {
+          "name": {
+            "ru": "SNT, сундук 09",
+            "de": "SNT, Truhe 09",
+            "uk": "SNT, скриня 09"
+          }
+        }
+      }
+    },
+    "0,2,5,5,6|1>2+;1>4+;3>1+;3>4-;4>3-;5>3-": {
+      "byId": {
+        "sw-chest-02": {
+          "name": {
+            "ru": "SW, сундук 02",
+            "de": "SW, Truhe 02",
+            "uk": "SW, скриня 02"
+          }
+        }
+      }
+    },
+    "1,4,0,5,0|2>1-;3>4-;4>1-;4>2-;5>1-;5>2+;5>3-;5>4-": {
+      "byId": {
+        "sw-chest-03": {
+          "name": {
+            "ru": "SW, сундук 03",
+            "de": "SW, Truhe 03",
+            "uk": "SW, скриня 03"
+          }
+        }
+      }
+    },
+    "3,4,6,3,3|1>2+;2>1+;2>4+;2>5+;5>2+": {
+      "byId": {
+        "tst-forge-01-chest": {
+          "name": {
+            "ru": "TST, сундук в кузнице 01",
+            "de": "TST, Truhe in der Schmiede 01",
+            "uk": "TST, скриня в кузні 01"
+          }
+        }
+      }
+    },
+    "1,6,4,5|2>1+;2>3-;2>4+;3>4-": {
+      "byId": {
+        "tst-lava-stronghold-01-chest": {
+          "name": {
+            "ru": "TST, сундук в лавовой цитадели 01",
+            "de": "TST, Truhe in der Lavafestung 01",
+            "uk": "TST, скриня в лавовій цитаделі 01"
+          }
+        }
+      }
+    },
+    "1,4,4,3|1>3+;2>1+;4>1+;4>3-": {
+      "byId": {
+        "tst-slave-01-chest": {
+          "name": {
+            "ru": "TST, сундук раба 01",
+            "de": "TST, Truhe des Sklaven 01",
+            "uk": "TST, скриня раба 01"
+          }
+        }
+      }
+    },
+    "6,3,5,0,6,4|1>2+;1>6+;3>1-;3>4-;4>5-;6>1+;6>2-;6>3+;6>5+": {
+      "byId": {
+        "tst-winch-room-01-chest": {
+          "name": {
+            "ru": "TST, сундук в комнате с лебёдкой 01",
+            "de": "TST, Truhe im Windenraum 01",
+            "uk": "TST, скриня в кімнаті з лебідкою 01"
+          }
+        }
+      }
+    },
+    "4,6,4,2|2>1+;3>1-;3>4-;4>2-": {
+      "byId": {
+        "tst-winch-room-02-chest": {
+          "name": {
+            "ru": "TST, сундук в комнате с лебёдкой 02",
+            "de": "TST, Truhe im Windenraum 02",
+            "uk": "TST, скриня в кімнаті з лебідкою 02"
+          }
+        }
+      }
+    },
+    "1,5,2,5|1>4-;2>1-;3>2-;3>4-": {
+      "byId": {
+        "tst-winch-room-03-chest": {
+          "name": {
+            "ru": "TST, сундук в комнате с лебёдкой 03",
+            "de": "TST, Truhe im Windenraum 03",
+            "uk": "TST, скриня в кімнаті з лебідкою 03"
+          }
+        }
+      }
+    },
+    "1,6,6,0|1>4+;2>1-;2>3-;2>4-": {
+      "byId": {
+        "tst-sleeper-01-chest": {
+          "name": {
+            "ru": "TST, сундук Спящего 01",
+            "de": "TST, Truhe des Schläfers 01",
+            "uk": "TST, скриня Сплячого 01"
+          }
+        }
+      }
+    },
+    "3,0,0,1,4,1|1>2-;1>4+;1>5+;2>6-;4>5-;5>6+": {
+      "byId": {
+        "tst-sleeper-02-chest": {
+          "name": {
+            "ru": "TST, сундук Спящего 02",
+            "de": "TST, Truhe des Schläfers 02",
+            "uk": "TST, скриня Сплячого 02"
+          }
+        }
+      }
+    },
+    "1,3,3,6,5|2>3-;2>5-;3>2-;3>4+;5>1-;5>4-": {
+      "byId": {
+        "tst-lava-stronghold-02-chest": {
+          "name": {
+            "ru": "TST, сундук в лавовой цитадели 02",
+            "de": "TST, Truhe in der Lavafestung 02",
+            "uk": "TST, скриня в лавовій цитаделі 02"
+          }
+        }
+      }
+    },
+    "6,5,6,2,4,0|1>2-;1>3+;1>5-;1>6+;2>1+;3>2+;4>1+;5>6+;6>3+": {
+      "byId": {
+        "xardas-tower-chest-06": {
+          "name": {
+            "ru": "Башня Ксардаса, сундук 06",
+            "de": "Xardas' Turm, Truhe 06",
+            "uk": "Башта Ксардаса, скриня 06"
+          }
+        }
+      }
+    }
+  },
+  "evidence": {
+    "1,2,3,5,5,6|2>4-;3>2-;3>4-;3>5-;4>5-;5>1+;5>2-;5>4-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard230_Lock",
+        "name": "Guard 230 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,3,4,6,4,4|1>2-;1>3+;3>1+;3>5-;4>2-;4>3-;4>6+;5>4-;5>6+;6>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [
+        "religiosa1"
+      ],
+      "game": {
+        "id": "CV_Stash_Door_Lock",
+        "name": "Stash Door",
+        "place": "CV area"
+      }
+    },
+    "5,1,0,0,4|2>3+;2>5+;3>1-;3>5+;4>3-;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Gravo_Lock",
+        "name": "Gravo Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,0,5,0,4,6|1>6-;3>4-;3>5-;3>6+;4>1+;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger506_Lock",
+        "name": "Digger 506 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "2,6,5,4,6|1>2+;1>3+;1>4+;1>5+;2>4+;2>5+;3>2-;4>1+;4>3+;4>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger554_Lock",
+        "name": "Digger 554 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,0,5,4,3,6|2>3+;2>5-;4>2+;4>5-;5>2-;5>3+;5>6-;6>5+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Diego_Lock",
+        "name": "Diego Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,3,6,4,2|1>4-;3>1+;4>1-;4>2+;4>3-;5>2-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger527_Lock",
+        "name": "Digger 527 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "2,1,1,5,6,6|1>5+;2>5-;2>6+;3>5+;3>6-;4>2+;4>5-;5>2-;6>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_CorAngar_Lock",
+        "name": "Cor Angar Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "0,0,4,3,0,2|2>4-;2>5-;3>4-;4>1+;5>6+;6>1+;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_Nyras_Lock",
+        "name": "Nyras Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "6,1,1,5,0,2|1>5+;3>1+;3>5-;3>6+;4>5+;5>2-;6>2+;6>4-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Graham_Lock",
+        "name": "Graham Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,1,1,5,0,2|1>5+;3>1+;3>5-;3>6+;4>5+;6>2+;6>4-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "6,1,1,5,0,2|1>5+;3>1+;3>5-;3>6+;4>5+;5>2-;6>2+;6>4-"
+    },
+    "5,4,4,6,0,3|1>3+;3>2-;3>5-;4>1-;4>3+;5>2-;5>4+": {
+      "conf": 1,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [
+        "uml"
+      ],
+      "game": {
+        "id": "SC_Chest_CorKalom_03_Lock",
+        "name": "Cor Kalom 03 Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "4,5,0,2,1,0|1>4-;2>1-;2>4+;2>6-;3>6-;4>2+;4>6+;5>2+;5>6-;6>4+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "religiosa1"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Bettingowner_Lock",
+        "name": "Bettingowner Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,2,1,0,6|1>4+;2>5+;3>5-;4>2+;4>3-;4>5-": {
+      "conf": 7,
+      "agree": [
+        "dsazz",
+        "uml",
+        "religiosa1"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Scorpio_Lock",
+        "name": "Scorpio Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,5,0,0,5|1>3-;1>4+;2>3+;3>1-;3>2+;4>1-;4>2-;5>2-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Santino_Lock",
+        "name": "Santino",
+        "place": "Old Camp"
+      }
+    },
+    "0,5,0,0,5|1>3-;1>4+;2>3+;3>1-;3>2+;4>1-;4>2-;5>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,5,0,0,5|1>3-;1>4+;2>3+;3>1-;3>2+;4>1-;4>2-;5>2-;5>4+"
+    },
+    "0,5,0,0,5|1>3-;1>4+;2>3+;3>1-;3>2+;4>2-;5>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,5,0,0,5|1>3-;1>4+;2>3+;3>1-;3>2+;4>1-;4>2-;5>2-;5>4+"
+    },
+    "3,1,5,0,4|1>4-;2>1-;3>1+;3>2-;3>4+;4>2+;4>5-;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Jesse_Lock",
+        "name": "Jesse Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,3,2,0,4|1>4-;2>1-;3>1+;3>2-;3>4+;4>2+;4>5-;5>1-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "3,1,5,0,4|1>4-;2>1-;3>1+;3>2-;3>4+;4>2+;4>5-;5>1-"
+    },
+    "5,0,3,5,0,0|1>2+;2>6+;3>4-;4>2-;5>3-;6>1-;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_BaalParvez_Lock",
+        "name": "Baal Parvez Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,0,4,2,1|1>5-;2>1+;2>4-;3>4-;4>1+;4>2-;4>5-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Dusty_Lock",
+        "name": "Dusty Chest",
+        "place": "Old Camp"
+      }
+    },
+    "2,6,6,3,0|1>4-;1>5+;2>1-;2>3+;2>5+;4>5-;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FME_Chest_EmptyHut_02_Lock",
+        "name": "Empty Hut 02 Chest",
+        "place": "Free Mine"
+      }
+    },
+    "6,6,5,0|1>4+;2>1+;2>4+;3>1+;3>2-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_CorKalom_01_Lock",
+        "name": "Cor Kalom 01 Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "4,5,1,1,0,0|2>3-;2>4+;2>5+;3>4+;5>1-;5>2+;5>3-;5>6-;6>1-;6>2+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BT_Tower_Door_Lock",
+        "name": "Tower Door",
+        "place": "Old Mine"
+      }
+    },
+    "4,5,1,1,0,0|2>3-;2>5+;3>4+;5>1-;5>2+;5>3-;5>6-;6>1-;6>2+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "4,5,1,1,0,0|2>3-;2>4+;2>5+;3>4+;5>1-;5>2+;5>3-;5>6-;6>1-;6>2+"
+    },
+    "4,5,1,1,0,0|2>3-;2>4+;2>5+;3>4-;5>1-;5>2+;5>3-;5>6-;6>1-;6>2+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "4,5,1,1,0,0|2>3-;2>4+;2>5+;3>4+;5>1-;5>2+;5>3-;5>6-;6>1-;6>2+"
+    },
+    "4,5,1,1,0,0|2>3-;2>5+;3>4+;5>2+;5>3-;5>6-;6>1-;6>2+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "4,5,1,1,0,0|2>3-;2>4+;2>5+;3>4+;5>1-;5>2+;5>3-;5>6-;6>1-;6>2+"
+    },
+    "0,5,0,4,4,5|1>6+;2>3-;2>4+;4>3+;4>6+;5>1+;5>4-;6>1+;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Fingers_Lock",
+        "name": "Fingers Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,5,0,5,4,6|1>6+;2>3-;2>4+;4>3+;4>6+;5>1+;5>4-;6>1+;6>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,5,0,4,4,5|1>6+;2>3-;2>4+;4>3+;4>6+;5>1+;5>4-;6>1+;6>2-"
+    },
+    "0,5,0,4,4,5|1>6+;2>3-;2>4+;4>6+;5>1+;5>4-;6>1+;6>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,5,0,4,4,5|1>6+;2>3-;2>4+;4>3+;4>6+;5>1+;5>4-;6>1+;6>2-"
+    },
+    "0,5,0,4,4,5|1>6+;2>4+;4>6+;5>1+;5>4-;6>1+;6>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,5,0,4,4,5|1>6+;2>3-;2>4+;4>3+;4>6+;5>1+;5>4-;6>1+;6>2-"
+    },
+    "3,3,5,2,6|1>3+;2>3-;2>4-;2>5-;3>1-;3>2-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger557_Lock",
+        "name": "Digger 557 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,3,6,6,6|1>2-;1>3-;1>5-;2>1-;3>2-;4>1+;4>2+;4>3+;5>2-;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow304_Lock",
+        "name": "Shadow 304 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,2,0,3|1>3-;1>4+;2>1+;3>1-;3>2+;3>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger555_Lock",
+        "name": "Digger 555 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,2,6,1,4|1>2-;1>3-;2>1+;2>4-;3>1-;3>2+;3>4+;4>1-;4>5+;5>3-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Cellar_Lock",
+        "name": "Cellar Chest",
+        "place": "New Camp"
+      }
+    },
+    "3,2,6,1,4|1>3-;2>1+;2>4-;3>1-;3>2+;3>4+;4>1-;4>5+;5>3-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "3,2,6,1,4|1>2-;1>3-;2>1+;2>4-;3>1-;3>2+;3>4+;4>1-;4>5+;5>3-"
+    },
+    "1,3,3,5,1,6|1>2+;1>6+;2>3+;2>6-;3>4+;5>3+;5>6+;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Distillery_Lock",
+        "name": "Distillery Chest",
+        "place": "New Camp"
+      }
+    },
+    "1,3,3,5,1,6|1>2+;1>6+;2>3+;2>6-;3>4+;5>3+;5>6+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "1,3,3,5,1,6|1>2+;1>6+;2>3+;2>6-;3>4+;5>3+;5>6+;6>3-"
+    },
+    "1,3,4,5,1,6|1>2+;1>6+;2>3+;2>6-;3>4+;5>3+;5>6+;6>3-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "1,3,3,5,1,6|1>2+;1>6+;2>3+;2>6-;3>4+;5>3+;5>6+;6>3-"
+    },
+    "0,4,0,6,1,5|1>3-;2>3+;2>4-;4>3+;4>5-;5>6-;6>2-;6>5+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_Blacksmith_Lock",
+        "name": "Blacksmith Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "2,0,6,5,1|1>4-;1>5+;3>1-;3>2+;3>4-;4>2+;5>2+;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Ricelord_Lock",
+        "name": "Ricelord Chest",
+        "place": "New Camp"
+      }
+    },
+    "2,0,6,5,1|1>4-;1>5+;3>1-;3>2+;3>4-;5>2+;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "2,0,6,5,1|1>4-;1>5+;3>1-;3>2+;3>4-;4>2+;5>2+;5>4+"
+    },
+    "3,3,0,2,3,4|1>2-;2>3-;2>4-;2>6-;3>5-;4>1-;4>2+;5>2-;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_GateInterior_02_Lock",
+        "name": "Gate Interior 02 Chest",
+        "place": "New Camp"
+      }
+    },
+    "3,3,0,2,3,6|1>2-;2>3-;2>4-;2>6-;3>5-;4>1-;4>2+;5>2-;5>3+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "3,3,0,2,3,4|1>2-;2>3-;2>4-;2>6-;3>5-;4>1-;4>2+;5>2-;5>3+"
+    },
+    "6,1,5,6,6,4|1>2+;2>4-;3>2+;5>1-;6>1-;6>4-;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_GateInterior_01_Lock",
+        "name": "Gate Interior 01 Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,1,5,6,6,4|2>4-;3>2+;6>1-;6>4-;6>5-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,1,5,6,6,4|1>2+;2>4-;3>2+;5>1-;6>1-;6>4-;6>5-"
+    },
+    "6,5,5,0,1,0|1>4-;2>1-;2>3-;2>5+;2>6+;3>6-;4>3-;4>6-;5>1-;6>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Fisk_07_Lock",
+        "name": "Fisk 07 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,5,5,0,1,0|1>4-;2>1-;2>3-;2>6+;3>6-;4>3-;4>6-;5>1-;6>1-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,5,5,0,1,0|1>4-;2>1-;2>3-;2>5+;2>6+;3>6-;4>3-;4>6-;5>1-;6>1-"
+    },
+    "5,6,4,5,2|2>1-;3>2-;4>1-;4>2-;4>3-;4>5+;5>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FME_Chest_Swiney_Lock",
+        "name": "Swiney Chest",
+        "place": "Free Mine"
+      }
+    },
+    "4,4,5,1,6,6|2>3+;2>6-;3>2-;3>5+;3>6-;4>1+;4>3-;5>1-;5>6-;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Cave_Tavern_Door_Lock_02",
+        "name": "Cave Tavern Door Lock 02",
+        "place": "New Camp"
+      }
+    },
+    "4,4,5,1,6,6|2>3+;2>6-;3>5+;3>6-;4>1+;4>3-;5>1-;5>6-;6>3-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "4,4,5,1,6,6|2>3+;2>6-;3>2-;3>5+;3>6-;4>1+;4>3-;5>1-;5>6-;6>3-"
+    },
+    "5,2,4,0,1|1>2+;2>3-;2>4-;4>1-;4>2-;4>3-;4>5-;5>1+;5>2-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SW_Captain_Ship_Door_Lock",
+        "name": "Captain Ship Door",
+        "place": "SW"
+      }
+    },
+    "5,2,4,0,1|1>2+;2>4-;4>2-;4>3-;4>5-;5>1+;5>2-;5>3-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "5,2,4,0,1|1>2+;2>3-;2>4-;4>1-;4>2-;4>3-;4>5-;5>1+;5>2-;5>3-"
+    },
+    "5,2,4,0,1|1>2+;2>3-;2>4-;4>2-;4>3-;4>5-;5>1+;5>2-;5>3-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "5,2,4,0,1|1>2+;2>3-;2>4-;4>1-;4>2-;4>3-;4>5-;5>1+;5>2-;5>3-"
+    },
+    "2,6,1,5,4|1>2-;1>3-;1>4-;1>5-;2>1-;3>1-;3>2-;4>3+;5>1+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_RiceLord_Room_Lock_01",
+        "name": "Rice Lord Room Lock 01",
+        "place": "New Camp"
+      }
+    },
+    "2,6,1,5,4|1>2-;1>3-;1>4-;1>5-;2>1-;3>1-;4>3+;5>1+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "2,6,1,5,4|1>2-;1>3-;1>4-;1>5-;2>1-;3>1-;3>2-;4>3+;5>1+"
+    },
+    "6,0,5,4,1,0|1>2-;1>3-;1>6+;4>1-;4>6+;5>4+;5>6-;6>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SW_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "SW"
+      }
+    },
+    "6,0,5,4,1,0|1>2-;1>3-;1>6+;4>1-;4>6+;5>6-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,0,5,4,1,0|1>2-;1>3-;1>6+;4>1-;4>6+;5>4+;5>6-;6>2+"
+    },
+    "6,0,5,4,1,0|1>2-;1>3-;1>6+;4>1-;4>6+;5>6-;6>2+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,0,5,4,1,0|1>2-;1>3-;1>6+;4>1-;4>6+;5>4+;5>6-;6>2+"
+    },
+    "5,1,6,6,0,5|1>2+;1>6-;2>3-;4>1-;4>3-;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Sly_Lock",
+        "name": "Sly Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,0,1,3,0|1>5-;3>2+;3>5-;4>2+;5>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger526_Lock",
+        "name": "Digger 526 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,0,1,3,0|1>5-;3>2+;3>5-;4>2-;5>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,0,1,3,0|1>5-;3>2+;3>5-;4>2+;5>2-"
+    },
+    "4,3,3,0,6,2|3>1-;3>2+;4>2+;4>3-;4>6+;5>2-;6>2+;6>3-;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger575_Lock",
+        "name": "Digger 575 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,2,3,0,4,2|1>2-;2>4-;3>4-;4>3+;5>4+;5>6+;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger535_Lock",
+        "name": "Digger 535 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,2,3,0,4,2|1>2-;3>4-;4>3+;5>4+;5>6+;6>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,2,3,0,4,2|1>2-;2>4-;3>4-;4>3+;5>4+;5>6+;6>2-"
+    },
+    "6,1,6,0,0,6|1>2+;1>5-;2>1-;2>3-;2>4+;2>5-;2>6-;4>2-;5>2-;6>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Fisk_Storage_Door_Lock",
+        "name": "Fisk Storage Door",
+        "place": "Old Camp"
+      }
+    },
+    "6,1,6,0,0,6|1>2+;1>5-;2>3-;2>4+;2>6-;4>2-;5>2-;6>1-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,1,6,0,0,6|1>2+;1>5-;2>1-;2>3-;2>4+;2>5-;2>6-;4>2-;5>2-;6>1-"
+    },
+    "4,2,1,6,2|1>3+;1>5-;2>1-;2>5-;3>1+;3>4+;3>5+;4>2+;4>5-;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Sunken_01_Lock",
+        "name": "Sunken 01 Chest",
+        "place": "New Camp"
+      }
+    },
+    "4,2,1,6,2|1>3+;2>1-;2>5-;3>1+;3>4+;3>5+;4>2+;4>5-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "4,2,1,6,2|1>3+;1>5-;2>1-;2>5-;3>1+;3>4+;3>5+;4>2+;4>5-;5>1-"
+    },
+    "6,5,6,4,2|1>3-;1>4-;1>5-;2>3-;3>1-;4>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_BaalCadar_Lock",
+        "name": "Baal Cadar Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "3,3,4,6,5|1>4+;1>5+;2>4+;2>5-;3>4-;4>3-;4>5+;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue05_810_Lock",
+        "name": "Rogue 05 810 Chest",
+        "place": "New Camp"
+      }
+    },
+    "1,2,0,0,4|1>2-;1>4+;1>5-;2>3-;2>5+;3>1+;3>5+;4>3-;4>5-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "religiosa1"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "IWML_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "IWML"
+      }
+    },
+    "6,3,5,2,6,4|1>2-;1>3+;1>4-;1>5-;2>6+;5>3-;5>4-;5>6+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Lares_Lock",
+        "name": "Lares Chest",
+        "place": "New Camp"
+      }
+    },
+    "5,3,2,6,1|1>4-;1>5-;4>2-;4>3+;4>5-;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Sunken_02_Lock",
+        "name": "Sunken 02 Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,5,4,6,4|1>3-;2>1-;2>3-;2>5+;3>2-;3>5+;4>5+;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Mercenary06_708_Lock",
+        "name": "Mercenary 06 708 Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,2,1,5,1,5|1>2-;1>3-;1>4-;1>5-;1>6-;3>6-;4>5+;4>6-;5>4+;6>4-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Cellar_Door_Lock",
+        "name": "Cellar Door",
+        "place": "Old Camp"
+      }
+    },
+    "6,2,1,5,1,5|1>2-;1>3-;1>5-;1>6-;3>6-;4>5+;4>6-;5>4+;6>4-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "6,2,1,5,1,5|1>2-;1>3-;1>4-;1>5-;1>6-;3>6-;4>5+;4>6-;5>4+;6>4-"
+    },
+    "6,2,1,5,1,5|1>2-;1>3-;1>5-;3>6-;4>5+;4>6-;5>6+;6>4-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "6,2,1,5,1,5|1>2-;1>3-;1>4-;1>5-;1>6-;3>6-;4>5+;4>6-;5>4+;6>4-"
+    },
+    "6,2,1,5,1,5|1>2-;1>3-;1>5-;3>6-;4>5+;4>6-;5>4+;6>4-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "6,2,1,5,1,5|1>2-;1>3-;1>4-;1>5-;1>6-;3>6-;4>5+;4>6-;5>4+;6>4-"
+    },
+    "0,3,5,2,6|1>2-;1>3-;1>5-;2>1-;3>1-;3>2-;3>4+;3>5-;4>1+;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger504_Lock",
+        "name": "Digger 504 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,0,1,1,4|1>4-;1>5+;2>1+;2>3-;2>5-;3>1+;3>2-;4>1+;4>2-;5>4-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Cellar_Lock_02",
+        "name": "Cellar Lock 02",
+        "place": "Old Camp"
+      }
+    },
+    "6,0,1,1,4|1>5+;2>1+;2>3-;2>5-;3>2-;4>1+;4>2-;5>4-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "6,0,1,1,4|1>4-;1>5+;2>1+;2>3-;2>5-;3>1+;3>2-;4>1+;4>2-;5>4-"
+    },
+    "0,5,1,2,2|1>3-;2>1-;2>3+;2>5+;3>1+;3>2+;3>4+;5>3-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OM_Chest_Ulbert_01_Lock",
+        "name": "Ulbert 01 Chest",
+        "place": "Old Mine"
+      }
+    },
+    "0,5,1,2,2|1>3-;2>1-;2>3+;3>1+;3>2+;3>4+;5>3-;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,5,1,2,2|1>3-;2>1-;2>3+;2>5+;3>1+;3>2+;3>4+;5>3-;5>4+"
+    },
+    "2,2,1,5,0|1>3-;2>1-;2>3+;2>5+;3>1+;3>2+;3>4+;5>3-;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,5,1,2,2|1>3-;2>1-;2>3+;2>5+;3>1+;3>2+;3>4+;5>3-;5>4+"
+    },
+    "0,5,1,2,3|1>3-;2>1-;2>3+;2>5+;3>1+;3>2+;3>4+;5>3-;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,5,1,2,2|1>3-;2>1-;2>3+;2>5+;3>1+;3>2+;3>4+;5>3-;5>4+"
+    },
+    "4,3,2,0,1,1|1>5-;2>5+;4>1-;4>3+;4>5-;4>6+;5>1-;5>2+;5>3-;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Wedge_Lock",
+        "name": "Wedge Chest",
+        "place": "New Camp"
+      }
+    },
+    "4,3,2,0,1,1|1>5-;2>5+;4>1-;4>3+;4>6+;5>1-;5>2+;5>3-;6>5-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "4,3,2,0,1,1|1>5-;2>5+;4>1-;4>3+;4>5-;4>6+;5>1-;5>2+;5>3-;6>5-"
+    },
+    "0,0,3,2,4,0|1>2-;1>3-;1>4+;1>6-;3>4-;4>1-;4>2+;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger505_Lock",
+        "name": "Digger 505 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,5,1,5,3,1|1>2+;1>5-;2>1-;2>4-;2>6+;4>2-;4>5-;4>6+;5>3+;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OM_Chest_Ulbert_02_Lock",
+        "name": "Ulbert 02 Chest",
+        "place": "Old Mine"
+      }
+    },
+    "1,3,5,1,5,6|1>2+;1>5-;2>1-;2>4-;2>6+;4>2-;4>5-;4>6+;5>3+;6>5+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,5,1,5,3,1|1>2+;1>5-;2>1-;2>4-;2>6+;4>2-;4>5-;4>6+;5>3+;6>5+"
+    },
+    "3,0,5,5,6,6,5|1>3+;1>4+;2>1-;2>5-;2>7+;4>2-;5>4-;6>2-;7>1+;7>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow306_Lock",
+        "name": "Shadow 306 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,0,5,5,6,6,5|1>3+;1>4+;2>1-;2>5-;2>7+;5>4-;6>2-;7>1+;7>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "3,0,5,5,6,6,5|1>3+;1>4+;2>1-;2>5-;2>7+;4>2-;5>4-;6>2-;7>1+;7>2-"
+    },
+    "0,0,6,0,0|2>5+;3>2+;3>4-;4>5+;5>1-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OM_Chest_Santino_02_Lock",
+        "name": "Santino 02 Chest",
+        "place": "Old Mine"
+      }
+    },
+    "1,4,6,6|1>2+;1>4+;2>1+;2>3+;3>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SW_Chest_07_Lock",
+        "name": "Chest 07",
+        "place": "SW"
+      }
+    },
+    "1,4,6,6|1>2+;1>4+;2>3+;3>1+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "1,4,6,6|1>2+;1>4+;2>1+;2>3+;3>1+"
+    },
+    "2,0,6,3,2,1|1>2-;2>5+;3>4-;3>5-;3>6+;6>2-": {
+      "conf": 1,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [
+        "religiosa1"
+      ],
+      "game": {
+        "id": "BT_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Old Mine"
+      }
+    },
+    "2,0,6,3,2,1|1>2-;2>5+;3>4-;3>5-;6>2-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "religiosa1"
+      ],
+      "doubt": true,
+      "better": "2,0,6,3,2,1|1>2-;2>5+;3>4-;3>5-;3>6+;6>2-"
+    },
+    "2,0,6,3,2,1|1>2+;2>5+;3>4-;3>5-;3>6+;6>2-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "religiosa1"
+      ],
+      "doubt": true,
+      "better": "2,0,6,3,2,1|1>2-;2>5+;3>4-;3>5-;3>6+;6>2-"
+    },
+    "2,6,3,6,6,3|1>3+;1>5+;2>1-;2>3-;2>5-;2>6+;4>2-;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Huno_Lock",
+        "name": "Huno Chest",
+        "place": "Old Camp"
+      }
+    },
+    "2,2,3,1,2,6,0|3>2-;3>6+;5>2-;6>3-;6>5+;7>1-;7>4-;7>6+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Kirgo_Lock",
+        "name": "Kirgo Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,2,0,0,2|1>2+;1>3-;1>5-;2>4-;5>3+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Mud_Lock",
+        "name": "Mud Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,1,0,4,1,0|1>2-;1>5-;2>1+;3>1-;3>5-;4>5-;4>6+;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Mordrag_Lock",
+        "name": "Mordrag Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,1,0,4,1,0|1>2-;2>1+;3>1-;3>5-;4>5-;4>6+;5>2+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,1,0,4,1,0|1>2-;1>5-;2>1+;3>1-;3>5-;4>5-;4>6+;5>2+"
+    },
+    "6,0,1,6,0,6|1>5-;2>1-;2>3+;2>4+;3>6+;4>1+;4>3-;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Fisk_Hut_Door_Lock",
+        "name": "Fisk Hut Door",
+        "place": "Old Camp"
+      }
+    },
+    "6,0,1,6,0,6|1>5-;2>1-;2>3+;2>4+;3>6+;4>3-;5>3+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,0,1,6,0,6|1>5-;2>1-;2>3+;2>4+;3>6+;4>1+;4>3-;5>3+"
+    },
+    "0,3,4,1,0,3|1>3+;1>5-;2>3-;2>4-;3>4+;3>6+;4>1-;4>3-;4>6+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "CV_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "CV area"
+      }
+    },
+    "1,0,4,3,2,0|1>4-;2>1-;2>3+;2>4-;2>5-;2>6+;3>2+;3>6+;4>6-;5>2-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Gomez_Room_Lock",
+        "name": "Gomez Room",
+        "place": "Old Camp"
+      }
+    },
+    "1,0,4,3,2,0|1>4-;2>3+;2>4-;2>5-;2>6+;3>2+;3>6+;4>6-;5>2-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "1,0,4,3,2,0|1>4-;2>1-;2>3+;2>4-;2>5-;2>6+;3>2+;3>6+;4>6-;5>2-"
+    },
+    "1,0,4,3,2,0|1>4-;2>3+;2>4-;2>5-;3>2+;3>6+;4>6-;5>2-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "1,0,4,3,2,0|1>4-;2>1-;2>3+;2>4-;2>5-;2>6+;3>2+;3>6+;4>6-;5>2-"
+    },
+    "1,0,4,3,2,0|1>4-;2>3+;2>4-;2>5-;3>2+;3>6+;4>6+;5>2-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "1,0,4,3,2,0|1>4-;2>1-;2>3+;2>4-;2>5-;2>6+;3>2+;3>6+;4>6-;5>2-"
+    },
+    "0,0,6,6|1>2-;1>3+;1>4-;2>1+;3>4-;4>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Dexter_Lock",
+        "name": "Dexter Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,5,6,4,3,0|2>1-;2>6-;3>1-;4>3-;5>1-;5>2-;5>6-;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger528_Lock",
+        "name": "Digger 528 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,1,0,0,0,1|2>1-;2>5-;2>6-;3>1-;4>1+;4>6-;6>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "CV_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "CV area"
+      }
+    },
+    "4,1,0,0,0,1|2>1-;2>6-;3>1-;4>1+;4>6-;6>1+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "4,1,0,0,0,1|2>1-;2>5-;2>6-;3>1-;4>1+;4>6-;6>1+"
+    },
+    "0,1,6,6,5,4|1>2-;1>3-;1>5-;2>4+;2>6+;3>2+;3>6-;5>1-;6>3+;6>5+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Orebaron_Room_01_Lock",
+        "name": "Ore Baron Room 01",
+        "place": "Old Camp"
+      }
+    },
+    "0,1,6,6,5,4|1>3-;1>5-;2>4+;2>6+;3>2+;3>6-;5>1-;6>3+;6>5+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "0,1,6,6,5,4|1>2-;1>3-;1>5-;2>4+;2>6+;3>2+;3>6-;5>1-;6>3+;6>5+"
+    },
+    "0,1,6,6,5,4|1>3-;1>5-;2>4+;2>6+;3>2+;3>6-;5>1-;6>5+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "0,1,6,6,5,4|1>2-;1>3-;1>5-;2>4+;2>6+;3>2+;3>6-;5>1-;6>3+;6>5+"
+    },
+    "6,1,4,4,0,5|1>2+;2>4-;2>5-;4>3-;4>5-;5>3-;5>6-;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OCS_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "OCS"
+      }
+    },
+    "3,4,5,4,0|1>4-;2>1+;2>3-;2>5-;3>1-;3>2+;4>3-;4>5-;5>1+;5>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FM_Chest_Digginggallery_02_Lock",
+        "name": "Digging Gallery 02 Chest",
+        "place": "Free Mine"
+      }
+    },
+    "3,4,5,4,0|1>4-;2>1+;2>3-;2>5-;3>1-;4>3-;4>5-;5>1+;5>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "3,4,5,4,0|1>4-;2>1+;2>3-;2>5-;3>1-;3>2+;4>3-;4>5-;5>1+;5>2-"
+    },
+    "3,4,5,4,0|1>4-;2>1+;2>3-;2>5-;4>3-;4>5-;5>1+;5>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "3,4,5,4,0|1>4-;2>1+;2>3-;2>5-;3>1-;3>2+;4>3-;4>5-;5>1+;5>2-"
+    },
+    "4,0,6,6,5,3|1>5+;1>6-;2>6+;3>1-;4>1-;5>6-;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "EF_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "Forbidden area"
+      }
+    },
+    "4,0,6,6,5,3|1>5+;2>6+;3>1-;4>1-;5>6-;6>3-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "4,0,6,6,5,3|1>5+;1>6-;2>6+;3>1-;4>1-;5>6-;6>3-"
+    },
+    "4,1,0,6,0,0|1>2-;2>1+;2>6+;3>2+;4>1-;4>2+;4>6+;5>1+;5>2+;5>4+;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "EF_Chest_05_Lock",
+        "name": "Chest 05",
+        "place": "Forbidden area"
+      }
+    },
+    "5,2,1,6,1,1|1>2-;2>1+;2>6+;3>2+;4>1-;4>2+;4>6+;5>1+;5>2+;5>4+;6>3-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "4,1,0,6,0,0|1>2-;2>1+;2>6+;3>2+;4>1-;4>2+;4>6+;5>1+;5>2+;5>4+;6>3-"
+    },
+    "4,1,0,6,0,0|1>2-;2>1+;2>6+;3>2+;4>1-;4>2+;4>6+;5>1+;5>2+;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "4,1,0,6,0,0|1>2-;2>1+;2>6+;3>2+;4>1-;4>2+;4>6+;5>1+;5>2+;5>4+;6>3-"
+    },
+    "4,1,0,6,0,0|1>2-;2>1+;2>6+;3>2+;4>2+;4>6+;5>1+;5>2+;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "4,1,0,6,0,0|1>2-;2>1+;2>6+;3>2+;4>1-;4>2+;4>6+;5>1+;5>2+;5>4+;6>3-"
+    },
+    "6,6,2,4,4|1>4+;2>5-;3>1+;3>5+;4>1-;4>2+;4>3+;5>1-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FME_Chest_Mercenary13_765_02_Lock",
+        "name": "Mercenary 13 765 02 Chest",
+        "place": "Free Mine"
+      }
+    },
+    "1,0,6,6|1>2-;1>3-;3>2+;4>1+;4>2-;4>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FME_Chest_Mercenary13_765_01_Lock",
+        "name": "Mercenary 13 765 01 Chest",
+        "place": "Free Mine"
+      }
+    },
+    "6,3,0,3,0,6|2>1-;2>4-;2>5+;4>1+;4>2+;5>1+;5>4+;6>1-;6>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true
+    },
+    "6,0,6,5,5|1>3-;1>4+;2>1-;4>1-;5>1-;5>2+;5>3+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FME_Chest_EmptyHut_05_Lock",
+        "name": "Empty Hut 05 Chest",
+        "place": "Free Mine"
+      }
+    },
+    "6,0,6,5,4,0|1>2-;1>5-;2>3-;2>5-;3>4-;3>5+;5>2-;5>6+;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FME_Chest_ControlAccess_Lock",
+        "name": "Control Access Chest",
+        "place": "Free Mine"
+      }
+    },
+    "0,2,2,6,4|2>5-;3>2-;4>2+;4>3-;4>5+;5>1-;5>3-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Wolf_Lock",
+        "name": "Wolf Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,2,0,0,0|1>2+;1>3-;2>1-;2>3-;2>4-;2>5-;4>3+;4>5-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Cave_Tavern_Door_Lock",
+        "name": "Cave Tavern Door",
+        "place": "New Camp"
+      }
+    },
+    "2,1,5,6,6|1>2-;1>3+;1>5-;2>3-;2>4+;4>1-;4>5-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Jeremiah_Lock",
+        "name": "Jeremiah Chest",
+        "place": "New Camp"
+      }
+    },
+    "3,3,4,3,6,6|1>2-;1>5-;2>3+;3>1-;4>1-;4>5-;5>4-;6>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Silas_Lock",
+        "name": "Silas Chest",
+        "place": "New Camp"
+      }
+    },
+    "5,4,0,6,6|1>3+;1>4-;2>1-;2>3-;2>5-;3>4-;4>2-;4>3+;4>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Snaf_01_Lock",
+        "name": "Snaf 01 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,4,5,5,5,4|1>6-;3>1+;3>2-;3>4+;4>3-;5>6+;6>2+;6>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OM_Chest_Aaron_Lock",
+        "name": "Aaron Chest",
+        "place": "Old Mine"
+      }
+    },
+    "0,4,5,5,5,4|1>6-;3>2-;3>4+;4>3-;5>6+;6>2+;6>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,4,5,5,5,4|1>6-;3>1+;3>2-;3>4+;4>3-;5>6+;6>2+;6>4+"
+    },
+    "0,4,6,6,2,2|1>3+;1>5-;2>4-;3>6-;5>4+;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Snaf_02_Lock",
+        "name": "Snaf 02 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,6,6,3,3,5|1>3-;1>4+;1>6+;2>3-;4>1+;4>3+;4>5-;5>3+;6>1-;6>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_LootCave_Door_Lock",
+        "name": "Loot Cave Door",
+        "place": "Bandit Camp"
+      }
+    },
+    "4,2,5,6,1,6|1>3+;1>6-;3>1+;3>4-;3>6+;4>2+;4>5+;4>6-;6>3-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "religiosa1"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BT_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "Old Mine"
+      }
+    },
+    "4,2,5,6,1,6|1>3+;1>6-;3>1+;3>6+;4>2+;4>5+;4>6-;6>3-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "religiosa1"
+      ],
+      "doubt": true,
+      "better": "4,2,5,6,1,6|1>3+;1>6-;3>1+;3>4-;3>6+;4>2+;4>5+;4>6-;6>3-"
+    },
+    "0,3,6,2,4,2|1>4-;2>1+;2>5-;3>6+;4>1-;4>2-;4>5-;5>3-;5>4-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_LootCave_Door_Lock_02",
+        "name": "Loot Cave Door Lock 02",
+        "place": "Bandit Camp"
+      }
+    },
+    "6,0,6,3,2,1|2>1+;2>4+;2>5+;2>6-;5>1-;5>4+;6>1+;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_RiceLord_Room_Lock_02",
+        "name": "Rice Lord Room Lock 02",
+        "place": "New Camp"
+      }
+    },
+    "2,2,4,6,0,1|1>5-;1>6+;3>5+;4>2+;4>3-;4>5-;4>6-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_18_Lock",
+        "name": "Chest 18",
+        "place": "Bandit Camp"
+      }
+    },
+    "2,2,4,6,0,1|1>5-;1>6+;3>5+;4>2+;4>5-;4>6-;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "2,2,4,6,0,1|1>5-;1>6+;3>5+;4>2+;4>3-;4>5-;4>6-;5>4+"
+    },
+    "0,0,2,0,6|1>2-;2>3+;2>5+;3>2+;4>2-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Kharim_Lock",
+        "name": "Kharim Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,3,4,0,1|1>2-;1>4-;1>5-;2>1+;2>4+;4>3+;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_GorHanis_Lock",
+        "name": "Gor Hanis Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,2,6,5,4|1>4-;2>4-;3>1+;3>5-;4>5+;5>1+;5>2+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OM_Chest_Alberto_03_Lock",
+        "name": "Alberto 03 Chest",
+        "place": "Old Mine"
+      }
+    },
+    "4,5,6,2,0|1>4-;2>4-;3>1+;3>5-;4>5+;5>1+;5>2+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "0,2,6,5,4|1>4-;2>4-;3>1+;3>5-;4>5+;5>1+;5>2+"
+    },
+    "2,6,0,0,0|1>2+;1>4+;2>5+;3>1-;4>1-;4>3+;5>1+;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow313_Lock",
+        "name": "Shadow 313 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,0,6,2,0,6|1>2+;3>1+;3>5-;5>1+;5>2+;5>4+;6>1-;6>3-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Kyle_Lock",
+        "name": "Kyle Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,0,0,2,0,6|1>2+;3>1+;3>5-;5>1+;5>2+;5>4+;6>1-;6>3-;6>4-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,0,6,2,0,6|1>2+;3>1+;3>5-;5>1+;5>2+;5>4+;6>1-;6>3-;6>4-"
+    },
+    "3,4,6,6,6|1>4-;2>1-;2>3-;2>4+;3>2-;3>4+;3>5-;4>2-;4>5-;5>3-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Bartholo_Lock",
+        "name": "Bartholo Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,4,6,6,6|1>4-;2>3-;2>4+;3>2-;3>4+;3>5-;4>2-;4>5-;5>3-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "3,4,6,6,6|1>4-;2>1-;2>3-;2>4+;3>2-;3>4+;3>5-;4>2-;4>5-;5>3-"
+    },
+    "3,4,6,6,6|1>4-;2>4+;3>2-;3>4+;3>5-;4>2-;4>5-;5>3-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "3,4,6,6,6|1>4-;2>1-;2>3-;2>4+;3>2-;3>4+;3>5-;4>2-;4>5-;5>3-"
+    },
+    "2,5,2,6,6,6|2>1+;2>5-;2>6-;3>2+;4>1+;4>2-;5>1+;5>6-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Scar_Lock",
+        "name": "Scar Chest",
+        "place": "Old Camp"
+      }
+    },
+    "2,5,2,6,6,6|2>1+;2>5-;2>6-;3>2+;4>1+;4>2-;5>6-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "2,5,2,6,6,6|2>1+;2>5-;2>6-;3>2+;4>1+;4>2-;5>1+;5>6-"
+    },
+    "0,6,0,2,1|1>4+;2>1+;2>3+;2>4+;3>2-;3>4+;4>2-;4>3+;4>5+;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Fisk_04_Lock",
+        "name": "Fisk 04 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,2,3,5,5|1>4+;2>1+;2>3+;2>4+;3>2-;3>4+;4>2-;4>3+;4>5+;5>3+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,6,0,2,1|1>4+;2>1+;2>3+;2>4+;3>2-;3>4+;4>2-;4>3+;4>5+;5>3+"
+    },
+    "0,0,4,2|1>4-;2>1-;2>3-;3>2+;4>1+;4>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger514_Lock",
+        "name": "Digger 514 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,6,0,1,3|2>1-;2>3+;2>4+;2>5-;3>1-;4>3-;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow330_Lock",
+        "name": "Shadow 330 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,0,1,0,6|1>2-;1>5-;2>5+;3>1-;3>2-;3>4-;3>5+;5>1+;5>3+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Gomez_01_Lock",
+        "name": "Gomez 01 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,0,1,0,6|1>2-;1>5-;2>5+;3>1-;3>2-;3>4-;3>5+;5>1+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "5,0,1,0,6|1>2-;1>5-;2>5+;3>1-;3>2-;3>4-;3>5+;5>1+;5>3+"
+    },
+    "6,6,6,6,1|1>2-;3>1-;3>2-;3>4+;3>5+;4>1-;4>2+;5>2-;5>4+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Orebaron_Room_02_Lock",
+        "name": "Ore Baron Room 02",
+        "place": "Old Camp"
+      }
+    },
+    "0,1,0,5,6|2>1-;3>1-;3>2-;3>4+;4>1+;4>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Fisk_03_Lock",
+        "name": "Fisk 03 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,1,6,6,4,2|1>2-;2>6-;3>2+;3>4-;3>5-;3>6-;4>3-;5>1-;6>3-;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Ruins_01_Lock",
+        "name": "Ruins 01 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,1,6,6,4,2|1>2-;2>6-;3>2+;3>4-;3>5-;3>6-;4>3-;5>1-;6>3-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "1,1,6,6,4,2|1>2-;2>6-;3>2+;3>4-;3>5-;3>6-;4>3-;5>1-;6>3-;6>5-"
+    },
+    "1,2,1,5,0|1>2-;2>5-;3>2-;3>5+;4>3+;5>1-;5>2+;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Fisk_02_Lock",
+        "name": "Fisk 02 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,5,4,5,4,6|2>1+;2>5+;2>6-;4>3-;5>1+;5>2-;5>4+;6>4+;6>5-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Arto_Lock",
+        "name": "Arto Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,2,2,1,0,5|1>4+;3>5-;4>6+;5>2-;5>4-;6>4-;6>5+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Thorus_Lock",
+        "name": "Thorus Chest",
+        "place": "Old Camp"
+      }
+    },
+    "2,0,6,0,1,1|1>4-;1>5-;1>6-;2>1-;2>3-;3>4-;3>5+;4>3+;5>2-;5>3+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Raven_Room_01_Lock",
+        "name": "Raven Room 01",
+        "place": "Old Camp"
+      }
+    },
+    "2,0,6,0,1,1|1>4-;1>5-;1>6-;2>3-;3>4-;3>5+;4>3+;5>2-;5>3+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "2,0,6,0,1,1|1>4-;1>5-;1>6-;2>1-;2>3-;3>4-;3>5+;4>3+;5>2-;5>3+"
+    },
+    "2,0,6,0,1,1|1>4-;1>5-;1>6-;2>3-;3>4-;4>3+;5>2-;5>3+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "2,0,6,0,1,1|1>4-;1>5-;1>6-;2>1-;2>3-;3>4-;3>5+;4>3+;5>2-;5>3+"
+    },
+    "6,5,3,6,1,6,4|1>4-;1>6-;3>1+;5>1+;5>3-;5>4+;5>6+;5>7-;6>4-;6>5+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Raven_Lock",
+        "name": "Raven Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,5,3,6,1,6,4|1>4-;1>6-;3>1+;5>1+;5>3-;5>4+;5>6+;5>7-;6>5+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "6,5,3,6,1,6,4|1>4-;1>6-;3>1+;5>1+;5>3-;5>4+;5>6+;5>7-;6>4-;6>5+"
+    },
+    "6,5,3,6,1,6,4|1>4-;1>6-;3>1+;5>1+;5>3-;5>6+;5>7-;6>5+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "6,5,3,6,1,6,4|1>4-;1>6-;3>1+;5>1+;5>3-;5>4+;5>6+;5>7-;6>4-;6>5+"
+    },
+    "6,5,3,4,4,3|1>4-;1>5-;1>6+;3>6+;4>1-;4>2+;6>1+;6>2+;6>3-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Tower_02_Lock",
+        "name": "Tower 02 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,5,3,4,4,3|1>4-;1>6+;3>6+;4>1-;4>2+;6>1+;6>2+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "6,5,3,4,4,3|1>4-;1>5-;1>6+;3>6+;4>1-;4>2+;6>1+;6>2+;6>3-"
+    },
+    "6,5,3,4,4,3|1>4-;1>5-;1>6+;3>6+;4>1-;4>2+;6>1+;6>2+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "6,5,3,4,4,3|1>4-;1>5-;1>6+;3>6+;4>1-;4>2+;6>1+;6>2+;6>3-"
+    },
+    "3,4,6,5,5,0|1>5-;2>4-;2>5-;2>6+;3>4-;3>5-;5>3-;5>4+;5>6+;6>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Gorn_Lock",
+        "name": "Gorn Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,1,1,0,2,6|1>3-;1>5-;1>6-;3>2+;3>5+;3>6+;4>1+;4>5-;4>6+;5>4+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Tower_03_Lock",
+        "name": "Tower 03 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,1,1,0,2,6|1>3-;1>5-;1>6-;3>2+;3>5+;3>6+;4>5-;4>6+;5>4+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "6,1,1,0,2,6|1>3-;1>5-;1>6-;3>2+;3>5+;3>6+;4>1+;4>5-;4>6+;5>4+"
+    },
+    "1,2,4,6,5,0|1>2+;1>3+;1>4+;2>1-;2>3-;4>5-;5>1-;5>4-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Tower_04_Lock",
+        "name": "Tower 04 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,2,4,6,5,0|1>3+;1>4+;2>1-;2>3-;4>5-;5>1-;5>4-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "1,2,4,6,5,0|1>2+;1>3+;1>4+;2>1-;2>3-;4>5-;5>1-;5>4-"
+    },
+    "2,5,4,0,4,3,3|1>5+;2>3-;3>5+;3>6-;4>2+;5>3-;6>1-;6>2-;7>1+;7>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guy_Lock",
+        "name": "Guy Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,6,4,5,6|1>3+;2>3+;3>1-;3>5+;4>3+;5>1-;5>2-;5>3+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Tower_05_Lock",
+        "name": "Tower 05 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,6,4,5,6|2>3+;3>1-;3>5+;5>1-;5>2-;5>3+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "1,6,4,5,6|1>3+;2>3+;3>1-;3>5+;4>3+;5>1-;5>2-;5>3+"
+    },
+    "1,6,4,5,6|1>3+;2>3+;3>1-;3>5+;5>1-;5>2-;5>3+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "1,6,4,5,6|1>3+;2>3+;3>1-;3>5+;4>3+;5>1-;5>2-;5>3+"
+    },
+    "5,4,4,6,0|2>3-;2>4-;3>2-;3>4+;3>5+;4>3-;4>5+;5>1+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Butch_Lock",
+        "name": "Butch Chest",
+        "place": "New Camp"
+      }
+    },
+    "1,1,5,4,6|1>2-;1>3+;1>5-;2>1+;2>3+;2>4+;3>5-;5>2+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Tower_06_Lock",
+        "name": "Tower 06 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,1,5,4,6|1>2-;1>3+;1>5-;2>1+;2>3+;2>4+;3>5-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "1,1,5,4,6|1>2-;1>3+;1>5-;2>1+;2>3+;2>4+;3>5-;5>2+"
+    },
+    "5,6,2,1,3,2|1>3-;2>4+;2>5+;3>1-;3>2-;3>6-;6>3+;6>4+;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Homer_Lock",
+        "name": "Homer Chest",
+        "place": "New Camp"
+      }
+    },
+    "2,6,0,2,0|1>4-;2>1-;2>3+;2>4-;2>5+;3>1+;3>4-;3>5-;4>5+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Tower_07_Lock",
+        "name": "Tower 07 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,4,2,0,4,0|1>2-;1>3-;2>3+;2>5-;4>1-;5>3+;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_LeeCave_Door_Lock",
+        "name": "Lee Cave Door",
+        "place": "New Camp"
+      }
+    },
+    "3,5,5,6,0,6,3|1>5-;1>6-;3>2-;4>1-;4>3+;5>3+;5>4-;6>4+;6>5+;7>1-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Tower_09_Lock",
+        "name": "Tower 09 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,5,5,6,0,6,3|1>5-;1>6-;3>2-;4>1-;4>3+;5>3+;5>4-;6>4+;6>5+;7>1+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "3,5,5,6,0,6,3|1>5-;1>6-;3>2-;4>1-;4>3+;5>3+;5>4-;6>4+;6>5+;7>1-"
+    },
+    "3,5,5,6,0,6,3|1>6-;4>1-;4>3+;5>3+;5>4-;6>4+;6>5+;7>1-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "3,5,5,6,0,6,3|1>5-;1>6-;3>2-;4>1-;4>3+;5>3+;5>4-;6>4+;6>5+;7>1-"
+    },
+    "5,1,1,1,1,5|2>1+;2>4-;4>2-;4>5-;5>2-;5>4+;5>6+;6>1+;6>4-;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger531_Lock",
+        "name": "Digger 531 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,1,1,3,4,6|1>2-;1>3+;1>4+;1>6-;4>3-;4>5+;4>6+;5>2+;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Lee_Lock",
+        "name": "Lee Chest",
+        "place": "New Camp"
+      }
+    },
+    "2,6,5,0|1>2+;2>3+;2>4+;4>1-;4>2-;4>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger553_Lock",
+        "name": "Digger 553 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,6,1,2,4,6|1>3-;1>5-;2>4+;3>1-;4>1-;5>2-;6>3+": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Tower_01_Lock",
+        "name": "Tower 01 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,6,1,2,4,6|1>3-;1>5-;2>4+;4>1-;5>2-;6>3+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "4,6,1,2,4,6|1>3-;1>5-;2>4+;3>1-;4>1-;5>2-;6>3+"
+    },
+    "4,6,1,2,4,6|1>3-;1>5-;4>1-;5>2-;6>3+": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "4,6,1,2,4,6|1>3-;1>5-;2>4+;3>1-;4>1-;5>2-;6>3+"
+    },
+    "2,3,0,6,2,1|1>2-;2>3-;2>5-;2>6-;3>5+;5>1-;5>3+;6>1-;6>3-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger565_Lock",
+        "name": "Digger 565 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,3,0,0,5,1|1>2-;1>3-;1>4+;3>2+;3>4-;4>1+;4>5+;4>6+;5>1-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Tower_08_Lock",
+        "name": "Tower 08 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,3,0,0,5,1|1>2-;1>3-;3>2+;3>4-;4>1+;4>5+;4>6+;5>1-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "4,3,0,0,5,1|1>2-;1>3-;1>4+;3>2+;3>4-;4>1+;4>5+;4>6+;5>1-"
+    },
+    "4,3,0,0,5,1|1>3-;3>2+;3>4-;4>1+;4>5+;4>6+;5>1-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true,
+      "better": "4,3,0,0,5,1|1>2-;1>3-;1>4+;3>2+;3>4-;4>1+;4>5+;4>6+;5>1-"
+    },
+    "6,3,0,4,2|1>3-;1>5+;2>1+;2>5-;3>4+;4>2-;4>3+;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger503_Lock",
+        "name": "Digger 503 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,2,6,6,6,5|1>6-;2>1-;2>6+;3>4-;4>2-;5>4-;5>6+;6>1+;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger507_Lock",
+        "name": "Digger 507 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,4,6,2,6|1>3+;1>4-;2>1+;2>5-;4>3+;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger509_Lock",
+        "name": "Digger 509 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "2,1,0,0,3|1>4-;1>5-;3>2-;3>4-;3>5-;5>2-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger523_Lock",
+        "name": "Digger 523 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,5,6,6|1>4-;2>1-;2>4-;4>2-;4>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger533_Lock",
+        "name": "Digger 533 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,4,1,4,6,3|1>2+;1>3-;1>4-;1>5+;1>6+;2>1-;2>5-;4>5-;5>2+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "CV_Chest_07_Lock",
+        "name": "Chest 07",
+        "place": "CV area"
+      }
+    },
+    "5,4,1,4,6,3|1>2+;1>3-;1>4-;1>5+;1>6+;2>1-;2>5-;5>2+;5>4-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "5,4,1,4,6,3|1>2+;1>3-;1>4-;1>5+;1>6+;2>1-;2>5-;4>5-;5>2+;5>4-"
+    },
+    "6,1,2,6,0,2|1>2+;3>1+;3>5+;4>1-;4>3+;4>6-;5>3-;5>4-;5>6+;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "IWML_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "IWML"
+      }
+    },
+    "2,4,2,0,2,0|2>1-;3>1+;4>1-;4>6-;5>2-;5>3+;6>1+;6>2-;6>3-;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_16_Lock",
+        "name": "Chest 16",
+        "place": "Bandit Camp"
+      }
+    },
+    "5,0,2,0,0,0,1|1>3-;1>4+;4>3+;4>5-;5>1-;5>2-;5>3+;5>7+;6>3+;7>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_22_Lock",
+        "name": "Chest 22",
+        "place": "Bandit Camp"
+      }
+    },
+    "6,2,1,2,6|1>2+;1>5-;2>4-;4>1-;4>2+;4>5-;5>3+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_BaalTondral_Lock",
+        "name": "Baal Tondral Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "1,2,6,0,5,0|1>2+;1>4+;2>4+;2>5-;3>1-;4>1-;5>3+;5>4+;5>6-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_23_Lock",
+        "name": "Chest 23",
+        "place": "Bandit Camp"
+      }
+    },
+    "4,3,1,4,4|1>2+;1>3+;1>4-;3>2+;3>4+;3>5+;4>5-;5>1+;5>3+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_17_Lock",
+        "name": "Chest 17",
+        "place": "Bandit Camp"
+      }
+    },
+    "3,3,2,0,6,5|2>5+;4>2-;4>3+;5>1-;5>2+;5>3-;5>4+;6>2+;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_19_Lock",
+        "name": "Chest 19",
+        "place": "Bandit Camp"
+      }
+    },
+    "3,3,2,0,6,5|2>5+;4>2-;4>3+;5>1-;5>2+;5>3-;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "3,3,2,0,6,5|2>5+;4>2-;4>3+;5>1-;5>2+;5>3-;5>4+;6>2+;6>3-"
+    },
+    "3,6,5,0,3,0|1>3+;1>4+;1>5-;1>6-;2>4+;3>2-;4>5-;6>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_20_Lock",
+        "name": "Chest 20",
+        "place": "Bandit Camp"
+      }
+    },
+    "6,5,6,6,0,1,3|1>6+;3>1-;3>4-;4>1-;4>3+;4>6+;6>2+;7>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_Fortuno_Lock",
+        "name": "Fortuno Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "6,5,6,6,0,1,3|1>6+;3>4-;4>1-;4>3+;4>6+;6>2+;7>3+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,5,6,6,0,1,3|1>6+;3>1-;3>4-;4>1-;4>3+;4>6+;6>2+;7>3+"
+    },
+    "6,5,6,6,0,1,3|1>6+;3>1-;3>4-;4>1-;4>3+;4>6+;7>3+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,5,6,6,0,1,3|1>6+;3>1-;3>4-;4>1-;4>3+;4>6+;6>2+;7>3+"
+    },
+    "6,3,0,3,3|1>4+;2>1+;2>4+;2>5+;3>2-;3>5-;4>2+;5>2+;5>3+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger561_Lock",
+        "name": "Digger 561 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,6,2,2,1,5|1>3+;1>6-;2>6-;3>1+;6>2+;6>3+;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Fisk_01_Lock",
+        "name": "Fisk 01 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,6,2,2,1,5|1>3+;1>6-;2>6-;3>1+;6>3+;6>5-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "5,6,2,2,1,5|1>3+;1>6-;2>6-;3>1+;6>2+;6>3+;6>5-"
+    },
+    "5,6,2,3,1,5|1>3+;1>6-;2>6-;3>1+;6>3+;6>5-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "5,6,2,2,1,5|1>3+;1>6-;2>6-;3>1+;6>2+;6>3+;6>5-"
+    },
+    "1,1,5,5,3,6|1>3+;1>5-;2>5-;4>1-;4>2+;5>1-;5>2-;5>3+;6>1-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "MF_Chest_08_Lock",
+        "name": "Chest 08",
+        "place": "Mountain Fortress"
+      }
+    },
+    "5,1,1,0,0|1>5+;2>3-;2>4-;3>1+;3>2+;3>4-;4>1+;4>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger522_Lock",
+        "name": "Digger 522 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,2,4,6,6|1>2-;1>3+;3>2+;3>4-;4>2-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger517_Lock",
+        "name": "Digger 517 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,4,5,0,4,0|4>1-;4>2+;4>3-;5>1-;6>1-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OG_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "OG"
+      }
+    },
+    "1,0,1,4,0,5|1>5+;2>4-;3>5-;4>6+;5>4-;6>1-;6>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Fisk_06_Lock",
+        "name": "Fisk 06 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,3,2,3,3,3|1>3+;1>4+;1>5-;2>1+;3>1+;3>6-;5>1+;6>2-;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Lefty_01_Lock",
+        "name": "Lefty 01 Chest",
+        "place": "New Camp"
+      }
+    },
+    "0,0,2,0,6,5,6|1>6-;2>3+;2>5-;2>7+;3>4-;4>5-;5>4-;6>4+;7>1-;7>3-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Cell12_Bandit_Door_Lock",
+        "name": "Cell 12 Bandit Door",
+        "place": "Old Camp"
+      }
+    },
+    "4,0,6,4,0|1>2-;1>4+;3>1+;4>1-;4>5+;5>2-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger515_Lock",
+        "name": "Digger 515 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,6,4,6,0|1>2+;1>4+;1>5+;3>1+;4>1-;5>2-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Lefty_02_Lock",
+        "name": "Lefty 02 Chest",
+        "place": "New Camp"
+      }
+    },
+    "2,3,2,1,0,6|3>5+;5>1+;5>2+;5>3-;5>6+;6>4+;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Fisk_05_Lock",
+        "name": "Fisk 05 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,0,0,0|1>2+;1>3-;1>4+;3>2+;3>4-;4>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Fisk_08_Lock",
+        "name": "Fisk 08 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,3,0,4,6,0|1>2-;2>1-;2>3-;2>5-;3>1-;3>6-;4>3+;5>2+;5>3-;5>6-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Prison_Dungeons_Moat_Lock",
+        "name": "Prison Dungeons Moat",
+        "place": "Old Camp"
+      }
+    },
+    "6,3,2,0,6,0|1>5-;1>6-;2>4+;2>5-;3>5+;3>6+;4>1-;5>2-;5>6+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_BaalNamib_Lock",
+        "name": "Baal Namib Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "0,2,0,0|1>4-;2>1-;2>3+;2>4+;3>1-;3>2-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Prison_Dungeons_06_Lock",
+        "name": "Prison Dungeons 06",
+        "place": "Old Camp"
+      }
+    },
+    "0,1,3,0,0|1>2+;1>3+;1>5-;3>4+;3>5+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Bloodwyn_Lock",
+        "name": "Bloodwyn Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,4,0,1,6,4|1>2-;1>5+;1>6-;3>1-;4>3-;4>5-;5>4-;5>6+;6>4+;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger521_Lock",
+        "name": "Digger 521 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,0,5,6,4,6|1>4-;2>1+;3>6-;4>5+;5>1+;5>4+;6>4+;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_Viran_Lock",
+        "name": "Viran Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "2,6,6,6,4|1>3-;1>5+;2>1-;3>5-;4>1-;5>1-;5>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "CV_Chest_09_Lock",
+        "name": "Chest 09",
+        "place": "CV area"
+      }
+    },
+    "6,5,0,3,4,1|1>2+;1>3+;1>4-;1>5-;1>6+;2>6-;3>5+;3>6-;4>2+;5>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_BaalOrun_Lock",
+        "name": "Baal Orun Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "3,2,0,1,3|1>2-;2>5+;3>2-;3>4-;4>1+;4>5+;5>1-;5>3+;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "MF_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Mountain Fortress"
+      }
+    },
+    "3,2,0,1,3|1>2-;2>5+;3>2-;4>1+;4>5+;5>1-;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "3,2,0,1,3|1>2-;2>5+;3>2-;3>4-;4>1+;4>5+;5>1-;5>3+;5>4+"
+    },
+    "0,3,6,2,1,1|1>5-;2>3-;2>4-;3>1+;3>2-;3>4-;4>3-;5>2-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger513_Lock",
+        "name": "Digger 513 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,5,3,6,0|1>2-;2>5-;3>1-;4>1+;4>2+;4>3+;4>5-;5>2-;5>3-;5>4-": {
+      "conf": -5,
+      "agree": [],
+      "disagree": [
+        "dsazz",
+        "uml"
+      ],
+      "doubt": true
+    },
+    "0,0,3,3,2|1>2-;1>4+;1>5-;3>1+;4>5-;5>1-;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OM_Chest_Santino_03_Lock",
+        "name": "Santino 03 Chest",
+        "place": "Old Mine"
+      }
+    },
+    "4,0,6,0,0,2|2>1+;2>4-;2>6+;4>6+;5>3+;5>4-;5>6-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "IWML_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "IWML"
+      }
+    },
+    "5,6,5,6,1|3>1-;3>2-;3>4+;3>5+;4>3-;5>1-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "IWML_Chest_05_Lock",
+        "name": "Chest 05",
+        "place": "IWML"
+      }
+    },
+    "5,6,5,6,1|3>1-;3>2-;3>4+;3>5+;5>1-;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "5,6,5,6,1|3>1-;3>2-;3>4+;3>5+;4>3-;5>1-;5>4+"
+    },
+    "4,6,5,1,4,0|1>2-;2>3+;4>6-;5>1-;5>2-;5>3+;5>4+;6>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_Natalia_Lock",
+        "name": "Natalia Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "4,6,5,1,4,0|1>2-;2>3+;4>6-;5>1-;5>2-;5>3+;5>4+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "4,6,5,1,4,0|1>2-;2>3+;4>6-;5>1-;5>2-;5>3+;5>4+;6>1+"
+    },
+    "4,6,4,1,4,0|1>2-;2>3+;4>6-;5>1-;5>2-;5>3+;5>4+;6>1+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "4,6,5,1,4,0|1>2-;2>3+;4>6-;5>1-;5>2-;5>3+;5>4+;6>1+"
+    },
+    "5,2,0,5,6|1>2+;1>3+;1>4-;1>5-;2>4-;2>5+;3>4+;3>5+;4>3+;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_Chani_Lock",
+        "name": "Chani Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "5,2,0,5,6|1>2+;1>3+;1>4-;1>5-;2>4-;3>4+;3>5+;4>3+;5>2+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "5,2,0,5,6|1>2+;1>3+;1>4-;1>5-;2>4-;2>5+;3>4+;3>5+;4>3+;5>2+"
+    },
+    "6,3,3,6,3,6|2>4-;2>6-;3>2-;4>6-;6>3-;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Sharky_Lock",
+        "name": "Sharky Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,4,0,6,5,4,5|1>6-;2>1+;3>7+;4>1+;4>7-;5>4-;5>7+;6>1+;7>1+;7>6+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "CV_Chest_10_Lock",
+        "name": "Chest 10",
+        "place": "CV area"
+      }
+    },
+    "3,0,1,5,2|1>4+;1>5+;2>3-;2>4+;4>1-;5>1-;5>2-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SC_Chest_Yberion_Lock",
+        "name": "Yberion Chest",
+        "place": "Swamp Camp"
+      }
+    },
+    "0,6,6,2,6|1>2-;1>3-;1>4-;1>5+;3>1-;4>5+;5>1+;5>3+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true
+    },
+    "4,6,4,0,0|1>2+;1>5-;2>1+;2>3-;2>4-;2>5+;3>1+;5>1-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true
+    },
+    "0,2,6,0,3,6|1>2-;1>4-;1>5+;1>6-;2>6+;3>1-;4>6+;5>3-;6>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Forge_02_Lock",
+        "name": "Forge 02 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,2,6,0,3,6|1>2-;1>4-;1>5+;1>6-;2>6+;3>1-;4>6+;5>3-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,2,6,0,3,6|1>2-;1>4-;1>5+;1>6-;2>6+;3>1-;4>6+;5>3-;6>1+"
+    },
+    "6,5,6,2,5,4|1>5+;2>3-;3>5-;4>1-;4>2+;4>6-;5>2+;5>4+;5>6+;6>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Forge_Loot_Room_Lock",
+        "name": "Forge Loot Room",
+        "place": "Old Camp"
+      }
+    },
+    "6,5,6,2,5,4|1>5+;2>3-;4>1-;4>2+;4>6-;5>2+;5>4+;5>6+;6>1-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "6,5,6,2,5,4|1>5+;2>3-;3>5-;4>1-;4>2+;4>6-;5>2+;5>4+;5>6+;6>1-"
+    },
+    "5,2,0,1,0,1|1>3-;1>5+;1>6+;2>1-;3>2+;3>5+;4>1+;4>3-;5>3+;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Forge_04_Lock",
+        "name": "Forge 04 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,2,0,1,0,1|1>3-;1>5+;1>6+;2>1-;3>2+;3>5+;4>1+;4>3-;5>3+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "5,2,0,1,0,1|1>3-;1>5+;1>6+;2>1-;3>2+;3>5+;4>1+;4>3-;5>3+;6>4-"
+    },
+    "1,6,5,6,2,1|1>6-;2>1+;2>6-;3>2-;3>5+;3>6+;4>1+;6>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "CR_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "CR area"
+      }
+    },
+    "3,0,0,4,1,1|2>1-;2>3-;2>4+;2>6-;3>6-;4>3-;5>1+;5>4-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true
+    },
+    "6,2,0,4,6,5|1>3+;4>1-;4>6+;5>2+;5>3+;5>4+;6>2+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true
+    },
+    "6,3,6,0,4|1>4-;1>5+;3>4+;4>1+;4>2+;5>1+;5>3-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue10_820_Lock",
+        "name": "Rogue 10 820 Chest",
+        "place": "New Camp"
+      }
+    },
+    "3,2,4,0,4,0|1>4-;2>3-;2>4-;4>2+;4>6-;5>3+;5>6-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Blade_Lock",
+        "name": "Blade Chest",
+        "place": "New Camp"
+      }
+    },
+    "0,1,6,3,0|1>3+;3>1+;3>4-;4>1+;4>3-;4>5-;5>2-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OM_Chest_Santino_01_Lock",
+        "name": "Santino 01 Chest",
+        "place": "Old Mine"
+      }
+    },
+    "4,1,0,0,6,5|1>2-;1>3-;2>3-;3>2-;3>5+;3>6+;4>5+;6>1+;6>2+;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue13_823_Lock",
+        "name": "Rogue 13 823 Chest",
+        "place": "New Camp"
+      }
+    },
+    "4,6,2,6,0,1|1>3-;1>4-;2>3-;4>2-;5>3+;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Cord_Lock",
+        "name": "Cord Chest",
+        "place": "New Camp"
+      }
+    },
+    "1,6,0,2,6|1>3+;1>4-;3>2+;3>4+;4>1-;4>3+;4>5+;5>1-;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Torlof_Lock",
+        "name": "Torlof Chest",
+        "place": "New Camp"
+      }
+    },
+    "4,3,6,5,5|1>2-;1>3-;1>5+;3>1-;4>1-;4>5-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Forge_01_Lock",
+        "name": "Forge 01 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "2,0,1,6,1,0|1>4+;1>6+;2>1+;2>3-;5>3+;5>6-;6>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow322_Lock",
+        "name": "Shadow 322 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,6,3,0,6|1>2-;1>3+;2>4+;3>4-;4>1-;4>2-;4>3-;4>5-;5>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger529_Lock",
+        "name": "Digger 529 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "2,4,2,6,0|2>1+;3>1+;3>2-;4>1+;4>3+;5>1+;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow318_Lock",
+        "name": "Shadow 318 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,6,0,0|1>3-;2>1+;2>3-;2>4+;4>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow310_Lock",
+        "name": "Shadow 310 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "2,4,6,5,4,1|2>3-;2>4+;4>1-;4>2-;4>3-;4>6+;5>4-;5>6+;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow319_Lock",
+        "name": "Shadow 319 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,1,3,0,3,4|3>4+;3>5-;4>1+;4>2-;6>2-;6>3-;6>4+;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Grim_Lock",
+        "name": "Grim Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,5,0,5,1|1>4+;1>5-;2>1-;2>3-;2>4-;2>5-;3>5+;5>2-;5>3+;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger556_Lock",
+        "name": "Digger 556 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,3,5,1,0|1>4+;2>1-;4>2-;4>3+;4>5+;5>3-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger501_Lock",
+        "name": "Digger 501 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,4,3,2,1,3|1>2+;2>5-;3>2-;4>1-;4>3-;5>1+;5>2+;5>4+;5>6-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger510_Lock",
+        "name": "Digger 510 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,0,6,6,2,0|1>2-;1>3+;1>6-;3>2+;4>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger576_Lock",
+        "name": "Digger 576 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,4,6,6,0|1>4-;3>2+;3>4-;3>5+;4>2+;5>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow314_Lock",
+        "name": "Shadow 314 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,4,6,6,0|1>5-;3>2+;3>4-;3>5+;4>2+;5>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "1,4,6,6,0|1>4-;3>2+;3>4-;3>5+;4>2+;5>2-"
+    },
+    "1,2,5,0,4|1>3+;1>5-;2>3+;2>4-;2>5-;3>1+;3>4-;4>3+;5>2-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger508_Lock",
+        "name": "Digger 508 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,5,6,4|1>2+;2>1+;2>3-;3>1+;3>4-;4>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger532_Lock",
+        "name": "Digger 532 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,3,2,0,4|1>2+;1>3+;1>4+;2>4+;2>5+;3>2-;4>1+;4>2+;4>5-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger512_Lock",
+        "name": "Digger 512 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,4,2,6,6|1>2-;1>3-;1>4-;2>3+;2>4-;2>5-;3>1+;3>4+;4>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Prison_Dungeons_23_Lock",
+        "name": "Prison Dungeons 23",
+        "place": "Old Camp"
+      }
+    },
+    "3,4,2,6,6|1>2-;1>3-;1>4-;2>3+;2>4-;2>5-;4>5-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "3,4,2,6,6|1>2-;1>3-;1>4-;2>3+;2>4-;2>5-;3>1+;3>4+;4>5-"
+    },
+    "1,4,5,1,0|1>5+;2>5-;3>1+;4>1-;4>3+;5>1-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger577_Lock",
+        "name": "Digger 577 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,3,0,2,2|1>2-;1>3+;1>5+;2>3-;2>5-;3>4-;4>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger502_Lock",
+        "name": "Digger 502 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,0,4,1,3|1>2+;1>5+;2>4+;3>1-;4>2-;4>5-;5>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger560_Lock",
+        "name": "Digger 560 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,3,5,4,6|1>3-;1>4-;2>1-;3>1-;3>2+;4>3-;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow316_Lock",
+        "name": "Shadow 316 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,5,5,5,6|1>5-;2>1-;2>3+;2>5-;3>4+;3>5+;4>1-;4>2-;4>3-;4>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Shadow328_Lock",
+        "name": "Shadow 328 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,6,0,1,0|2>1-;4>1+;4>2-;4>3-;5>1+;5>2-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger516_Lock",
+        "name": "Digger 516 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,0,4,4,0,1|1>5-;4>1+;4>2-;4>3-;4>5-;4>6-;5>2+;5>3-;6>2+;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OA_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "OA"
+      }
+    },
+    "6,0,1,1|1>2+;1>3-;2>3-;3>1+;4>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger519_Lock",
+        "name": "Digger 519 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,6,6,4|1>2-;1>3-;1>4+;2>3-;4>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Whistler_Lock",
+        "name": "Whistler Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,0,6,0|1>3+;2>3+;4>2-;4>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Digger578_Lock",
+        "name": "Digger 578 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,6,6,4|1>2-;1>4+;2>3-;3>1-;3>2-;3>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard206_Lock",
+        "name": "Guard 206 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,6,0,2,6|1>3+;1>4+;2>1-;2>3-;2>4-;2>5-;3>2+;3>4+;3>5-;5>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "IWML_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "IWML"
+      }
+    },
+    "0,6,0,3,6|1>3+;1>4+;2>1-;2>3-;2>4-;2>5-;3>2+;3>4+;3>5-;5>1+": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "0,6,0,2,6|1>3+;1>4+;2>1-;2>3-;2>4-;2>5-;3>2+;3>4+;3>5-;5>1+"
+    },
+    "4,6,6,5,2,0|1>2+;3>1+;3>4-;3>6-;4>6-;6>1+;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "MF_Chest_07_Lock",
+        "name": "Chest 07",
+        "place": "Mountain Fortress"
+      }
+    },
+    "3,6,6,4,2,2|1>3-;2>3-;2>4+;2>6-;3>5-;3>6-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "AMR_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "AMR"
+      }
+    },
+    "5,4,6,3,4|1>2+;1>3-;2>4+;4>3-;5>1-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "XT_ExperimentalChamber_Door_Lock",
+        "name": "Experimental Chamber Door",
+        "place": "Xardas Tower"
+      }
+    },
+    "0,4,5,3,6,2|1>2+;1>3+;1>4-;2>1-;3>6-;4>2+;4>3+;5>1+;5>6-;6>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "XT_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Xardas Tower"
+      }
+    },
+    "0,6,4,5,3,6|1>2+;1>6+;2>1+;2>4+;2>5-;3>5+;4>2-;4>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "XT_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "Xardas Tower"
+      }
+    },
+    "1,4,0,1,5,0|1>2+;1>3-;4>2-;4>3+;4>6-;5>3+;5>4-;5>6+;6>2+;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "XT_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "Xardas Tower"
+      }
+    },
+    "1,4,0,1,5,0|1>2+;1>3-;4>2-;4>3+;4>6-;5>3+;5>4-;6>2+;6>3-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true,
+      "better": "1,4,0,1,5,0|1>2+;1>3-;4>2-;4>3+;4>6-;5>3+;5>4-;5>6+;6>2+;6>3-"
+    },
+    "6,4,5,5,1,6|2>3-;3>6-;5>2+;6>2-;6>4-;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "CR_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "CR area"
+      }
+    },
+    "6,2,5,0,3|1>2+;2>1+;2>4-;4>1+;4>3+;4>5+;5>1-;5>2-;5>3-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "AMR_Storage_Room_Lock",
+        "name": "Storage Room",
+        "place": "AMR"
+      }
+    },
+    "0,1,6,3,1,6|1>2+;1>3+;1>4-;1>5+;3>4+;4>1-;4>5-;4>6-;6>1+;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Raven_Room_02_Lock",
+        "name": "Raven Room 02",
+        "place": "Old Camp"
+      }
+    },
+    "5,6,3,5,2,6|2>3+;2>4+;2>6-;3>4-;6>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue03_806_Lock",
+        "name": "Rogue 03 806 Chest",
+        "place": "New Camp"
+      }
+    },
+    "0,1,3,5,5|2>4+;2>5+;3>1+;3>4+;3>5+;4>3+;5>1-;5>2+;5>3+;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue06_811_Lock",
+        "name": "Rogue 06 811 Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,2,0,6,4|1>2-;1>3+;1>4-;1>5+;4>2+;5>3-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue08_816_Lock",
+        "name": "Rogue 08 816 Chest",
+        "place": "New Camp"
+      }
+    },
+    "0,0,6,2,4,1|1>6-;2>6+;3>6+;4>1-;4>2+;4>3-;5>2-;6>3+;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Buster_Lock",
+        "name": "Buster Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,0,2,3,4,5|2>1+;3>2-;4>1-;4>3+;5>4-;6>1+;6>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue01_800_Lock",
+        "name": "Rogue 01 800 Chest",
+        "place": "New Camp"
+      }
+    },
+    "5,6,6,5,3,6|1>4-;2>4-;2>5+;3>1-;3>6-;4>5-;6>2-;6>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Bruce_Lock",
+        "name": "Bruce Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,4,1,2,5|1>2-;1>3-;2>1+;2>4-;2>5-;3>4-;4>2-;4>5-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue07_815_Lock",
+        "name": "Rogue 07 815 Chest",
+        "place": "New Camp"
+      }
+    },
+    "0,6,3,6,0|1>5-;2>1+;2>3+;2>4+;2>5+;3>4-;3>5-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FME_Chest_Gate_Lock",
+        "name": "Gate Chest",
+        "place": "Free Mine"
+      }
+    },
+    "1,6,1,6,3,5|1>2-;1>3+;1>6-;3>1+;4>1+;5>3-;5>6-;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FM_Chest_Furnace_01_Lock",
+        "name": "Furnace 01 Chest",
+        "place": "Free Mine"
+      }
+    },
+    "5,5,0,0,0,0|1>2-;3>4+;3>5-;4>2-;5>4-;6>1+;6>2-": {
+      "conf": -3,
+      "agree": [],
+      "disagree": [
+        "dsazz"
+      ],
+      "doubt": true
+    },
+    "2,0,4,4,4|1>4+;1>5-;2>1-;3>1+;3>2-;3>4-;3>5+;4>2+;4>3+;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FM_AbandonedGallery_Door_Lock",
+        "name": "Abandoned Gallery Door",
+        "place": "Free Mine"
+      }
+    },
+    "4,3,6,1,0,0|1>3+;4>1-;4>3+;5>1-;5>3+;5>4-;6>1-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "FM_Chest_Gallery_01_Lock",
+        "name": "Gallery 01 Chest",
+        "place": "Free Mine"
+      }
+    },
+    "0,2,5,2,0,1|1>2-;1>6-;2>1+;2>4-;3>1+;3>4+;5>4+;6>3+;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "XT_Chest_05_Lock",
+        "name": "Chest 05",
+        "place": "Xardas Tower"
+      }
+    },
+    "0,2,1,2,0,5|1>2+;1>4+;1>5-;2>6-;4>3-;4>5-;4>6-;5>2+;6>3-;6>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "XT_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "Xardas Tower"
+      }
+    },
+    "3,6,3,6,0,6|1>2+;1>3-;1>6-;3>6-;4>5+;5>6+;6>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OA_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "OA"
+      }
+    },
+    "3,4,4,6,6|1>2+;1>3-;1>4+;3>2+;3>4-;4>1+;4>2+;4>3+;4>5-;5>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OA_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "OA"
+      }
+    },
+    "1,3,6,6,4,4|1>3+;2>6+;3>2+;4>2+;6>2-;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OA_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "OA"
+      }
+    },
+    "0,3,6,5,6,4|2>4+;2>5+;3>1+;3>2+;3>6-;4>5+;4>6-;6>1+;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "Otown_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "Otown"
+      }
+    },
+    "0,6,5,0,6,1|1>2-;1>5+;3>1-;3>2-;4>1+;4>2+;4>6-;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Kitchen_Lock",
+        "name": "Kitchen Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,2,6,2,6|1>3-;2>3-;2>4-;3>2-;4>1-;4>2+;4>3+;4>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Drago_Lock",
+        "name": "Drago Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,3,0,0|2>3+;2>4-;3>1-;3>2-;4>1-;4>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Milten_Lock",
+        "name": "Milten Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,2,1,5,0,6|1>6-;2>4+;2>6-;3>2+;4>3-;4>5+;6>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Torrez_Lock",
+        "name": "Torrez Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,6,5,0|1>3-;1>4-;2>1+;4>1-;4>2+;4>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Rodriguez_Lock",
+        "name": "Rodriguez Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,3,0,5,6|1>2-;2>5-;3>1+;3>2+;3>4-;4>1-;4>3+;5>1-;5>2+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Prison_Dungeons_09_Lock",
+        "name": "Prison Dungeons 09",
+        "place": "Old Camp"
+      }
+    },
+    "4,6,0,2,3|1>2+;1>3-;1>5+;2>3+;2>5+;3>2+;4>5+;5>1-;5>2-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Mercenary04_706_Lock",
+        "name": "Mercenary 04 706 Chest",
+        "place": "New Camp"
+      }
+    },
+    "0,1,0,4,0,6|2>6-;3>2-;3>6-;4>1+;4>5-;6>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Ruins_02_Lock",
+        "name": "Ruins 02 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,6,5,4,6,6|1>3+;1>4-;1>5-;3>5-;3>6+;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Jackal_Lock",
+        "name": "Jackal Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,0,4,0,2|1>2+;1>3-;1>4+;1>5+;2>3+;2>5-;3>4+;5>1+;5>2-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Fletcher_Lock",
+        "name": "Fletcher Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,4,3,0,3|1>2-;1>5-;2>4-;2>5+;3>2+;3>5+;4>2+;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_CUTTER_Lock",
+        "name": "CUTTER Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,0,0,5,2|1>2+;1>3+;1>4+;2>4-;4>1+;4>5-;5>2+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Bullit_Lock",
+        "name": "Bullit Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,5,6,1,5|1>2-;2>1-;2>3-;3>2-;4>1-;4>2-;4>3+;5>1+;5>2-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard226_Lock",
+        "name": "Guard 226 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,4,1,6,5|1>2+;1>3-;1>4-;2>1+;2>3-;2>4-;2>5-;3>1+;5>1+;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard228_Lock",
+        "name": "Guard 228 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,1,0,0,6,6|1>5-;1>6-;2>3-;3>5-;3>6-;4>2-;4>6-;5>6+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Guards_Cell_01_Lock",
+        "name": "Guards Cell 01",
+        "place": "Old Camp"
+      }
+    },
+    "3,0,4,0,4,6|1>4+;1>5-;1>6+;2>5-;3>5-;3>6-;5>1+;5>4+;6>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Omid_Lock",
+        "name": "Omid Chest",
+        "place": "Old Camp"
+      }
+    },
+    "4,5,4,4,0,6|1>3+;2>1-;2>6-;5>1+;5>3+;6>1-;6>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Balam_Lock",
+        "name": "Balam Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,0,5,1,2,6|1>3-;1>4+;2>1+;2>4+;4>1-;4>2-;4>5+;5>2-;6>2+;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Guards_Cell_02_Lock",
+        "name": "Guards Cell 02",
+        "place": "Old Camp"
+      }
+    },
+    "6,0,6,0,3,5|2>1-;3>4-;3>6-;4>1-;4>3-;6>1+;6>2+;6>3-;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard232_Lock",
+        "name": "Guard 232 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,6,4,3,2|1>3-;1>4-;1>5+;2>1-;2>3+;2>5+;3>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard240_Lock",
+        "name": "Guard 240 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,3,0,5,3,0|1>2-;1>3-;3>5-;4>3+;4>5+;4>6+;5>4+;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Skip_Lock",
+        "name": "Skip Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,0,3,0,6|1>2+;1>3+;1>5-;2>1-;2>4-;2>5+;4>5+;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard252_Lock",
+        "name": "Guard 252 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,5,1,5,4,1|1>4+;1>6+;2>1-;2>3+;2>4-;2>6-;3>1+;3>5-;4>6+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard221_Lock",
+        "name": "Guard 221 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,2,6,6,4|1>4+;3>1-;3>4+;5>1-;5>2+;5>3-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard253_Lock",
+        "name": "Guard 253 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,6,6,5,6,5|2>5+;3>2-;4>2+;4>3-;4>5+;4>6+;5>2+;5>4-;6>2-;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard241_Lock",
+        "name": "Guard 241 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,0,6,6,5|1>2+;1>4+;1>5+;3>2+;3>4+;4>2+;5>1-;5>2+;5>3-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard220_Lock",
+        "name": "Guard 220 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,5,0,3,6,6|1>3-;1>6+;2>6-;3>6+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard239_Lock",
+        "name": "Guard 239 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,1,0,0|1>4-;3>2-;4>1+;4>2-;4>3-": {
+      "conf": 5,
+      "agree": [
+        "dsazz",
+        "uml"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OM_Chest_Alberto_04_Lock",
+        "name": "Alberto 04 Chest",
+        "place": "Old Mine"
+      }
+    },
+    "6,2,6,5,4,3|1>5+;1>6+;2>1-;2>6-;3>1-;3>2+;4>3-;6>2+;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue23_838_Lock",
+        "name": "Rogue 23 838 Chest",
+        "place": "New Camp"
+      }
+    },
+    "1,6,3,6,0,5|1>5+;2>3-;2>6+;3>2+;3>5+;3>6-;4>5+;5>3-;5>4+;5>6-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "MF_Chest_12_Lock",
+        "name": "Chest 12",
+        "place": "Mountain Fortress"
+      }
+    },
+    "0,0,6,6,1|2>1+;2>3+;2>4+;2>5+;4>1-;4>2-;4>3-;4>5+;5>1+;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SNT_LootCage_Door_Lock",
+        "name": "Loot Cage Door",
+        "place": "SNT"
+      }
+    },
+    "1,1,3,3,2,0|1>5-;2>5-;3>6-;4>3-;5>4-;5>6-;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Saturas_Lock",
+        "name": "Saturas Chest",
+        "place": "New Camp"
+      }
+    },
+    "2,4,6,4,1,0|2>4+;2>6+;4>1+;4>2-;4>5+;4>6-;5>2+;6>1-;6>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Myxir_Lock",
+        "name": "Myxir Chest",
+        "place": "New Camp"
+      }
+    },
+    "5,4,6,1,5|1>3-;3>1-;3>4-;4>1+;4>3+;4>5-;5>3-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Nefarius_Lock",
+        "name": "Nefarius Chest",
+        "place": "New Camp"
+      }
+    },
+    "5,2,4,0,1,5|1>3+;2>4-;3>2-;4>2+;4>3-;5>2-;6>1-;6>3-;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Cronos_Lock",
+        "name": "Cronos Chest",
+        "place": "New Camp"
+      }
+    },
+    "5,4,0,3,6|1>2+;1>5-;2>1+;2>3+;2>4+;3>1+;4>2+;4>5-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Merdarion_Lock",
+        "name": "Merdarion Chest",
+        "place": "New Camp"
+      }
+    },
+    "1,2,2,0,6,5|1>2+;1>3+;1>6+;2>1-;2>3-;6>2+;6>3-;6>4-;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Riordian_Lock",
+        "name": "Riordian Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,0,6,3,2|1>3-;2>1+;3>4-;3>5+;4>1+;4>5-;5>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Bandit Camp"
+      }
+    },
+    "6,2,6,0,0|1>2-;1>4+;1>5-;2>1+;3>1+;3>2+;4>1+;4>2+;5>2+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "Bandit Camp"
+      }
+    },
+    "3,5,3,4,0|1>2+;1>3-;2>1+;2>3-;2>4-;2>5-;3>4-;4>1+;4>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "Bandit Camp"
+      }
+    },
+    "5,0,1,6,5,6|1>2+;1>3+;2>6-;3>4-;3>5+;4>2+;4>6-;5>2-;6>2+;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "Bandit Camp"
+      }
+    },
+    "0,4,6,3|1>2+;1>3+;1>4-;2>1+;3>2-;3>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_05_Lock",
+        "name": "Chest 05",
+        "place": "Bandit Camp"
+      }
+    },
+    "6,3,4,6|1>2-;1>3-;1>4-;3>1+;4>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_07_Lock",
+        "name": "Chest 07",
+        "place": "Bandit Camp"
+      }
+    },
+    "0,0,1,1,0|1>3+;1>4-;1>5+;2>3-;4>1-;4>3-;5>3+;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_08_Lock",
+        "name": "Chest 08",
+        "place": "Bandit Camp"
+      }
+    },
+    "4,6,4,0,6|1>2-;1>3-;2>1+;2>4+;3>1+;3>2-;3>4-;3>5-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_09_Lock",
+        "name": "Chest 09",
+        "place": "Bandit Camp"
+      }
+    },
+    "0,0,0,5,3|1>2-;1>4+;2>1+;2>4-;3>1-;3>2-;3>4-;3>5-;4>1+;5>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_10_Lock",
+        "name": "Chest 10",
+        "place": "Bandit Camp"
+      }
+    },
+    "6,6,0,6,6|1>3-;1>4-;2>3-;2>5-;3>2-;3>4+;4>3-;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_11_Lock",
+        "name": "Chest 11",
+        "place": "Bandit Camp"
+      }
+    },
+    "3,0,4,0,0,0|2>1-;2>3+;2>5+;2>6-;3>5+;3>6-;6>1+;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_12_Lock",
+        "name": "Chest 12",
+        "place": "Bandit Camp"
+      }
+    },
+    "3,5,5,6,3|1>2+;1>3+;1>4-;1>5+;2>1+;3>1+;3>4-;3>5-;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_13_Lock",
+        "name": "Chest 13",
+        "place": "Bandit Camp"
+      }
+    },
+    "1,6,0,2,2,6|1>3-;1>4-;1>5-;2>6-;3>5-;5>6-;6>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_14_Lock",
+        "name": "Chest 14",
+        "place": "Bandit Camp"
+      }
+    },
+    "5,4,1,0,1|1>2-;1>3+;1>4+;1>5-;2>3+;2>5+;4>3+;4>5-;5>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "BC_Chest_15_Lock",
+        "name": "Chest 15",
+        "place": "Bandit Camp"
+      }
+    },
+    "5,0,4,6|1>4+;4>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "EZ_LootCage_Door_Lock",
+        "name": "Loot Cage Door",
+        "place": "Exchange Zone"
+      }
+    },
+    "3,2,1,1,0,6|1>2+;1>5-;2>1-;4>1+;4>5+;5>1+;5>6+;6>2+;6>3+;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "MF_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "Mountain Fortress"
+      }
+    },
+    "0,0,6,3,4,3|1>3+;1>4+;1>5+;1>6-;2>3+;2>6+;3>6-;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Cipher_Lock",
+        "name": "Cipher Chest",
+        "place": "New Camp"
+      }
+    },
+    "2,0,1,3|2>1+;2>3-;2>4-;3>2-;4>1+;4>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue11_821_Lock",
+        "name": "Rogue 11 821 Chest",
+        "place": "New Camp"
+      }
+    },
+    "1,0,3,2,1|1>3-;2>1-;2>3-;3>1-;3>2+;3>4+;3>5-;4>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Mercenary07_710_Lock",
+        "name": "Mercenary 07 710 Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,1,0,1,4|1>4+;1>5+;3>2+;3>4-;4>1+;4>2+;4>3+;5>1-;5>2-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Mercenary02_703_Lock",
+        "name": "Mercenary 02 703 Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,6,0,1,1|1>4-;2>3+;3>2+;3>4+;4>1-;4>2+;4>3-;4>5-;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Mercenary03_705_Lock",
+        "name": "Mercenary 03 705 Chest",
+        "place": "New Camp"
+      }
+    },
+    "5,0,4,3,0|1>4+;1>5-;2>1+;2>5+;3>2+;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Mercenary17_735_Lock",
+        "name": "Mercenary 17 735 Chest",
+        "place": "New Camp"
+      }
+    },
+    "6,1,4,5,0|1>2-;1>3+;2>1+;2>3+;2>5+;3>1-;3>5-;4>2+;5>2+;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Orik_Lock",
+        "name": "Orik Chest",
+        "place": "New Camp"
+      }
+    },
+    "1,3,2,5,0,0|1>3+;1>5+;2>3-;2>6+;4>1-;5>2-;5>4-;6>1-;6>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue09_817_Lock",
+        "name": "Rogue 09 817 Chest",
+        "place": "New Camp"
+      }
+    },
+    "2,4,2,0,4|2>4+;2>5-;3>1-;3>2+;3>4-;4>3-;4>5-;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "NC_Chest_Rogue22_837_Lock",
+        "name": "Rogue 22 837 Chest",
+        "place": "New Camp"
+      }
+    },
+    "0,3,3,2,6,0|1>2+;1>3+;1>4-;1>5+;2>1-;2>3-;2>6+;4>1-;4>3+;4>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Mages_Room_01_Lock",
+        "name": "Mages Room 01",
+        "place": "Old Camp"
+      }
+    },
+    "1,2,2,1,5,0|1>4-;1>6-;2>3+;4>1-;4>2-;4>5-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Mages_Room_02_Lock",
+        "name": "Mages Room 02",
+        "place": "Old Camp"
+      }
+    },
+    "1,4,6,6,1,5|2>3-;2>5-;4>1+;4>2-;4>5+;5>1-;5>6+;6>3-;6>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Mages_Room_03_Lock",
+        "name": "Mages Room 03",
+        "place": "Old Camp"
+      }
+    },
+    "6,6,1,6,3|1>2-;1>3-;2>1-;3>4-;4>2+;4>5-;5>1-;5>2-;5>3+;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Armory_01_Lock",
+        "name": "Armory 01 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,2,6,0,2|2>4+;3>1+;3>2-;3>4+;4>1-;4>2-;4>3+;4>5+;5>1+;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Armory_02_Lock",
+        "name": "Armory 02 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,5,1,1,6,6|1>3-;1>5-;2>1+;2>6+;3>2-;4>3-;4>6-;5>4+;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Armory_03_Lock",
+        "name": "Armory 03 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,1,5,3,1|1>4-;1>5-;2>1-;2>3+;2>4-;3>1+;4>1+;4>3+;5>1-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Corristo_Lock",
+        "name": "Corristo Chest",
+        "place": "Old Camp"
+      }
+    },
+    "5,6,3,4,0,5|1>3+;2>1-;4>1-;6>1-;6>2-;6>4-;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Damarok_Lock",
+        "name": "Damarok Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,0,6,6|1>2+;2>3+;2>4+;3>1-;3>2+;3>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard229_Lock",
+        "name": "Guard 229 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,6,1,3|1>2+;1>4+;2>1+;3>1-;3>2+;4>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard242_Lock",
+        "name": "Guard 242 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "1,6,3,6,5|2>3+;3>5-;4>2-;4>3+;4>5-;5>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Stone_Lock",
+        "name": "Stone Chest",
+        "place": "Old Camp"
+      }
+    },
+    "3,6,0,6,6,0|1>3+;1>4+;1>6+;3>2-;3>4+;3>6-;4>2+;4>5-;6>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Old Camp"
+      }
+    },
+    "6,6,1,4,1|1>3+;1>4+;2>4-;3>2+;4>1-;4>2+;4>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "Old Camp"
+      }
+    },
+    "5,5,2,3,6|1>2+;2>3-;2>5-;3>4+;4>1-;4>2-;4>3-;4>5+;5>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Guard209_Lock",
+        "name": "Guard 209 Chest",
+        "place": "Old Camp"
+      }
+    },
+    "0,0,6,3|1>3+;2>3-;3>1+;3>2+;4>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OC_Chest_Herek_Lock",
+        "name": "Herek Chest",
+        "place": "Old Camp"
+      }
+    },
+    "6,1,0,0,3,6|2>5-;3>1+;3>2-;4>2-;4>3+;4>6+;5>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OM_Chest_Alberto_01_Lock",
+        "name": "Alberto 01 Chest",
+        "place": "Old Mine"
+      }
+    },
+    "2,4,2,0,3,2|1>3+;2>4+;2>5-;3>6-;4>1-;4>2+;4>6+;5>3+;6>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "Otown_Chest_01_Lock",
+        "name": "Chest 01",
+        "place": "Otown"
+      }
+    },
+    "0,5,6,2,0,4|1>6+;2>3-;2>4+;2>5-;2>6+;3>2-;4>3+;4>5+;5>3+;6>1-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "Otown_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "Otown"
+      }
+    },
+    "5,2,4,1,6,6|1>2+;1>3-;1>5+;1>6+;2>1+;2>4+;4>1-;4>5+;5>3+;6>5-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "Otown_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "Otown"
+      }
+    },
+    "0,2,5,3,2|1>2-;1>3-;1>4+;1>5-;2>3+;2>5+;3>5+;5>1-;5>2-;5>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OTT_Chest_05_Lock",
+        "name": "Chest 05",
+        "place": "OTT"
+      }
+    },
+    "0,2,5,3,1|1>3-;1>4-;1>5-;2>4-;3>1+;3>2-;3>4-;3>5+;4>1-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OTT_Chest_06_Lock",
+        "name": "Chest 06",
+        "place": "OTT"
+      }
+    },
+    "6,0,5,3,5,2|2>1+;2>6-;3>4-;4>2+;5>1+;5>4-;5>6-;6>1+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "OTT_Chest_09_Lock",
+        "name": "Chest 09",
+        "place": "OTT"
+      }
+    },
+    "0,2,5,6,5,5|2>4+;2>5+;2>6-;3>1-;3>4-;3>5+;4>2+;5>1-;5>3-;5>6-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SNT_Chest_04_Lock",
+        "name": "Chest 04",
+        "place": "SNT"
+      }
+    },
+    "6,0,3,0,2,5|2>1-;2>6+;3>1-;3>2-;3>5-;4>6+;5>1-;5>4+;6>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SNT_Chest_06_Lock",
+        "name": "Chest 06",
+        "place": "SNT"
+      }
+    },
+    "2,4,1,0,5,0|2>5-;3>6-;4>2-;4>5+;5>6+;6>1-;6>4+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SNT_Chest_09_Lock",
+        "name": "Chest 09",
+        "place": "SNT"
+      }
+    },
+    "0,2,5,5,6|1>2+;1>4+;3>1+;3>4-;4>3-;5>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SW_Chest_02_Lock",
+        "name": "Chest 02",
+        "place": "SW"
+      }
+    },
+    "1,4,0,5,0|2>1-;3>4-;4>1-;4>2-;5>1-;5>2+;5>3-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "SW_Chest_03_Lock",
+        "name": "Chest 03",
+        "place": "SW"
+      }
+    },
+    "3,4,6,3,3|1>2+;2>1+;2>4+;2>5+;5>2+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "TST_Chest_Forge_01_Lock",
+        "name": "Forge 01 Chest",
+        "place": "TST"
+      }
+    },
+    "1,6,4,5|2>1+;2>3-;2>4+;3>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "TST_Chest_Lava_Stronghold_01_Lock",
+        "name": "Lava Stronghold 01 Chest",
+        "place": "TST"
+      }
+    },
+    "1,4,4,3|1>3+;2>1+;4>1+;4>3-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "TST_Chest_Slave_01_Lock",
+        "name": "Slave 01 Chest",
+        "place": "TST"
+      }
+    },
+    "6,3,5,0,6,4|1>2+;1>6+;3>1-;3>4-;4>5-;6>1+;6>2-;6>3+;6>5+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "TST_Chest_WinchRoom_01_Lock",
+        "name": "Winch Room 01 Chest",
+        "place": "TST"
+      }
+    },
+    "4,6,4,2|2>1+;3>1-;3>4-;4>2-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "TST_Chest_WinchRoom_02_Lock",
+        "name": "Winch Room 02 Chest",
+        "place": "TST"
+      }
+    },
+    "1,5,2,5|1>4-;2>1-;3>2-;3>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "TST_Chest_WinchRoom_03_Lock",
+        "name": "Winch Room 03 Chest",
+        "place": "TST"
+      }
+    },
+    "1,6,6,0|1>4+;2>1-;2>3-;2>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "TST_Chest_Sleeper_01_Lock",
+        "name": "Sleeper 01 Chest",
+        "place": "TST"
+      }
+    },
+    "3,0,0,1,4,1|1>2-;1>4+;1>5+;2>6-;4>5-;5>6+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "TST_Chest_Sleeper_02_Lock",
+        "name": "Sleeper 02 Chest",
+        "place": "TST"
+      }
+    },
+    "1,3,3,6,5|2>3-;2>5-;3>2-;3>4+;5>1-;5>4-": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "TST_Chest_Lava_Stronghold_02_Lock",
+        "name": "Lava Stronghold 02 Chest",
+        "place": "TST"
+      }
+    },
+    "6,5,6,2,4,0|1>2-;1>3+;1>5-;1>6+;2>1+;3>2+;4>1+;5>6+;6>3+": {
+      "conf": 3,
+      "agree": [
+        "dsazz"
+      ],
+      "disagree": [],
+      "game": {
+        "id": "XT_Chest_06_Lock",
+        "name": "Chest 06",
+        "place": "Xardas Tower"
       }
     }
   }

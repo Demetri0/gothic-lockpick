@@ -219,3 +219,39 @@ test.describe('bootstrapDecisions', () => {
     expect(decisions.overrides).toEqual([]);
   });
 });
+
+test.describe('evidence', () => {
+  const TWO = INI(`
+"[good_one]
+name=""Хороший""
+cells=2
+rules=""A:B-""
+start_pos=""1,2""
+tags=""""
+"[bad_one]
+name=""Плохой""
+cells=2
+rules=""A:B+""
+start_pos=""1,2""
+tags=""""
+`);
+
+  test('carries agreement, doubt, the better entry id and game metadata into entries', () => {
+    const good = pipeline.canonicalKey([1, 2], 'A:B-');
+    const bad = pipeline.canonicalKey([1, 2], 'A:B+');
+    const { entries } = pipeline.buildEntries(TWO, { v: 1, evidence: {
+      [good]: { conf: 3, agree: ['dsazz'], disagree: [], game: { id: 'X_Lock', name: 'X', place: 'Old Camp' } },
+      [bad]: { conf: -3, agree: [], disagree: ['dsazz'], doubt: true, better: good },
+    } });
+    const g = entries.find(e => e.id === 'good-one');
+    const b = entries.find(e => e.id === 'bad-one');
+    expect(g).toMatchObject({ conf: 3, game: { id: 'X_Lock', name: 'X', place: 'Old Camp' } });
+    expect(g.doubt).toBeUndefined();
+    expect(b).toMatchObject({ conf: -3, doubt: true, alt: 'good-one' });
+  });
+
+  test('entries without evidence stay untouched', () => {
+    const { entries } = pipeline.buildEntries(TWO);
+    for (const e of entries) for (const k of ['conf', 'doubt', 'alt', 'game']) expect(e[k]).toBeUndefined();
+  });
+});
