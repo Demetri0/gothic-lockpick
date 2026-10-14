@@ -3,7 +3,7 @@
 
 // Cross-check our chest DB against external lock catalogs and build a comparison
 // matrix: one row per physical lock, one column per source, every disagreement
-// verified by replaying our solution on the other variant.
+// checked by replaying our solution on the other variant.
 //
 //   node tools/sync-catalogs.cjs                 fetch sources, compare, write reports
 //   node tools/sync-catalogs.cjs --offline       reuse the cache in tools/catalogs/
@@ -151,7 +151,7 @@ const SOURCES = [
     url: 'https://github.com/religiosa1/gothic-lockpick-emulator',
     // plates numbered bottom-up; dependencies[moved] = [[affected, coef]]
     orientation: { R: 1, T: 0, X: 0 },
-    weight: 2,   // recorded in game by hand
+    weight: 2,   // presumably recorded in game by hand
     async fetch(dir) { gitMirror('https://github.com/religiosa1/gothic-lockpick-emulator.git', path.join(dir, 'religiosa1')); },
     load(dir) {
       const base = path.join(dir, 'religiosa1', 'locks');

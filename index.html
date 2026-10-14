@@ -2264,19 +2264,22 @@ function urlReadConfig(search = location.search) {
 // don't write the history back and loop.
 let syncingFromUrl = false;
 
-/** Persist a config + stage into the URL in place (no new history entry). */
-function urlReplace(plates, stage) {
+/** The one URL writer; callers use urlReplace (config edits) or urlPush (stage
+ *  changes, so browser Back/Forward toggle the stage). Silent while
+ *  syncingFromUrl, i.e. while the URL is being read back into the view. */
+function urlWrite(plates, stage, mode) {
   if (syncingFromUrl) return;
   const q = urlQueryFor(plates, stage);
-  if (q) history.replaceState(null, '', q);
+  if (!q) return;
+  if (mode === 'push') history.pushState(null, '', q);
+  else history.replaceState(null, '', q);
 }
 
+/** Persist a config + stage into the URL in place (no new history entry). */
+function urlReplace(plates, stage) { urlWrite(plates, stage, 'replace'); }
+
 /** Persist a config + stage as a NEW history entry (config↔solve navigation). */
-function urlPush(plates, stage) {
-  if (syncingFromUrl) return;
-  const q = urlQueryFor(plates, stage);
-  if (q) history.pushState(null, '', q);
-}
+function urlPush(plates, stage) { urlWrite(plates, stage, 'push'); }
 
 /** Apply the config from the URL (if any) on startup. Silent — no import dialog. */
 function urlApplyOnLoad() {
