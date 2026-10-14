@@ -4,6 +4,22 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- The GitHub Pages deploy runs on the Node 24 releases of its actions and on the Ubuntu
+  26.04 LTS runner.
+
+### Documentation
+- Agent tooling and docs restructured. `CLAUDE.md`/`AGENTS.md` now hold only rules and
+  pointers; reference docs live in `docs/` (`architecture.md`, `formats.md`,
+  `db-pipeline.md`, `user-guide.md`); the README is rewritten in English. New tooling:
+  - a `release` skill;
+  - a pre-commit check that `chests.json` matches a fresh build;
+  - a pre-push hook that tests the tip of each pushed ref in a temporary worktree, plus
+    the corpus sweep when solver or DB code or data changed;
+  - a lint for test selectors and URL writes.
+
 ## [1.6.0] - 2026-10-11
 
 ### Added
