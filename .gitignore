@@ -9,3 +9,6 @@ tools/review-queue.json
 .superpowers/
 gothic-lockpick/
 tools/catalogs/
+main.ts
+mise.toml
+.codex/
