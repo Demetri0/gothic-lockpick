@@ -91,3 +91,17 @@ test('app code never queries the DOM by data-test-id (test ids are for tests)', 
   const found = appTestIdQueries(readFileSync(new URL('../index.html', import.meta.url), 'utf8'));
   expect(found, found.join('\n')).toEqual([]);
 });
+
+test('the URL is written in one place: urlWrite (callers use urlReplace/urlPush)', () => {
+  const html = stripComments(readFileSync(new URL('../index.html', import.meta.url), 'utf8'));
+  // Bracket access to the history *methods* would dodge the count below. (The solver
+  // has an unrelated local array named `history`, so match the method names.)
+  expect(html, 'no bracket access to history methods').not.toMatch(/history\s*\[[^\]]*State/);
+  const start = html.indexOf('function urlWrite(');
+  expect(start, 'urlWrite exists').toBeGreaterThan(-1);
+  const body = html.slice(start, html.indexOf('\n}', start));
+  const all = [...html.matchAll(/history\.(replaceState|pushState)\s*\(/g)].length;
+  const inside = [...body.matchAll(/history\.(replaceState|pushState)\s*\(/g)].length;
+  expect(inside, 'urlWrite calls both history methods').toBe(2);
+  expect(all, 'history.*State( appears only inside urlWrite').toBe(inside);
+});
