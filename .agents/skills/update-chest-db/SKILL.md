@@ -1,6 +1,6 @@
 ---
 name: update-chest-db
-description: Use when updating the chest database (chests.json) in any way — syncing with external Gothic Remake lock catalogs (dsazz, unlockmyloot, religiosa1), adding locks we lack, refreshing the agreement score / doubt flags / game metadata, dropping or fixing wrong entries, translating names, or when a user reports a DB lock whose solution breaks the pick in game.
+description: Use when updating the chest database (chests.json) in any way — syncing with external Gothic Remake lock catalogs (dsazz, unlockmyloot, religiosa1), adding locks we lack, refreshing the agreement score / doubt flags / game metadata, dropping or correcting entries that other sources dispute, translating names, or when a user reports a DB lock whose solution breaks the pick in game.
 ---
 
 # Updating the chest database
@@ -13,7 +13,7 @@ chests.ini (raw, uncommitted)  +  tools/db-decisions.json (committed)  →  npm 
 
 - **`chests.ini`** is never committed and may come from outside. Never edit it.
 - **INI parsing is pipeline-only** (`tools/ini2json.cjs`). The app's own config parsers never read INI syntax.
-- **Edits to either file are blocked** for Claude's file tools and shell redirection (`permissions.deny` in `.claude/settings.json`). Anything else, such as a script or another agent, is caught at commit time: the `pre-commit` check rebuilds `chests.json` and rejects a mismatch.
+- **Edits to either file are blocked** for Claude's file tools and shell redirection (`permissions.deny` in `.claude/settings.json`). Anything else, such as a script or another agent, is caught at commit time, when `chests.json`, the decisions or the builder are staged: the `pre-commit` check rebuilds the entries and rejects a mismatch. Without a local `chests.ini` it only warns.
 
 Every change goes into `tools/db-decisions.json`:
 
@@ -36,7 +36,7 @@ A canonical key is `pos|edges`, e.g. `5,2,1,0,6|1>4+;2>5+;3>5-` (`canonicalKey` 
 
 Everything in the DB is third-party data of unknown accuracy, including the external catalogs. Every statement about it is hedged: say what was compared and how confident we are, never "verified", "correct" or "wrong". This applies to UI text, docs, release notes and replies to the user. For example, a source recorded by hand in game is "presumably recorded in game".
 
-A transcription error (a missing link, a flipped sign, positions typed in reverse plate order) still describes a **solvable** lock, so the solver and the corpus sweep accept it. The player only finds out in game, when a plate hits the wall and the pick breaks. Comparing independent records of the same lock is the only way to flag such an entry beforehand.
+A transcription error (a missing link, a flipped sign, positions typed in reverse plate order) can still describe a **solvable** lock, which the solver and the corpus sweep accept. Solvability alone can't show whether an entry matches the game; the player may only find out there, when a plate hits the wall and the pick breaks. Comparing independent records of the same lock is one source of evidence that can flag such an entry beforehand.
 
 ## The full update cycle
 
@@ -51,7 +51,7 @@ npm run build:db
 npm run test:corpus && npx playwright test               # 5. every entry must still solve
 ```
 
-Run `--write-evidence` **after** additions are built: it scores what `chests.json` contains. The two flags can't be combined in one run.
+Run `--write-evidence` **after** additions are built: it scores what `chests.json` contains, so a lock added after the last evidence run has no score. The two flags can't be combined in one run.
 
 If a run aborts with `data fits orientation … declared …`, an upstream format changed. Inspect a few records of that source by hand, fix its `load()` or `orientation` in `tools/sync-catalogs.cjs`, and only then trust the output.
 
@@ -72,7 +72,7 @@ A **variant** is one distinct (positions, links) record of the same physical loc
 |---|---|
 | `AGREE` | one variant, several sources |
 | `KEEP-CONSENSUS` | we hold 2+ variants, external sources back exactly one |
-| `DEDUP-BENIGN` | variants differ, but each solution also works on the other |
+| `DEDUP-BENIGN` | variants differ, but every replay of our variants' solutions on the others succeeds (only our variants are solved) |
 | `OURS-DISPUTED` | no external source backs any of our variants (incl. `⇄` reversed positions) |
 | `SOURCES-DISAGREE` | ours is backed, but another source has different data. Often a record taken one move after the start |
 | `MISSING` | an external lock we don't have |
@@ -90,7 +90,7 @@ A **variant** is one distinct (positions, links) record of the same physical loc
 - `better`: the key of our own variant of the same lock with a higher `conf`.
 - `game`: the record of the source flagged `gameMeta`, i.e. the asset id (presumably the game's own, e.g. `OC_Chest_Guard242_Lock`), English name and place.
 
-Weights, `gameMeta` and the doubt threshold live on `SOURCES` in `tools/sync-catalogs.cjs`. **They change only after discussion with the user.**
+Weights and `gameMeta` live on `SOURCES` in `tools/sync-catalogs.cjs`; the doubt rule (`conf ≤ 0`) is in `computeEvidence` there. **Both change only after discussion with the user.**
 
 The build copies these onto entries as `conf`, `doubt`, `alt` (the better entry's id) and `game`. In the app (`db-search` block):
 
@@ -112,7 +112,7 @@ The DB is curated deliberately. Propose drops and fixes to the user; don't apply
 
 `npm run review:db` is a web UI that shows one queue item at a time. Use it for dedup merges and enrichment proposals. Positions and rules there are read-only.
 
-A structural fix (a wrong link or position) is an `overrides` entry written by hand in `tools/db-decisions.json`, proposed to the user first. The full description is in `docs/db-pipeline.md`.
+A structural fix (a link or position that needs correcting) is an `overrides` entry written by hand in `tools/db-decisions.json`, proposed to the user first. The full description is in `docs/db-pipeline.md`.
 
 ## Translations
 
@@ -124,7 +124,7 @@ node tools/translate-gaps.cjs --import ru  # likewise de, uk → staged (transla
 ```
 
 Then run the AI verification pass over the staged texts:
-1. Check them against `tools/gothic-glossary.json`, the Gothic canon (names, places, terms) and the UI terms (see `CLAUDE.md` → i18n).
+1. Check them against `tools/gothic-glossary.json`, the terms already used in `chests.json`, the Gothic canon (names, places, terms) and the UI terms (see `CLAUDE.md` → i18n).
 2. Give the user a numbered list of suspicions with proposed fixes.
 3. Patch staging after the user's verdicts.
 
@@ -144,7 +144,7 @@ Add an object to `SOURCES` in `tools/sync-catalogs.cjs`. It needs:
 - `fetch(cacheDir)`;
 - `load(cacheDir) → [{id, name, place, pos (0-based holes), M (M[moved][affected] ∈ {-1,0,1})}]`.
 
-To find the orientation, run `calibrate(records, ours)` from the module. A real source matches a large share of our DB exactly under one orientation. A source with no exact match under any orientation is not real data: gothicremakelockpicking.com and nkbgaming were rejected for this reason (2026-10). Add such a source to the "Checked and rejected" comment instead. A new weight is a change to discuss with the user.
+To find the orientation, run `calibrate(records, ours)` from the module. A real source matches a large share of our DB exactly under one orientation. A source with no exact match under any orientation doesn't correspond to any record we know, so it isn't usable as evidence: gothicremakelockpicking.com and nkbgaming were rejected for this reason (2026-10). Add such a source to the "Checked and rejected" comment instead. A new weight is a change to discuss with the user.
 
 ## Tests
 

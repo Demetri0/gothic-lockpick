@@ -13,9 +13,9 @@ Screenshots: [configuration](screenshots/config.png) · [solution](screenshots/s
 - **Shortest solution:** the minimal number of presses and, in practice, the fewest plate switches among them, so the step list is short.
 - **3D view** of the lock, with step-by-step playback and an explore mode for trying moves yourself.
 - **Chest database** of real Gothic 1 Remake locks: search by name or by the plate positions you see, and live "Looks like:" hints while you type.
-- **Agreement marks:** entries that other lock catalogs describe differently are flagged, so you know to double-check them in game.
+- **Agreement marks:** entries that other lock catalogs dispute, outweighing the ones that agree, are flagged, so you know to double-check them in game.
 - **Shareable links:** the lock lives in the URL.
-- **Import and export** in several text formats, including unlockmyloot links.
+- **Import and export** in several text formats; import also accepts unlockmyloot lock codes.
 - **Three interface languages:** Русский, Українська, English.
 
 ## How to use
@@ -27,8 +27,10 @@ Screenshots: [configuration](screenshots/config.png) · [solution](screenshots/s
 
 | Keys | Configuration screen | Solution screen |
 |---|---|---|
-| `W` / `S`, `↑` / `↓` | select a plate | select a plate |
-| `A` / `D`, `←` / `→` | move the plate (no dependencies) | explore: move with dependencies |
+| `W` / `S` | select a plate | select a plate |
+| `A` / `D` | move the plate (no dependencies) | explore: move with dependencies |
+| `↑` / `↓` | change the selected plate's position | select a plate |
+| `←` / `→` | select a plate | explore: move with dependencies |
 | `Ctrl+K` | search the chest database | — |
 | `Ctrl+C` / `Ctrl+V` | copy / paste a config | — |
 
@@ -42,7 +44,7 @@ The database holds a few hundred chests and doors from Gothic 1 Remake. It was c
 - [unlockmyloot](https://github.com/1h8s/unlockmyloot);
 - [gothic-lockpick-emulator](https://github.com/religiosa1/gothic-lockpick-emulator) by religiosa1.
 
-This is third-party data of unknown accuracy. An entry that other sources describe differently shows a warning triangle in search. On the solution screen it shows a note suggesting that you check the starting positions and dependencies against the game, and it offers a better-agreeing entry for the same lock when there is one.
+This is third-party data of unknown accuracy. An entry that other sources dispute, outweighing the ones that agree, shows a warning triangle in search. On the solution screen it shows a note suggesting that you check the starting positions and dependencies against the game, and it offers a better-agreeing entry for the same lock when there is one.
 
 ## Development
 

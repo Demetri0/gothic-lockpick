@@ -27,20 +27,20 @@ Act only on a **direct, unambiguous request** to release ("cut 1.7.0", "make a r
 0. **Check.**
    - Current branch, and a clean `git status`.
    - `git describe --tags`; whether `vX.Y.Z` already exists (never reuse a tag).
-   - `git fetch` (network), then whether `main` is behind `origin/main`.
+   - `git fetch origin main:main` (network; when `main` isn't checked out). It fast-forwards local `main` to `origin/main` without switching branches, and refuses if they have diverged; then stop and ask. On `main` itself, use `git pull --ff-only`.
    - Then run `npx playwright test`, plus `npm run test:corpus` if solver logic, move rules, DB-entry conversion or `chests.json` changed since the last tag. Stop on any failure.
-   - If the work is already merged, skip the merge in step 2.
-1. **Release commit**, on the branch if there is one, otherwise on `main`:
+   - If the work is already merged into `main` (or was done there), check out `main`: the release commit goes on `main` and step 2 is skipped.
+1. **Release commit**, on the feature branch if the work is not merged yet, otherwise on `main`:
    - `npm version X.Y.Z --no-git-tag-version`. This updates `package.json` **and** `package-lock.json`.
    - In `CHANGELOG.md`, rename `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD` (today), and insert a fresh empty `## [Unreleased]` above it.
    - Write `docs/releases/vX.Y.Z.md`: players first, then a "For contributors" list. Include only changes that are in this release. Every claim about DB data is hedged (third-party data of unknown accuracy; see the `update-chest-db` skill).
    - Stage those four files by name and run `git commit -m "chore(release): X.Y.Z"`.
 2. **Merge** (branch only). `git merge` can't read a message from stdin, so write it to a file and run `git checkout main && git merge --no-ff -F <file> <branch>`. Title: `Merge: <summary> (X.Y.Z)`; the body says what changed for users.
-3. **Tag:** `git tag -a vX.Y.Z -F <file>`. The first line is `X.Y.Z — <summary>`, then a short paragraph (mirror `git show v1.5.0`).
+3. **Verify the final tree, then tag.** On `main`, check that `git rev-parse HEAD` equals `git rev-parse main`. If a merge happened in step 2, run `npx playwright test` again (plus the corpus under the same condition as step 0): a clean merge can still combine changes into untested behavior. Then `git tag -a vX.Y.Z -F <file>`. The first line is `X.Y.Z — <summary>`, then a short paragraph (mirror `git show v1.5.0`).
 4. **Report** what was done and show the release-notes text verbatim.
 5. **Push, only after the user's go-ahead:** `git push origin main vX.Y.Z`.
    - Run it with a 600000 ms timeout or in the background. pre-push tests each pushed ref tip in a temporary worktree (plus the corpus when needed), and a failure aborts the push.
-   - If a push is interrupted, run `git worktree prune`.
+   - If a push is interrupted, its temporary worktree survives: `git worktree list`, then `git worktree remove --force <the lockpick-push-* path>`.
    - Then delete the merged branch locally (`git branch -d`), and on the remote too if it was pushed.
 6. **After the push**, ask the user to confirm the Pages workflow run is green.
 

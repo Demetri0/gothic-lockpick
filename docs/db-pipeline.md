@@ -28,7 +28,7 @@ npm run review:db   # web review of duplicates and enrichments → http://localh
 
 `chests.json` and `chests.ini` are never edited by hand:
 - Claude Code denies edits to them (`.claude/settings.json`).
-- The `pre-commit` check rebuilds the entries and rejects a committed `chests.json` that differs, whoever edited it.
+- The `pre-commit` check runs when `chests.json`, `tools/db-decisions.json` or `tools/ini2json.cjs` is staged. It rebuilds the entries from `chests.ini` with the staged builder and decisions, and rejects a committed `chests.json` whose `entries` differ, whoever edited it. Without a local `chests.ini` it warns and passes. It compares only `entries`, and it can't tell whether `chests.ini` itself was changed.
 
 ## Canonical key
 
@@ -71,17 +71,17 @@ Duplicate groups **without** a decision are not merged silently: they appear as 
 - **`pos`** is 0-based (`0..6`). The app adds 1 to the whole run (`entryToPlates`). An entry out of range is rejected (`validatePlates`), never clamped or shifted to fit.
 - **Name languages** are `LANGS` in `tools/translate-gaps.cjs`, currently ru, en, de and uk. The UI has three locales (ru, en, uk).
 - **`desc`** is optional (location and loot). It is stored but not shown in the UI.
-- **`cells`** is not stored; it is `pos.length`.
+- **`cells`** is stored too and equals `pos.length`.
 - **Evidence fields:**
   - present only on entries an external catalog knows;
   - `conf`: agreement, the sum of the weights of agreeing sources minus those of disagreeing ones;
-  - `doubt`: the sources speak against our version;
+  - `doubt`: there is disagreement and `conf ≤ 0`, i.e. the disagreeing sources outweigh the agreeing ones;
   - `alt`: the id of a better-agreeing entry for the same lock;
   - `game`: the asset id (presumably the game's own), English name and place, from the dsazz catalog.
 
 ## Review tool (`npm run review:db`)
 
-A dependency-free web page that shows one queue item at a time. All candidate entries appear side by side, next to an editable result: id, names/descriptions per language and tags. Positions and rules are read-only, so a structural fix (a wrong link or position) is a hand-written `overrides` entry instead, proposed to the user first.
+A dependency-free web page that shows one queue item at a time. All candidate entries appear side by side, next to an editable result: id, names/descriptions per language and tags. Positions and rules are read-only, so a structural fix (a link or position that needs correcting) is a hand-written `overrides` entry instead, proposed to the user first.
 
 - **Buttons:** "Accept" writes the decision to `db-decisions.json` immediately; "Skip" moves on.
 - **The queue** holds canonical duplicate groups plus external proposals from `tools/review-queue.json` (enrichments, conflicts, new locks).
@@ -99,7 +99,7 @@ A dependency-free web page that shows one queue item at a time. All candidate en
 - **Decoding:** each config is decoded from its `?lock=` code, a base64url bit stream: 3 bits plate count − 3, 1 orientation bit, 3 bits per pin, 2 bits per link.
 - **Classification** against our database:
   - **enrich:** the canonical key matches. It proposes filling our empty `desc` with their descriptions; our names win by default.
-  - **conflict:** the rules match but the positions differ. Someone has a typo; the note holds both versions and a person decides. Both sides are usually solvable, so the solver can't arbitrate.
+  - **conflict:** the rules match but the positions differ. The cause may be a typo on either side or a record taken after a move; the note holds both versions and a person decides. Both sides are usually solvable, so the solver can't arbitrate.
   - **add:** an unknown lock, ready as an `additions` entry.
 
 Everything goes through the review queue; nothing is imported blindly. Only numeric codes and page texts are taken from their repository, no code.
@@ -121,7 +121,7 @@ node tools/sync-catalogs.cjs --offline --add-missing     # locks we lack → add
 node tools/sync-catalogs.cjs --offline --write-evidence  # agreement → evidence
 ```
 
-A transcription error (a missing link, a flipped sign, positions in reverse plate order) still gives a solvable lock, so the corpus sweep can't catch it; only this cross-check can flag it. The tool never writes `drops`. In the app, the evidence drives the ranking, the warning glyph and the solve-stage notice (see [user-guide.md](user-guide.md)).
+A transcription error (a missing link, a flipped sign, positions in reverse plate order) can still give a solvable lock, and solvability alone can't show whether an entry matches the game. The cross-check is one source of evidence that can flag such an entry. The tool never writes `drops`. In the app, the evidence drives the ranking, the warning glyph and the solve-stage notice (see [user-guide.md](user-guide.md)).
 
 ## Translations (`node tools/translate-gaps.cjs`)
 
@@ -150,7 +150,7 @@ The staging step exists so that a machine translation can't reach the database b
 - `Burg`, not "Schloss";
 - Ukrainian «шкода» means damage, not losses.
 
-`tools/translate.sh` (`npm run translate:db`) is an older batch name translation through `claude --print`, kept as an alternative for bulk names.
+`tools/translate.sh` (`npm run translate:db`) is a historical batch name translation through `claude --print`. It writes straight into `chests.json`, bypassing the decisions layer and the review step, so its output would be lost on the next build and is rejected by the `pre-commit` check. Don't use it; use `translate-gaps` instead.
 
 ## Migration history (July 2026)
 

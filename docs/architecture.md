@@ -17,7 +17,7 @@ The code lives in `<script>` blocks with semantic ids. To pull one out: `grep 'i
 | `ui-utils` | `showToast()`, `copyToClipboard()` |
 | `game-logic` | `applyMove()`, `getBlockingPlateId()`, `cycleActivePlate()`, `flashBlockedPlate()` |
 | `render-scene` | `buildScene()`, `updateScene()`, `posToOffsetX()` (the 3D scene) |
-| `render-preview` | `posStripHTML()`, `depMatrixHTML()` (+ `depCellColorHTML`/`depCellIconHTML`), `depDirIcon` — read-only visuals (§7) |
+| `render-preview` | `posStripHTML()`, `depMatrixHTML()` with the cell renderer `depCellIconHTML`, `depDirIcon` — read-only visuals (§7) |
 | `codecs` | `Codecs = {json, gothic, dotted, bytearray}`; facade globals `validatePlates()`, `PARSERS`, `parseConfig()`, `looksLikeImportConfig()` ([formats.md](formats.md)) |
 | `url` | Shareable state (§6) |
 | `config` | The position drum (`posSetPlateValue`), the dependency matrix (`renderMatrix`, `depCellHTML`), import/export, random generation, `entryToPlates()` |
@@ -53,6 +53,8 @@ The blocks apply in document order, exactly like one concatenated sheet. So **mo
 - `.hidden` (in `style-base`) comes before component rules. A component that sets its own `display` needs an explicit `.component.hidden { display: none }` (see `.solution-list.hidden`) instead of relying on the utility.
 
 There is no `!important` anywhere; keep it that way.
+
+Some layouts react to their container's width, not the viewport's (`container-type` + `@container`). For example, dependency-matrix cells switch from the direction word to an icon below a matrix width of 670px: a cell is `matrix width / (N+1)` wide, so an 8-plate matrix switches even on desktop.
 
 ## 4. Solver and workers
 
@@ -109,7 +111,7 @@ Some logic exists in exactly one place, and every caller goes through it. Extend
 
 Shareable state lives only in the URL query string, never in `history.state`: `?lock=<dotted>` (the initial config; the solution is recomputed) plus an optional value-less `&solve`.
 
-- **Pure helpers:** `urlQueryFor(plates, stage)` and `urlReadConfig()` take the config as input and don't touch the DOM.
+- **Pure helpers:** `urlQueryFor(plates, stage)` builds the query from a config without touching the DOM. `urlReadConfig(search = location.search)` parses a query string; it reads `location.search` only by default.
 - **Writing:** callers use `urlReplace` (config edits; every config mutation point calls it) or `urlPush` (entering and leaving the solve stage, so browser Back/Forward toggle the stage; `pushState` also clears the forward stack, so no stale entries remain).
   - Both are thin wrappers over the internal `urlWrite`, the only place that calls `history.replaceState`/`pushState`.
   - `urlWrite` is silent while `syncingFromUrl` is set, i.e. while the URL is being read back into the view.
@@ -122,7 +124,7 @@ Shareable state lives only in the URL query string, never in `history.state`: `?
 
 The `render-preview` block turns plates into HTML without reading the DOM or state:
 - `posStripHTML` is the positions strip, reused by search cards;
-- `depMatrixHTML(plates, renderCell)` takes a pluggable `depCellColorHTML`/`depCellIconHTML`;
+- `depMatrixHTML(plates, renderCell)` takes a pluggable cell renderer; the current one is `depCellIconHTML`;
 - `depDirIcon` also lives here.
 
 The `Ctrl+V` import dialog uses these to preview the pending config. When the database holds the same lock, the dialog shows a card for it, found by `findIdenticalChest`: a structural match on plate count, positions and edges, not the build-time canonical key.
@@ -139,3 +141,14 @@ The `Ctrl+V` import dialog uses these to preview the pending config. When the da
   - a blank value;
   - a `data-i18n` attribute with no dictionary entry;
   - `t()` falling back to returning the key.
+
+## 9. Chest hints scoring
+
+`computeChestHints` (block `db-search`) ranks DB entries against the plates the user has entered. The comparison is deterministic: the user's 1-based positions are converted to the DB's 0-based ones, with no "try both readings".
+
+- `prefix = L / N`, where `L` is the length of the matching leading run and `N` the user's plate count.
+- `count = 1 / (1 + |entry plates − N|)`.
+- `score = prefix · (0.7 + 0.3 · count)`. The multiplication makes a positional match mandatory: an entry with `prefix = 0` never appears.
+- Entered dependencies, if any, multiply the score by `max(0, 1 + 0.5·match − 0.2·missing − 1.5·conflict)`. Only entered links are judged: a matching direction, a link the entry lacks, an opposite direction. An empty matrix changes nothing.
+- Entries with `score > 0.25` are kept, at most 3. They are sorted by score, then agreement (`conf`), then plate count.
+- The score also drives card opacity; a full match (`score ≈ 1`) jumps to full opacity.

@@ -30,13 +30,13 @@ Each rule prevents a bug this project has had.
 - **One implementation per concern.** Extend these, never copy their logic: `posSetPlateValue`, `applyPlates`, `loadEntry`, `stopAutoPlay`, `resetExploreState`, `isComputing`, `lastPlayedIndex`. Roles: `docs/architecture.md`.
 - **URL:** shareable state lives only in the query (`?lock=<dotted>[&solve]`). To write it, call `urlReplace` (config edits) or `urlPush` (stage changes); never call `history.*State` yourself.
 - **i18n:** every user-visible string goes in all UI locales (`TRANSLATIONS` keys: ru, en, uk); locale-independent symbols (`·`, `↩`) are exempt. Markup that stays on screen across a language switch uses `data-i18n*` attributes, not a one-off `t()`. Terms: plate = «элемент» / «елемент» / "plate"; links = «связи» / «зв'язки» / "dependencies".
-- **DB:** never edit `chests.json` (generated) or `chests.ini` (raw input). Changes go into `tools/db-decisions.json`, then `npm run build:db`. Claude's file tools are denied; pre-commit catches the rest. Never drop an entry without asking the user and explaining why. Use the `update-chest-db` skill.
+- **DB:** never edit `chests.json` (generated) or `chests.ini` (raw input). Changes go into `tools/db-decisions.json`, then `npm run build:db`. Claude's file tools are denied; pre-commit rejects a `chests.json` that doesn't match a fresh build. Never drop an entry without asking the user and explaining why. Use the `update-chest-db` skill.
 - **DB data is third-party and of unknown accuracy.** Everything we say about it, in UI, docs or replies, states what was compared and how confident we are; never "verified" or "wrong".
 
 ## Testing
 
 - Follow Playwright's best practices. Project specifics:
-- Locate elements only by `data-test-id` (`getByTestId`, or `locator('[data-test-id…]')` plus attribute filters). If an element has none, add one to `index.html` first. Ids are kebab-case and start with the area (`search-result-0-name`, `pos-input-3`, `btn-start`); numbers are 1-based plate/step ids or 0-based list indexes. App code never queries by `data-test-id`; test ids are for tests. `tests/conventions.spec.js` checks locator calls and app-side queries.
+- Locate elements only by `data-test-id` (`getByTestId`, or `locator('[data-test-id…]')` plus attribute filters). If an element has none, add one to `index.html` first. Ids are kebab-case and start with the area (`search-result-0-name`, `pos-input-3`, `btn-start`); numbers are 1-based plate/step ids or 0-based list indexes. App code never queries by `data-test-id`; test ids are for tests. `tests/conventions.spec.js` checks locator calls and app-side queries; `tests/review-findings.spec.js` pins one test per defect from the full review.
 - Names and comments in English; quoting UI strings is fine.
 - `beforeEach` holds only what every test in the file shares (navigation, network mocks).
 - `{ force: true }` on clicks inside the 3D scene (CSS 3D transforms affect hit-testing). Assert results, not transient states.

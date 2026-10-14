@@ -25,31 +25,33 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - **62 new locks** in the chest database, taken from the dsazz/gothic-remake-lockbreaker
   catalog: Bandit Camp, the mercenaries' and rogues' chests in the New Camp, the Old Camp
-  armory, mages' rooms and guards' chests, and more. Names in all four languages. Every entry
-  is solvable as recorded (the corpus sweep covers all 450 entries).
+  armory, mages' rooms and guards' chests, and more. Names in all four languages. Every
+  entry is solvable as recorded (the corpus sweep covers all 450 entries).
 - `npm run sync:catalogs` (`tools/sync-catalogs.cjs`) cross-checks the database against the
   community lock catalogs and writes a lock-by-lock comparison matrix. Where records
-  disagree, it replays our solution on the other version of the lock, which shows whether a
-  wrong entry would break the pick in game. Workflow in the `update-chest-db` skill.
-- **Agreement with other sources.** Each chest entry is scored by how many of the other
-  lock catalogs record it the same way. Search results and chest hints list the
-  better-agreeing entry first. Entries that other sources describe differently get a warning
-  glyph and, on the solve stage, a notice to check the positions and links against the
-  game; when the database holds a better-agreeing entry for the same lock, the notice offers
-  to open it.
+  disagree, it replays our solution on the other version of the lock, which shows whether
+  the entry would break the pick if the other version is the right one. Workflow in the
+  `update-chest-db` skill.
+- **Agreement with other sources.** Each chest entry is scored by how many of the other lock
+  catalogs record it the same way. Search results and chest hints list the better-agreeing
+  entry first. Entries that other sources dispute, outweighing the ones that agree, get a
+  warning glyph and, on the solve stage, a notice to check the positions and links against
+  the game; when the database holds a better-agreeing entry for the same lock, the notice
+  offers to open it.
 - Chests can be found by the asset id a catalog provides, presumably the game's own id (e.g.
   `OC_Chest_Guard242_Lock`).
-- `npm start` serves the app at http://localhost:3000 (the chest search needs HTTP;
-  opening `index.html` from disk can't load the database).
+- `npm start` serves the app at http://localhost:3000 (the chest search needs HTTP; opening
+  `index.html` from disk can't load the database).
 - An end-to-end test (`tests/display-chain.spec.js`) loads real chests through the search,
-  solves them, and checks every step card and every 3D-scene position against an
-  independent solver.
+  solves them, and checks every step card and every 3D-scene position against an independent
+  solver.
 
 ### Removed
 - Three chest entries whose dependencies contradict records of the same locks that were
   presumably made in game. Replayed on those records, their solution would hit a wall on the
-  2nd or 10th press: one of the two entries for Scatty's ring chest and two of the entries for
-  the chest above the Arena. The entries for these chests that agree with other sources remain.
+  2nd or 10th press: one of the two entries for Scatty's ring chest and two of the entries
+  for the chest above the Arena. The entries for these chests that agree with other sources
+  remain.
 
 ## [1.5.0] - 2026-07-26
 

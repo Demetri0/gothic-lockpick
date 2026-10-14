@@ -41,22 +41,27 @@ The position drum has one column (`+` / digit / `−`) per plate, above the depe
 
 | Keys | Action |
 |---|---|
-| `W` / `S` or `↑` / `↓` | Select the active plate |
-| `A` / `D` or `←` / `→` | Move the active plate by ±1 (a single plate, **without dependencies**, like the drum) |
+| `W` / `S` | Select the active plate |
+| `A` / `D` | Move the active plate by ±1 (a single plate, **without dependencies**, like the drum) |
+| `↑` / `↓` | Change the active plate's position by ±1 |
+| `PageUp` / `PageDown` | Set the active plate's position to the maximum / minimum |
+| `←` / `→` | Select the previous / next plate |
+| `Home` / `End`, `Ctrl+←` / `Ctrl+→` | Select the first / last plate |
+| `Backspace` / `Delete` | Remove the active plate |
 
 ### Chest hints ("Looks like:")
 
-While you enter starting positions, a row of real locks from the database appears between the drum and the matrix. These are locks whose plates match yours **from the left**, so you can find a lock by the plates you can see and get its hidden dependency rules.
+While you enter starting positions, a row of locks from the database appears between the drum and the matrix. These are locks whose plates match yours **from the left**, so you can find a lock by the plates you can see and get its hidden dependency rules.
 
-- **Matching:**
-  - a hint needs at least two matching leading plates; up to 3 hints are shown, best first;
-  - dependencies you have entered count too. A matching link helps a lock, a missing one costs a little, and an opposite one rules the lock out unless many other links match.
+- **Matching:** locks are scored by how many of your leftmost plates they match and by their plate count; only good enough matches appear, up to 3, best first. Dependencies you have entered count too: a matching link helps a lock, a missing one costs a little, and an opposite one rules the lock out unless many other links match. The exact formula is in [architecture.md](architecture.md#9-chest-hints-scoring).
 - **Reading a card:**
   - a brighter card is a better match;
   - matching plates are green in the preview;
   - the third line shows the lock's rules (`A:B-,C+;D:E-`), green where they match your matrix and red where they contradict it.
-- **Click a card** to apply the whole lock: positions and rules.
+- **Click a card** to apply the whole lock: positions and rules. Hovering shows the full name, which may be cut off on the card.
 - **Ties:** at an equal match, the entry that agrees better with other sources comes first.
+- **Layout:** name and tags on the left, the plate preview on the right. Three cards fit a wide panel, two a narrower one, one a narrow one.
+- If the database couldn't be loaded, the row simply doesn't appear.
 
 ## Solution screen
 
@@ -112,7 +117,7 @@ Results are ordered with each entry's agreement with other sources in mind:
 
 ## Agreement with other sources
 
-The database entries are third-party data of unknown accuracy. Each entry is compared with open lock catalogs. If other sources describe a lock differently and don't support our version, the entry is marked:
+The database entries are third-party data of unknown accuracy. Each entry is compared with open lock catalogs. If other sources describe a lock differently and outweigh the sources that agree with our version (see [db-pipeline.md](db-pipeline.md)), the entry is marked:
 
 - in search results and hints, with a **warning triangle** whose tooltip reads "Other sources describe this lock differently";
 - on the solution screen, with a **note**, "This entry may contain an error". It advises checking the starting positions and dependencies against the game. If the database holds another entry for the same lock that agrees better with other sources, the note offers to open it.
