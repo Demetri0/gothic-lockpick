@@ -152,3 +152,21 @@ The `Ctrl+V` import dialog uses these to preview the pending config. When the da
 - Entered dependencies, if any, multiply the score by `max(0, 1 + 0.5·match − 0.2·missing − 1.5·conflict)`. Only entered links are judged: a matching direction, a link the entry lacks, an opposite direction. An empty matrix changes nothing.
 - Entries with `score > 0.25` are kept, at most 3. They are sorted by score, then agreement (`conf`), then plate count.
 - The score also drives card opacity; a full match (`score ≈ 1`) jumps to full opacity.
+
+## 10. Git hooks
+
+Enable once per clone: `git config core.hooksPath .githooks`. A hook can be bypassed deliberately with `--no-verify` (`git commit --no-verify`, `git push --no-verify`). Use it only knowingly.
+
+**`pre-commit`** (also linked as `pre-merge-commit`; `.githooks/check-chests.cjs`):
+- Runs when `chests.json`, `tools/db-decisions.json` or `tools/ini2json.cjs` is staged.
+- Rebuilds the entries from the local `chests.ini` with the *staged* builder and decisions, and rejects the commit if the staged `chests.json` entries differ (`updated` and other top-level fields are not compared).
+- Without `chests.ini` it warns and passes.
+
+**`pre-push`** (`.githooks/pre-push.cjs`):
+- Tests the tip of each pushed ref; tags are peeled and duplicates removed. The run happens in a temporary `git worktree`, so uncommitted and untracked files never affect it. It uses a hook-owned Playwright config on a private port (3100+) with `reuseExistingServer: false`, so a server running in the main checkout is never reused.
+- Adds the corpus sweep when solver logic, move rules, DB-entry conversion or `chests.json` changed since the remote's version. An unknown base runs it, and refs sharing a tip run it if any of them needs it.
+- Limits:
+  - A commit already on a remote-tracking ref is skipped, on the assumption that it was tested when first pushed.
+  - The worktree uses the main checkout's `node_modules`.
+- Pushes take minutes; agents run `git push` with a 600000 ms timeout or in the background.
+- After an interrupted push, remove the leftover worktree: `git worktree list`, then `git worktree remove --force <the lockpick-push-* path>`.

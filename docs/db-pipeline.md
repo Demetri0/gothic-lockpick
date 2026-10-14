@@ -118,7 +118,9 @@ Each source declares its orientation (reversed plate order, links stored target�
 ```bash
 npm run sync:catalogs                                    # fetch and compare
 node tools/sync-catalogs.cjs --offline --add-missing     # locks we lack → additions
+npm run build:db                                         # (then translate the new names)
 node tools/sync-catalogs.cjs --offline --write-evidence  # agreement → evidence
+npm run build:db
 ```
 
 A transcription error (a missing link, a flipped sign, positions in reverse plate order) can still give a solvable lock, and solvability alone can't show whether an entry matches the game. The cross-check is one source of evidence that can flag such an entry. The tool never writes `drops`. In the app, the evidence drives the ranking, the warning glyph and the solve-stage notice (see [user-guide.md](user-guide.md)).
