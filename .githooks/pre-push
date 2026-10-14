@@ -1,2 +1,4 @@
 #!/bin/sh
-npx playwright test
+# Logic lives in pre-push.cjs (tested by tests/pre-push.spec.js). git passes the
+# remote name/url as arguments and the ref list on stdin.
+exec node "$(git rev-parse --show-toplevel)/.githooks/pre-push.cjs" "$@"
