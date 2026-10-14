@@ -27,7 +27,7 @@ npm run review:db   # web review of duplicates and enrichments → http://localh
 ```
 
 `chests.json` and `chests.ini` are never edited by hand:
-- Claude Code denies edits to them (`.claude/settings.json`).
+- Claude Code denies its own edits to them (`.claude/settings.json`): file tools, `sed`/`tee`, redirection and `cp` onto them. Commands a person runs themselves, including `!` commands in Claude Code, aren't covered, and `chests.ini` isn't in git, so keep a backup of it.
 - The `pre-commit` check runs when `chests.json`, `tools/db-decisions.json` or `tools/ini2json.cjs` is staged. It rebuilds the entries from `chests.ini` with the staged builder and decisions, and rejects a committed `chests.json` whose `entries` differ, whoever edited it. Without a local `chests.ini` it warns and passes. It compares only `entries`, and it can't tell whether `chests.ini` itself was changed.
 
 ## Canonical key

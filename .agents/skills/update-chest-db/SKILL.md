@@ -13,7 +13,7 @@ chests.ini (raw, uncommitted)  +  tools/db-decisions.json (committed)  →  npm 
 
 - **`chests.ini`** is never committed and may come from outside. Never edit it.
 - **INI parsing is pipeline-only** (`tools/ini2json.cjs`). The app's own config parsers never read INI syntax.
-- **Edits to either file are blocked** for Claude's file tools and shell redirection (`permissions.deny` in `.claude/settings.json`). Anything else, such as a script or another agent, is caught at commit time, when `chests.json`, the decisions or the builder are staged: the `pre-commit` check rebuilds the entries and rejects a mismatch. Without a local `chests.ini` it only warns.
+- **Edits to either file are blocked** for Claude's file tools and shell redirection (`permissions.deny` in `.claude/settings.json`). Anything else, such as a script or another agent, is caught at commit time, when `chests.json`, the decisions or the builder are staged: the `pre-commit` check rebuilds the entries and rejects a mismatch. Without a local `chests.ini` it only warns. Commands the user runs themselves (a `!` command in Claude Code, their own terminal) are not covered by the deny rules, so keep a backup of `chests.ini`: it isn't in git.
 
 Every change goes into `tools/db-decisions.json`:
 
