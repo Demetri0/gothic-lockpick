@@ -40,7 +40,7 @@ function fakeGit({ peel = {}, known = [], onRemote = [], mergeBase = null, html 
 
 test('deletions are skipped; tags are peeled and deduplicated with branches', () => {
   const refs = parseRefs(`refs/heads/main h1 refs/heads/main r0\nrefs/tags/v1 t1 refs/tags/v1 ${Z}\nrefs/heads/old ${Z} refs/heads/old r9\n`);
-  expect(planPush(refs, fakeGit({ peel: { t1: 'h1' }, known: ['r0'], html: { r0: page(), h1: page() } })))
+  expect(planPush(refs, fakeGit({ peel: { t1: 'h1' }, known: ['r0'], mergeBase: 'r0', html: { r0: page(), h1: page() } })))
     .toEqual([{ commit: 'h1', corpus: false }]);
 });
 
@@ -67,4 +67,19 @@ test('the hook config pins its own port and never reuses a server', () => {
   expect(cfg).toContain("from './playwright.config.js'");
   expect(cfg).toContain('3107');
   expect(cfg).toContain('reuseExistingServer: false');
+});
+
+test('refs sharing a tip OR their corpus requirements, whatever the order', () => {
+  const refs = parseRefs('refs/heads/a h1 refs/heads/a r0\nrefs/heads/b h1 refs/heads/b r1\n');
+  const git = { ...fakeGit({ known: ['r0', 'r1'], html: { r0: page(), r1: page(), h1: page() } }),
+    chestsChanged: (b, c) => b === 'r1' && c === 'h1' };
+  expect(planPush(refs, git)).toEqual([{ commit: 'h1', corpus: true }]);
+  const reversed = parseRefs('refs/heads/b h1 refs/heads/b r1\nrefs/heads/a h1 refs/heads/a r0\n');
+  expect(planPush(reversed, git)).toEqual([{ commit: 'h1', corpus: true }]);
+});
+
+test('fnSrc is not fooled by braces inside strings or comments', () => {
+  const html = (body) => `<script id="config">function entryToPlates(e) {\n  const s = "}"; // }\n  return ${body};\n}\nfunction other() {}</script>`;
+  expect(fnSrc(html('e.old'), 'entryToPlates')).toContain('return e.old;');
+  expect(corpusNeeded(html('e.old'), html('e.new'), false)).toBe(true);
 });

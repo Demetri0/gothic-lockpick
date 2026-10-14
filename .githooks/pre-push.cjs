@@ -9,6 +9,11 @@
 // added when solver logic, move rules, DB-entry conversion or chests.json
 // changed since the remote's version; an unknown base runs it.
 // Pushes take minutes: agents run `git push` with a 600000 ms timeout or in the background.
+// Limits, by design: a commit already on a remote-tracking ref is assumed to have been
+// tested when it was first pushed (a --no-verify push breaks that assumption); the worktree
+// uses the main checkout's node_modules, so a commit with different dependencies is tested
+// against the installed ones. If a push is interrupted, the temporary worktree survives:
+// `git worktree list`, then `git worktree remove --force <the lockpick-push-* path>`.
 
 const { execFileSync, spawnSync } = require('child_process');
 const fs = require('fs');
@@ -30,14 +35,20 @@ function blockSrc(html, id) {
   return m ? m[1] : null;
 }
 
-/** Source of a top-level `function name(` by brace matching; null if not found. */
+/** Source of a top-level `function name(` by brace matching, skipping braces inside
+ *  strings, template literals and comments; null if not found. */
 function fnSrc(html, name) {
   const start = html.search(new RegExp(`\\bfunction ${name}\\s*\\(`));
   if (start < 0) return null;
-  const open = html.indexOf('{', start);
-  for (let i = open, depth = 0; i < html.length; i++) {
-    if (html[i] === '{') depth++;
-    else if (html[i] === '}' && --depth === 0) return html.slice(start, i + 1);
+  let depth = 0, q = null;
+  for (let i = html.indexOf('{', start); i < html.length; i++) {
+    const c = html[i], n = html[i + 1];
+    if (q) { if (c === '\\') i++; else if (c === q) q = null; continue; }
+    if (c === '"' || c === "'" || c === '`') { q = c; continue; }
+    if (c === '/' && n === '/') { i = html.indexOf('\n', i); if (i < 0) return null; continue; }
+    if (c === '/' && n === '*') { i = html.indexOf('*/', i + 2); if (i < 0) return null; i++; continue; }
+    if (c === '{') depth++;
+    else if (c === '}' && --depth === 0) return html.slice(start, i + 1);
   }
   return null;
 }
@@ -52,17 +63,19 @@ function corpusNeeded(oldHtml, newHtml, chestsChanged) {
 }
 
 function planPush(refs, git) {
-  const seen = new Set(), jobs = [];
+  const jobs = new Map();                                      // commit → job, in first-seen order
   for (const r of refs) {
     if (ZERO.test(r.localSha)) continue;                       // branch deletion
     const commit = git.peel(r.localSha);
-    if (!commit || seen.has(commit)) continue;
-    seen.add(commit);
-    if (git.onRemote(commit)) continue;                        // already pushed (and tested) before
+    if (!commit || git.onRemote(commit)) continue;             // already on a remote-tracking ref
     const base = !ZERO.test(r.remoteSha) && git.exists(r.remoteSha) ? git.peel(r.remoteSha) : git.mergeBase(commit);
-    jobs.push({ commit, corpus: base == null || corpusNeeded(git.show(base, 'index.html'), git.show(commit, 'index.html'), git.chestsChanged(base, commit)) });
+    const corpus = base == null || corpusNeeded(git.show(base, 'index.html'), git.show(commit, 'index.html'), git.chestsChanged(base, commit));
+    // Several refs may share a tip with different remote bases: the corpus runs if any of them needs it.
+    const job = jobs.get(commit);
+    if (job) job.corpus = job.corpus || corpus;
+    else jobs.set(commit, { commit, corpus });
   }
-  return jobs;
+  return [...jobs.values()];
 }
 
 /** Playwright config written into the worktree: the commit's own config, on a private port. */
@@ -116,7 +129,7 @@ function testCommit(job, root, port) {
 }
 
 if (require.main === module) {
-  sh(['worktree', 'prune']);                                   // leftovers of an interrupted push
+  sh(['worktree', 'prune']);                                   // drop records of worktrees whose directory is gone
   const jobs = planPush(parseRefs(fs.readFileSync(0, 'utf8')), realGit);
   const root = sh(['rev-parse', '--show-toplevel']);
   let port = 3100;
