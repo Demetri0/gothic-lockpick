@@ -1,0 +1,22 @@
+[
+  {"query": "make a release", "should_trigger": true},
+  {"query": "выпусти 1.7.0", "should_trigger": true},
+  {"query": "bump the version to 1.6.1 and tag it — it's just the CI fix", "should_trigger": true},
+  {"query": "давай релизнём всё, что накопилось в Unreleased", "should_trigger": true},
+  {"query": "prepare the release notes for the next version and cut it", "should_trigger": true},
+  {"query": "сделай патч-релиз с исправлением вставки цифр в барабан", "should_trigger": true},
+  {"query": "cut a minor release, we added new locks to the database", "should_trigger": true},
+  {"query": "релизим 2.0.0 — мы меняем формат ссылок ?lock=", "should_trigger": true},
+  {"query": "tag v1.7.0 and write the text for the GitHub release", "should_trigger": true},
+  {"query": "ты тег поставил?", "should_trigger": false},
+  {"query": "какая у нас сейчас версия?", "should_trigger": false},
+  {"query": "is 1.6.0 already released?", "should_trigger": false},
+  {"query": "закоммить текущие изменения", "should_trigger": false},
+  {"query": "запушь main", "should_trigger": false},
+  {"query": "в CHANGELOG в разделе 1.5.0 опечатка, исправь", "should_trigger": false},
+  {"query": "слей ветку chore/ai-tooling в main", "should_trigger": false},
+  {"query": "что изменилось с прошлого релиза?", "should_trigger": false},
+  {"query": "add an Unreleased entry to the changelog for the new pre-push hook", "should_trigger": false},
+  {"query": "how does the site get deployed to GitHub Pages?", "should_trigger": false},
+  {"query": "обнови npm-зависимости до последних версий", "should_trigger": false}
+]

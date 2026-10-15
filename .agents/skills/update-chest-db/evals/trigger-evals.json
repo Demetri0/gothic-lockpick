@@ -1,0 +1,22 @@
+[
+  {"query": "в базе у сундука Диего, похоже, неправильные связи — игрок пишет, что на третьем нажатии ломается отмычка. разберись", "should_trigger": true},
+  {"query": "обнови базу замков по свежим внешним каталогам, вдруг там появились новые сундуки", "should_trigger": true},
+  {"query": "add the locks we're missing from the dsazz catalog and get their names translated", "should_trigger": true},
+  {"query": "мы добавили замки, пересчитай рейтинг согласованности и флаги сомнения", "should_trigger": true},
+  {"query": "у записи «Старый лагерь, дом над ареной» висит треугольник-предупреждение. можно его убрать? проверь по источникам", "should_trigger": true},
+  {"query": "в chests.json две записи с одинаковыми позициями и почти одинаковыми связями, слей дубли", "should_trigger": true},
+  {"query": "переведи названия новых сундуков на немецкий и украинский", "should_trigger": true},
+  {"query": "a player says the solution for the Cor Kalom chest hits a wall on press 5 — check whether our entry matches the other sources", "should_trigger": true},
+  {"query": "удали из базы запись lock-445166, по-моему она кривая", "should_trigger": true},
+  {"query": "подключи к сверке ещё один каталог замков: github.com/someone/gothic-remake-locks, там json с позициями и матрицей", "should_trigger": true},
+  {"query": "солвер выдаёт решение на два нажатия длиннее, чем нужно, для замка 3055665 — почини bfsSolveGrouped", "should_trigger": false},
+  {"query": "в поиске по базе не находятся названия с опечатками, подкрути порог Fuse", "should_trigger": false},
+  {"query": "добавь подсказку для новой кнопки экспорта на все три языка интерфейса", "should_trigger": false},
+  {"query": "почему подсказки-совпадения показывают сундук с другим числом пластин? это баг в computeChestHints?", "should_trigger": false},
+  {"query": "сделай значок сомнения в карточках поиска красным, а не жёлтым", "should_trigger": false},
+  {"query": "write a Playwright test that the doubt notice shows up for a config imported with Ctrl+V", "should_trigger": false},
+  {"query": "объясни, как в этом проекте работает BFS и почему он минимизирует переключения", "should_trigger": false},
+  {"query": "вставляю https://unlockmyloot.com/?lock=AFAAA в импорт и ничего не происходит, почему?", "should_trigger": false},
+  {"query": "я поменял computeMove, прогони корпусный тест", "should_trigger": false},
+  {"query": "переименуй блок db-search в chest-db во всём index.html и в документации", "should_trigger": false}
+]
