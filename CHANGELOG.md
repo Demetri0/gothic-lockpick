@@ -6,6 +6,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- The project is licensed under the MIT License (`LICENSE`). `NOTICE` lists the third-party
+  sources of the chest database and their terms: records from dsazz/gothic-remake-lockbreaker
+  (MIT) and lock descriptions from unlockmyloot (AGPL-3.0).
+
 ### Changed
 - The GitHub Pages deploy runs on the Node 24 releases of its actions and on the Ubuntu
   26.04 LTS runner.
